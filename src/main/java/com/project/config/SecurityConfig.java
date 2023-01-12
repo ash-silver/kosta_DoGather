@@ -20,7 +20,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests().requestMatchers("/").permitAll() //   /로 시작하는 주소로 접근시 모두 접근 가능하게 해줌,
 			.requestMatchers(
 					"/css/**",		// ~~~로 시작하는 주소에 대한 모든 접근을 허용,
-					"/img/**",		
+					"/projectimg/**",		
 					"/font/**"
 					)
 			.permitAll()
