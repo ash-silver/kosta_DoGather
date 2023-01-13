@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/header.css}" rel="stylesheet" />
+<link th:href="@{/css/footer.css}" rel="stylesheet" />
+<link th:href="@{/css/qnaboard.css}" rel="stylesheet" />
+<link th:href="@{/css/reset2.css}" rel="stylesheet" />
+<link th:href="@{/css/reset.css}" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/header.js}"></script>></script>
+
+</head>
+<body>
+	<div id="container">
+		<header th:replace="header :: header"> </header>
+
+		<h4>당신의 질문은?</h4>
+		<div id="write_area">
+			<form enctype="multipart/form-data" action="" method="post">
+				<div id="in_title">
+					<textarea name="title" id="utitle" rows="1" cols="55"
+						placeholder="제목" maxlength="100" required></textarea>
+				</div>
+
+				<div class="wi_line"></div>
+				<div id="in_content">
+					<textarea name="content" id="ucontent" rows="30" cols="55"
+						placeholder="내용" required></textarea>
+				</div>
+
+				<input type="file" name="SelectFile" />
+
+
+				<div class="bt_se">
+					<button type="submit">글 작성</button>
+				</div>
+			</form>
+		</div>
+
+		<footer th:replace="footer ::footer"></footer>
+	</div>
+</body>
+</html>

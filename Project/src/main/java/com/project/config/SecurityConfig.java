@@ -21,7 +21,8 @@ public class SecurityConfig {
 			.requestMatchers(
 					"/css/**",		// ~~~로 시작하는 주소에 대한 모든 접근을 허용,
 					"/img/**",		
-					"/font/**"
+					"/font/**",
+					"/js/**"
 					)
 			.permitAll()
 				.requestMatchers("/mypage").hasRole("USER") // 각각 주소에대한 접근 권한을 설정 ,
