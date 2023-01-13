@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ProductMapper">
+	
+	<!-- 전체 게시글 불러오기 -->
+	<select id="PagingList" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
+        SELECT * FROM product inner join img on product.p_id=img.img_pid
+        LIMIT #{pagination.limitStart},#{recordSize} 
+    </select>
+    
+    <!-- 게시글 수 카운팅 -->
+    <select id="count"  resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            product
+    </select>
+    
+    
+</mapper>
