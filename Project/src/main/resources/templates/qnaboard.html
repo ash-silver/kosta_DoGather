@@ -18,21 +18,21 @@
 <body>
 	<div id="container">
 		<header th:replace="header :: header"> </header>
-
+		<br>
 		<h4>당신의 질문은?</h4>
 		<div id="write_area">
-			<form enctype="multipart/form-data" action="" method="post">
+			<form enctype="multipart/form-data" th:action="@{/qnaboard}" method="post">
 				<div id="in_title">
-					<textarea name="title" id="utitle" rows="1" cols="55"
+					<textarea name="title" id="utitle" rows="1" cols="55" class="color-green"
 						placeholder="제목" maxlength="100" required></textarea>
 				</div>
-
+				<br>
 				<div class="wi_line"></div>
 				<div id="in_content">
 					<textarea name="content" id="ucontent" rows="30" cols="55"
 						placeholder="내용" required></textarea>
 				</div>
-
+				
 				<input type="file" name="SelectFile" />
 
 
