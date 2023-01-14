@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 
 	@Autowired
@@ -29,7 +29,11 @@ public class ProductController {
 	public String ProAddForm() {
 		return "productadd";
 	}
-
+	
+	@GetMapping("/")
+	public String ProdetailForm() {
+		return "productdetail";
+	}
 	@GetMapping("/options")
 	public String OptionForm() {
 		return "option";

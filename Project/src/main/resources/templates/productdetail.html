@@ -14,12 +14,103 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
+<script type="text/javascript" th:src="@{/js/productdetail.js}"></script>
 </head>
 
 <body>
 	<div id="container">
 		<header th:replace="header :: header"> </header>
-		<main id="index_main_con"></main>
+		<main id="prodetail_main_con">
+
+
+
+
+
+			<div class="prodetail_box">
+				<div class="prodetail_img_box">
+					<div class="prodetail_img">
+						<div class="prodetail_img_mini">
+							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="mini_img">
+							<img src="/projectimg/6c3829c4-b8e5-441d-94a6-a46f476c220e.jpg" class="mini_img">
+							<img src="/projectimg/663973ce-49b7-415f-a051-f945a94cb21a.jpg" class="mini_img">
+						</div>
+						<div class="prodetail_img_big">
+							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="big_img">
+						</div>
+					</div>
+					<div class="prodetail_progress">
+						<label class="progress_text">
+							<span>진행 상황</span>
+						</label>
+						<label class="progress_bar">
+
+							<progress value="20" max="100"></progress>
+							<span>20/100</span>
+						</label>
+						<label class="progress_quantity">
+							<span>1차 할인:20개</span> <span>2차할인 수량:50개</span> <span>3차할인
+								수량:100개</span>
+						</label>
+						<label class="progress_sail">
+							<span>현재 할인 적용: 20%</span>
+						</label>
+					</div>
+				</div>
+
+
+
+
+
+
+				<div class="prodetail_text_box">
+					<div class="prodetail_text text1">
+						<span>제품명</span>
+						<a href="#">
+							<span class="material-symbols-outlined"> favorite </span>
+						</a>
+
+					</div>
+					<div class="prodetail_text">
+						<span>원래가격:</span>
+					</div>
+					<div class="prodetail_text">
+						<span>현재 할인율의 가격:</span>
+					</div>
+					<div class="prodetail_text text2">
+						<select>
+							<option value="카테고리1">카테고리1</option>
+						</select>
+					</div>
+					<div class="prodetail_text text2">
+						<select>
+							<option value="카테고리2">카테고리2</option>
+						</select>
+					</div>
+					<div class="prodetail_text text2">
+						<select>
+							<option value="카테고리3">카테고리3</option>
+						</select>
+					</div>
+
+					<form class="prodetail_btn_box">
+						<select>
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+						</select>
+						<button>장바구니 추가</button>
+						<button>구매하기</button>
+					</form>
+
+				</div>
+
+			</div>
+
+
+
+
+		</main>
 
 		<footer th:replace="footer ::footer"></footer>
 
