@@ -2,6 +2,7 @@ package com.project.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,9 @@ public class ProductService {
 			}
 		}
 
+	}
+	public ArrayList<Img> FindProduct(int p_id) {
+		return pMapper.FindProduct(p_id);
 	}
 
 

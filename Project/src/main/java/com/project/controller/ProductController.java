@@ -1,16 +1,19 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.model.Img;
 import com.project.model.Option;
 import com.project.model.Product;
 import com.project.service.ProductService;
@@ -29,17 +32,7 @@ public class ProductController {
 	public String ProAddForm() {
 		return "productadd";
 	}
-	
-	@GetMapping("/")
-	public String ProdetailForm() {
-		return "productdetail";
-	}
-	@GetMapping("/options")
-	public String OptionForm() {
-		return "option";
-	}
-	
-	
+
 	@PostMapping("")
 	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
 		pService.AddProduct(pro);
@@ -48,6 +41,21 @@ public class ProductController {
 		return "redirect:/product/options";
 	}
 	
+	@GetMapping("/{p_id}")
+	public String ProdetailForm(@PathVariable int p_id,Model model) {
+		ArrayList<Img> img=pService.FindProduct(p_id);
+		Product pro=img.get(0).getProduct();
+		
+		model.addAttribute("pro",pro);
+		model.addAttribute("img",img);
+		return "productdetail";
+	}
+
+	
+	@GetMapping("/options")
+	public String OptionForm() {
+		return "option";
+	}
 	@ResponseBody
 	@PostMapping("/options")
 	public String addOption(String opt_option1, @RequestParam("opt_option2") String[] opt_option2,

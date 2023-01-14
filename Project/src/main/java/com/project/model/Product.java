@@ -1,6 +1,7 @@
 package com.project.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +19,7 @@ public class Product {
 	private Timestamp p_create_date;
 	private int p_id,p_min_quantity,p_max_quantity;
 	private MultipartFile[] p_img,p_contentimg;
-	
+
 	
 
 }

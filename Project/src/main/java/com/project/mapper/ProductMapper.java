@@ -1,5 +1,7 @@
 package com.project.mapper;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.project.model.Img;
@@ -14,6 +16,8 @@ public interface ProductMapper {
 	void AddOption(Option opt);
 	
 	void AddImg(Img img);
+	
+	ArrayList<Img> FindProduct(int p_id);
 	
 	
 }

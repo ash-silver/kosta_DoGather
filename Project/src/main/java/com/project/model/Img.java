@@ -1,5 +1,7 @@
 package com.project.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,4 +14,6 @@ import lombok.NoArgsConstructor;
 public class Img {
 	private String img_name,img_origname,img_keyword;
 	private int img_num,img_pid;
+	private Product product;
+
 }

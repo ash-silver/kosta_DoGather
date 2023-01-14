@@ -30,9 +30,9 @@
 				<div class="prodetail_img_box">
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
-							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="mini_img">
-							<img src="/projectimg/6c3829c4-b8e5-441d-94a6-a46f476c220e.jpg" class="mini_img">
-							<img src="/projectimg/663973ce-49b7-415f-a051-f945a94cb21a.jpg" class="mini_img">
+							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="mini_img" th:each="i :${img}" th:if="${i.img_keyword}==p_img">
+
+							
 						</div>
 						<div class="prodetail_img_big">
 							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="big_img">
@@ -44,8 +44,12 @@
 						</label>
 						<label class="progress_bar">
 
-							<progress value="20" max="100"></progress>
-							<span>20/100</span>
+							<progress value="${pro.p_min_quantity}" max="${pro.p_max_quantity}"></progress>
+							<span th:text="|${pro.p_min_quantity}/${pro.p_max_quantity}"></span>
+						</label>
+						<label class="progress_quantity">
+							<span>시작일: </span>
+							<span>마감일: </span>
 						</label>
 						<label class="progress_quantity">
 							<span>1차 할인:20개</span> <span>2차할인 수량:50개</span> <span>3차할인
@@ -54,6 +58,7 @@
 						<label class="progress_sail">
 							<span>현재 할인 적용: 20%</span>
 						</label>
+						
 					</div>
 				</div>
 
