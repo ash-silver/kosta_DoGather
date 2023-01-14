@@ -45,6 +45,7 @@ public class ProductController {
 	public String ProdetailForm(@PathVariable int p_id,Model model) {
 		ArrayList<Img> img=pService.FindProduct(p_id);
 		Product pro=img.get(0).getProduct();
+
 		model.addAttribute("pro",pro);
 		model.addAttribute("img",img);
 		return "productdetail";
