@@ -34,18 +34,17 @@ public class ProductController {
 	}
 
 	@PostMapping("")
-	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
-		pService.AddProduct(pro);
+	public String AddProduct(Product pro, RedirectAttributes re,String[] p_discount_quan,String[] p_discount_count) throws Exception {
+		pService.AddProduct(pro,p_discount_count,p_discount_quan);
 		pService.AddImg(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
-		return "redirect:/product/options";
+		return "redirect:/products/options";
 	}
 	
 	@GetMapping("/{p_id}")
 	public String ProdetailForm(@PathVariable int p_id,Model model) {
 		ArrayList<Img> img=pService.FindProduct(p_id);
 		Product pro=img.get(0).getProduct();
-		
 		model.addAttribute("pro",pro);
 		model.addAttribute("img",img);
 		return "productdetail";

@@ -26,7 +26,15 @@ public class ProductService {
 	@Value("${file.Upimg}")
 	private String path;
 
-	public void AddProduct(Product pro) {
+	public void AddProduct(Product pro,String[] p_discount_quan,String[] p_discount_count) {
+		String p_discount="";
+		String p_disquantity="";
+		for(int i=0;i<p_discount_count.length;i++) {
+			p_discount+=p_discount_count[i]+"/";
+			p_disquantity+=p_discount_quan[i]+"/";
+		}
+		pro.setP_disquantity(p_disquantity);
+		pro.setP_discount(p_discount);
 		pMapper.AddProduct(pro);
 	}
 

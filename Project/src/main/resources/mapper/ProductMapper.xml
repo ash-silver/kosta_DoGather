@@ -13,6 +13,9 @@
 		<result property="p_create_date" column="p_create_date" />
 		<result property="p_writer" column="p_writer" />
 		<result property="p_chk" column="p_chk" />
+		<result property="p_chk" column="p_chk" />
+		<result property="p_discount" column="p_discount" />
+		<result property="p_disquantity" column="p_disquantity" />
 		
 	</resultMap>
 	<resultMap type="com.project.model.Img" id="ImgMap">
@@ -28,7 +31,7 @@
 		parameterType="com.project.model.Product" useGeneratedKeys="true"
 		keyProperty="p_id">
 		INSERT INTO product(
-		p_name,p_price,p_min_quantity,p_max_quantity,p_category,p_due_date,p_recruit_date,p_create_date,p_writer
+		p_name,p_price,p_min_quantity,p_max_quantity,p_category,p_due_date,p_recruit_date,p_create_date,p_writer,p_discount,p_disquantity
 		)
 		VALUES(
 		#{p_name}
@@ -40,6 +43,8 @@
 		,#{p_recruit_date}
 		,now()
 		,#{p_writer}
+		,#{p_discount}
+		,#{p_disquantity}
 		)
 	</insert>
 
@@ -47,7 +52,7 @@
 		resultMap="ImgMap">
 		SELECT
 		p.p_name,p.p_price,p.p_min_quantity,p.p_max_quantity,p.p_category,
-		p.p_due_date,p.p_recruit_date,p.p_writer,i.img_name,i.img_keyword
+		p.p_due_date,p.p_recruit_date,p.p_writer,p.p_discount,i.img_name,i.img_keyword
 		FROM
 		Product AS p RIGHT OUTER JOIN img AS i
 		ON p.p_id=i.img_pid
