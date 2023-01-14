@@ -64,8 +64,6 @@ public class ProductService {
 
 	}
 
-	public String FindProduct( String p_name) {
-		return pMapper.FindProduct(p_name);
-	}
+
 
 }

@@ -15,5 +15,5 @@ public interface ProductMapper {
 	
 	void AddImg(Img img);
 	
-	String FindProduct(String p_name);
+	
 }

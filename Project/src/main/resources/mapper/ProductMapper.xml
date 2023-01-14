@@ -20,15 +20,12 @@
 		)
 	</insert>
 
-	
 	<insert id="AddOption" parameterType="com.project.model.Option" >
 		INSERT INTO opt VALUES(
 		#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
 		)
 	</insert>
-	<select id="FindOption" parameterType="Int" resultType="com.project.model.Option">
-		SELECT * FROM opt WHERE opt_pid=#{opt_pid}
-	</select>
+
 	<insert id="AddImg" parameterType="com.project.model.Img">
 		INSERT INTO Img VALUES(
 		0,#{img_name},#{img_origname},#{img_pid},#{img_keyword}
