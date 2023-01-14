@@ -37,11 +37,10 @@ public class ProductController {
 	
 	
 	@PostMapping("")
-	public String AddProduct(@RequestParam("p_img") MultipartFile[] p_img, @RequestParam("p_contentimg") MultipartFile[] p_contentimg, Product pro, RedirectAttributes re) throws Exception {
+	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
 		pService.AddProduct(pro);
-		String p_id = pService.FindProduct(pro.getP_name());
-		pService.AddImg(p_img, p_contentimg, p_id);
-		re.addFlashAttribute("p_id", p_id);
+		pService.AddImg(pro);
+		re.addFlashAttribute("p_id", pro.getP_id());
 		return "redirect:/product/options";
 	}
 	

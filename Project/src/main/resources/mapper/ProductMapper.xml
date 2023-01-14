@@ -32,6 +32,6 @@
 	<insert id="AddImg" parameterType="com.project.model.Img">
 		INSERT INTO Img VALUES(
 		0,#{img_name},#{img_origname},#{img_pid},#{img_keyword}
-		
+		)
 	</insert>
 </mapper>

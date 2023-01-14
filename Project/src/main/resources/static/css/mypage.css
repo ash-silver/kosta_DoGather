@@ -31,6 +31,7 @@
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
+	border:1px solid blue;
 }
 
 .mypage_bar {
@@ -77,11 +78,12 @@
 /*=========================mypage 좌측 작은 메뉴완료===========================*/
 .mypage_text_box {
 	width: 850px;
-	height: 1400px;
+	height: 2000px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	flex-direction: column;
+	border:1px solid green;
 }
 
 .mypage_status_bar {
@@ -175,12 +177,12 @@
 /*=======================검색창==========================*/
 .mypage_list {
 	width: 850px;
-	height: 1250px;
+	height: 1750px;
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-start;
 	flex-direction: column;
-	border: 1px solid #e2e2e2;
+	border: 1px solid violet;
 } /* 리스트 길이 1250px */
 .mypage_tagbar {
 	width: 820px;
@@ -210,16 +212,16 @@
 	margin-top:50px;
 	width: 820px;
 	border:1px solid red;
-	height: 1500px;
-	border-radius: 25px;
+	height: 1650px;
+	border-radius: 15px;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	justify-content:flex-start;	
 }
 .mypage_list_tag{
-	width:820px;
-	height:120px;
+	width:750px;
+	height:150px;
 	border:1px solid #e2e2e2;
-	
+	margin-top:20px;
 }
