@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.ProductMapper">
+	<insert id="AddProduct"
+		parameterType="com.project.model.Product" useGeneratedKeys="true"
+		keyProperty="p_id">
+		INSERT INTO product(
+		p_name,p_price,p_min_quantity,p_max_quantity,p_category,p_due_date,p_recruit_date,p_create_date,p_writer
+		)
+		VALUES(
+		#{p_name}
+		,#{p_price}
+		,#{p_min_quantity}
+		,#{p_max_quantity}
+		,#{p_category}
+		,#{p_due_date}
+		,#{p_recruit_date}
+		,now()
+		,#{p_writer}
+		)
+	</insert>
+
+	
+	<insert id="AddOption" parameterType="com.project.model.Option" >
+		INSERT INTO opt VALUES(
+		#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
+		)
+	</insert>
+	<select id="FindOption" parameterType="Int" resultType="com.project.model.Option">
+		SELECT * FROM opt WHERE opt_pid=#{opt_pid}
+	</select>
+	<insert id="AddImg" parameterType="com.project.model.Img">
+		INSERT INTO Img VALUES(
+		0,#{img_name},#{img_origname},#{img_pid},#{img_keyword}
+		
+	</insert>
+</mapper>
