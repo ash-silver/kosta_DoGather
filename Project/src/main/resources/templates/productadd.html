@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -21,25 +21,57 @@
 		<header th:replace="header :: header"> </header>
 		<main id="productadd_main_con">
 
-
-			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data">
+					
+			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
+				<h1>제품 등록</h1>
 				<input type="hidden" value="1" id="count">
 				<label class="input_tag">
-					<span>제품명:</span>
-					<input type="text" name="p_name">
+
+					<input type="text" name="p_name" placeholder="제품명 입력">
 				</label>
 				<label class="input_tag">
-					<span>제품 가격:</span>
-					<input type="text" name="p_price">
+				
+					<input type="text" name="p_price" placeholder="기본 가격 입력">
 				</label>
+				<label class="input_tag quantity">
+					<input type="text" name="p_min_quantity" placeholder="최소 판매수량 입력">
+					<span>~</span>
+					<input type="text" name="p_max_quantity" placeholder="최대 판매 수량 입력">
+				</label>
+
 				<label class="input_tag">
-					<span>최소 할인수량:</span>
-					<input type="text" name="p_min_quantity">
+					<span>상품 카테고리:</span>
+					<select name="p_category">
+						<option value="패션의류/잡화">패션의류/잡화</option>
+						<option value="뷰티">뷰티</option>
+						<option value="출산/유아동">출산/유아동</option>
+						<option value="식품">식품</option>
+						<option value="주방용품">주방용품</option>
+						<option value="생활용품">생활용품</option>
+						<option value="홈인테리어">홈인테리어</option>
+						<option value="가전디지털">가전디지털</option>
+						<option value="스포츠/레저">스포츠/레저</option>
+						<option value="자동차용품">자동차용품</option>
+						<option value="도서/음반/DVD">도서/음반/DVD</option>
+						<option value="완구/취미">완구/취미</option>
+						<option value="문구/오피스">문구/오피스</option>
+						<option value="반려동물용품">반려동물용품</option>
+						<option value="헬스/건강식품">헬스/건강식품</option>
+					</select>
 				</label>
-				<label class="input_tag">
-					<span>최대 판매수량:</span>
-					<input type="text" name="p_max_quantity">
+				<label class="input_tag">					
+					<input type="text" name="p_writer" placeholder="판매자명 입력">
 				</label>
+				<label class="img_box">
+					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
+					<input type="file" multiple="multiple" name="p_img" style="display: none;">
+				</label>
+				
+				<label class="contentimg_box">
+					<span>상세 이미지 등록 클릭 (다중선택 가능)</span>
+					<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
+				</label>
+
 				<div class="input_tag_discount">
 					<div class="discount_text">
 						<span>수량별 할인율 설정</span>
@@ -52,9 +84,43 @@
 					</div>
 
 				</div>
+
+				<label class="productadd_time">
+					<span>모집 시작일자:</span>
+					<input type="datetime-local" name="p_recruit_date">
+				</label>
+				<label class="productadd_time">
+					<span>모집 마감일자:</span>
+					<input type="datetime-local" name="p_due_date">
+
+				</label>
+
+				<button type="submit" id="addpro_btn">제품 등록하기</button>
+			</form>
+
+
+
+			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}=='update'">
+				<input type="hidden" value="1" id="count">
+				<label class="input_tag">
+					<span>제품명:</span>
+					<input type="text" name="p_name" th:value="${pro.p_name}">
+				</label>
+				<label class="input_tag">
+					<span>제품 가격:</span>
+					<input type="text" name="p_price" th:value="${pro.p_price}">
+				</label>
+				<label class="input_tag">
+					<span>최소 할인수량:</span>
+					<input type="text" name="p_min_quantity" th:value="${pro.p_min_quantity}">
+				</label>
+				<label class="input_tag">
+					<span>최대 판매수량:</span>
+					<input type="text" name="p_max_quantity" th:value="${pro.p_min_quantity}">
+				</label>
 				<label class="input_tag">
 					<span>상품 카테고리:</span>
-					<select name="p_category">
+					<select name="p_category" th:value="${pro.p_category}">
 						<option value="패션의류/잡화">패션의류/잡화</option>
 						<option value="뷰티">뷰티</option>
 						<option value="출산/유아동">출산/유아동</option>
@@ -84,19 +150,30 @@
 					<span>상세사진 등록:</span>
 					<input type="file" multiple="multiple" name="p_contentimg">
 				</label>
-
+				<div class="input_tag_discount">
+					<div class="discount_text">
+						<span>수량별 할인율 설정</span>
+						<button type="button" id="discount_btn">항목추가</button>
+					</div>
+					<div class="discount_add">
+						<span>설정:</span>
+						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량">
+						<input type="text" name="p_discount_count" placeholder="할인율">
+					</div>
+				</div>
 				<div class="productadd_time">
 					<span>모집 시작일자:</span>
 					<input type="datetime-local" name="p_recruit_date">
 
 				</div>
+				/
 				<div class="productadd_time">
 					<span>모집 마감일자:</span>
 					<input type="datetime-local" name="p_due_date">
 
 				</div>
 
-				<button type="submit" id="addpro_btn">제품 등록하기</button>
+				<button type="submit" id="addpro_btn">제품 수정완료</button>
 			</form>
 
 		</main>

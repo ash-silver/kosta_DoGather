@@ -47,38 +47,37 @@ public class ProductController {
 	@GetMapping("/{p_id}")
 	public String ProdetailForm(@PathVariable int p_id, Model model) {
 		Product pro = pService.FindProduct(p_id);
-		List<String> chk1 = new ArrayList<String>();
-		for (Option opt1 : pro.getOption()) {
-			chk1.add(opt1.getOpt_option1());
+		List<String> overlap_check = new ArrayList<String>();
+		for (Option opt : pro.getOption()) {
+			overlap_check.add(opt.getOpt_option1());
 		}
-		List<String> opt_option1=chk1.stream().distinct().collect(Collectors.toList()); // 옵션간의 중복제거				
-		String[] p_discount =pro.getP_discount().split("/");	
-		String[] p_disquantity =pro.getP_disquantity().split("/");
-		int discountprice=0;
-		for(int i=0;i<p_disquantity.length;i++) {
-			if(Integer.parseInt(p_disquantity[i])<=pro.getP_sell()){
-				discountprice=  pro.getP_price()-((pro.getP_price()/100)*Integer.parseInt(p_discount[i])); 
+		List<String> opt_option1 = overlap_check.stream().distinct().collect(Collectors.toList()); // 옵션간의 중복제거
+		String[] p_discount = pro.getP_discount().split("/");
+		String[] p_disquantity = pro.getP_disquantity().split("/");
+		int discount_price = pro.getP_price();
+		int Now_Discount= 0;
+		for (int i = 0; i < p_disquantity.length; i++) {
+			if (Integer.parseInt(p_disquantity[i]) <= pro.getP_sell()) {
+				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * Integer.parseInt(p_discount[i]));
+				Now_Discount = Integer.parseInt(p_discount[i]);
 			}
 		}
-		
-		model.addAttribute("discountprice",discountprice);
-		model.addAttribute("p_discount",p_discount);
-		model.addAttribute("p_disquantity",p_disquantity);
-		model.addAttribute("opt_option1",opt_option1);
+		model.addAttribute("Now_Discount", Now_Discount);
+		model.addAttribute("discount_price", discount_price);
+		model.addAttribute("p_discount", p_discount);
+		model.addAttribute("p_disquantity", p_disquantity);
+		model.addAttribute("opt_option1", opt_option1);
 		model.addAttribute("img", pro.getImg());
 		model.addAttribute("pro", pro);
 		return "productdetail";
 	}
-
 	@GetMapping("/options")
 	public String OptionForm() {
 		return "option";
 	}
-	
 	@ResponseBody
 	@GetMapping("/categorys")
-	public List<Option> Category(String opt_option1,int p_id) {		
-		
+	public List<Option> Category(String opt_option1, int p_id) {
 		return pService.FindCategory(opt_option1, p_id);
 	}
 
