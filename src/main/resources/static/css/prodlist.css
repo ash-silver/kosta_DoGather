@@ -8,18 +8,24 @@
 }
 
 #productlist{
-    width:120%;
+    width:90%;
     height: 1400px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;   
-    
+    margin-top: 100px;
    
 }
 
 .product_order_list{
+	width:1200px;
+	display:flex;
     height: 100px;  
     padding-left: 30px;
+    display:flex;
+    justify-content: flex-end;
+    border: 1px solid black;
+    
 }
 
 .product_order_list ul{
@@ -30,4 +36,5 @@
 	list-style-type: none;
  	float: left;
  	margin-right: 30px;
+ 	cursor:pointer;
 }
