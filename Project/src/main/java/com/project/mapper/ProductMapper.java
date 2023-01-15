@@ -1,6 +1,7 @@
 package com.project.mapper;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,5 +20,6 @@ public interface ProductMapper {
 	
 	Product FindProduct(int p_id);
 	
+	List<Option> FindCategory(Map<String,Object> map);
 	
 }

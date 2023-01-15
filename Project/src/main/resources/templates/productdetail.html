@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Insert title here</title>
 
 <link th:href="@{/css/header.css}" rel="stylesheet" />
@@ -33,26 +35,31 @@
 
 						</div>
 						<div class="prodetail_img_big">
-							<img th:src="|/projectimg/${img[imgStat.index].img_name}|" class="big_img" th:each="i ,imgStat:${img}"  th:if="${i.img_keyword}=='p_img' AND ${i.img_keyword}!=null">
+							<img src="" class="big_img">
 						</div>
 					</div>
 					<div class="prodetail_progress">
 						<label class="progress_text">
-							<span>진행 상황</span>z	
+							<span>진행 상황</span>
 						</label>
 						<label class="progress_bar">
 
 							<progress value="${pro.p_min_quantity}" max="${pro.p_max_quantity}"></progress>
 							<span th:text="|${pro.p_min_quantity}/${pro.p_max_quantity}"></span>
 						</label>
+						
+						
 						<label class="progress_quantity">
-							<span>시작일: </span>
-							<span>마감일: </span>
+							<span th:text="|공구 시작일:${pro.p_recruit_date}|">시작일: </span>
+							<span th:text="|공구 마감일:${pro.p_due_date}|">마감일: </span>
+						</label>
+						
+						
+						<label class="progress_quantity">
+							<span th:each="discount , Stat:${p_discount}" th:text="|${Stat.count}차 할인:${discount}개|">1차 할인:20개</span>													
 						</label>
 						<label class="progress_quantity">
-							<span>1차 할인:20개</span>
-							<span>2차할인 수량:50개</span>
-							<span>3차할인 수량:100개</span>
+						<span th:each="disquantity , Stat:${p_disquantity}" th:text="|${Stat.count}차 할인율:${disquantity}%|">1차 할인:20개</span>		
 						</label>
 						<label class="progress_sail">
 							<span>현재 할인 적용: 20%</span>
@@ -68,38 +75,38 @@
 
 				<div class="prodetail_text_box">
 					<div class="prodetail_text text1">
-						<span>제품명</span>
+						<span th:text="|제품명: ${pro.p_name}|">제품명</span>
 						<a href="#">
 							<span class="material-symbols-outlined"> favorite </span>
 						</a>
 
 					</div>
 					<div class="prodetail_text">
-						<span>원래가격:</span>
+						<span th:text="|정가:${pro.p_price}|">원래가격:</span>
 					</div>
 					<div class="prodetail_text">
-						<span>현재 할인율의 가격:</span>
+						<span th:text="|현재 할인율의 가격:${discountprice}|">현재 할인율의 가격:</span>
 					</div>
 					<div class="prodetail_text text2">
-						<select name="opt_option1">
-							<option value="카테고리1" th:value="${opt}">카테고리1</option>
+					<input type="hidden" th:value="${pro.p_id}" id="p_id">
+						<select name="opt_option1" class="option1">
+							<option th:value="${opt1}" th:each="opt1 : ${opt_option1}" th:if="${opt_option1}!=null" th:text="${opt1}"></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2">
-						<select name="opt_option2">
-							<option value="카테고리2" th:value="">카테고리2</option>
+						<select name="opt_option2" class="option2">							
 						</select>
 					</div>				
 
 					<form class="prodetail_btn_box">
-						<select>
+						<select name="order_quantity">
 							<option>1</option>
 							<option>2</option>
 							<option>3</option>
 							<option>4</option>
 						</select>
-						<button>장바구니 추가</button>
-						<button>구매하기</button>
+						<button type="button" id="addCart">장바구니 추가</button>
+						<button type="button" id="addOrder">구매하기</button>
 					</form>
 
 				</div>

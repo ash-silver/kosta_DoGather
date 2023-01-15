@@ -41,10 +41,21 @@
 		SELECT * FROM img WHERE img_pid=#{p_id} ORDER BY img_num DESC
 	</select>
 		<select id="getOpt" resultMap="OptionMap" parameterType="int">
-		SELECT * FROM opt WHERE opt_pid=#{p_id} ORDER BY opt_pid DESC
+		SELECT opt_option1 FROM opt WHERE opt_pid=#{p_id} ORDER BY opt_pid DESC
 	</select>
 		<!-- ===================================JOIN RESULT======================================== -->
-	
+		
+		<!-- ===================================SELECT 부분======================================== -->
+		<select id="FindCategory" parameterType="hashMap" resultMap="OptionMap">
+			SELECT opt_option2 FROM opt WHERE opt_pid=${opt_pid} AND opt_option1=#{opt_option1}
+		</select>
+		
+		
+		
+		
+		
+		<!-- ===================================SELECT 부분======================================== -->
+		<!-- ===================================ADD 부분======================================== -->
 	<insert id="AddProduct"
 		parameterType="com.project.model.Product" useGeneratedKeys="true"
 		keyProperty="p_id">
@@ -65,9 +76,6 @@
 		,#{p_disquantity}
 		)
 	</insert>
-
-	
-
 	<insert id="AddOption" parameterType="com.project.model.Option">
 		INSERT INTO opt VALUES(
 		0,#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
@@ -79,4 +87,5 @@
 		0,#{img_name},#{img_origname},#{img_pid},#{img_keyword}
 		)
 	</insert>
+	<!-- ===================================ADD 부분======================================== -->
 </mapper>

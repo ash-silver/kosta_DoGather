@@ -2,7 +2,9 @@ package com.project.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,13 @@ public class ProductService {
 	public Product FindProduct(int p_id) {
 		return pMapper.FindProduct(p_id);
 	}
-
+	
+	public List<Option> FindCategory(String opt_option1,int p_id){
+		Map<String, Object> map = new HashMap<>();	
+		map.put("opt_option1", opt_option1);
+		map.put("opt_pid", p_id);
+		return pMapper.FindCategory(map);
+	}
 
 
 }
