@@ -43,11 +43,15 @@ public class ProductController {
 	
 	@GetMapping("/{p_id}")
 	public String ProdetailForm(@PathVariable int p_id,Model model) {
-		ArrayList<Img> img=pService.FindProduct(p_id);
-		Product pro=img.get(0).getProduct();
+		Product pro=pService.FindProduct(p_id);		
+		model.addAttribute("img",pro.getImg());
+		String[] opt_option1;
+		String[] opt_option2;
+		for(Option opt: pro.getOption()) {
+		
+		}
 
 		model.addAttribute("pro",pro);
-		model.addAttribute("img",img);
 		return "productdetail";
 	}
 

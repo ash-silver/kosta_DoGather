@@ -17,7 +17,7 @@ public interface ProductMapper {
 	
 	void AddImg(Img img);
 	
-	ArrayList<Img> FindProduct(int p_id);
+	Product FindProduct(int p_id);
 	
 	
 }

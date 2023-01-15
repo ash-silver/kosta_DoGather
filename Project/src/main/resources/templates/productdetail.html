@@ -28,17 +28,17 @@
 				<div class="prodetail_img_box">
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
-							<img th:src="|/projectimg/${i.img_name}|" class="mini_img" th:each="i :${img}" th:if="${i.img_keyword}==p_img">
+							<img th:src="|/projectimg/${i.img_name}|" class="mini_img"  th:each="i : ${img}" th:if="${i.img_keyword}=='p_img' AND ${i.img_keyword}!=null">
 
 
 						</div>
 						<div class="prodetail_img_big">
-							<img src="/projectimg/c73d0abd-1205-45f6-b22c-c129589b619b.jpg" class="big_img" >
+							<img th:src="|/projectimg/${img[imgStat.index].img_name}|" class="big_img" th:each="i ,imgStat:${img}"  th:if="${i.img_keyword}=='p_img' AND ${i.img_keyword}!=null">
 						</div>
 					</div>
 					<div class="prodetail_progress">
 						<label class="progress_text">
-							<span>진행 상황</span>
+							<span>진행 상황</span>z	
 						</label>
 						<label class="progress_bar">
 
@@ -81,20 +81,15 @@
 						<span>현재 할인율의 가격:</span>
 					</div>
 					<div class="prodetail_text text2">
-						<select>
-							<option value="카테고리1">카테고리1</option>
+						<select name="opt_option1">
+							<option value="카테고리1" th:value="${opt}">카테고리1</option>
 						</select>
 					</div>
 					<div class="prodetail_text text2">
-						<select>
-							<option value="카테고리2">카테고리2</option>
+						<select name="opt_option2">
+							<option value="카테고리2" th:value="">카테고리2</option>
 						</select>
-					</div>
-					<div class="prodetail_text text2">
-						<select>
-							<option value="카테고리3">카테고리3</option>
-						</select>
-					</div>
+					</div>				
 
 					<form class="prodetail_btn_box">
 						<select>
@@ -112,7 +107,7 @@
 			</div>
 
 			<div class="detail_content_box">
-				<div class="box" th:each="i : ${img}" th:if="${i.img_keyword}==p_contentimg">
+				<div class="box" th:each="i : ${img}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
 					<img th:src="|/projectimg/${i.img_name}|">
 				</div>
 				

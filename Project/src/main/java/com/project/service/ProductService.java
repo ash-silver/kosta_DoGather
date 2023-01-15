@@ -72,7 +72,7 @@ public class ProductService {
 		}
 
 	}
-	public ArrayList<Img> FindProduct(int p_id) {
+	public Product FindProduct(int p_id) {
 		return pMapper.FindProduct(p_id);
 	}
 

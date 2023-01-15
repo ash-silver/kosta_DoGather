@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ProductMapper">
+
 	<resultMap type="com.project.model.Product" id="ProductMap">
 		<id property="p_id" column="p_id" />
 		<result property="p_name" column="p_name" />
@@ -13,20 +14,37 @@
 		<result property="p_create_date" column="p_create_date" />
 		<result property="p_writer" column="p_writer" />
 		<result property="p_chk" column="p_chk" />
-		<result property="p_chk" column="p_chk" />
 		<result property="p_discount" column="p_discount" />
 		<result property="p_disquantity" column="p_disquantity" />
-		
-	</resultMap>
+		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg"/>
+		<collection property="option" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Option" select="getOpt"/>		
+	</resultMap>	
 	<resultMap type="com.project.model.Img" id="ImgMap">
 		<id property="img_num" column="img_num" />
 		<result property="img_name" column="img_name" />
 		<result property="img_origname" column="img_origname" />
 		<result property="img_pid" column="img_pid" />
 		<result property="img_keyword" column="img_keyword" />
-		<collection property="product" resultMap="ProductMap"></collection>
 	</resultMap>
-
+		<resultMap type="com.project.model.Option" id="OptionMap">
+		<result property="opt_pid" column="opt_pid" />
+		<result property="opt_option1" column="opt_option1" />
+		<result property="opt_option2" column="opt_option2" />
+		<result property="opt_quantity" column="opt_quantity" />
+	</resultMap>
+	
+	<!-- ===================================JOIN RESULT======================================== -->
+	<select id="FindProduct" parameterType="int" resultMap="ProductMap">
+		SELECT * FROM product WHERE p_id=#{p_id}
+	</select>
+	<select id="getImg" resultMap="ImgMap" parameterType="int">
+		SELECT * FROM img WHERE img_pid=#{p_id} ORDER BY img_num DESC
+	</select>
+		<select id="getOpt" resultMap="OptionMap" parameterType="int">
+		SELECT * FROM opt WHERE opt_pid=#{p_id} ORDER BY opt_pid DESC
+	</select>
+		<!-- ===================================JOIN RESULT======================================== -->
+	
 	<insert id="AddProduct"
 		parameterType="com.project.model.Product" useGeneratedKeys="true"
 		keyProperty="p_id">
@@ -48,21 +66,11 @@
 		)
 	</insert>
 
-	<select id="FindProduct" parameterType="int"
-		resultMap="ImgMap">
-		SELECT
-		p.p_name,p.p_price,p.p_min_quantity,p.p_max_quantity,p.p_category,
-		p.p_due_date,p.p_recruit_date,p.p_writer,p.p_discount,i.img_name,i.img_keyword
-		FROM
-		Product AS p RIGHT OUTER JOIN img AS i
-		ON p.p_id=i.img_pid
-		WHERE
-		p.p_id=#{p_id}
-	</select>
+	
 
 	<insert id="AddOption" parameterType="com.project.model.Option">
 		INSERT INTO opt VALUES(
-		#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
+		0,#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
 		)
 	</insert>
 
