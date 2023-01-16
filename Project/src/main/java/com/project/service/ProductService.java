@@ -25,6 +25,7 @@ public class ProductService {
 
 	@Autowired
 	private final ProductMapper pMapper;
+	+
 	@Value("${file.Upimg}")
 	private String path;
 
@@ -84,6 +85,7 @@ public class ProductService {
 		map.put("opt_pid", p_id);
 		return pMapper.FindCategory(map);
 	}
+	
 
 
 }

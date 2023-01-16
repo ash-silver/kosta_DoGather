@@ -31,7 +31,7 @@ public class SecurityConfig {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() { // css,js,img등의 시큐리티 필터적용이 필요없는 자원에 대한 접근을 설정,
-		return (web) -> web.ignoring().requestMatchers("/css/**", "/font/**", "/img/**");
+		return (web) -> web.ignoring().requestMatchers("/css/**", "/font/**", "/projectimg/**");
 		// requestMatcher.permitAll과 비슷하지만 permitAll은 Security필터에서 한번 검증을 받고 넘어가고
 		// webignoring은 아예 필터를 거치지 않고 통과.
 	}

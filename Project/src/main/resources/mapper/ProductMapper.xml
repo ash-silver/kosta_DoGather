@@ -76,6 +76,7 @@
 		,#{p_disquantity}
 		)
 	</insert>
+	
 	<insert id="AddOption" parameterType="com.project.model.Option">
 		INSERT INTO opt VALUES(
 		0,#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
@@ -88,4 +89,11 @@
 		)
 	</insert>
 	<!-- ===================================ADD 부분======================================== -->
+	
+	<!-- ===================================UPDATE , DELETE 부분======================================== -->
+
+	
+	<!-- ===================================UPDATE , DELETE 부분======================================== -->
+	
+	
 </mapper>

@@ -104,16 +104,21 @@
 					</div>
 
 					<form class="prodetail_btn_box">
-						<select name="order_quantity">
+						<select name="order_quantity" style="display: none">
 							<option>1</option>
 							<option>2</option>
 							<option>3</option>
 							<option>4</option>
 						</select>
-						<button type="button" id="addCart">장바구니 추가</button>
-						<button type="button" id="addOrder">구매하기</button>
+						<button type="button" id="addCart" style="display: none">장바구니 추가</button>
+						<button type="button" id="addOrder" style="display: none">구매하기</button>
+					
+						<input type="hidden" th:value="${pro.p_recruit_date}"  id="p_recruit_date" readonly>
 					</form>
-
+						<div class="time_box">
+						<h1 id="time"></h1>
+						</div>
+						
 				</div>
 
 			</div>

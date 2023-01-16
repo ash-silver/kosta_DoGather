@@ -184,6 +184,10 @@ progress {
 	flex-direction: column;
 	height: 70px;
 }
+.text1 a{
+		margin-left: 100px;
+	
+}
 .price{
 	text-decoration-line: line-through;
 }
@@ -200,9 +204,6 @@ progress {
 	height: 40px;
 }
 
-.text1 a{
-	margin-left: 300px;
-}
 .prodetail_btn_box{
 	margin-top:155px;
 	width:500px;
@@ -251,5 +252,22 @@ progress {
 	width:100%;
 	height: 100%;
 	
+}
+
+
+.time_box{
+	width:400px;
+	height:100px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	border:1px solid #e2e2e2;
+	background-color:#278ff8;
+	border-radius: 20px;
+	color:white; 
+}
+#time{
+	font-size: 24px;
+	font-weight:bold;
 }
 

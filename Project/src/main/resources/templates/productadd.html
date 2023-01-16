@@ -14,6 +14,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 <script type="text/javascript" th:src="@{/js/productadd.js}"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
 </head>
 
 <body>
@@ -100,7 +102,7 @@
 
 
 
-			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}=='update'">
+			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}!=null">
 				<input type="hidden" value="1" id="count">
 				<label class="input_tag">
 					<span>제품명:</span>

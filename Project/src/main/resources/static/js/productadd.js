@@ -1,5 +1,7 @@
 $(function() {
 
+
+
 	$("#discount_btn").click(function() {
 		let html = `<div class="discount_add">
 						<span>설정:</span>
