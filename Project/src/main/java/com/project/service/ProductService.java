@@ -82,11 +82,11 @@ public class ProductService {
 		return pMapper.FindProduct(p_id);
 	}
 	
-	public List<Option> FindCategory(String opt_option1,int p_id){
+	public List<Option> FindOption(String opt_option1,int p_id){
 		Map<String, Object> map = new HashMap<>();	
 		map.put("opt_option1", opt_option1);
 		map.put("opt_pid", p_id);
-		return pMapper.FindCategory(map);
+		return pMapper.FindOption(map);
 	}
 	
 	public void CreateNewEvent(Product pro) {
@@ -94,7 +94,14 @@ public class ProductService {
 		String value="CREATE EVENT IF NOT EXISTS "+pro.getP_name()+" ON SCHEDULE AT '"+pro.getP_recruit_date()+"' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='start' WHERE p_id="+pro.getP_id();
 		pMapper.CreateNewEvent(value);
 	}
-	
-
+	public void DeleteEvent(Product pro) {
+		System.out.println(pro.getP_recruit_date());
+		String value="CREATE EVENT IF NOT EXISTS "+pro.getP_name()+" ON SCHEDULE AT '"+pro.getP_due_date()+"' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='end' WHERE p_id="+pro.getP_id();
+		pMapper.CreateNewEvent(value);
+	}
+	@Transactional
+	public void removeProduct(int p_id) {
+		pMapper.removeProduct(p_id);
+	}
 
 }

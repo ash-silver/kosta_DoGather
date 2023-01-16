@@ -24,7 +24,7 @@
 		<main id="productadd_main_con">
 
 					
-			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
+			<form class="productadd_form" id="product_form" th:action="@{/products/}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
 				<h1>제품 등록</h1>
 				<input type="hidden" value="1" id="count">
 				<label class="input_tag">
@@ -142,14 +142,14 @@
 				</label>
 				<label class="input_tag">
 					<span>판매자:</span>
-					<input type="text" name="p_writer">
+					<input type="text" name="p_writer" th:value="${pro.p_writer}" readonly>
 				</label>
 				<label class="input_tag">
-					<span>제품이미지 등록:</span>
+					<span>대표이미지 변경</span>
 					<input type="file" multiple="multiple" name="p_img">
 				</label>
 				<label class="input_tag">
-					<span>상세사진 등록:</span>
+					<span>상세사진 변경</span>
 					<input type="file" multiple="multiple" name="p_contentimg">
 				</label>
 				<div class="input_tag_discount">

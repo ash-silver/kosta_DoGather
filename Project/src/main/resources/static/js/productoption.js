@@ -21,7 +21,7 @@ $(function() {
 			});
 			$.ajax({
 				type : "POST",
-				url : "/products/options",
+				url : "/products/options/",
 				traditional : true,
 				data : {
 					opt_pid:opt_pid,

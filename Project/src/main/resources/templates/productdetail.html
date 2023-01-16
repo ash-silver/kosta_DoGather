@@ -95,7 +95,7 @@
 					<div class="prodetail_text text2">
 						<input type="hidden" th:value="${pro.p_id}" id="p_id">
 						<select name="opt_option1" class="option1">
-							<option th:value="${opt1}" th:each="opt1 : ${opt_option1}" th:if="${opt_option1}!=null" th:text="${opt1}"></option>
+							<option th:value="${opt1}" th:each="opt1 : ${opt_option1}" th:if="${opt_option1}!=null" th:text="${opt1}" selected></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2">

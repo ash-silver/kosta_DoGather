@@ -46,7 +46,7 @@
 		<!-- ===================================JOIN RESULT======================================== -->
 		
 		<!-- ===================================SELECT 부분======================================== -->
-		<select id="FindCategory" parameterType="hashMap" resultMap="OptionMap">
+		<select id="FindOption" parameterType="hashMap" resultMap="OptionMap">
 			SELECT opt_option2 FROM opt WHERE opt_pid=${opt_pid} AND opt_option1=#{opt_option1}
 		</select>
 		
@@ -57,8 +57,7 @@
 		<!-- ===================================SELECT 부분======================================== -->
 		<!-- ===================================ADD 부분======================================== -->
 	<insert id="AddProduct"
-		parameterType="com.project.model.Product" useGeneratedKeys="true"
-		keyProperty="p_id">
+		parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
 		INSERT INTO product(
 		p_name,p_price,p_min_quantity,p_max_quantity,p_category,p_due_date,p_recruit_date,p_create_date,p_writer,p_discount,p_disquantity
 		)
@@ -93,6 +92,10 @@
 	<!-- ===================================UPDATE , DELETE 부분======================================== -->
 	<update id="CreateNewEvent" parameterType="String">
 		${value}
+	</update>
+	
+	<update id="removeProduct" parameterType="int">
+		UPDATE product set p_chk=remove WHERE p_id=#{p_id}
 	</update>
 	
 	<!-- ===================================UPDATE , DELETE 부분======================================== -->

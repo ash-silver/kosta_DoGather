@@ -20,8 +20,10 @@ public interface ProductMapper {
 	
 	Product FindProduct(int p_id);
 	
-	List<Option> FindCategory(Map<String,Object> map);
+	List<Option> FindOption(Map<String,Object> map);
 	
 	void CreateNewEvent(String value);
+	
+	void removeProduct(int p_id);
 
 }

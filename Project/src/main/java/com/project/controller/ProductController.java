@@ -31,40 +31,46 @@ public class ProductController {
 	@Autowired
 	private final ProductService pService;
 
-	@GetMapping("")
+	@GetMapping("/")
 	public String ProAddForm() {
 		return "productadd";
 	}
-	
-
-	@PostMapping("")
+	@PostMapping("/")
 	public String AddProduct(Product pro, RedirectAttributes re, String[] p_discount_quan, String[] p_discount_count)
 			throws Exception {
 		pService.AddProduct(pro, p_discount_count, p_discount_quan);
 		pService.AddImg(pro);
 		pService.CreateNewEvent(pro);
+		pService.DeleteEvent(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
-		return "redirect:/products/options";
+		return "redirect:/products/options/";
+	}
+
+	@DeleteMapping("/")
+	public String DelProduct(@RequestParam int p_id) {
+		pService.removeProduct(p_id);
+		return null;
 	}
 
 	@GetMapping("/{p_id}")
 	public String ProdetailForm(@PathVariable int p_id, Model model) {
 		Product pro = pService.FindProduct(p_id);
-		List<String> overlap_check = new ArrayList<String>();
+		List<String> overlap_chk = new ArrayList<String>();
 		for (Option opt : pro.getOption()) {
-			overlap_check.add(opt.getOpt_option1());
+			overlap_chk.add(opt.getOpt_option1());
 		}
-		List<String> opt_option1 = overlap_check.stream().distinct().collect(Collectors.toList()); // 옵션간의 중복제거
+		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
 		String[] p_discount = pro.getP_discount().split("/");
 		String[] p_disquantity = pro.getP_disquantity().split("/");
 		int discount_price = pro.getP_price();
-		int Now_Discount= 0;
+		int Now_Discount = 0;
 		for (int i = 0; i < p_disquantity.length; i++) {
 			if (Integer.parseInt(p_disquantity[i]) <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * Integer.parseInt(p_discount[i]));
 				Now_Discount = Integer.parseInt(p_discount[i]);
 			}
 		}
+
 		model.addAttribute("Now_Discount", Now_Discount);
 		model.addAttribute("discount_price", discount_price);
 		model.addAttribute("p_discount", p_discount);
@@ -74,18 +80,20 @@ public class ProductController {
 		model.addAttribute("pro", pro);
 		return "productdetail";
 	}
-	@GetMapping("/options")
+
+	@GetMapping("/options/")
 	public String OptionForm() {
 		return "option";
 	}
+
 	@ResponseBody
-	@GetMapping("/categorys")
-	public List<Option> Category(String opt_option1, int p_id) {
-		return pService.FindCategory(opt_option1, p_id);
+	@GetMapping("/options/{p_id}")
+	public List<Option> FindOption(String opt_option1, @PathVariable int p_id) {
+		return pService.FindOption(opt_option1, p_id);
 	}
 
 	@ResponseBody
-	@PostMapping("/options")
+	@PostMapping("/options/")
 	public String addOption(String opt_option1, @RequestParam("opt_option2") String[] opt_option2,
 			@RequestParam("opt_quantity") String[] opt_quantity, int opt_pid) {
 		String chk = "추가실패";
@@ -99,7 +107,5 @@ public class ProductController {
 		}
 		return chk;
 	}
-	
-	
 
 }
