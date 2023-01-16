@@ -4,25 +4,29 @@ $(function() {
 	let img = $(".mini_img").attr("src");
 	let opt_option1 = $("select[name=opt_option1]").val();
 	let p_id = $("#p_id").val();
-	let p_recruit_date=$("#p_recruit_date").val();
+	let p_recruit_date = $("#p_recruit_date").val();
+	$(".big_img").attr("src", img);
 
-	
-	const countDownTimer = function (id, date) {
+
+	const countDownTimer = function(id, date) {
 		let _vDate = new Date(date); // 전달 받은 일자
 		let _second = 1000;
 		let _minute = _second * 60;
 		let _hour = _minute * 60;
 		let _day = _hour * 24;
 		let timer;
-
+		
+		
 		function showRemaining() {
 			var now = new Date();
 			var distDt = _vDate - now;
 
 			if (distDt < 0) {
+				let p_due_date = $("#p_due_date").val();
 				clearInterval(timer);
-				document.getElementById(id).textContent = '해당 이벤트가 종료 되었습니다!';
-				return;
+				countDownTimer('time', p_due_date);
+				$(".prodetail_btn_box").css("display","flex");
+				$(".time_box").css("margin-top",0);
 			}
 
 			let days = Math.floor(distDt / _day);
@@ -35,7 +39,11 @@ $(function() {
 			document.getElementById(id).textContent += hours + '시간 ';
 			document.getElementById(id).textContent += minutes + '분 ';
 			document.getElementById(id).textContent += seconds + '초';
-			document.getElementById(id).textContent += "후 오픈예정";
+			if(distDt<0){
+				document.getElementById(id).textContent +='후 마감';
+			}else {
+				document.getElementById(id).textContent +='후 오픈';
+			}
 		}
 
 		timer = setInterval(showRemaining, 1000);
@@ -45,12 +53,10 @@ $(function() {
 	dateObj.setDate(dateObj.getDate() + 1);
 	countDownTimer('time', p_recruit_date); // 2024년 4월 1일까지, 시간을 표시하려면 01:00 AM과 같은 형식을 사용한다.
 
-	
 
-	$(".big_img").attr("src", img);
-	
+
 	$(".option1").change(function() {
-		let opt1=$(this).val();
+		let opt1 = $(this).val();
 		addcategory(opt1);
 
 	});

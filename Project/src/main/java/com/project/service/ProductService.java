@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.mapper.ProductMapper;
@@ -25,10 +26,10 @@ public class ProductService {
 
 	@Autowired
 	private final ProductMapper pMapper;
-	+
 	@Value("${file.Upimg}")
 	private String path;
 
+	@Transactional
 	public void AddProduct(Product pro,String[] p_discount_quan,String[] p_discount_count) {
 		String p_discount="";
 		String p_disquantity="";
@@ -40,11 +41,13 @@ public class ProductService {
 		pro.setP_discount(p_discount);
 		pMapper.AddProduct(pro);
 	}
-
+	
+	@Transactional
 	public void AddOption( Option opt) {
 		pMapper.AddOption(opt);
 	}
 
+	@Transactional
 	public void AddImg(Product pro) throws IllegalStateException, IOException {
 			
 		for (MultipartFile imgfile : pro.getP_img()) {
@@ -84,6 +87,12 @@ public class ProductService {
 		map.put("opt_option1", opt_option1);
 		map.put("opt_pid", p_id);
 		return pMapper.FindCategory(map);
+	}
+	
+	public void CreateNewEvent(Product pro) {
+		System.out.println(pro.getP_recruit_date());
+		String value="CREATE EVENT IF NOT EXISTS "+pro.getP_name()+" ON SCHEDULE AT '"+pro.getP_recruit_date()+"' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='start' WHERE p_id="+pro.getP_id();
+		pMapper.CreateNewEvent(value);
 	}
 	
 

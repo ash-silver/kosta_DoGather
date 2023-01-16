@@ -42,6 +42,7 @@ public class ProductController {
 			throws Exception {
 		pService.AddProduct(pro, p_discount_count, p_discount_quan);
 		pService.AddImg(pro);
+		pService.CreateNewEvent(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
 	}
@@ -98,5 +99,7 @@ public class ProductController {
 		}
 		return chk;
 	}
+	
+	
 
 }

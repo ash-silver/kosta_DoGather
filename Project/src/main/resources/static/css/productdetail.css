@@ -205,10 +205,10 @@ progress {
 }
 
 .prodetail_btn_box{
+	display:none;
 	margin-top:155px;
 	width:500px;
 	height: 100px;
-	display: flex;
 	align-items: center;
 	justify-content: center;
 	
@@ -264,7 +264,8 @@ progress {
 	border:1px solid #e2e2e2;
 	background-color:#278ff8;
 	border-radius: 20px;
-	color:white; 
+	color:white;
+	margin-top:150px;
 }
 #time{
 	font-size: 24px;

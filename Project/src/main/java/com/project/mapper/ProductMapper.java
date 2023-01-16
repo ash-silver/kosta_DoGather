@@ -22,5 +22,6 @@ public interface ProductMapper {
 	
 	List<Option> FindCategory(Map<String,Object> map);
 	
+	void CreateNewEvent(String value);
 
 }
