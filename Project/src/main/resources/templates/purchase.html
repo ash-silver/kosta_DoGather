@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="orderInfo">
+		<form role="form" method="post">
+
+			<input type="hidden" name="amount" value="${import}" />
+
+			<div class="inputArea">
+				<label for="">수령인</label> 
+				<input type="text" name="orderRec" id="orderRec" required="required" />
+			</div>
+
+			<div class="inputArea">
+				<label for="orderPhon">수령인 연락처</label> <input type="text" name="orderPhon" id="orderPhon" required="required" />
+			</div>
+
+			<div class="inputArea">
+				<label for="userAddr">주소</label> <input type="text" name="userAddr2" id="userAddr2" required="required" />
+			</div>
+			
+			<div class="productArea">
+				<div>
+					<img src="">
+				</div>
+				
+				<div>
+					<span>이름</span>
+				</div>
+				
+				<div>
+					<span>가격</span>
+				</div>
+			</div>
+
+			
+
+			<div class="inputArea">
+				<button type="submit" class="order_btn">주문</button>
+				<button type="button" class="cancel_btn">취소</button>
+			</div>
+
+		</form>
+	</div>
+	/
+</body>
+</html>
