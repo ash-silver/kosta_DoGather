@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link th:href="@{/css/header.css}" rel="stylesheet" />
+<link th:href="@{/css/footer.css}" rel="stylesheet" />
+<link th:href="@{/css/login.css}" rel="stylesheet" />
+<link th:href="@{/css/reset2.css}" rel="stylesheet" />
+<link th:href="@{/css/reset.css}" rel="stylesheet" />
+
+</head>
+
+
+<body>
+    <div>
+    
+    <header th:replace="header :: header"> </header>
+		<main id="login_main_con">
+	
+        <form action="">
+            <input type="text" placeholder="이메일 아이디" class="in">
+            <input type="password" placeholder="비밀번호" class="in"> <br>
+            <input type="submit" id="btn" value="로그인"><br>
+        </form>
+         <a href="#none">아이디/비밀번호 찾기 <br>
+         <a href="#none">회원가입</a>
+         </main>
+         	<footer th:replace="footer ::footer"></footer>
+    </div>
+</body>
