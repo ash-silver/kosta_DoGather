@@ -12,8 +12,8 @@
 	
 	<insert id="AddOrder" parameterType="com.project.model.PurchaseModel" useGeneratedKeys="true" keyProperty="o_id">
 		INSERT INTO question(
-			
-			o_product_p_fk, o_member_m_fk, o_recipient, o_phoneNumber,
+			o_product_p_fk, o_member_m_fk, 
+			o_recipient, o_phoneNumber,
 			o_address, o_date, o_quantity, o_state
 		)
 		VALUES(
