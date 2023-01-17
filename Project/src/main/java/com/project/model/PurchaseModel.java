@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderModel {
+public class PurchaseModel {
 	private int o_id;
 	private String o_product_p_fk;
 	private String o_member_m_fk;

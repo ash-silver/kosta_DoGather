@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.OrderMapper">
+	<resultMap type="com.project.model.OrderModel" id = "OrderMap">
+		<id property="o_id" column="o_id"/>
+		<result property="o_product_p_fk" column="o_product_p_fk"/>
+		<result property="o_member_m_fk" column="o_member_m_fk"/>
+		<result property="o_date" column="o_date"/>
+		<result property="o_quantity" column="o_quantity"/>
+		<result property="o_state" column="o_state"/>
+	</resultMap>
+	
+	<insert id="AddOrder" parameterType="com.project.model.OrderModel" useGeneratedKeys="true" keyProperty="o_id">
+		INSERT INTO question(
+			o_product_p_fk, o_member_m_fk, o_date, o_quantity, o_state
+		)
+		VALUES(
+			#{o_product_p_fk},
+			#{o_member_m_fk},
+			#{o_date},
+			#{o_quantity},
+			#{o_state}
+		)
+	</insert>
+	
+</mapper>
