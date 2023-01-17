@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/products")
 public class ProductController {
 
-	@Autowired
 	private final ProductService pService;
 	
 	
