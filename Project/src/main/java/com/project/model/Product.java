@@ -16,12 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Product {
-	private String p_name,p_category,p_writer,p_due_date,p_recruit_date,p_chk,p_discount,p_disquantity;
+	private String p_name,p_category,p_writer,p_due_date,p_recruit_date,p_chk;
 	private Timestamp p_create_date;
-	private int p_id,p_min_quantity,p_max_quantity,p_price,p_sell;
-	private MultipartFile[] p_img,p_contentimg;
+	private int p_id,p_price,p_sell;
+	private List<MultipartFile> p_img,p_contentimg; // request 용
 	private ArrayList<Img> img;
 	private ArrayList<Option> option;
-	
+	private ArrayList<Discount> discount;
+	private int[] p_discount_quan,p_discount_count; // request 용
 
 }

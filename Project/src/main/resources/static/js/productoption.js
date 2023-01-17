@@ -21,7 +21,7 @@ $(function() {
 			});
 			$.ajax({
 				type : "POST",
-				url : "/products/options/",
+				url : "/products/options",
 				traditional : true,
 				data : {
 					opt_pid:opt_pid,
@@ -33,7 +33,7 @@ $(function() {
 					xhr.setRequestHeader(header, token);
 				},
 				success : function(result) {
-					alert(result);
+					alert("추가완료");
 					$("input[type=text]").val("");
 				},
 				error : function(e) {

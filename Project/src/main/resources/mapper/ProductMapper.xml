@@ -6,99 +6,126 @@
 		<id property="p_id" column="p_id" />
 		<result property="p_name" column="p_name" />
 		<result property="p_price" column="p_price" />
-		<result property="p_min_quantity" column="p_min_quantity" />
-		<result property="p_max_quantity" column="p_max_quantity" />
 		<result property="p_category" column="p_category" />
 		<result property="p_due_date" column="p_due_date" />
 		<result property="p_recruit_date" column="p_recruit_date" />
 		<result property="p_create_date" column="p_create_date" />
 		<result property="p_writer" column="p_writer" />
 		<result property="p_chk" column="p_chk" />
-		<result property="p_discount" column="p_discount" />
-		<result property="p_disquantity" column="p_disquantity" />
-		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg"/>
-		<collection property="option" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Option" select="getOpt"/>		
-	</resultMap>	
+		<result property="p_sell" column="p_sell" />
+		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg" />
+		<collection property="option" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Option" select="getOpt" />
+		<collection property="discount" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.discount" select="getDiscount" />
+	</resultMap>
 	<resultMap type="com.project.model.Img" id="ImgMap">
-		<id property="img_num" column="img_num" />
+		<id property="img_id" column="img_id" />
 		<result property="img_name" column="img_name" />
 		<result property="img_origname" column="img_origname" />
 		<result property="img_pid" column="img_pid" />
 		<result property="img_keyword" column="img_keyword" />
 	</resultMap>
-		<resultMap type="com.project.model.Option" id="OptionMap">
+	<resultMap type="com.project.model.Option" id="OptionMap">
+		<id property="opt_id" column="opt_id" />
 		<result property="opt_pid" column="opt_pid" />
 		<result property="opt_option1" column="opt_option1" />
 		<result property="opt_option2" column="opt_option2" />
 		<result property="opt_quantity" column="opt_quantity" />
 	</resultMap>
-	
+	<resultMap type="com.project.model.Discount" id="DiscountMap">
+		<id property="dis_id" column="dis_id" />
+		<result property="dis_count" column="dis_count" />
+		<result property="dis_pid" column="dis_pid" />
+		<result property="dis_quantity" column="dis_quantity" />
+	</resultMap>
+
 	<!-- ===================================JOIN RESULT======================================== -->
 	<select id="FindProduct" parameterType="int" resultMap="ProductMap">
 		SELECT * FROM product WHERE p_id=#{p_id}
 	</select>
 	<select id="getImg" resultMap="ImgMap" parameterType="int">
-		SELECT * FROM img WHERE img_pid=#{p_id} ORDER BY img_num DESC
+		SELECT *
+		FROM img WHERE img_pid=#{p_id} ORDER BY img_id
 	</select>
-		<select id="getOpt" resultMap="OptionMap" parameterType="int">
-		SELECT opt_option1 FROM opt WHERE opt_pid=#{p_id} ORDER BY opt_pid DESC
+	<select id="getOpt" resultMap="OptionMap" parameterType="int">
+		SELECT
+		opt_option1 FROM opt WHERE opt_pid=#{p_id} ORDER BY opt_id
 	</select>
-		<!-- ===================================JOIN RESULT======================================== -->
-		
-		<!-- ===================================SELECT 부분======================================== -->
-		<select id="FindOption" parameterType="hashMap" resultMap="OptionMap">
-			SELECT opt_option2 FROM opt WHERE opt_pid=${opt_pid} AND opt_option1=#{opt_option1}
-		</select>
-		
-		
-		
-		
-		
-		<!-- ===================================SELECT 부분======================================== -->
-		<!-- ===================================ADD 부분======================================== -->
-	<insert id="AddProduct"
-		parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
+	<select id="getDiscount" resultMap="DiscountMap" parameterType="int">
+		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid=#{p_id} ORDER BY
+		dis_id 
+	</select>
+
+
+	<select id="WriterProductlist" parameterType="String" resultMap="ProductMap">
+		SELECT * FROM product WHERE p_writer=#{p_writer}
+	</select>
+
+
+
+	<!-- ===================================JOIN RESULT======================================== -->
+
+	<!-- ===================================SELECT 부분======================================== -->
+	<select id="FindOption" parameterType="hashMap" resultMap="OptionMap">
+		SELECT opt_option2 FROM opt WHERE opt_pid=${opt_pid} AND
+		opt_option1=#{opt_option1}
+	</select>
+
+
+
+
+
+	<!-- ===================================SELECT 부분======================================== -->
+	<!-- ===================================ADD 부분======================================== -->
+	<insert id="AddProduct" parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
 		INSERT INTO product(
-		p_name,p_price,p_min_quantity,p_max_quantity,p_category,p_due_date,p_recruit_date,p_create_date,p_writer,p_discount,p_disquantity
+		p_name,p_price,p_category,p_due_date,p_recruit_date,p_create_date,p_writer
 		)
 		VALUES(
 		#{p_name}
 		,#{p_price}
-		,#{p_min_quantity}
-		,#{p_max_quantity}
 		,#{p_category}
 		,#{p_due_date}
 		,#{p_recruit_date}
 		,now()
 		,#{p_writer}
-		,#{p_discount}
-		,#{p_disquantity}
 		)
 	</insert>
-	
+
 	<insert id="AddOption" parameterType="com.project.model.Option">
-		INSERT INTO opt VALUES(
-		0,#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
+		INSERT INTO opt(
+		opt_pid,opt_option1,opt_option2,opt_quantity
+		) VALUES(
+		#{opt_pid},#{opt_option1},#{opt_option2},#{opt_quantity}
+		)
+	</insert>
+	<insert id="AddDiscount" parameterType="com.project.model.Discount">
+		INSERT INTO discount(
+		dis_count,dis_pid,dis_quantity
+		) VALUES(
+		#{dis_count},#{dis_pid},#{dis_quantity}
 		)
 	</insert>
 
 	<insert id="AddImg" parameterType="com.project.model.Img">
-		INSERT INTO Img VALUES(
-		0,#{img_name},#{img_origname},#{img_pid},#{img_keyword}
+		INSERT INTO Img(
+		img_name,img_origname,img_pid,img_keyword)
+		VALUES(
+		#{img_name},#{img_origname},#{img_pid},#{img_keyword}
 		)
 	</insert>
 	<!-- ===================================ADD 부분======================================== -->
-	
+
 	<!-- ===================================UPDATE , DELETE 부분======================================== -->
 	<update id="CreateNewEvent" parameterType="String">
 		${value}
 	</update>
-	
+
 	<update id="removeProduct" parameterType="int">
-		UPDATE product set p_chk=remove WHERE p_id=#{p_id}
+		UPDATE product set
+		p_chk=remove WHERE p_id=#{p_id}
 	</update>
-	
+
 	<!-- ===================================UPDATE , DELETE 부분======================================== -->
-	
-	
+
+
 </mapper>

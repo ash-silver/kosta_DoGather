@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,82 +31,75 @@ public class ProductController {
 
 	@Autowired
 	private final ProductService pService;
-
-	@GetMapping("/")
-	public String ProAddForm() {
+	
+	
+	/*===============================Form =====================================*/
+	@GetMapping("")
+	public String ProductAddForm() {
 		return "productadd";
 	}
-	@PostMapping("/")
-	public String AddProduct(Product pro, RedirectAttributes re, String[] p_discount_quan, String[] p_discount_count)
+	@GetMapping("/options")
+	public String OptionAddForm() {
+		return "option";
+	}
+	/*===============================Form =====================================*/
+	
+	
+	@PostMapping("")
+	public String AddProduct(Product pro, RedirectAttributes re)
 			throws Exception {
-		pService.AddProduct(pro, p_discount_count, p_discount_quan);
-		pService.AddImg(pro);
-		pService.CreateNewEvent(pro);
-		pService.DeleteEvent(pro);
+		pService.AddProduct(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
-		return "redirect:/products/options/";
+		return "redirect:/products/options";
 	}
 
-	@DeleteMapping("/")
+	
+	@DeleteMapping("")
 	public String DelProduct(@RequestParam int p_id) {
 		pService.removeProduct(p_id);
 		return null;
 	}
-
+	
+	
 	@GetMapping("/{p_id}")
-	public String ProdetailForm(@PathVariable int p_id, Model model) {
-		Product pro = pService.FindProduct(p_id);
-		List<String> overlap_chk = new ArrayList<String>();
-		for (Option opt : pro.getOption()) {
-			overlap_chk.add(opt.getOpt_option1());
-		}
-		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
-		String[] p_discount = pro.getP_discount().split("/");
-		String[] p_disquantity = pro.getP_disquantity().split("/");
-		int discount_price = pro.getP_price();
-		int Now_Discount = 0;
-		for (int i = 0; i < p_disquantity.length; i++) {
-			if (Integer.parseInt(p_disquantity[i]) <= pro.getP_sell()) {
-				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * Integer.parseInt(p_discount[i]));
-				Now_Discount = Integer.parseInt(p_discount[i]);
-			}
-		}
-
-		model.addAttribute("Now_Discount", Now_Discount);
-		model.addAttribute("discount_price", discount_price);
-		model.addAttribute("p_discount", p_discount);
-		model.addAttribute("p_disquantity", p_disquantity);
-		model.addAttribute("opt_option1", opt_option1);
-		model.addAttribute("img", pro.getImg());
-		model.addAttribute("pro", pro);
+	public String ProductDetail(@PathVariable int p_id,Model model) {
+		Map<String, Object> promap= pService.FindProduct(p_id);
+		
+		model.addAttribute("promap",promap);
 		return "productdetail";
 	}
 
-	@GetMapping("/options/")
-	public String OptionForm() {
-		return "option";
-	}
+
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
-	public List<Option> FindOption(String opt_option1, @PathVariable int p_id) {
-		return pService.FindOption(opt_option1, p_id);
+	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
+		return pService.FindOption2(opt_option1, p_id);
 	}
-
+	
 	@ResponseBody
-	@PostMapping("/options/")
-	public String addOption(String opt_option1, @RequestParam("opt_option2") String[] opt_option2,
+	@PostMapping("/options")
+	public void AddOption(String opt_option1, @RequestParam("opt_option2") String[] opt_option2,
 			@RequestParam("opt_quantity") String[] opt_quantity, int opt_pid) {
-		String chk = "추가실패";
-		for (int i = 0; i < opt_option2.length; i++) {
-			if (!opt_option2[i].isEmpty()) {
-				Option option = Option.builder().opt_pid(opt_pid).opt_option1(opt_option1).opt_option2(opt_option2[i])
-						.opt_quantity(opt_quantity[i]).build();
+		int index=0;
+		for (String opt_2:opt_option2) {
+			if (!opt_2.isEmpty()) {
+				Option option = Option.builder()
+						.opt_pid(opt_pid)
+						.opt_option1(opt_option1)
+						.opt_option2(opt_2)
+						.opt_quantity(opt_quantity[index]).build();
+				index++;
 				pService.AddOption(option);
-				chk = "추가 성공 :" + opt_option1;
 			}
 		}
-		return chk;
+	}
+	
+	@GetMapping("/lists")
+	public String myform(Principal principal) {
+		 String id=principal.getName();
+		 pService.WriterProductlist(id);
+		return "mypage";
 	}
 
 }

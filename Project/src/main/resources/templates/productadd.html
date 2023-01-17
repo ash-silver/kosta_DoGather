@@ -24,7 +24,7 @@
 		<main id="productadd_main_con">
 
 					
-			<form class="productadd_form" id="product_form" th:action="@{/products/}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
+			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
 				<h1>제품 등록</h1>
 				<input type="hidden" value="1" id="count">
 				<label class="input_tag">
@@ -34,11 +34,6 @@
 				<label class="input_tag">
 				
 					<input type="text" name="p_price" placeholder="기본 가격 입력">
-				</label>
-				<label class="input_tag quantity">
-					<input type="text" name="p_min_quantity" placeholder="최소 판매수량 입력">
-					<span>~</span>
-					<input type="text" name="p_max_quantity" placeholder="최대 판매 수량 입력">
 				</label>
 
 				<label class="input_tag">

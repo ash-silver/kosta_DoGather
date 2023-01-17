@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class Option {
-	private int opt_pid,opt_id;
-	private String opt_option1,opt_option2,opt_quantity;
-
+public class Discount {
+	
+	private int dis_id,dis_count,dis_pid,dis_quantity;
 }
