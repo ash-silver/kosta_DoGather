@@ -35,8 +35,8 @@ public class ProductService {
 	private String path;
 
 	/*
-	 * ======================================Proudct Add
-	 * 부분===============================================
+	 * ======================================Proudct
+	 * Add부분===============================================
 	 */
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
 	public void AddProduct(Product pro) throws IllegalStateException, IOException {
@@ -100,16 +100,16 @@ public class ProductService {
 	}
 
 	public Map<String, Object> FindProduct(int p_id) {
-		Map<String, Object> map = new HashMap<>();	
+		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
-		int Now_Discount=0;
-		int discount_price=pro.getP_price();
+		int Now_Discount = 0;
+		int discount_price = pro.getP_price();
 		List<String> overlap_chk = new ArrayList<>();
 		for (Option opt : pro.getOption()) {
 			overlap_chk.add(opt.getOpt_option1());
 		}
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
-		for (Discount dis:pro.getDiscount()) {
+		for (Discount dis : pro.getDiscount()) {
 			if ((dis.getDis_quantity()) <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
@@ -118,10 +118,10 @@ public class ProductService {
 		map.put("Now_Discount", Now_Discount);
 		map.put("discount_price", discount_price);
 		map.put("opt_option1", opt_option1);
-		map.put("max_quantity",pro.getDiscount().get(pro.getDiscount().size()-1).getDis_quantity());
+		map.put("max_quantity", pro.getDiscount().get(pro.getDiscount().size() - 1).getDis_quantity());
 		map.put("pro", pro);
 		return map;
-		
+
 	}
 
 	public List<Option> FindOption2(String opt_option1, int p_id) {
@@ -131,11 +131,10 @@ public class ProductService {
 		return pMapper.FindOption(map);
 	}
 
-	@Transactional(readOnly = true)
-	public List<Product> WriterProductlist(String p_writer) {
-		List<Product> WriterProduct = pMapper.WriterProductlist(p_writer);
 
-		return null;
+	public List<Product> WriterProductlist(String p_writer) {
+
+		return pMapper.WriterProductlist(p_writer);
 	}
 
 	@Transactional
@@ -143,7 +142,7 @@ public class ProductService {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 		now.format(formatter);
-		System.out.println(now);
+		
 		pMapper.removeProduct(p_id);
 	}
 

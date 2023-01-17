@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.model.Img;
 import com.project.model.Option;
 import com.project.model.Product;
 import com.project.service.ProductService;
@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/products")
 public class ProductController {
 
-	@Autowired
+	
 	private final ProductService pService;
 	
 	
@@ -96,9 +96,16 @@ public class ProductController {
 	}
 	
 	@GetMapping("/lists")
-	public String myform(Principal principal) {
-		 String id=principal.getName();
-		 pService.WriterProductlist(id);
+	public String myform(Principal principal, Model model) {
+		String id = principal.getName();
+		List<Product> pro=pService.WriterProductlist(id);
+		List<Img> img_name=new ArrayList<>();
+		for(Product img:pro) {
+			img_name.addAll(img.getImg());
+		}
+		
+		model.addAttribute("img_name",img_name);
+		model.addAttribute("pro",pro);
 		return "mypage";
 	}
 

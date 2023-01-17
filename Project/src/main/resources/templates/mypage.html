@@ -98,10 +98,10 @@
 						</div>
 						
 						<div class="mypage_list_cont">
-								<div class="mypage_list_tag">
+								<div class="mypage_list_tag" th:each="pro, numStat:${pro}">
 									<div class="mypage_list_tag_img">
-									<a href="#">
-										<img src="/projectimg/logo.png">
+									<a th:href="|/products/${pro.p_id}|">
+										<img th:src="|/projectimg/${img_name[numStat.index].img_name}|">
 									</a>
 									</div>
 									<div class="myapge_list_tag_text">
