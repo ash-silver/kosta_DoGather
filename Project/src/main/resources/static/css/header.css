@@ -1,4 +1,12 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'KorailRoundGothicBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
 #header_con{
+	font-family: 'KorailRoundGothicBold';
     width: 100%;
     height: 100px;
     display: flex;
@@ -31,8 +39,8 @@
 
 .category_drop_menu{
     top:85px;
-    width: 200px;
-    height: 150px;
+    width: 150px;
+    height: 750px;
     position: absolute;
     background-color: white;
     display: flex;
@@ -149,8 +157,8 @@
 .mymenu_drop_menu2{
     top:75px;
     left:15px;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     background-color: white;
     display: flex;

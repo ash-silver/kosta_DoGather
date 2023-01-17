@@ -20,10 +20,11 @@ spring:
   datasource:       # HikariCP를 사용하기위한 설정, (DB연결을 위한 커넥션풀) 커넥션풀 = DB와 연결된 커넥션을 미리 만들어놓고 관리하는것, 필요할때마다 커넥션을 이용하고 반환하는 형식,
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver  # MYSQL 5.1 이상 ,
+      
       jdbc-url: jdbc:mysql://localhost:3306/project?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
                   # jdbc:mysql://localhost:3306/ 여기본인DB스키마명    ?serverTimezone=Asia/Seoul~~~~
       username: root # mysql ID
-      password: k5735695* # 각자 MYSQL 비밀번호 입력
+      password: abcd1234@ # 각자 MYSQL 비밀번호 입력
       connection-test-query: SELECT NOW() FROM dual
 
 mybatis:
@@ -34,5 +35,5 @@ server:
   port: 8088
 
 file:
-  roomUpimg: C:/projectimg/    #파일의 저장,출력을 이클립스의 외부경로 ex) C드라이브에서 가져올때 MvcConfig에서 사용할 경로의 값을 미리 선언,
-  roomfolder: file:///projectimg/
+  Upimg: C:/projectimg/    #파일의 저장,출력을 이클립스의 외부경로 ex) C드라이브에서 가져올때 MvcConfig에서 사용할 경로의 값을 미리 선언,
+  Upfolder: file:///projectimg/

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.AdminMapper">
+
+<!--  
+<resultMap type="com.project.model.Admin" id="AdminMap">
+	<id property="p_id" column="p_id" />
+		<result property="p_name" column="p_name" />
+		<result property="p_due_date" column="p_due_date" />
+		<result property="p_recruit_date" column="p_recruit_date" />
+		<result property="p_create_date" column="p_create_date" />
+		<result property="p_writer" column="p_writer" />
+</resultMap>
+		
+<resultMap type="com.project.model.Admin" id="AdminMap">
+	<id property="m_id" column="m_id" />
+		<result property="m_email" column="m_email" />
+		<result property="m_name" column="m_name" />
+		<result property="m_nickname" column="m_nickname" />
+		<result property="m_password" column="m_password" />
+		<result property="m_phoneNumber" column="m_phoneNumber" />
+		<result property="m_type" column="m_type" />
+		<result property="m_cash" column="m_cash" />
+		<result property="m_temp" column="m_temp" />
+</resultMap>-->
+		<!--검색  -->	
+	<select id="FindProduct" parameterType="int" >
+		SELECT * FROM product WHERE p_id=#{p_id}
+	</select>
+	<select id="FindMember" parameterType="int" >
+		SELECT * FROM member WHERE m_id=#{m_id}
+	</select>
+	<!--전체출력  -->	
+	<select id="ListProduct" resultType="com.project.model.Admin">
+		SELECT * FROM product
+	</select>
+	
+	<select id="ListMember" resultType="com.project.model.Admin">
+		SELECT * FROM member 
+	</select>
+	
+		<!--삭제  -->	
+	<update id="DelProduct" parameterType="int">
+		UPDATE product SET p_chk='DELETE' WHERE p_id=#{p_id}
+	</update>
+
+	<update id="DelMember" parameterType="int">
+		UPDATE member SET m_type='BLACKLIST' WHERE m_id=#{m_id}
+	</update>
+
+
+
+
+</mapper>
