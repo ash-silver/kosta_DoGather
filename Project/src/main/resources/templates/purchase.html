@@ -25,16 +25,26 @@
 			
 			<div class="productArea">
 				<div>
-					<img src="">
+<!-- 					<img th:src="|/img/productImg.png"> -->
+					<img th:src="|/img/${i.img_name}|" th:each="i : ${img}">
+					
 				</div>
 				
 				<div>
-					<span>이름</span>
+					<span>제품명</span>
+					<span th:text="|${pro.p_name}|"></span>
 				</div>
 				
 				<div>
 					<span>가격</span>
+					<span class="price" th:text-"${#numbers.formatInteger(pro.p_price), 3, 'COMMA') + '원'}"></span>
 				</div>
+				
+				<div>
+					<span>판매자</span>
+					<span th:text="|${pro.p_writer}|"></span>
+				</div>
+				
 			</div>
 
 			
