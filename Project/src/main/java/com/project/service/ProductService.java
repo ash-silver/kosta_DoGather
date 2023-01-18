@@ -66,10 +66,13 @@ public class ProductService {
 	public void AddImg(List<MultipartFile> file, int p_id, String keyword) throws IllegalStateException, IOException {
 		if (!CollectionUtils.isEmpty(file)) {
 			for (MultipartFile imgfile : file) {
+				System.out.println("ccccc+"+imgfile.getOriginalFilename());
 				String origName = imgfile.getOriginalFilename(); // 입력한 원본 파일의 이름
 				String uuid = UUID.randomUUID().toString(); // 문자+숫자의 랜덤한 파일명으로 변경
 				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
 				String savedName = uuid + extension; // 랜덤이름 + 확장자
+				
+				
 				File converFile = new File(path, savedName); // path = 상품 이미지 파일의 저장 경로가 들어있는 프로퍼티 설정값
 				if (!converFile.exists()) {
 					converFile.mkdirs();

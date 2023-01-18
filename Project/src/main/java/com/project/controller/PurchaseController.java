@@ -26,6 +26,7 @@ public class PurchaseController {
 	
 	@PostMapping("")
 	public String addOrder(PurchaseModel order) {
-		return "order";
+		purchaseService.AddOrder(order);
+		return "redirect:/PurchaseModel";
 	}
 }

@@ -20,53 +20,47 @@
 
 			<input type="hidden" name="amount" value="${import}"/>
 
-			<div class="color-green">
+			<div class="color_green">
 				<label for="">수령인</label> 
 				<input type="text" name="o_recipient" id="o_recipient" required="required" />
 			</div>
 
-			<div class="color-green">
+			<div class="color_green">
 				<label for="o_phoneNumber">수령인 연락처</label> 
 				<input type="text" name="o_phoneNumber" id="o_phoneNumber" required="required" />
 			</div>
 
-			<div class="color-green">
+			<div class="color_green">
 				<label for="o_address">주소</label> 
 				<input type="text" name="o_address" id="o_address" required="required" />
 			</div>
 			
-			<div class="color-green">
+			<div class="color_green">
 				<div>
-<!-- 				<img th:src="|/img/productImg.png"> -->
-					<img th:src="|/img/${i.img_name}|" th:each="i : ${img}">
+					<img th:src="|/projectimg/${i.img_name}|" th:each="i : ${img}">
 					
 				</div>
 				
 				<div>
 					<span>제품명</span>
-					<span>제품명임더ㅏㅇ</span>
-<!-- 					<span th:text="|${pro.p_name}|"></span> -->
+					<span th:text="|${pro.p_name}|"></span>
 				</div>
 				
 				<div>
 					<span>가격</span>
-					<span>제품명임더ㅏㅇ</span>
-					
-					<span class="price" th:text="${#numbers.formatInteger(pro.p_price, 3, 'COMMA') + '원'}"></span>
+					<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
 				</div>
 				
 				<div>
 					<span>판매자</span>
 					<span th:text="|${pro.p_writer}|"></span>
 				</div>
-				
 			</div>
 
 			<div>
 				<button type="submit">주문</button>
 				<button type="reset">취소</button>
 			</div>
-
 		</form>
 	</div>
 	/

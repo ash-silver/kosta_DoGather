@@ -58,7 +58,7 @@ public class ProductController {
 		return null;
 	}
 
-	@GetMapping("/{p_id}")
+	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
 		model.addAttribute("promap", promap);
@@ -66,7 +66,7 @@ public class ProductController {
 	}
 
 	@ResponseBody
-	@GetMapping("/options/{p_id}")
+	@GetMapping("/options/{p_id}`")
 	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
 		return pService.FindOption2(opt_option1, p_id);
 	}
