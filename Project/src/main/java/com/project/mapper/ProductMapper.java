@@ -29,5 +29,7 @@ public interface ProductMapper {
 	
 	void removeProduct(int p_id);
 	
-	List<Product> WriterProductlist(String p_writer);
+	List<Product> WriterProductlist(Map<String,Object> map);
+	
+	int WriterProductlistCount(String p_writer);
 }

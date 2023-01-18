@@ -54,9 +54,6 @@
 	<select id="FindProduct" parameterType="int" resultMap="ProductMap">
 		SELECT * FROM product WHERE p_id=#{p_id}
 	</select>
-	<select id="getImg_name" parameterType="int" resultMap="ImgMap">
-		SELECT img_name FROM Img WHERE img_pid=#{p_id} AND img_keyword='p_img' LIMIT 0,1
-	</select>
 	<select id="getImg" resultMap="ImgMap" parameterType="int">
 		SELECT * FROM img WHERE img_pid=#{p_id} ORDER BY img_id
 	</select>
@@ -69,11 +66,15 @@
 		dis_id
 	</select>
 
-
-	<select id="WriterProductlist" parameterType="String" resultMap="ProductList">
-		SELECT * FROM Product WHERE p_writer=#{p_writer}
 	
-
+	<select id="WriterProductlistCount" resultType="int" parameterType="String">
+		SELECT count(*) FROM product WHERE p_writer=#{p_writer}
+	</select>
+	<select id="WriterProductlist" parameterType="hashMap" resultMap="ProductList">
+		SELECT * FROM Product WHERE p_writer=#{p_writer} AND p_chk=#{keyword} LIMIT #{limitstart},#{recordsize}
+	</select>
+		<select id="getImg_name" parameterType="int" resultMap="ImgMap">
+		SELECT img_name FROM Img WHERE img_pid=#{p_id} AND img_keyword='p_img' LIMIT 0,1
 	</select>
 
 	<!-- ===================================JOIN RESULT======================================== -->
@@ -83,7 +84,11 @@
 		SELECT opt_option2 FROM opt WHERE opt_pid=${opt_pid} AND
 		opt_option1=#{opt_option1}
 	</select>
-
+	<select id="SearchSeller" parameterType="String" resultMap="ProductList">
+		SELECT * FROM product WHERE p_writer=#{p_writer} AND p_name=like
+		CONCAT('%',#{search},'%')
+	
+	</select>
 
 
 

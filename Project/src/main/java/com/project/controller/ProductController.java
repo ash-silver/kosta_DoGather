@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.PagingResponse;
 import com.project.model.Product;
+import com.project.model.SearchDto;
 import com.project.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -95,17 +98,17 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping("/lists")
-	public String myform(Principal principal, Model model) {
+	@GetMapping("/{keyword}/lists")
+	public String myform(Principal principal, Model model,@ModelAttribute("params")SearchDto params, @PathVariable String keyword) {
 		String id = principal.getName();
-		List<Product> pro=pService.WriterProductlist(id);
+		PagingResponse<Product> pro=pService.WriterProductlist(id,params,keyword);			
 		List<Img> img_name=new ArrayList<>();
-		for(Product img:pro) {
+		for(Product img:pro.getList()) {
 			img_name.addAll(img.getImg());
-		}
-		
-		model.addAttribute("img_name",img_name);
-		model.addAttribute("pro",pro);
+		}		
+		model.addAttribute("img",img_name);
+		model.addAttribute("prolist",pro);
+		model.addAttribute("keyword",keyword);
 		return "mypage";
 	}
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,10 @@ import com.project.mapper.ProductMapper;
 import com.project.model.Discount;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Pagination;
+import com.project.model.PagingResponse;
 import com.project.model.Product;
+import com.project.model.SearchDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -132,9 +136,20 @@ public class ProductService {
 	}
 
 
-	public List<Product> WriterProductlist(String p_writer) {
-
-		return pMapper.WriterProductlist(p_writer);
+	public PagingResponse<Product> WriterProductlist(String p_writer,SearchDto params,String keyword) {
+		int count = pMapper.WriterProductlistCount(p_writer);
+		if (count < 1) {
+			return new PagingResponse<>(Collections.emptyList(), null);
+		}
+		Pagination pagination = new Pagination(count, params);
+		params.setPagination(pagination);
+		Map<String, Object> map = new HashMap<>();
+		map.put("p_writer", p_writer);
+		map.put("keyword", keyword);
+		map.put("limitstart", params.getPagination().getLimitStart());
+		map.put("recordsize", params.getRecordSize());
+		List<Product> list = pMapper.WriterProductlist(map);			
+		return new PagingResponse<>(list, pagination); 
 	}
 
 	@Transactional
