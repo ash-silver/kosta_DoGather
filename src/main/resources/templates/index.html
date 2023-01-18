@@ -35,13 +35,9 @@
 
 				<div class="main_contentbox">
 				
-					<div class="main_imgbox" th:each="star : ${starlist}"
-						th:if="${starlist!=null}">
-						<a th:href="@{/prodetail.do(p_num=${star.p_num})}" class="img_url"><img
-							th:src="@{/stsimg/}+${star.p_img}"></a> <a
-							th:href="@{/prodetail.do(p_num=${star.p_num})}" class="name_url"
-							th:text="|제품명:${star.p_name}|">OUTTER1</a> <span
-							th:text="|가격:${star.p_price}원|">가격 : PRICE</span>
+					<div class="main_imgbox" th:each="best : ${bestlist}" th:if="${bestlist!=null}">
+						<a th:href="@{/prodetail.do(p_id=${best.p_id})}" class="img_url"><img th:src="@{/stsimg/}+${best.p_img}"></a>
+						<a th:href="@{/prodetail.do(p_id=${best.p_id})}" class="name_url" th:text="|제품명:${best.p_name}|">OUTTER1</a> <span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>
 					</div>
 
 
@@ -54,13 +50,9 @@
 				<div class="main_contentbox">
 
 
-					<div class="main_imgbox" th:each="date : ${datelist}"
-						th:if="${datelist!=null}">
-						<a th:href="@{/prodetail.do(p_num=${date.p_num})}" class="img_url"><img
-							th:src="@{/stsimg/}+${date.p_img}"></a> <a
-							th:href="@{/prodetail.do(p_num=${date.p_num})}" class="name_url"
-							th:text="|품명:${date.p_name}|">OUTTER1</a> <span
-							th:text="|가격:${date.p_price}원|">가격 : PRICE</span>
+					<div class="main_imgbox" th:each="new : ${newlist}" th:if="${newlist!=null}">
+						<a th:href="@{/prodetail.do(p_id=${new.p_id})}" class="img_url"><img th:src="@{/stsimg/}+${new.p_img}"></a>
+						<a th:href="@{/prodetail.do(p_id=${new.p_id})}" class="name_url" th:text="|품명:${new.p_name}|">OUTTER1</a> <span th:text="|가격:${new.p_price}원|">가격 : PRICE</span>
 					</div>
 
 

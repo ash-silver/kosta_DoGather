@@ -12,8 +12,8 @@ public class Pagination {
     private int startPage;          // 첫 페이지 번호
     private int endPage;            // 끝 페이지 번호
     private int limitStart;         // LIMIT 시작 위치
-    private boolean prev; //이전버튼(true,false)
-	private boolean next; //다음버튼(true,false)
+    private boolean existPrevPage;  // 이전 페이지 존재 여부
+    private boolean existNextPage;  // 다음 페이지 존재 여부
 	private int displayPageNum=10; //1 2 3 4 5 6 7 8 9 10
 
     public Pagination(int totalRecordCount, SearchDto params) {
@@ -48,10 +48,10 @@ public class Pagination {
         limitStart = (params.getPage() - 1) * params.getRecordSize();
         
         // 이전 페이지 존재 여부 확인
-        prev=(startPage==1) ? false :  true;
+        existPrevPage=(startPage==1) ? false :  true;
 
         // 다음 페이지 존재 여부 확인
-        next=(endPage<totalPageCount) ? true : false;       
+        existNextPage=(endPage<totalPageCount) ? true : false;       
     }
 
 }

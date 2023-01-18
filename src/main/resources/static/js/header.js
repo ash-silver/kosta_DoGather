@@ -15,6 +15,14 @@ $(function() {
 		$(".mymenu_drop_menu2").toggleClass("hide");
 	});
 	
+	$(function(){
+		$("#sch").click(function(){
+			let keyword=$("[id=search] :selected").val();
+			let search=$("input[name=searchText]").val();
+			search_f.submit(keyword,search);								
+		});
+	});
+	
 	
 });
 
