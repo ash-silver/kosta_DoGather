@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Img {
 	private String img_name,img_origname,img_keyword;
-	private int img_pid,img_id;
+	private int img_pid_p_fk,img_id;
 	
 
 }

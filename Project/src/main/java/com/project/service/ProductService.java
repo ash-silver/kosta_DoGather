@@ -56,7 +56,7 @@ public class ProductService {
 		int index = 0;
 		for (int discountlist : pro.getP_discount_count()) {
 			Discount dis = Discount.builder().dis_count(discountlist).dis_quantity(pro.getP_discount_quan()[index])
-					.dis_pid(pro.getP_id()).build();
+					.dis_pid_p_fk(pro.getP_id()).build();
 			index++;
 			pMapper.AddDiscount(dis);
 		}
@@ -75,8 +75,8 @@ public class ProductService {
 					converFile.mkdirs();
 				}
 				imgfile.transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
-				Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName).img_pid(p_id)
-						.build();
+				Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
+						.img_pid_p_fk(p_id).build();
 				pMapper.AddImg(img);
 			}
 		}
@@ -84,11 +84,11 @@ public class ProductService {
 
 	public void CreateNewEvent(Product pro) {
 		String value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_start ON SCHEDULE AT '"
-				+ pro.getP_recruit_date()
+				+ pro.getP_recruitdate()
 				+ "' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='start' WHERE p_id="
 				+ pro.getP_id();
 		pMapper.CreateNewEvent(value);
-		value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_end ON SCHEDULE AT '" + pro.getP_due_date()
+		value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_end ON SCHEDULE AT '" + pro.getP_duedate()
 				+ "' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='end' WHERE p_id="
 				+ pro.getP_id();
 		pMapper.CreateNewEvent(value);
@@ -135,21 +135,34 @@ public class ProductService {
 		return pMapper.FindOption(map);
 	}
 
-
-	public PagingResponse<Product> WriterProductlist(String p_writer,SearchDto params,String keyword) {
-		int count = pMapper.WriterProductlistCount(p_writer);
+	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
+			String search) {
+		int count = 0;
+		Map<String, Object> map = new HashMap<>();
+		List<Product> list=new ArrayList<>();
+		if (search != null) {
+			count = pMapper.SearchSellerCount(p_nickname_m_fk, search);
+			map.put("search", search);
+		} else {
+			count = pMapper.WriterProductlistCount(p_nickname_m_fk);
+		}
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
 		Pagination pagination = new Pagination(count, params);
 		params.setPagination(pagination);
-		Map<String, Object> map = new HashMap<>();
-		map.put("p_writer", p_writer);
+
+		map.put("p_nickname_m_fk", p_nickname_m_fk);
 		map.put("keyword", keyword);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
-		List<Product> list = pMapper.WriterProductlist(map);			
-		return new PagingResponse<>(list, pagination); 
+		if (search != null) {
+			list = pMapper.ProductSearchList(map);
+		} else {
+			list = pMapper.WriterProductlist(map);
+		}
+
+		return new PagingResponse<>(list, pagination);
 	}
 
 	@Transactional
@@ -157,7 +170,7 @@ public class ProductService {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
 		now.format(formatter);
-		
+
 		pMapper.removeProduct(p_id);
 	}
 

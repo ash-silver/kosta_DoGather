@@ -4,7 +4,7 @@ $(function() {
 	let header = $("meta[name='_csrf_header']").attr("content");
 	let img = $(".mini_img").attr("src");
 	let p_id = $("#p_id").val();
-	let p_recruit_date = $("#p_recruit_date").val();
+	let p_recruit_date = $("#p_recruitdate").val();
 	$(".big_img").attr("src", img);
 
 
@@ -20,16 +20,16 @@ $(function() {
 			let distDt = _vDate - now;
 
 			if (distDt < 0) {
-				if (date == $("#p_due_date").val()) {
+				if (date == $("#p_duedate").val()) {
 					clearInterval(timer);
 					$("#" + id).text('판매종료 되었습니다!');
 					$(".prodetail_btn_box").css("display", "none");
 					$(".time_box").css("margin-top", "150px");
 					return;
 				} else {
-					let p_due_date = $("#p_due_date").val();
+					let p_duedate = $("#p_duedate").val();
 					clearInterval(timer);
-					countDownTimer('time', p_due_date);
+					countDownTimer('time', p_duedate);
 					$(".prodetail_btn_box").css("display", "flex");
 					$(".time_box").css("margin-top", 0);
 				}
@@ -43,7 +43,7 @@ $(function() {
 			let seconds = Math.floor((distDt % _minute) / _second);
 
 			let html = days + '일' + hours + '시간' + minutes + '분' + seconds + '초';
-			if (date == $("#p_due_date").val()) {
+			if (date == $("#p_duedate").val()) {
 				html += '후 마감';
 			} else {
 				html += '후 오픈';

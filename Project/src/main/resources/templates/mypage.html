@@ -161,11 +161,11 @@
 				<div class="mypage_text_box">
 					<div class="mypage_status_bar">
 						<label class="status_bar">
-							<a href="#">판매된 수</a>
+							<span>판매된 수</a>
 
 						</label>
 						<label class="status_bar">
-							<a href="#">배송중</a>
+							<span>배송중</a>
 						</label>
 
 						<div class="status_bar_2">
@@ -179,7 +179,7 @@
 					</div>
 
 
-					<form class="mypage_search" th:action="|@{/products/${keyword}/searchs}|">
+					<form class="mypage_search" th:action="|/products/${keyword}/lists|" method="GET">
 						<div class="mypage_text">
 							<span>제품 검색</span>
 						</div>

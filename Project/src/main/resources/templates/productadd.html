@@ -9,13 +9,14 @@
 <link th:href="@{/css/productadd.css}" rel="stylesheet" />
 <link th:href="@{/css/reset2.css}" rel="stylesheet" />
 <link th:href="@{/css/reset.css}" rel="stylesheet" />
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 <script type="text/javascript" th:src="@{/js/productadd.js}"></script>
-<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+
 </head>
 
 <body>
@@ -23,7 +24,7 @@
 		<header th:replace="header :: header"> </header>
 		<main id="productadd_main_con">
 
-					
+
 			<form class="productadd_form" id="product_form" th:action="@{/products}" th:method="POST" enctype="multipart/form-data" th:if="${type}==null">
 				<h1>제품 등록</h1>
 				<input type="hidden" value="1" id="count">
@@ -32,7 +33,7 @@
 					<input type="text" name="p_name" placeholder="제품명 입력">
 				</label>
 				<label class="input_tag">
-				
+
 					<input type="text" name="p_price" placeholder="기본 가격 입력">
 				</label>
 
@@ -56,14 +57,14 @@
 						<option value="헬스/건강식품">헬스/건강식품</option>
 					</select>
 				</label>
-				<label class="input_tag">					
-					<input type="text" name="p_writer" placeholder="판매자명 입력">
+				<label class="input_tag">
+					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력">
 				</label>
 				<label class="img_box">
 					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
 					<input type="file" multiple="multiple" name="p_img" style="display: none;">
 				</label>
-				
+
 				<label class="contentimg_box">
 					<span>상세 이미지 등록 클릭 (다중선택 가능)</span>
 					<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
@@ -84,11 +85,11 @@
 
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
-					<input type="datetime-local" name="p_recruit_date">
+					<input type="datetime-local" name="p_recruitdate">
 				</label>
 				<label class="productadd_time">
 					<span>모집 마감일자:</span>
-					<input type="datetime-local" name="p_due_date">
+					<input type="datetime-local" name="p_duedate">
 
 				</label>
 
@@ -160,13 +161,13 @@
 				</div>
 				<div class="productadd_time">
 					<span>모집 시작일자:</span>
-					<input type="datetime-local" name="p_recruit_date">
+					<input type="datetime-local" name="p_recruitdate">
 
 				</div>
 				/
 				<div class="productadd_time">
 					<span>모집 마감일자:</span>
-					<input type="datetime-local" name="p_due_date">
+					<input type="datetime-local" name="p_duedate">
 
 				</div>
 
