@@ -33,38 +33,43 @@ public class ProductController {
 
 	private final ProductService pService;
 
-	/* ===============================Form ===================================== */
+	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm() {
 		return "productadd";
 	}
-
-	@GetMapping("/options")
-	public String OptionAddForm() {
-		return "option";
-	}
-	/* ===============================Form ===================================== */
-
 	@PostMapping("")
 	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
 		pService.AddProduct(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
 	}
-
 	@DeleteMapping("")
 	public String DelProduct(@RequestParam int p_id) {
 		pService.removeProduct(p_id);
 		return null;
 	}
-
+	/* ==================================================================== */
 	@GetMapping("/{p_id}")
+	public String ProductUpdateForm(@PathVariable int p_id, Model model) {
+		Map<String, Object> promap = pService.FindProduct(p_id);
+		model.addAttribute("promap", promap);
+		return "productupdate";
+	}
+	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
+	
+	
+	
 
+	@GetMapping("/options")
+	public String OptionAddForm() {
+		return "option";
+	}
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
 	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
@@ -85,6 +90,8 @@ public class ProductController {
 			}
 		}
 	}
+	
+	
 
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,

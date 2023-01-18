@@ -117,7 +117,7 @@
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	border:1px solid #e2e2e2;
+
 }
 .progress_bar span{
 	margin-left:10px;
@@ -185,7 +185,7 @@ progress {
 	height: 70px;
 }
 .text1 a{
-		margin-left: 100px;
+		margin-left: 250px;
 	
 }
 .price{

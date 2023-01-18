@@ -31,9 +31,9 @@ public interface ProductMapper {
 	void removeProduct(int p_id);
 	
 	List<Product> WriterProductlist(Map<String,Object> map);
-	
 	int WriterProductlistCount(String p_nickname_m_fk);
 	
-	List<Product> ProductSearchList(Map<String,Object>map);
+	
+	List<Product> SearchSeller(Map<String,Object>map);
 	int SearchSellerCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("search") String search);
 }

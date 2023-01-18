@@ -139,7 +139,7 @@ public class ProductService {
 			String search) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
-		List<Product> list=new ArrayList<>();
+		List<Product> list = new ArrayList<>();
 		if (search != null) {
 			count = pMapper.SearchSellerCount(p_nickname_m_fk, search);
 			map.put("search", search);
@@ -151,13 +151,12 @@ public class ProductService {
 		}
 		Pagination pagination = new Pagination(count, params);
 		params.setPagination(pagination);
-
 		map.put("p_nickname_m_fk", p_nickname_m_fk);
 		map.put("keyword", keyword);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		if (search != null) {
-			list = pMapper.ProductSearchList(map);
+			list = pMapper.SearchSeller(map);
 		} else {
 			list = pMapper.WriterProductlist(map);
 		}
