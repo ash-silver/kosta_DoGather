@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.project.model.Discount;
 import com.project.model.Img;
@@ -29,5 +30,10 @@ public interface ProductMapper {
 	
 	void removeProduct(int p_id);
 	
-	List<Product> WriterProductlist(String p_writer);
+	List<Product> WriterProductlist(Map<String,Object> map);
+	
+	int WriterProductlistCount(String p_nickname_m_fk);
+	
+	List<Product> ProductSearchList(Map<String,Object>map);
+	int SearchSellerCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("search") String search);
 }
