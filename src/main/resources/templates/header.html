@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+	
+	$(function(){
+		$("#search_bt").click(function(){
+			let keyword=$("[id=keyword] :selected").val();
+			let search=$("input[name=searchText]").val();
+			Search_form.submit(keyword,search);								
+		});
+	});
+	
+</script>
 </head>
 <body>
 
@@ -44,24 +55,24 @@
                 </div>
 
                 <div class="header_search_box">
-                        <form class="search_form" action="/search" name="serch_form" method="get">
-                            <select class="search_form_select" name="search">
-                                <option value="전체">전체</option>
-                                <option value="카테고리1">패션의류/잡화</option>
-                                <option value="카테고리2">뷰티</option>
-                                <option value="카테고리3">출산/유아동</option>
-                                <option value="카테고리4">식품</option>
-                                <option value="카테고리5">주방용품</option>
-                                <option value="카테고리6">생활용품</option>
-                                <option value="카테고리7">홈인테리어</option>
-                                <option value="카테고리8">가전디지털</option>
-                                <option value="카테고리9">스포츠/레저</option>
-                                <option value="카테고리10">자동차용품</option>
-                                <option value="카테고리11">도서/음반/DVD</option>
-                                <option value="카테고리12">완구/취미</option>
-                                <option value="카테고리12">문구/오피스</option>
-                                <option value="카테고리12">반려동물용품</option>
-                                <option value="카테고리12">헬스/건강식품</option>
+                        <form class="search_form" action="/Search" name="Search_form" method="get">
+                            <select class="search_form_select" name="search" id="keyword">
+                                <option value="p_total">전체</option>
+                                <option value="p_category=패션의류/잡화">패션의류/잡화</option>
+                                <option value="p_category=뷰티">뷰티</option>
+                                <option value="p_category=출산/유아동">출산/유아동</option>
+                                <option value="p_category=식품">식품</option>
+                                <option value="p_category=주방용품">주방용품</option>
+                                <option value="p_category=생활용품">생활용품</option>
+                                <option value="p_category=홈인테리어">홈인테리어</option>
+                                <option value="p_category=가전디지털">가전디지털</option>
+                                <option value="p_category=스포츠/레저">스포츠/레저</option>
+                                <option value="p_category=자동차용품">자동차용품</option>
+                                <option value="p_category=도서/음반">도서/음반/DVD</option>
+                                <option value="p_category=완구/취미">완구/취미</option>
+                                <option value="p_category=문구/오피스">문구/오피스</option>
+                                <option value="p_category=반려동물용품">반려동물용품</option>
+                                <option value="p_category=헬스/건강식품">헬스/건강식품</option>
                             </select>
                             <input type="search" name="searchText" class="search_form_text">
                             <button type="submit" class="search_img" id="search_bt">

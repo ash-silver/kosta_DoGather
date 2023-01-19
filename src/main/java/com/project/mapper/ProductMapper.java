@@ -17,26 +17,36 @@ public interface ProductMapper {
 
 	ArrayList<Product> Productnew();
 	
-//	ArrayList<Product> Pro_lineUp(SearchDto params, String key1 , String key2);
-	
-//	List<Product> Search(Map<String, Object> map);
-//
-//	List<Product> SearchTotal(Map<String, Object> map);
-//   
+	List<Product> Search(Map<String, Object> map);
+
+	List<Product> SearchTotal(Map<String, Object> map);
+   
 	List<Product> Category(Map<String, Object> map);
-//
+	
+	List<Product> CategoryNew(Map<String, Object> map);
+	
+	List<Product> CategoryPrice(Map<String, Object> map);
+	
+	List<Product> CategoryPriceDesc(Map<String, Object> map);
+	
+	List<Product> CategoryBest(Map<String, Object> map);
+
+	List<Product> newlist(SearchDto params);
+	
+	List<Product> pricelist(SearchDto params);
+	
+	List<Product> pricelistdesc(SearchDto params);
+	
+	List<Product> bestlist(SearchDto params);
+	
 	List<Product> PagingList(SearchDto params);
-//	
-//	List<Product> List_Sel(Map<String, Object> map);
-//	
+	
 	int count();
-	
-	
 
 	int category_count(String params);
-//	
-//	int SearchCount(@Param("keyword") String keyword, @Param("search") String search);
-//
-//	int SearchTotCount(@Param("total")String total);
+	
+	int SearchCount(@Param("keyword") String keyword, @Param("search") String search);
+
+	int SearchTotCount(@Param("search") String search);
 
 }

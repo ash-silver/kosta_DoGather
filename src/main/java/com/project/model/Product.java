@@ -1,21 +1,17 @@
 package com.project.model;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Data
 public class Product {
-		private String p_id;
-		private String p_name ;
-		private String p_price ; 
-		private int p_category ;
-		private String p_due_date;
-		private String p_recruit_date;
-		private String p_create_date;
-		private String p_writer;
-		private String p_chk;
-		private String p_sell;
-		private String img_name;
-		
+	private String p_name,p_category,p_nickname_m_fk,p_duedate,p_recruitdate,p_chk;
+	private Timestamp p_createdate;
+	private int p_id,p_price,p_sell;
+	
+	private ArrayList<Img> img;
 	
 
 }

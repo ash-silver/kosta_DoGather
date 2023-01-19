@@ -25,13 +25,15 @@
 				
 		
 		<div class="product_order_list">	
+		<input type="hidden" th:value="${category}" name="category">
 			<ul>
-		        <li><a href="/p_recruit_date-desc">최신순</a></li>
-		        <li><a href="/p_price-desc">낮은가격순</a></li>
-		        <li><a href="/p_price-asc">높은가격순</a></li>
-		        <li><a href="/p_sell-desc">판매량순</a></li>
+		        <li><a href="/newlist">최신순</a></li>
+		        <li><a href="/pricelist">낮은가격순</a></li>
+		        <li><a href="/pricelistdesc">높은가격순</a></li>
+		        <li><a href="/bestlist">판매량순</a></li>
 	        </ul>
 		</div>
+		
 		
 		
 		<div class="product_list" id="list"></div>
