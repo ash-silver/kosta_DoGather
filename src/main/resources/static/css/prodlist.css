@@ -25,7 +25,6 @@
     padding-left: 30px;
     display:flex;
     justify-content: flex-end;
-    border: 1px solid black;
     
 }
 
@@ -39,9 +38,9 @@
  	margin-right: 30px;
  	cursor:pointer;
 }
-.pro_list {
+.product_list {
     width: 90%;
-    height: 1900px;
+    height: 1200px;
     display: flex;
     justify-content: center;
     align-content: flex-start;

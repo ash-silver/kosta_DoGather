@@ -133,25 +133,29 @@
 	
 	<!-- 카테고리별 게시글 카운팅 -->
 	<select id="category_count" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM product WHERE p_category=#{p_category}
+		SELECT COUNT(*) FROM product 
+		WHERE p_category=#{p_category}
 	</select>
 	
 	<!-- 카테고리 검색 카운팅 -->
 	<select id="SearchCount" parameterType="String" resultType="int">
-		SELECT COUNT(*) FROM product WHERE ${keyword} like
+		SELECT COUNT(*) FROM product 
+		WHERE p_category = #{keyword} and p_name like
 		CONCAT('%',#{search},'%')
 	</select>
 	
 	<!-- 카테고리 전체 카운팅 -->
 	<select id="SearchTotCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM product 
+		WHERE p_name
 		LIKE CONCAT('%',#{search},'%')
 	</select>
 	
 	<!-- 카테고리 검색 -->
 	<select id="Search" parameterType="hashMap"
 		resultMap="ProductMap">
-		SELECT * FROM product WHERE ${keyword} like
+		SELECT * FROM product 
+		WHERE p_category = #{keyword} and p_name like
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	
@@ -159,6 +163,7 @@
 	<select id="SearchTotal" parameterType="hashMap"
 		resultMap="ProductMap">
 		SELECT * FROM product 
+		WHERE p_name like
 		CONCAT('%',#{search},'%') 
 		LIMIT #{limitstart},#{recordsize}
 	</select>
