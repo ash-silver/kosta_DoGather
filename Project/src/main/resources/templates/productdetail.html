@@ -107,7 +107,7 @@
 						</select>
 					</div>
 
-					<form class="prodetail_btn_box">
+					<form th:action="@{/ordersheet/{p_id}" th:object ="${p_id}"class="prodetail_bt-n_box" method="post">
 						<select name="order_quantity">
 							<option>1</option>
 							<option>2</option>
@@ -115,7 +115,7 @@
 							<option>4</option>
 						</select>
 						<button type="button" id="addCart">장바구니 추가</button>
-						<button type="button" id="addOrder" onClick="location.href='/purchase'">구매하기</button>
+						<button type="submit" id="addOrder">구매하기</button>
 
 						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}" id="p_recruitdate" readonly>
 						<input type="hidden" th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>

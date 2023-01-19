@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<form enctype="multipart/form-data" th:action="@{/purchase}" method="post">
+		<form enctype="multipart/form-data" th:action="@{/orderSheetController}" method="post">
 
 			<input type="hidden" name="amount" value="${import}"/>
 
@@ -38,7 +38,6 @@
 			<div class="color_green">
 				<div>
 					<img th:src="|/projectimg/${i.img_name}|" th:each="i : ${img}">
-					
 				</div>
 				
 				<div>
@@ -48,7 +47,7 @@
 				
 				<div>
 					<span>가격</span>
-					<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+					<span th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
 				</div>
 				
 				<div>
