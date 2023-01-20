@@ -58,17 +58,29 @@
 }
 /*============================카테고리 완료=============================*/
 
-.header_logo_box{
-    width:230px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+.header_logo_box {
+	width: 230px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Black Han Sans', sans-serif;
 }
-.header_logo_box img{
-    width: 200px;
-    height: 100px;
+
+.header_logo_box span {
+	font-size: 20px;
+}
+
+.color1 {
+	color: red;
+}
+
+.color2 {
+	color: blue;
+}
+
+.color3 {
+	color: yellow;
 }
 
 

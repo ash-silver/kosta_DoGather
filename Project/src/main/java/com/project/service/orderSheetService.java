@@ -17,8 +17,8 @@ public class orderSheetService {
 	private OrderSheetMapper orderSheetMapper;
 	
 	@Transactional
-	public void AddOrder(PurchaseModel order) {
-		orderSheetMapper.AddOrder(order);
+	public void AddOrder(PurchaseModel order, int p_id) {
+		orderSheetMapper.AddOrder(order, p_id);
 	}
 	
 }

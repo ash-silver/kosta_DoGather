@@ -107,7 +107,7 @@
 						</select>
 					</div>
 
-					<form th:action="@{/ordersheet/{p_id}" th:object ="${p_id}"class="prodetail_bt-n_box" method="post">
+					<form th:action="@{/ordersheet/{p_id}}" th:object ="${p_id}"class="prodetail_bt-n_box" method="post">
 						<select name="order_quantity">
 							<option>1</option>
 							<option>2</option>
@@ -120,6 +120,7 @@
 						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}" id="p_recruitdate" readonly>
 						<input type="hidden" th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>
 					</form>
+					
 					<div class="time_box">
 						<h1 id="time"></h1>
 					</div>

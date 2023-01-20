@@ -6,5 +6,5 @@ import com.project.model.PurchaseModel;
 
 @Mapper
 public interface OrderSheetMapper {
-	void AddOrder(PurchaseModel model);
+	void AddOrder(PurchaseModel model, int p_id);
 }

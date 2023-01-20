@@ -39,9 +39,9 @@ public class orderSheetController {
 	
 	@PostMapping("/{p_id}")
 	public String addOrder(@PathVariable int p_id, Model model, PurchaseModel order) {
-		orderSheetService.AddOrder(order);
-		Map<String, Object> promap = pService.FindProduct(p_id);
-		model.addAttribute("promap", promap);
+		orderSheetService.AddOrder(order, p_id);
+//		Map<String, Object> promap = pService.FindProduct(p_id);
+//		model.addAttribute("promap", promap);
 		return "redirect:/ordersheet";
 	}
 }
