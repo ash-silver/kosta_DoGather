@@ -43,15 +43,24 @@ public class ProductService {
 	 * Add부분===============================================
 	 */
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
-	public void AddProduct(Product pro) throws IllegalStateException, IOException {
+	public void AddProduct(Product pro) throws Exception {
 		pMapper.AddProduct(pro);
 		AddDiscount(pro);
 		AddImg(pro.getP_img(), pro.getP_id(), "p_img");
 		AddImg(pro.getP_contentimg(), pro.getP_id(), "p_contentimg");
-		CreateNewEvent(pro);
+		CreateNewEvent(pro, "ADD");
 	}
 
 	@Transactional
+	public void UpdateProduct(Product pro) throws Exception {
+		pMapper.UpdateProduct(pro);
+		EditDiscount(pro);
+		CreateNewEvent(pro, "UPDATE");
+		EditImg(pro.getP_img(), pro.getP_id(), "p_img");
+		EditImg(pro.getP_contentimg(), pro.getP_id(), "p_contentimg");
+	}
+
+	@Transactional // 할인율 생성 ,수정
 	public void AddDiscount(Product pro) {
 		int index = 0;
 		for (int discountlist : pro.getP_discount_count()) {
@@ -59,11 +68,63 @@ public class ProductService {
 					.dis_pid_p_fk(pro.getP_id()).build();
 			index++;
 			pMapper.AddDiscount(dis);
+
 		}
 	}
 
 	@Transactional
-	public void AddImg(List<MultipartFile> file, int p_id, String keyword) throws IllegalStateException, IOException {
+	public void EditDiscount(Product pro) {
+		int index = 0;
+		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
+		for (int discountlist : pro.getP_discount_count()) {
+			Discount dis = Discount.builder().dis_count(discountlist).dis_quantity(pro.getP_discount_quan()[index])
+					.dis_pid_p_fk(pro.getP_id()).build();
+			if (dis_length.size() < pro.getP_discount_count().length) {
+				if (index <= dis_length.size() - 1) {
+					dis.setDis_id(dis_length.get(index).getDis_id());
+					pMapper.UpdateDiscount(dis);
+				} else {
+					pMapper.AddDiscount(dis);
+				}
+			}
+			index++;
+		}
+
+	}
+
+	@Transactional // 이미지 생성 , 수정
+	public void EditImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
+		Img img_txt = Img.builder().img_keyword(keyword).img_pid_p_fk(p_id).build();
+		List<Img> img_length = pMapper.img_length(img_txt);
+		for (int j = 0; j < file.size(); j++) {
+			if (!file.get(j).isEmpty()) {
+				String origName = file.get(j).getOriginalFilename(); // 입력한 원본 파일의 이름
+				String uuid = UUID.randomUUID().toString(); // 문자+숫자의 랜덤한 파일명으로 변경
+				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
+				String savedName = uuid + extension; // 랜덤이름 + 확장자
+				File converFile = new File(path, savedName); // path = 상품 이미지 파일의 저장 경로가 들어있는 프로퍼티 설정값
+				if (!converFile.exists()) {
+					converFile.mkdirs();
+				}
+				file.get(j).transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
+				System.out.println(j);
+				System.out.println(img_length.size());
+				if (img_length.size()>j) {
+					delimg(img_length.get(j));
+					Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
+							.img_pid_p_fk(p_id).img_id(img_length.get(j).getImg_id()).build();
+					pMapper.UpdateImg(img);
+				} else {
+					Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
+							.img_pid_p_fk(p_id).build();
+					pMapper.AddImg(img);
+				}
+			}
+		}
+	}
+
+	@Transactional // 이미지 생성 , 수정
+	public void AddImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
 		if (!CollectionUtils.isEmpty(file)) {
 			for (MultipartFile imgfile : file) {
 				String origName = imgfile.getOriginalFilename(); // 입력한 원본 파일의 이름
@@ -82,9 +143,21 @@ public class ProductService {
 		}
 	}
 
-	public void CreateNewEvent(Product pro) {
-		String value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_start ON SCHEDULE AT '"
-				+ pro.getP_recruitdate()
+	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
+		String delpath = path + i.getImg_name();
+		File file1 = new File(delpath);
+		file1.delete();
+	}
+
+	public void CreateNewEvent(Product pro, String type) {
+		String value = "";
+		if (type.equals("UPDATE")) {
+			value = "DROP EVENT " + pro.getP_id() + "_start";
+			pMapper.CreateNewEvent(value);
+			value = "DROP EVENT " + pro.getP_id() + "_end";
+			pMapper.CreateNewEvent(value);
+		}
+		value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_start ON SCHEDULE AT '" + pro.getP_recruitdate()
 				+ "' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='start' WHERE p_id="
 				+ pro.getP_id();
 		pMapper.CreateNewEvent(value);

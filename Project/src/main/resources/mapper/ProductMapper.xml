@@ -67,11 +67,15 @@
 	</select>
 
 
+
 	<select id="WriterProductlistCount" resultType="int" parameterType="String">
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
 	</select>
 	<select id="WriterProductlist" parameterType="hashMap" resultMap="ProductList">
-		SELECT * FROM Product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk=#{keyword}
+		SELECT
+		p_id,p_name,p_price,p_duedate,p_recruitdate,p_nickname_m_fk,p_chk,p_sell
+		FROM Product WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk=#{keyword}
 		LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="getImg_name" parameterType="int" resultMap="ImgMap">
@@ -90,11 +94,18 @@
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
-		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_name LIKE
+		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_name LIKE
 		CONCAT('%',#{search},'%')
 	</select>
 
-
+	<select id="img_length" parameterType="com.project.model.Img" resultMap="ImgMap">
+		SELECT img_name,img_origname,img_id FROM img WHERE
+		img_pid_p_fk=#{img_pid_p_fk} AND img_keyword=#{img_keyword} ORDER BY img_id
+	</select>
+	<select id="Update_find" parameterType="int" resultMap="DiscountMap">
+		SELECT dis_id FROM discount WHERE dis_pid_p_fk=#{p_id}
+	</select>
 
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
@@ -143,6 +154,19 @@
 		${value}
 	</update>
 
+	<update id="UpdateProduct" parameterType="com.project.model.Product">
+		UPDATE product SET
+		p_name=#{p_name},p_price=#{p_price},p_category=#{p_category}
+		,p_recruitdate=#{p_recruitdate},p_duedate=#{p_duedate} WHERE p_id=#{p_id}
+	</update>
+	<update id="UpdateDiscount" parameterType="com.project.model.Discount">
+		UPDATE discount SET
+		dis_count=#{dis_count},dis_quantity=#{dis_quantity} WHERE
+		dis_id=#{dis_id}
+	</update>
+	<update id="UpdateImg" parameterType="com.project.model.Img">
+		UPDATE img SET img_name=#{img_name},img_origname=#{img_origname} WHERE img_id=#{img_id}
+	</update>
 	<!-- ===================================CREATE EVENT 부분======================================== -->
 	<!-- ===================================UPDATE , DELETE 부분======================================== -->
 

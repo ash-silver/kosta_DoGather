@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,12 +51,21 @@ public class ProductController {
 		return null;
 	}
 	/* ==================================================================== */
-	@GetMapping("/{p_id}")
+	@GetMapping("/{p_id}/info")
 	public String ProductUpdateForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
 		model.addAttribute("promap", promap);
 		return "productupdate";
 	}
+	
+	@PutMapping("/{p_id}/info")
+	public String ProductUpdate(@PathVariable int p_id, Model model,Product pro)  throws Exception{
+		
+		pService.UpdateProduct(pro);
+		
+		return "redirect:/products/add/lists";
+	}
+	
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);

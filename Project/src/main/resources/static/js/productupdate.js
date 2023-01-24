@@ -1,5 +1,10 @@
 $(function() {
 
+	let token = $("meta[name='_csrf']").attr("content");
+	let header = $("meta[name='_csrf_header']").attr("content");
+
+
+
 	$(document).mouseup(function(e) {
 		if ($(".modal_form_pimg").has(e.target).length === 0) {
 			$(".modal_form_pimg").hide();
@@ -43,10 +48,11 @@ $(function() {
 	});
 
 	$('input[type=file]').change(function() {
-		let a = $(this).attr("id");
-		setImageFromFile(this, '.' + a);
+		let img = $(this).attr("id");
+		setImageFromFile(this, '.' + img);
+
 	});
-	
+
 	function setImageFromFile(input, expression) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();

@@ -17,23 +17,34 @@ public interface ProductMapper {
 	void AddProduct(Product pro);
 
 	void AddOption(Option opt);
-	
+
 	void AddImg(Img img);
-	
+
 	void AddDiscount(Discount discount);
+
+	void UpdateDiscount(Discount discount);
+
+	void UpdateImg(Img img);
+
+	void UpdateProduct(Product pro);
+
+	List<Img> img_length(Img i);
 	
+	List<Discount> Update_find (int p_id);
+
 	Product FindProduct(int p_id);
-	
-	List<Option> FindOption(Map<String,Object> map);
-	
+
+	List<Option> FindOption(Map<String, Object> map);
+
 	void CreateNewEvent(String value);
-	
+
 	void removeProduct(int p_id);
-	
-	List<Product> WriterProductlist(Map<String,Object> map);
+
+	List<Product> WriterProductlist(Map<String, Object> map);
+
 	int WriterProductlistCount(String p_nickname_m_fk);
-	
-	
-	List<Product> SearchSeller(Map<String,Object>map);
-	int SearchSellerCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("search") String search);
+
+	List<Product> SearchSeller(Map<String, Object> map);
+
+	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search);
 }
