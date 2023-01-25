@@ -57,15 +57,19 @@ public class ProductController {
 		model.addAttribute("promap", promap);
 		return "productupdate";
 	}
-	
 	@PutMapping("/{p_id}/info")
 	public String ProductUpdate(@PathVariable int p_id, Model model,Product pro)  throws Exception{
-		
 		pService.UpdateProduct(pro);
-		
 		return "redirect:/products/add/lists";
 	}
-	
+	@DeleteMapping("/{p_id}/info")
+	public String ProductRemove(@PathVariable int p_id) throws Exception{
+		System.out.println(p_id);
+		pService.removeProduct(p_id);
+		
+		return "redirect:/products/add/lists";
+		
+	}
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
@@ -78,6 +82,10 @@ public class ProductController {
 
 	@GetMapping("/options")
 	public String OptionAddForm() {
+		return "option";
+	}
+	@GetMapping("/options/{p_id}/info")
+	public String OptionEditForm() {
 		return "option";
 	}
 	@ResponseBody

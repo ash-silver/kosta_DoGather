@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Img {
-	private String img_name,img_origname,img_keyword;
-	private int img_pid_p_fk,img_id;
-	
+	private String img_origname;
+	private String img_keyword;
+	private String img_name;
+	private int img_pid_p_fk;
+	private int img_id;
 
 }

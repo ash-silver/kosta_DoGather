@@ -29,10 +29,11 @@ public interface ProductMapper {
 	void UpdateProduct(Product pro);
 
 	List<Img> img_length(Img i);
-	
-	List<Discount> Update_find (int p_id);
+
+	List<Discount> Update_find(int p_id);
 
 	Product FindProduct(int p_id);
+	Product FindCalender(int p_id);
 
 	List<Option> FindOption(Map<String, Object> map);
 

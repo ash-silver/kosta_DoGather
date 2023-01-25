@@ -1,8 +1,7 @@
 package com.project.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,9 +106,7 @@ public class ProductService {
 					converFile.mkdirs();
 				}
 				file.get(j).transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
-				System.out.println(j);
-				System.out.println(img_length.size());
-				if (img_length.size()>j) {
+				if (img_length.size() > j) {
 					delimg(img_length.get(j));
 					Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
 							.img_pid_p_fk(p_id).img_id(img_length.get(j).getImg_id()).build();
@@ -239,11 +236,24 @@ public class ProductService {
 
 	@Transactional
 	public void removeProduct(int p_id) {
-		LocalDate now = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss");
-		now.format(formatter);
-
+		String value = "";
+		Product FindCalender = pMapper.FindCalender(p_id);
+		String p_recruitdate_str = FindCalender.getP_recruitdate();
+		String p_duedate_str = FindCalender.getP_recruitdate();
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime p_recruitdate = LocalDateTime.parse(p_recruitdate_str, formatter);
+		LocalDateTime p_duedate = LocalDateTime.parse(p_duedate_str, formatter);
+		if (now.isBefore(p_recruitdate)) {
+			value = "DROP EVENT " + p_id + "_start";
+			pMapper.CreateNewEvent(value);
+			value = "DROP EVENT " + p_id + "_end";
+			pMapper.CreateNewEvent(value);
+		} else if (now.isBefore(p_duedate)) {
+			value = "DROP EVENT " + p_id + "_end";
+		}
 		pMapper.removeProduct(p_id);
+
 	}
 
 }

@@ -125,8 +125,9 @@
 				</div>
 
 			</form>
-
-
+			<form th:action="|/products/${promap['pro'].getP_id}/info|" th:method="delete">
+				<button type="submit">삭제하기</button>
+			</form>
 		</main>
 
 		<footer th:replace="footer ::footer"></footer>

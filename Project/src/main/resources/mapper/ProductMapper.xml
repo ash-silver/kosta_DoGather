@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.ProductMapper">
 
+	<select id="FindCalender" parameterType="int" resultMap="ProductCalender">
+		SELECT p_duedate,p_recruitdate FROM product WHERE p_id=#{p_id}
+	</select>
+
+
 	<resultMap type="com.project.model.Product" id="ProductMap">
 		<id property="p_id" column="p_id" />
 		<result property="p_name" column="p_name" />
@@ -16,6 +21,10 @@
 		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg" />
 		<collection property="option" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Option" select="getOpt" />
 		<collection property="discount" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.discount" select="getDiscount" />
+	</resultMap>
+	<resultMap type="com.project.model.Product" id="ProductCalender">
+		<result property="p_duedate" column="p_duedate" />
+		<result property="p_recruitdate" column="p_recruitdate" />
 	</resultMap>
 	<resultMap type="com.project.model.Product" id="ProductList">
 		<id property="p_id" column="p_id" />
@@ -54,6 +63,7 @@
 	<select id="FindProduct" parameterType="int" resultMap="ProductMap">
 		SELECT * FROM product WHERE p_id=#{p_id}
 	</select>
+
 	<select id="getImg" resultMap="ImgMap" parameterType="int">
 		SELECT * FROM img WHERE img_pid_p_fk=#{p_id} ORDER BY img_id
 	</select>
@@ -107,6 +117,8 @@
 		SELECT dis_id FROM discount WHERE dis_pid_p_fk=#{p_id}
 	</select>
 
+	<select id=""></select>
+
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
 	<insert id="AddProduct" parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
@@ -154,6 +166,9 @@
 		${value}
 	</update>
 
+
+	<!-- ===================================CREATE EVENT 부분======================================== -->
+	<!-- ===================================UPDATE , DELETE 부분======================================== -->
 	<update id="UpdateProduct" parameterType="com.project.model.Product">
 		UPDATE product SET
 		p_name=#{p_name},p_price=#{p_price},p_category=#{p_category}
@@ -167,11 +182,16 @@
 	<update id="UpdateImg" parameterType="com.project.model.Img">
 		UPDATE img SET img_name=#{img_name},img_origname=#{img_origname} WHERE img_id=#{img_id}
 	</update>
-	<!-- ===================================CREATE EVENT 부분======================================== -->
-	<!-- ===================================UPDATE , DELETE 부분======================================== -->
+
+
 
 	<update id="removeProduct" parameterType="int">
-		UPDATE product set p_chk=remove WHERE p_id=#{p_id};
+		UPDATE product AS p, discount AS d, img AS i ,opt AS o
+		SET
+		p.p_chk='remove',d.dis_chk='remove',i.img_chk='remove',o.opt_chk='remove'
+		WHERE 
+		p.p_id=#{p_id} AND d.dis_pid_p_fk=#{p_id} AND i.img_pid_p_fk=#{p_id}
+		AND o.opt_pid_p_fk=#{p_id}
 	</update>
 
 

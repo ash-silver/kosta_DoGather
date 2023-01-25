@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 public class Discount {
-	
-	private int dis_id,dis_count,dis_pid_p_fk,dis_quantity;
+	private int dis_count;
+	private int dis_pid_p_fk;
+	private int dis_quantity;
+	private int dis_id;
 }
