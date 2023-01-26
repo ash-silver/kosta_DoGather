@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseModel {
 	private int o_id;
-	private String o_product_p_fk;
+	private int o_product_p_fk;
 	private String o_member_m_fk;
 	private String o_date;
 	private String o_quantity;

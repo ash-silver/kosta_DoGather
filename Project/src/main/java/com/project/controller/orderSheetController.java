@@ -1,10 +1,7 @@
 package com.project.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,28 +17,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/ordersheet")
 public class orderSheetController {
-	
+
 	@Autowired
 	private orderSheetService orderSheetService;
-	
+
 	@Autowired
 	private ProductService pService;
-	
+
 	@GetMapping("")
 	public String orderSheet() {
 		return "ordersheet";
 	}
-	
+
 	@GetMapping("/{p_id}")
-	public String addOrder() {
+	public String addOrder(@PathVariable("p_id") int p_id) {
+		System.out.println("dddd");
 		return "ordersheet";
 	}
-	
+
 	@PostMapping("/{p_id}")
-	public String addOrder(@PathVariable int p_id, Model model, PurchaseModel order) {
+	public String addOrder(@PathVariable("p_id") int p_id, PurchaseModel order) {
 		orderSheetService.AddOrder(order, p_id);
-//		Map<String, Object> promap = pService.FindProduct(p_id);
-//		model.addAttribute("promap", promap);
 		return "redirect:/ordersheet";
 	}
 }

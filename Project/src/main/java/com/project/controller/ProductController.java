@@ -66,7 +66,7 @@ public class ProductController {
 	}
 
 	@ResponseBody
-	@GetMapping("/options/{p_id}`")
+	@GetMapping("/options/{p_id}")
 	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
 		return pService.FindOption2(opt_option1, p_id);
 	}
