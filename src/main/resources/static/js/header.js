@@ -22,6 +22,15 @@ $(function() {
 			search_f.submit(keyword,search);								
 		});
 	});
+	$("#search_bt").click(function(){
+			let f = $('#search').val();
+			if (f == "") {
+				alert("검색어를 입력하세요");
+				return false;
+			} else {
+				$(".search_form").submit();
+			}
+		});
 	
 	
 });
