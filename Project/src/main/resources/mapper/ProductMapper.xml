@@ -100,7 +100,7 @@
 		opt_option1=#{opt_option1}
 	</select>
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
-		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_name LIKE
+		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND  p_chk=#{keyword} AND p_name LIKE
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
@@ -117,8 +117,9 @@
 		SELECT dis_id FROM discount WHERE dis_pid_p_fk=#{p_id}
 	</select>
 
-	<select id=""></select>
-
+	<select id="Option_List" resultMap="OptionMap" parameterType="int">
+		SELECT * FROM opt WHERE opt_pid_p_fk=#{p_id}
+	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
 	<insert id="AddProduct" parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
@@ -193,6 +194,12 @@
 		p.p_id=#{p_id} AND d.dis_pid_p_fk=#{p_id} AND i.img_pid_p_fk=#{p_id}
 		AND o.opt_pid_p_fk=#{p_id}
 	</update>
-
+	
+	
+	
+	
+	<delete id="OptionRemove" parameterType="String">
+		DELETE FROM opt WHERE opt_option1=#{opt_name}
+	</delete>
 
 </mapper>

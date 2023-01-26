@@ -34,12 +34,16 @@ public interface ProductMapper {
 
 	Product FindProduct(int p_id);
 	Product FindCalender(int p_id);
-
+	
+	
+	List<Option> Option_List(int p_id);
 	List<Option> FindOption(Map<String, Object> map);
 
 	void CreateNewEvent(String value);
 
 	void removeProduct(int p_id);
+	
+	void OptionRemove(String opt_name);
 
 	List<Product> WriterProductlist(Map<String, Object> map);
 

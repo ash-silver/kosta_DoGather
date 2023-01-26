@@ -189,13 +189,18 @@ public class ProductService {
 				Now_Discount = dis.getDis_count();
 			}
 		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
+		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
+
 		map.put("Now_Discount", Now_Discount);
 		map.put("discount_price", discount_price);
 		map.put("opt_option1", opt_option1);
+		map.put("p_recruitdate", p_recruitdate);
+		map.put("p_duedate", p_duedate);
 		map.put("max_quantity", pro.getDiscount().get(pro.getDiscount().size() - 1).getDis_quantity());
 		map.put("pro", pro);
 		return map;
-
 	}
 
 	public List<Option> FindOption2(String opt_option1, int p_id) {
@@ -254,6 +259,27 @@ public class ProductService {
 		}
 		pMapper.removeProduct(p_id);
 
+	}
+
+	public Map<String, Object> Option_List(int p_id) {
+		List<Option> opt = pMapper.Option_List(p_id);
+		List<String> newList = new ArrayList<>();
+		for (Option option1 : opt) {
+			newList.add(option1.getOpt_option1());
+		}
+
+		List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
+		System.out.println(opt1);
+		System.out.println(opt);
+		Map<String, Object> map = new HashMap<>();
+		map.put("opt1", opt1);
+		map.put("opt", opt);
+		return map;
+	}
+	
+	@Transactional
+	public void OptionRemove(String opt_name) {
+		pMapper.OptionRemove(opt_name);
 	}
 
 }

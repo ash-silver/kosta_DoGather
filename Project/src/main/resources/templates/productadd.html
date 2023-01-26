@@ -30,11 +30,11 @@
 
 				<label class="input_tag">
 
-					<input type="text" name="p_name" placeholder="제품명 입력">
+					<input type="text" name="p_name" placeholder="제품명 입력" data-name="제품명">
 				</label>
 				<label class="input_tag">
 
-					<input type="text" name="p_price" placeholder="기본 가격 입력">
+					<input type="text" name="p_price" placeholder="기본 가격 입력" data-name="가격">
 				</label>
 
 				<label class="input_tag">
@@ -58,16 +58,16 @@
 					</select>
 				</label>
 				<label class="input_tag">
-					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력">
+					<input type="text" name="p_nickname_m_fk" th:value="${name}" data-name="판매자" readonly>
 				</label>
 				<label class="img_box">
 					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_img" style="display: none;">
+					<input type="file" multiple="multiple" name="p_img" style="display: none;" data-name="대표 이미지">
 				</label>
 
 				<label class="contentimg_box">
 					<span>상세 이미지 등록 클릭 (다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
+					<input type="file" multiple="multiple" name="p_contentimg" style="display: none;" data-name="상세 이미지">
 				</label>
 
 				<div class="input_tag_discount">
@@ -77,23 +77,23 @@
 					</div>
 					<div class="discount_add">
 						<span>설정:</span>
-						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량">
-						<input type="text" name="p_discount_count" placeholder="할인율">
+						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" data-name="기준 수량">
+						<input type="text" name="p_discount_count" placeholder="할인율" data-name="할인율">
 					</div>
 
 				</div>
 
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
-					<input type="datetime-local" name="p_recruitdate">
+					<input type="datetime-local" name="p_recruitdate" class="recruidate">
 				</label>
 				<label class="productadd_time">
 					<span>모집 마감일자:</span>
-					<input type="datetime-local" name="p_duedate">
+					<input type="datetime-local" name="p_duedate" class="duedate">
 
 				</label>
 
-				<button type="submit" id="addpro_btn">제품 등록하기</button>
+				<button type="button" id="addpro_btn">제품 등록하기</button>
 			</form>
 		</main>
 

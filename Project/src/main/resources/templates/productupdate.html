@@ -76,18 +76,18 @@
 						<span>설정:</span>
 						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" th:value="${dis.dis_quantity}">
 						<input type="text" name="p_discount_count" placeholder="할인율" th:value="${dis.dis_count}">
-					</div>
+					</div>`
 				</div>
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
-					<input type="datetime-local" name="p_recruitdate" th:value="${promap['pro'].getP_recruitdate}">
+					<input type="datetime-local" name="p_recruitdate" th:value="${promap['p_recruitdate']}" class="recruidate">
 				</label>
 				<label class="productadd_time">
 					<span>모집 마감일자:</span>
-					<input type="datetime-local" name="p_duedate" th:value="${promap['pro'].getP_duedate}">
+					<input type="datetime-local" name="p_duedate" th:value="${promap['p_duedate']}" class="duedate">
 				</label>
 
-				<button type="submit" id="addpro_btn">제품 등록하기</button>
+				<button type="button" id="addpro_btn">제품 등록하기</button>
 
 
 				<div class="modal_form_pimg">
