@@ -1,7 +1,7 @@
 $(function() {
 
-	let token = $("meta[name='_csrf']").attr("content");
-	let header = $("meta[name='_csrf_header']").attr("content");
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
 
 
 
@@ -10,20 +10,21 @@ $(function() {
 		let opt_pid = $("input[name=opt_pid]").val();
 		let opt_option2 = [];
 		let opt_quantity = [];
+		const blank_chk = /^\s+|\s+$/g;
 		$("input[name=opt_option2]").each(function(index, item) {
-			if (!$(item).val() == "" || !$(item).val() == null) {
+			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
 				opt_option2.push($(item).val());
 			}
 
 
 		});
 		$("input[name=opt_quantity]").each(function(index, item) {
-			if (!$(item).val() == "" || !$(item).val() == null) {
+			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
 				opt_quantity.push($(item).val());
 			}
 		});
-		
-		if(opt_option2.length!=opt_quantity.length){
+
+		if (opt_option2.length != opt_quantity.length) {
 			alert("옵션간 입력 갯수가 일치하지 않습니다.");
 			return false;
 		}
