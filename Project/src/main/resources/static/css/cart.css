@@ -1,59 +1,196 @@
-
-#mainbox {
-	height: 100px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+* {
+	box-sizing: border-box;
 }
 
-
-
-#container {
-	font-family: 'Pretendard-Regular';
-	height: 2100px;
+.container {
 	width: 100%;
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 	flex-direction: column;
+	position: relative;
 }
 
-#cart_main_con {
-	width: 100%;
-	height: 1800px;
+.main_box {
+	width: 1200px;
+	justify-content: center;
+	align-items: center;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
+	padding-top: 170px;
+}
+
+.cart-title {
+	font-size: 40px;
+	font-weight: bold;
+	width: 1200px;
+	height: 70px;
+	justify-content: center;
+	display: flex;
+	align-items: center;
 }
 
 .cart_form {
-	width: 100%;
-	height: 1800px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.cart_main_box {
-	width: 90%;
-	height: 1600px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	min-width: 700px;
-}
-
-.cart_tag_box {
-	width: 100%;
-	height: 1600px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	width: 1200px;
 	justify-content: flex-start;
-	min-width: 600px;
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
 }
+
+.cart_list {
+	padding: 10px;
+	margin-top: 10px;
+	width: 1200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.product_select_event {
+	border: 1px solid blue;
+	padding: 10px;
+	margin-top: 10px;
+	width: 50px;
+	height: 160px;
+	display: flex;
+	width: 50px;
+	margin-top: 10px;
+}
+
+.product_img {
+	border: 1px solid purple;
+	width: 200px;
+	height: 160px;
+	display: flex;
+	margin-top: 10px;
+}
+
+.product_img img {
+	width: 200px;
+	height: 159px;
+}
+
+.product_total_box {
+	margin-top: 10px;
+	border: 1px solid green;
+	width: 1000px;
+	height: 160px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_box1 {
+	width: 950px;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_title {
+	width: 950px;
+	height: 80px;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	font-weight: bold;
+}
+
+.product_title span {
+	margin-left: 20px;
+}
+
+.product_option1 {
+	width: 250px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_option2 {
+	width: 250px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_box2 {
+	border: 1px solid red;
+	width: 950px;
+	height: 130px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_remaining {
+	border: 1px solid black;
+	width: 450px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_count {
+	border: 1px solid black;
+	width: 150px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.product_count input {
+	width: 150px;
+	height: 80px;
+	font-size: large;
+	padding-left: 50px;
+}
+
+.product_price {
+	border: 1px solid black;
+	width: 350px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cart_tag_ul {
+	display: flex;
+}
+
+.buttons {
+	border: 1px solid red;
+	width: 1200px;
+	height: 100px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.btn11{
+	width:100px;
+	height: 80px;
+}
+
+/*flex-direction :row -> 왼쪽에서 오른쪽 정렬
+ flex-direction : column -> 위에서 아래로 정렬*/
+
+/* flex-wrap : nowrap -> 창이 작아져도 아이템들이 그대로 이게 디폴트
+    flex-wrap : wrap -> 창이 작아지면 밑으로 내려감*/
+
+/*중심축 정렬 justify-content:  flex-start  -> 왼쪽에서 오른쪽으로 수평정렬 이게 디폴트
+justify-content:  flex-end -> 순서는 유지하되, 오른쪽으로 배치
+justify-content: space-around - > 각 아이템들 간격을 조금씩 띄움 
+*/
+
+/* 반대축에서 아이템 정렬
+align-content : 
+*/

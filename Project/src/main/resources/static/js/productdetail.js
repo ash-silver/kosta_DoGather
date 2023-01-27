@@ -109,7 +109,6 @@ $(function() {
 
 
 
-
 	$("#addCart").click(function() {
 		// select box Name로 접근하여 선택된 값 읽기
 		const p_id=$("#p_id").val();
@@ -119,7 +118,7 @@ $(function() {
 
 		$.ajax({
 			type: "POST",
-			url: "/orders/AddCart",
+			url: "/orders/carts",
 			data: {
 				o_product_p_fk:p_id,
 				o_quantity: o_quantity,

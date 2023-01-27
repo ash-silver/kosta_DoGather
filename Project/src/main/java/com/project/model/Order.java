@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Order {
 	
-	
 	private int o_id;
 	private int o_quantity;
-	private String o_product_p_fk;
+	private int o_product_p_fk;
 	private int o_member_m_fk;
 	private String o_recipient;
 	private String o_state;

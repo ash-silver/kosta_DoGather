@@ -76,17 +76,18 @@
 	</select>
 	
 	
-	<update id="findMember" parameterType="String">
-		SELECT m_id
-		FROM member WHERE m_nickname=#{m_nickname}
-	</update>
-
-	<delete id="findMember" parameterType="String">
-		SELECT m_id
-		FROM member WHERE m_nickname=#{m_nickname}
-	</delete>
-
 	
+	<update id="cartBuyItem" parameterType="int">
+		update ord AS o, product AS p
+		SET
+		o.o_state='상품 준비중', o.o_quantity=#{o_quantity}, p.p_sell=p.p_sell+#{o_quantity}
+		WHERE o.o_id=#{o_id} AND p.p_id=#{o_product_p_fk}
+	</update>
+	
+	<delete id="delCartItem" parameterType="int">
+		delete from ord 
+		WHERE o_id=#{o_id}
+	</delete>
 
 
 

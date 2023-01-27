@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   devtools:
     livereload:         
       enabled: true     # Spring devtools = 스프링부트에서 코드를 작성시 자동 리로딩 될수있게 해주는 라이브러리, 그 라이브러리를 활성화 시켜주는 설정
