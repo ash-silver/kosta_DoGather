@@ -27,7 +27,7 @@ function drawList(list, num) {
 
 		html += `
 			<div class="list_box">
-				<a href="/prodetail?p_id=${posting.p_id}" class="list_box_url"> <img src="/stsimg/${posting.p_img}">
+				<a href="/prodetail?p_id=${posting.p_id}" class="list_box_url"> <img src="/stsimg/${posting.img.img_name}">
 				</a>
 				<label class="list_box_name">
 					<a href="/prodetail?p_id=${posting.p_id}" >제품명:${posting.p_name}</a>

@@ -15,6 +15,23 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+  
+  <script>
+    $(document).ready(function(){
+      $('.bxslider').bxSlider({
+    	  mode: 'horizontal',// 가로 방향 수평 슬라이드
+    	  speed: 500,        // 이동 속도를 설정
+    	  auto: true,        // 자동 실행 여부
+    	  slideWidth: 1500,   // 슬라이드 너비
+    	  autoHover: true   // 마우스 호버시 정지 여부
+    	  
+      });
+    });
+    
+  </script>
 </head>
 
 
@@ -23,11 +40,16 @@
 		<header th:replace="header :: header"> </header>
 
 		<main id="index_main">
+			
 			<div class="main_buytag">
 			
-				<div class="slider_img">
-				
-				</div>
+				<div class="slide_box"> 
+     			    <ul class="bxslider">
+						<li><img src="/projectimg/배너1.jpg" /></li>
+						<li><img src="/projectimg/배너2.jpg" /></li>
+						<li><img src="/projectimg/배너3.jpg" /></li>
+					</ul>
+   				</div>
 			
 				<div class="main_text">
 					<h3>인기상품</h3>

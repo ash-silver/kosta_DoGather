@@ -42,13 +42,6 @@
 		p_recruitdate DESC LIMIT 0,5
 	</select>
 	
-	<!-- 정렬 -->
-	<!-- <select id="Pro_lineUp" parameterType="hashMap" resultType="ProductMap">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
-        order by ${keyword}
-        LIMIT #{limitstart},#{recordSize}
-    </select> -->
-	
 	<!-- 전체 게시글 불러오기 -->
 	<select id="PagingList" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
         SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
