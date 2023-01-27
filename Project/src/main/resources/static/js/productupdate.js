@@ -4,11 +4,17 @@ $(function() {
 	let header = $("meta[name='_csrf_header']").attr("content");
 	let chk = 0;
 	let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
+	 $(".recruidate").attr("min", date);
+	 $(".duedate").attr("min", date);
 
 	$("input[name=p_recruitdate]").change(function() {
 		if ($(".recruidate").val() < date) {
 			alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
 			++chk;
+		}else if($(".recruidate").val() >= $(".duedate").val()){
+			++chk;
+		}else{
+			chk=0;
 		}
 	});
 	$("input[name=p_duedate]").change(function() {
@@ -18,10 +24,20 @@ $(function() {
 		} else if ($(".recruidate").val() >= $(".duedate").val()) {
 			alert("마감시간은 시작일자보다 늦을 수 없습니다.");
 			++chk;
+		}else{
+			chk=0;
 		}
 	});
 
 
+
+	$("#addpro_btn").click(() => {
+		if (chk == 0) {
+			$(".productadd_form").submit();
+		}else{
+			alert("시간 설정이 유효하지 않습니다.");
+		}
+	});
 
 	$(document).mouseup(function(e) {
 		if ($(".modal_form_pimg").has(e.target).length === 0) {
@@ -71,11 +87,6 @@ $(function() {
 
 	});
 
-	$("#addpro_btn").click(() => {
-		if(chk==0){
-			$(".productadd_form").submit();
-		}
-	});
 	function setImageFromFile(input, expression) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
