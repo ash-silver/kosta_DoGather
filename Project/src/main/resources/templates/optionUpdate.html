@@ -59,32 +59,34 @@
 			</div>
 
 			<div class="option_list_box">
-				<form action="option" method="post" class="option_list_form" th:if="${optmap}!=null">
+				<div class="option_list_form" th:if="${optmap}!=null">
 					<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
-					<div class="opt_box1" th:each="opt : ${optmap['opt1']}">
+					<form th:action="|/products/options/${opt}/info|" th:method="delete" class="opt_box1" th:each="opt : ${optmap['opt1']}">
 						<div class="opt_tag1">
 							<span>상품 옵션1</span>
 							<input type="text" name="opt_option1_reading" th:value="${opt}" readonly>
 						</div>
 						<div class="opt_tag1">
 							<span>상품 옵션2</span>
-							<input type="text" name="opt_option2_reading" th:each="opt2 : ${optmap['opt']}" th:value="${opt2.opt_option2}" th:if="${opt2.opt_option1}==${opt}" readonly>
+							<input type="text" name="opt_option2_reading" th:each="opt2 : ${optmap['opt']}" th:value="${opt2.opt_option2}"
+								th:if="${opt2.opt_option1}==${opt}" readonly>
 
 						</div>
 						<div class="opt_tag1">
 							<span>상품 수량</span>
-							<input type="text" name="opt_quantity_reading" th:each="quantity : ${optmap['opt']}" th:value="${quantity.opt_quantity}" th:if="${quantity.opt_option1}==${opt}" readonly>
+							<input type="text" name="opt_quantity_reading" th:each="quantity : ${optmap['opt']}" th:value="${quantity.opt_quantity}"
+								th:if="${quantity.opt_option1}==${opt}" readonly>
 
 						</div>
-						
+
 						<div class="optlist_btn">
 							<input type="hidden" th:value="${opt}" name="opt_name">
 							<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
 							<button type="submit" id="Updateoption_btn">옵션 삭제</button>
 						</div>
-					</div>
+					</form>
 
-				</form>
+				</div>
 			</div>
 		</main>
 
