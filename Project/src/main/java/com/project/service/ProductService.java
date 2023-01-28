@@ -33,7 +33,8 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
 	private final ProductMapper pMapper;
-
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	
 	@Value("${file.Upimg}")
 	private String path;
 
@@ -98,7 +99,7 @@ public class ProductService {
 		for (int j = 0; j < file.size(); j++) {
 			if (!file.get(j).isEmpty()) {
 				String origName = file.get(j).getOriginalFilename(); // 입력한 원본 파일의 이름
-				String uuid = UUID.randomUUID().toString(); // 문자+숫자의 랜덤한 파일명으로 변경
+				String uuid = String.valueOf(UUID.randomUUID()); // toString 보다는 valueOf를 추천 , NPE에러 예방,
 				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
 				String savedName = uuid + extension; // 랜덤이름 + 확장자
 				File converFile = new File(path, savedName); // path = 상품 이미지 파일의 저장 경로가 들어있는 프로퍼티 설정값
@@ -125,7 +126,7 @@ public class ProductService {
 		if (!CollectionUtils.isEmpty(file)) {
 			for (MultipartFile imgfile : file) {
 				String origName = imgfile.getOriginalFilename(); // 입력한 원본 파일의 이름
-				String uuid = UUID.randomUUID().toString(); // 문자+숫자의 랜덤한 파일명으로 변경
+				String uuid = String.valueOf(UUID.randomUUID());// 문자+숫자의 랜덤한 파일명으로 변경
 				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
 				String savedName = uuid + extension; // 랜덤이름 + 확장자
 				File converFile = new File(path, savedName); // path = 상품 이미지 파일의 저장 경로가 들어있는 프로퍼티 설정값
@@ -177,7 +178,8 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
 		int Now_Discount = 0;
-		int discount_price = pro.getP_price(); //할인이 적용된 가격을 넣으려고 만든거,
+		int Next_Discount_sell =pro.getDiscount().get(0).getDis_quantity();
+		int discount_price = pro.getP_price(); // 할인이 적용된 가격을 넣으려고 만든거,
 		List<String> overlap_chk = new ArrayList<>();
 		for (Option opt : pro.getOption()) {
 			overlap_chk.add(opt.getOpt_option1());
@@ -187,18 +189,20 @@ public class ProductService {
 			if ((dis.getDis_quantity()) <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
+				Next_Discount_sell = dis.getDis_quantity();
+			} else {
+				
 			}
 		}
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
 
 		map.put("Now_Discount", Now_Discount);
+		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
 		map.put("opt_option1", opt_option1);
 		map.put("p_recruitdate", p_recruitdate);
 		map.put("p_duedate", p_duedate);
-		map.put("max_quantity", pro.getDiscount().get(pro.getDiscount().size() - 1).getDis_quantity());
 		map.put("pro", pro);
 		return map;
 	}
@@ -246,7 +250,6 @@ public class ProductService {
 		String p_recruitdate_str = FindCalender.getP_recruitdate();
 		String p_duedate_str = FindCalender.getP_recruitdate();
 		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime p_recruitdate = LocalDateTime.parse(p_recruitdate_str, formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(p_duedate_str, formatter);
 		if (now.isBefore(p_recruitdate)) {
@@ -267,16 +270,21 @@ public class ProductService {
 		for (Option option1 : opt) {
 			newList.add(option1.getOpt_option1());
 		}
-
 		List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
-		System.out.println(opt1);
-		System.out.println(opt);
 		Map<String, Object> map = new HashMap<>();
 		map.put("opt1", opt1);
 		map.put("opt", opt);
 		return map;
 	}
 	
+	public Map<String,Object>All_SellCount(String p_nickname_m_fk){
+		return pMapper.All_SellCount(p_nickname_m_fk);
+	}
+	public Map<String,Object>All_SellPrice(String p_nickname_m_fk){
+		Map<String,Object> map=pMapper.All_SellPrice(p_nickname_m_fk);
+		System.out.println(map);
+		return map;
+	}
 	@Transactional
 	public void OptionRemove(String opt_name) {
 		pMapper.OptionRemove(opt_name);

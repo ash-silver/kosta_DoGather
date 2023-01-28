@@ -60,6 +60,7 @@ public class IndexService {
 	}
 
 	public PagingResponse<Product> newlist(SearchDto params, String p_category) {
+		
 		int count;
 		if (p_category == null) {
 			count = iMapper.count();

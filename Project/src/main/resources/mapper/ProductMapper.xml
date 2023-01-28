@@ -68,8 +68,7 @@
 		SELECT * FROM img WHERE img_pid_p_fk=#{p_id} ORDER BY img_id
 	</select>
 	<select id="getOpt" resultMap="OptionMap" parameterType="int">
-		SELECT
-		opt_option1 FROM opt WHERE opt_pid_p_fk=#{p_id} ORDER BY opt_id
+		SELECT opt_option1 FROM opt WHERE opt_pid_p_fk=#{p_id} ORDER BY opt_id
 	</select>
 	<select id="getDiscount" resultMap="DiscountMap" parameterType="int">
 		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id} ORDER BY
@@ -119,6 +118,16 @@
 
 	<select id="Option_List" resultMap="OptionMap" parameterType="int">
 		SELECT * FROM opt WHERE opt_pid_p_fk=#{p_id}
+	</select>
+	
+	
+	<select id="All_SellCount" parameterType="String" resultType="map">
+		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
+	</select>
+	<select id="All_SellPrice" parameterType="String" resultType="map">
+		SELECT p_price,p_sell
+		FROM Product WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk='end'
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->

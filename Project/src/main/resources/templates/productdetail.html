@@ -44,12 +44,12 @@
 					</div>
 					<div class="prodetail_progress">
 						<label class="progress_text">
-							<span>진행 상황</span>
+							<span>현재 할인 적용</span>
 						</label>
 						<label class="progress_bar">
 
-							<progress th:value="${promap['pro'].getP_sell}" th:max="${promap['max_quantity']}"></progress>
-							<span th:text="|${promap['pro'].getP_sell}/${promap['max_quantity']}"></span>
+							<progress th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
+							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}"></span>
 						</label>
 
 

@@ -35,7 +35,8 @@ public interface ProductMapper {
 	Product FindProduct(int p_id);
 	Product FindCalender(int p_id);
 	
-	
+	Map<String,Object> All_SellCount(String p_nickname_m_fk);
+	Map<String,Object> All_SellPrice(String p_nickname_m_fk);
 	List<Option> Option_List(int p_id);
 	List<Option> FindOption(Map<String, Object> map);
 

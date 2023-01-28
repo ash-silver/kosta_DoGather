@@ -5,8 +5,36 @@ $(function() {
 	let img = $(".mini_img").attr("src");
 	let p_id = $("#p_id").val();
 	let p_recruit_date = $("#p_recruitdate").val();
+	let opt1_default = $(".option1").val();
 	$(".big_img").attr("src", img);
 
+
+	$.ajax({
+		type: "GET",
+		url: "/products/options/" + p_id,
+		traditional: true,
+		data: {
+			opt_option1: opt1_default
+		},
+		dataType: 'json',
+		beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(data) {
+			let html = ""
+			$.each(data, function(idx, val) {
+				html += `
+						<option value="${val.opt_option2}">${val.opt_option2}</option>
+				`;
+			});
+			$(".option2").html(html);
+
+		},
+		error: function(e) {
+			alert('에러');
+
+		}
+	});
 
 	const countDownTimer = function(id, date) {
 		let _vDate = new Date(date); // 전달 받은 일자
@@ -97,6 +125,56 @@ $(function() {
 		let value = $(this).attr("src");
 		$(".big_img").attr("src", value);
 	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+	$("#addCart").click(function() {
+		// select box Name로 접근하여 선택된 값 읽기
+		const p_id = $("#p_id").val();
+		const opt_option1 = $("select[name=opt_option1]").val();
+		const opt_option2 = $("select[name=opt_option2]").val();
+		const o_quantity = $("select[name=order_quantity]").val();
+
+		$.ajax({
+			type: "POST",
+			url: "/orders/carts",
+			data: {
+				o_product_p_fk: p_id,
+				o_quantity: o_quantity,
+				o_option1: opt_option1,
+				o_option2: opt_option2
+			},
+			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+			},
+
+			success: function(result) {
+
+			},
+			error: function(e) {
+				alert('이미 장바구니에 존재하는 상품입니다');
+
+			}
+		});
+
+
+	});
+
+
+
+
+
+
 
 
 });

@@ -1,4 +1,4 @@
-      $(function() {
+$(function() {
 
 	let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
 	$(".recruidate").val(date);
@@ -25,6 +25,9 @@
 		let chk = 0;
 		let ret = true;
 
+		$("#product_form").find("input[name=dis_quantity]").each(function() {
+
+		});
 		$("#product_form").find("input[type=text]").each(function(index, item) {
 			// 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
 			if ($(this).val().trim() == '') {
