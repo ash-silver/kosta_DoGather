@@ -177,7 +177,7 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
 		int Now_Discount = 0;
-		int discount_price = pro.getP_price();
+		int discount_price = pro.getP_price(); //할인이 적용된 가격을 넣으려고 만든거,
 		List<String> overlap_chk = new ArrayList<>();
 		for (Option opt : pro.getOption()) {
 			overlap_chk.add(opt.getOpt_option1());

@@ -80,6 +80,7 @@ public class ProductController {
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
+		System.out.println(promap);
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
@@ -103,14 +104,7 @@ public class ProductController {
 		return "redirect:/products/options/"+opt_pid+"/info";
 	}
 
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PutMapping("/options/{p_id}/info") public String OptionEdit(@PathVariable
-	 * int p_id, Model model) { Map<String, Object> optmap =
-	 * pService.Option_List(p_id); System.out.println(optmap);
-	 * model.addAttribute("optmap", optmap); return "optionUpdate"; }
-	 */
+
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
 	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
@@ -140,7 +134,7 @@ public class ProductController {
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
-		}
+		}   
 		model.addAttribute("img", img_name);
 		model.addAttribute("prolist", pro);
 		model.addAttribute("keyword", keyword);
