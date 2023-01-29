@@ -32,20 +32,9 @@ public class ProductController {
 	public String mainPage(Model model) {
 		ArrayList<Product> bestlist = pService.Productbest();
 		ArrayList<Product> newlist = pService.Productnew();
+		
+		
 
-		
-		List<Img> img_best = new ArrayList<>();
-		for (Product img : bestlist) {
-			img_best.addAll(img.getImg());
-		}
-		
-		List<Img> img_new = new ArrayList<>();
-		for (Product img : newlist) {
-			img_new.addAll(img.getImg());
-		}
-		
-		model.addAttribute("img_best", img_best);		
-		model.addAttribute("img_new", img_new);
 		model.addAttribute("bestlist", bestlist);
 		model.addAttribute("newlist", newlist);
 		
@@ -54,7 +43,6 @@ public class ProductController {
 
 	
 	/*   -------------------------페이징-----------------------------	 */
-							// 저기 페이징에 왜 전부다 Mapping이름만 다르고 같은 Service를 가져오고있음...???
 							
 	@GetMapping("/newlist")
 	public String newlist(@ModelAttribute("params") SearchDto params, Model model, String p_category) {

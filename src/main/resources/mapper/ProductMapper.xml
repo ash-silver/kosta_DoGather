@@ -26,49 +26,55 @@
 		<result property="img_chk" column="img_chk" />
 	</resultMap>
 	
+	<!-- img join -->
+	<select id="getImg" resultMap="ImgMap" parameterType="int">
+		SELECT * FROM img WHERE img_pid_p_fk=#{p_id} ORDER BY img_id
+		LIMIT 0,1
+	</select>
+	
 	<!-- 인기상품 불러오기 -->
 	<select id="Productbest" resultMap="ProductMap">
-		SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+		SELECT * FROM product 
         order by p_sell
 		DESC LIMIT 0,5
 	</select>
 	<!-- 신상품 불러오기 -->
 	<select id="Productnew" resultMap="ProductMap">
-		SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+		SELECT * FROM product 
         order by p_recruitdate
 		DESC LIMIT 0,5
 	</select>
 	
 	<!-- 전체 게시글 불러오기 -->
 	<select id="PagingList" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        SELECT * FROM product 
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
     
     <!-- 최신순 정렬 -->
     <select id="newlist" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        SELECT * FROM product 
         order by p_recruitdate
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
     
     <!-- 낮은가격순 정렬 -->
     <select id="pricelist" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        SELECT * FROM product 
         order by p_price
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
     
     <!-- 높은가격순 정렬 -->
     <select id="pricelistdesc" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        SELECT * FROM product 
         order by p_price desc
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
     
     <!-- 판매량순 정렬 -->
     <select id="bestlist" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
-        SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        SELECT * FROM product 
         order by p_sell
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
@@ -84,14 +90,12 @@
     <!-- 카테고리로 불러오기 -->
     <select id="Category" parameterType="hashMap" resultMap="ProductMap">
 		SELECT * FROM product as p WHERE p_category=#{p_category} 
-		left outer join img as i on p.p_id=i.img_pid
 		LIMIT #{limitStart},#{recordSize}
 	</select>
 	
 	 <!-- 카테고리 최신순 정렬 -->
     <select id="CategoryNew" parameterType="hashMap" resultMap="ProductMap">
 		SELECT * FROM product as p WHERE p_category=#{p_category} 
-		left outer join img as i on p.p_id=i.img_pid
 		order by p_recruitdate
 		LIMIT #{limitStart},#{recordSize}
 	</select>
@@ -99,7 +103,6 @@
 	<!-- 카테고리 낮은가격순 정렬 -->
     <select id="CategoryPrice" parameterType="hashMap" resultMap="ProductMap">
 		SELECT * FROM product as p WHERE p_category=#{p_category} 
-		left outer join img as i on p.p_id=i.img_pid
 		order by p_price
 		LIMIT #{limitStart},#{recordSize}
 	</select>
@@ -108,7 +111,6 @@
 	<!-- 카테고리 높은가격순 정렬 -->
     <select id="CategoryPriceDesc" parameterType="hashMap" resultMap="ProductMap">
 		SELECT * FROM product as p WHERE p_category=#{p_category} 
-		left outer join img as i on p.p_id=i.img_pid
 		order by p_price desc
 		LIMIT #{limitStart},#{recordSize}
 	</select>
@@ -116,7 +118,6 @@
 	<!-- 카테고리 판매량순 정렬 -->
     <select id="CategoryBest" parameterType="hashMap" resultMap="ProductMap">
 		SELECT * FROM product as p WHERE p_category=#{p_category} 
-		left outer join img as i on p.p_id=i.img_pid
 		order by p_chk
 		LIMIT #{limitStart},#{recordSize}
 	</select>
