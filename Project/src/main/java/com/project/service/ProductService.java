@@ -34,7 +34,7 @@ public class ProductService {
 
 	private final ProductMapper pMapper;
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	
+
 	@Value("${file.Upimg}")
 	private String path;
 
@@ -140,13 +140,11 @@ public class ProductService {
 			}
 		}
 	}
-
 	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
 		file1.delete();
 	}
-
 	public void CreateNewEvent(Product pro, String type) {
 		String value = "";
 		if (type.equals("UPDATE")) {
@@ -178,25 +176,26 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
 		int Now_Discount = 0;
-		int Next_Discount_sell =pro.getDiscount().get(0).getDis_quantity();
+		int Next_Discount_sell = pro.getDiscount().get(0).getDis_quantity();
 		int discount_price = pro.getP_price(); // 할인이 적용된 가격을 넣으려고 만든거,
 		List<String> overlap_chk = new ArrayList<>();
 		for (Option opt : pro.getOption()) {
 			overlap_chk.add(opt.getOpt_option1());
 		}
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
+		int index=1;
 		for (Discount dis : pro.getDiscount()) {
-			if ((dis.getDis_quantity()) <= pro.getP_sell()) {
+			if (dis.getDis_quantity()<= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
-				Next_Discount_sell = dis.getDis_quantity();
-			} else {
-				
+				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
 			}
+			index++;
+			System.out.println(dis.getDis_quantity());
+			System.out.println(pro.getP_sell());
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
-
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
@@ -213,7 +212,6 @@ public class ProductService {
 		map.put("opt_pid", p_id);
 		return pMapper.FindOption(map);
 	}
-
 	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
 			String search) {
 		int count = 0;
@@ -239,7 +237,6 @@ public class ProductService {
 		} else {
 			list = pMapper.WriterProductlist(map);
 		}
-
 		return new PagingResponse<>(list, pagination);
 	}
 
@@ -276,15 +273,21 @@ public class ProductService {
 		map.put("opt", opt);
 		return map;
 	}
-	
-	public Map<String,Object>All_SellCount(String p_nickname_m_fk){
-		return pMapper.All_SellCount(p_nickname_m_fk);
-	}
-	public Map<String,Object>All_SellPrice(String p_nickname_m_fk){
-		Map<String,Object> map=pMapper.All_SellPrice(p_nickname_m_fk);
-		System.out.println(map);
+
+	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) {
+		Map<String, Object> sel_count = pMapper.All_SellCount(p_nickname_m_fk);
+		List<Integer> sel_Price = pMapper.All_SellPrice(p_nickname_m_fk);
+		List<Integer> sel_AllSell = pMapper.All_Sell(p_nickname_m_fk);
+		int sel_point =0;
+		for (int i = 0; i < sel_Price.size(); i++) {
+		sel_point+=sel_Price.get(i) * sel_AllSell.get(i);
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("sel_count", sel_count);
+		map.put("sel_point", sel_point);
 		return map;
 	}
+
 	@Transactional
 	public void OptionRemove(String opt_name) {
 		pMapper.OptionRemove(opt_name);

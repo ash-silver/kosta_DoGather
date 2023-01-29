@@ -75,9 +75,11 @@ $(function() {
 
 	});
 	$(".img_box").click(function() {
+		$(".modal_form_pimg").fadeIn();
 		$(".modal_form_pimg").css("display", "flex");
 	});
 	$(".contentimg_box").click(function() {
+		$(".modal_form_pimg").fadeIn();
 		$(".modal_form_contentimg").css("display", "flex");
 	});
 

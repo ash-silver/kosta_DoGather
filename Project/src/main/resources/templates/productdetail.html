@@ -86,8 +86,8 @@
 
 					</div>
 					<div class="prodetail_text price_text">
-						<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-						<span class="disprice" th:text="${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}"></span>
+						<span class="price" th:text="|기본 가격:${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="disprice" th:text="|현재 할인 가격:${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}|"></span>
 					</div>
 					<div class="prodetail_text">
 						<span th:text="|판매자:${promap['pro'].getP_nickname_m_fk}|"></span>

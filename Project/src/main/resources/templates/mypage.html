@@ -163,16 +163,16 @@ function movePage(page) {
 					<div class="mypage_status_bar">
 						<label class="status_bar">
 							<span> 판매 완료된 공고 수 </span>
-							<span th:text="|${sell_cnt['count(*)']}개|"></span>
+							<span th:text="|${sell_cnt['sel_count']['count(*)']}개|"></span>
 						</label>
 						<label class="status_bar">
 							<span> 판매된 제품의 총합 </span>
-							<span th:text="|${sell_cnt['sum(p_sell)']}개|"></span>
+							<span th:text="|${sell_cnt['sel_count']['sum(p_sell)']}개|"></span>
 						</label>
 
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
-								<span>총 판매액:</span>
+								<span th:text="|총 판매액:${sell_cnt['sel_point']}원|"></span>
 							</div>
 							<div class="status_bar_2_text2">
 								<span>보유캐시:</span>
