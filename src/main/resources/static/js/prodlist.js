@@ -23,17 +23,17 @@ function drawList(list, num) {
 
 	let html = '';
 
-	list.forEach(posting => {//list의 갯수 만큼 반복  변수명을 posting으로 대체
+	list.forEach(row => {//list의 갯수 만큼 반복  변수명을 posting으로 대체
 
 		html += `
 			<div class="list_box">
-				<a href="/prodetail?p_id=${posting.p_id}" class="list_box_url"> <img src="/stsimg/${posting.img.img_name}">
+				<a href="/products/${row.p_id}/detail" class="list_box_url"> <img src="/projectimg/${img[index].img_name}">
 				</a>
 				<label class="list_box_name">
-					<a href="/prodetail?p_id=${posting.p_id}" >제품명:${posting.p_name}</a>
+					<a href="/products/${row.p_id}/detail" >제품명:${row.p_name}</a>
 				</label>
 				<label class="list_box_price">
-					<span>가격:${posting.p_price}원</span>
+					<span>가격:${row.p_price}원</span>
 				</label>
 			</div>               
         `;

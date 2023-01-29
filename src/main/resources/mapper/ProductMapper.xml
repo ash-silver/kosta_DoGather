@@ -14,6 +14,7 @@
 		<result property="p_nickname_m_fk" column="p_nickname_m_fk" />
 		<result property="p_chk" column="p_chk" />	
 		<result property="p_sell" column="p_sell" />
+		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg" />
 	</resultMap>
 	
 	<resultMap type="com.project.model.Img" id="ImgMap">
@@ -27,19 +28,15 @@
 	
 	<!-- 인기상품 불러오기 -->
 	<select id="Productbest" resultMap="ProductMap">
-		SELECT
-		*
-		FROM product
-		ORDER BY
-		p_sell DESC LIMIT 0,5
+		SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        order by p_sell
+		DESC LIMIT 0,5
 	</select>
 	<!-- 신상품 불러오기 -->
 	<select id="Productnew" resultMap="ProductMap">
-		SELECT
-		*
-		FROM product
-		ORDER BY
-		p_recruitdate DESC LIMIT 0,5
+		SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
+        order by p_recruitdate
+		DESC LIMIT 0,5
 	</select>
 	
 	<!-- 전체 게시글 불러오기 -->
@@ -72,7 +69,7 @@
     <!-- 판매량순 정렬 -->
     <select id="bestlist" parameterType="com.project.model.SearchDto" resultType="com.project.model.Product">
         SELECT * FROM product as p left outer join img as i on p.p_id=i.img_pid_p_fk
-        order by p_chk
+        order by p_sell
         LIMIT #{pagination.limitStart},#{recordSize}
     </select>
     
