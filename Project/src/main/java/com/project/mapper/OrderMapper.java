@@ -14,7 +14,6 @@ public interface OrderMapper {
 	void AddCart(Order oid);
 	
 	ArrayList<Order> findCart(int o_member_m_fk);
-
 	int findMember(String m_nickname);
 	
 	//장바구니에서 구매

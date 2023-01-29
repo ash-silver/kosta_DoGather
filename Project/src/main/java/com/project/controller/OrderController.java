@@ -26,8 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class OrderController {
 
 	private final OrderService oService;
-	private final ProductService pService;
-	static public ArrayList<Order> items;
 
 	@ResponseBody
 	@PostMapping("/carts")
@@ -47,22 +45,20 @@ public class OrderController {
 		return "cart";
 	}
 
-	
 	@PutMapping("/carts")
-	public String cartBuyItem(int o_id, int o_quantity, int o_product_p_fk ) {
-		System.out.println(o_quantity);
-		oService.cartBuyItem(o_id,o_quantity,o_product_p_fk);
+	public String cartBuyItem(int[] o_id, int[] o_quantity, int[] o_product_p_fk) {
+		for (int i = 0; i < o_id.length; i++) {
+			oService.cartBuyItem(o_id[i], o_quantity[i], o_product_p_fk[i]);
+		}
 		return "redirect:/orders/carts";
 	}
-	
+
 	@DeleteMapping("/carts")
 	@ResponseBody
-	public void delCartItem(int[]o_id) {
-		for( int a : o_id) {
+	public void delCartItem(int[] o_id) {
+		for (int a : o_id) {
 			oService.delCartItem(a);
 		}
-			
 	}
-	
-	
+
 }

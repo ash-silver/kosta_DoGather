@@ -43,7 +43,8 @@
 
 
 				<div class="cart_list" th:each="orderitem :${order}">
-					<input type="hidden" name="o_product_p_fk" th:value="${orderitem.o_product_p_fk}">
+					<input type="hidden" name="o_product_p_fk"
+						th:value="${orderitem.o_product_p_fk}">
 					<!--  체크 박스 -->
 					<div class="product_select_event">
 						<input type="checkbox" th:value="${orderitem.o_id}" name="o_id">
@@ -67,7 +68,8 @@
 							<div class="product_remaining"
 								th:text="${orderitem['product'].getP_duedate}"></div>
 							<div class="product_count">
-								<input type="number" placeholder="수량" name="o_quantity" th:value="${orderitem.o_quantity}">
+								<input type="number" placeholder="수량" name="o_quantity"
+									th:value="${orderitem.o_quantity}">
 							</div>
 							<div class="product_price"
 								th:text="${orderitem['product'].getP_price}"></div>
@@ -76,10 +78,15 @@
 
 				</div>
 
-
+				<div class="modal">
+					<div class="modal_content" title="클릭하면 창이 닫힙니다.">
+						여기에 모달창 내용을 적어줍니다.<br> 이미지여도 좋고 글이어도 좋습니다.
+					</div>
+				</div>
 
 				<div class="buttons">
-					<button type="submit" class="btn btn-primary btn11">구매하기</button>
+
+					<button type="button" class="btn btn-primary btn11" id="moalbutton">구매하기</button>
 					<button type="button" class="btn btn-danger btn11" id="remove_btn">삭제하기</button>
 				</div>
 

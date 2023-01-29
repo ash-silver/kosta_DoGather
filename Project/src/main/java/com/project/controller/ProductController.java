@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,41 +37,71 @@ public class ProductController {
 
 	/* ==================================================================== */
 	@GetMapping("")
-	public String ProductAddForm() {
+	public String ProductAddForm(Principal prin, Model model) {
+		model.addAttribute("name", prin.getName());
 		return "productadd";
 	}
+
 	@PostMapping("")
 	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
 		pService.AddProduct(pro);
 		re.addFlashAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
 	}
+
 	@DeleteMapping("")
 	public String DelProduct(@RequestParam int p_id) {
 		pService.removeProduct(p_id);
 		return null;
 	}
+
 	/* ==================================================================== */
-	@GetMapping("/{p_id}")
+	@GetMapping("/{p_id}/info")
 	public String ProductUpdateForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
 		model.addAttribute("promap", promap);
 		return "productupdate";
 	}
+
+	@PutMapping("/{p_id}/info")
+	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro) throws Exception {
+		pService.UpdateProduct(pro);
+		return "redirect:/products/options/" + p_id + "/info";
+	}
+
+	@DeleteMapping("/{p_id}/info")
+	public String ProductRemove(@PathVariable int p_id) throws Exception {
+		pService.removeProduct(p_id);
+		return "redirect:/products/add/lists";
+
+	}
+
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
-	
-	
-	
 
 	@GetMapping("/options")
 	public String OptionAddForm() {
 		return "option";
 	}
+
+	@GetMapping("/options/{p_id}/info")
+	public String OptionEditForm(@PathVariable int p_id, Model model) {
+		Map<String, Object> optmap = pService.Option_List(p_id);
+		model.addAttribute("optmap", optmap);
+		return "optionUpdate";
+	}
+
+	@DeleteMapping("/options/{opt_name}/info")
+	public String OptionRemove(@PathVariable String opt_name, int opt_pid) {
+		pService.OptionRemove(opt_name);
+		return "redirect:/products/options/"+opt_pid+"/info";
+	}
+
+
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
 	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
@@ -90,8 +122,6 @@ public class ProductController {
 			}
 		}
 	}
-	
-	
 
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
@@ -101,8 +131,12 @@ public class ProductController {
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
-		}
+		} 
+		Map<String,Object> sell_cnt=pService.All_SellCount(id);
+		Map<String,Object> sell_price=pService.All_SellPrice(id);
+
 		model.addAttribute("img", img_name);
+		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);
 		model.addAttribute("keyword", keyword);
 		return "mypage";

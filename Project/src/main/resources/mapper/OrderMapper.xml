@@ -23,6 +23,7 @@
 		<result property="o_member_m_fk" column="o_member_m_fk" />
 		<result property="o_recipient" column="o_recipient" />
 		<result property="o_state" column="o_state" />
+		<result property="o_dstate" column="o_dstate" />
 		<result property="o_option1" column="o_option1" />
 		<result property="o_option2" column="o_option2" />
 		<result property="o_date" column="o_date" />
@@ -50,9 +51,9 @@
 		<result property="img_origname" column="img_origname" />
 	</resultMap>
 
-	<select id="findProduct" parameterType="int"
-		resultMap="Product">
-		SELECT * FROM product WHERE
+	<select id="findProduct" parameterType="int" resultMap="Product">
+		SELECT *
+		FROM product WHERE
 		p_id=#{o_product_p_fk}
 	</select>
 
@@ -71,23 +72,43 @@
 	</select>
 
 	<select id="findMember" resultType="int" parameterType="String">
-		SELECT m_id
+		SELECT
+		m_id
 		FROM member WHERE m_nickname=#{m_nickname}
 	</select>
-	
-	
-	
+
+
+
 	<update id="cartBuyItem" parameterType="int">
-		update ord AS o, product AS p
+		update ord AS o, product
+		AS p
 		SET
-		o.o_state='상품 준비중', o.o_quantity=#{o_quantity}, p.p_sell=p.p_sell+#{o_quantity}
-		WHERE o.o_id=#{o_id} AND p.p_id=#{o_product_p_fk}
+		o.o_state='구매완료', o.o_dstate='배송준비중',
+		o.o_quantity=#{o_quantity},
+		p.p_sell=p.p_sell+#{o_quantity}
+		WHERE
+		o.o_id=#{o_id} AND
+		p.p_id=#{o_product_p_fk}
 	</update>
-	
+
 	<delete id="delCartItem" parameterType="int">
-		delete from ord 
-		WHERE o_id=#{o_id}
+		delete from ord
+		WHERE
+		o_id=#{o_id}
 	</delete>
+
+	<!-- 구매내역 xml 
+	<select id="buylist" parameterType="hashMap" resultMap="Order">
+		SELECT
+		o_id,o_option1,o_option2,o_quantity,o_member_m_fk
+		FROM ord WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk=#{keyword}
+		LIMIT
+		#{limitstart},#{recordsize}
+	</select>
+-->
+
 
 
 

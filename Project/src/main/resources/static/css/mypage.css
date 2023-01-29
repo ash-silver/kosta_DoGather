@@ -5,22 +5,21 @@
 		format('woff2');
 	font-weight: normal;
 	font-style: normal;
-	
 }
 
 #container {
 	width: 100%;
-	height: 2300px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	position: relative;
 }
 
 #mypage_main_con {
 	font-family: 'OTWelcomeRA';
 	width: 100%;
-	height: 2100px;
+	padding-top: 170px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -28,7 +27,7 @@
 
 .mypage_box {
 	width: 1000px;
-	height: 2000px;
+	
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
@@ -75,21 +74,24 @@
 	flex-direction: column;
 	border-bottom: 1px solid #e2e2e2;
 }
-.bar_list1:last-child{
+
+.bar_list1:last-child {
 	border-bottom: 0px;
 }
-.bar_list1 li span{
+
+.bar_list1 li span {
 	font-size: 20px;
-	font-weight: bold;	
+	font-weight: bold;
 }
-.bar_list1 li a{
-	margin:5px;
+
+.bar_list1 li a {
+	margin: 5px;
 }
 
 /*=========================mypage 좌측 작은 메뉴완료===========================*/
 .mypage_text_box {
 	width: 850px;
-	height: 2000px;
+
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
@@ -112,6 +114,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction:column;
+	color:white;
 	border-right: 2px solid #e2e2e2;
 }
 
@@ -183,7 +187,7 @@
 /*=======================검색창==========================*/
 .mypage_list {
 	width: 850px;
-	height: 1750px;
+	
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-start;
@@ -204,6 +208,7 @@
 	align-items: center;
 	justify-content: center;
 	border: 1px solid #e2e2e2;
+	
 }
 
 .tagbar_menu a {
@@ -218,7 +223,7 @@
 	margin-top: 50px;
 	width: 820px;
 	border: 1px solid #e2e2e2;
-	height: 1650px;
+	
 	border-radius: 15px;
 	display: flex;
 	align-items: center;
@@ -264,40 +269,43 @@
 	height: 100px;
 	display: flex;
 	align-items: flex-start;
-	justify-content: center;	
-	
+	justify-content: center;
 }
 
 .myapge_list_tag_text span {
 	margin-left: 15px;
 }
-.myapge_text{
-	width:300px;
-	height:100%;
+
+.myapge_text {
+	width: 300px;
+	height: 100%;
 	display: flex;
 	align-items: flex-start;
-	justify-content:center;
+	justify-content: center;
 	flex-direction: column;
 }
-.mypage_info{
-	width:100px;
+
+.mypage_info {
+	width: 100px;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.mypage_info a{
-	width:70px;
+
+.mypage_info a {
+	width: 70px;
 	height: 50px;
-	border:1px solid #e2e2e2;
+	border: 1px solid #e2e2e2;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+
 .paging_btn {
 	width: 100%;
 	height: 50px;
 	display: flex;
 	align-items: center;
-	justify-content: center;	
+	justify-content: center;
 }
