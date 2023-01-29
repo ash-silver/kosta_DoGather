@@ -18,18 +18,21 @@ import com.project.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequiredArgsConstructor
+@RequiredArgsConstructor   
 public class ProductController {
 	
 	private final ProductService pService;
 	
+
+	
 	
 	/*   -------------------------메인페이지-----------------------------	 */
 	
-	@GetMapping("/")
+	@GetMapping("/") 
 	public String mainPage(Model model) {
 		ArrayList<Product> bestlist = pService.Productbest();
 		ArrayList<Product> newlist = pService.Productnew();
+
 		
 		List<Img> img_best = new ArrayList<>();
 		for (Product img : bestlist) {
@@ -51,11 +54,13 @@ public class ProductController {
 
 	
 	/*   -------------------------페이징-----------------------------	 */
-	
+							// 저기 페이징에 왜 전부다 Mapping이름만 다르고 같은 Service를 가져오고있음...???
+							
 	@GetMapping("/newlist")
 	public String newlist(@ModelAttribute("params") SearchDto params, Model model, String p_category) {
 		PagingResponse<Product> plist = pService.newlist(params, p_category);
 		
+
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : plist.getList()) {
 			img_name.addAll(img.getImg());
@@ -63,13 +68,17 @@ public class ProductController {
 		
 		model.addAttribute("img", img_name);
 		model.addAttribute("plist", plist);
+
 		model.addAttribute("category", p_category);
 		
 		return "prodlist";
 	}
 	@GetMapping("/pricelist")
 	public String pricelist(@ModelAttribute("params") SearchDto params, Model model, String p_category) {
+
 		PagingResponse<Product> plist = pService.pricelist(params, p_category);
+
+		
 		
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : plist.getList()) {
