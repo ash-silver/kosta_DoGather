@@ -38,7 +38,6 @@ public class SchedulerService {
 		}
 		for (Product pro1 : Product_end_price) {
 			List<Order> ord = sMapper.getOrder(pro1.getP_id());
-
 			for (Order order : ord) {
 				sMapper.EndPriceMember(pro1.getP_endprice(), pro1.getP_id(), order.getO_member_m_fk());
 			}

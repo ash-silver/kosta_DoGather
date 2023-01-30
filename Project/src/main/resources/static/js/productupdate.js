@@ -4,17 +4,43 @@ $(function() {
 	let header = $("meta[name='_csrf_header']").attr("content");
 	let chk = 0;
 	let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
-	 $(".recruidate").attr("min", date);
-	 $(".duedate").attr("min", date);
+	$(".recruidate").attr("min", date);
+	$(".duedate").attr("min", date);
+
+
+	$(".imgRemove").click(function() {
+		const img_name = $(this).val();
+		const img_id=$(this).attr("id");
+		
+		$.ajax({
+			type: "DELETE",
+			url: "/products/imgs",
+			traditional: true,
+			data: {
+				img_name: img_name
+			},
+			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+			},
+			success: function(data) {
+				alert(data);
+				$("."+img_id).css("display","none");
+				$("#"+img_id).css("display","none");
+			},
+			error: function(e) {
+				alert('에러');
+			}
+		});
+	});
 
 	$("input[name=p_recruitdate]").change(function() {
 		if ($(".recruidate").val() < date) {
 			alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
 			++chk;
-		}else if($(".recruidate").val() >= $(".duedate").val()){
+		} else if ($(".recruidate").val() >= $(".duedate").val()) {
 			++chk;
-		}else{
-			chk=0;
+		} else {
+			chk = 0;
 		}
 	});
 	$("input[name=p_duedate]").change(function() {
@@ -24,8 +50,8 @@ $(function() {
 		} else if ($(".recruidate").val() >= $(".duedate").val()) {
 			alert("마감시간은 시작일자보다 늦을 수 없습니다.");
 			++chk;
-		}else{
-			chk=0;
+		} else {
+			chk = 0;
 		}
 	});
 
@@ -34,7 +60,7 @@ $(function() {
 	$("#addpro_btn").click(() => {
 		if (chk == 0) {
 			$(".productadd_form").submit();
-		}else{
+		} else {
 			alert("시간 설정이 유효하지 않습니다.");
 		}
 	});

@@ -47,6 +47,8 @@ public interface ProductMapper {
 
 	void removeProduct(int p_id);
 	
+	void ImgRemove(String img_name);
+	
 	void OptionRemove(String opt_name);
 
 	List<Product> WriterProductlist(Map<String, Object> map);
