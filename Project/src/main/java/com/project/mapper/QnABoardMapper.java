@@ -10,4 +10,5 @@ public interface QnABoardMapper {
 //	void selectSomething(QnABoardModel a);
 	void AddQuestion(QnABoardModel qna);
 	
+	QnABoardModel FindQuestion(int q_id);
 }

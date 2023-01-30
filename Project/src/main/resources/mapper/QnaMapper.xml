@@ -25,5 +25,7 @@
 			
 		)
 	</insert>
-
+	<select id="FindQuestion" parameterType="int" resultMap="QnAMap">
+		SELECT * FROM question WHERE q_id=#{q_id}
+	</select>
 </mapper>

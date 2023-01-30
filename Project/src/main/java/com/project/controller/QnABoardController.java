@@ -1,8 +1,12 @@
 package com.project.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,5 +35,12 @@ public class QnABoardController {
 		qna.setQ_nickname_m_fk("bbb");
 		qnaService.AddQuestion(qna);
 		return "redirect:/QnABoardModel";
+	}
+	
+	@GetMapping("/{q_id}")
+	public String readQuestion(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
+		Map<String, Object> questionMap = qnaService.FindQuestion(q_id);
+		model.addAttribute("questionMap", questionMap);
+		return "answer";
 	}
 }

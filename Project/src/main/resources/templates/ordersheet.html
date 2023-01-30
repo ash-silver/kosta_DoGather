@@ -18,50 +18,57 @@
 <body>
 	<div class="container">
 		<header th:replace="header :: header"> </header>
-		<form th:action="@{/orderSheetController}" method="post">
-
-			<div class="color_green">
-				<label for="">수령인</label> 
-				<input type="text" name="o_recipient" id="o_recipient" required="required" />
-			</div>
-
-			<div class="color_green">
-				<label for="o_phoneNumber">수령인 연락처</label> 
-				<input type="text" name="o_phoneNumber" id="o_phoneNumber" required="required" />
-			</div>
-
-			<div class="color_green">
-				<label for="o_address">주소</label> 
-				<input type="text" name="o_address" id="o_address" required="required" />
-			</div>
-			<div>
+		<div class="order_content">
+			<form th:action="|/ordersheet/${promap['pro'].getP_id}|" method="post">
+	
+				<div class="color_green">
+					<label for="">수령인</label> 
+					<input type="text" name="o_recipient" id="o_recipient" required="required" />
+				</div>
+	
+				<div class="color_green">
+					<label for="o_phoneNumber">수령인 연락처</label> 
+					<input type="text" name="o_phoneNumber" id="o_phoneNumber" required="required" />
+				</div>
+	
+				<div class="color_green">
+					<label for="o_address">주소</label> 
+					<input type="text" name="o_address" id="o_address" required="required" />
+				</div>
+				<div>
+					
+				</div>
 				
-			</div>
-			
-			<div class="color_green">
-<!-- 				<div> -->
-<!-- 					<img th:src="|/projectimg/${i.img_name}|" th:each="i : ${img}"> -->
-<!-- 				</div> -->
-
-				<div>
-					<span>제품명</span>
-					<span th:text="|${promap['pro'].getP_name}|"></span>
+				<div class="color_green">
+	<!-- 				<div> -->
+	<!-- 					<img th:src="|/projectimg/${i.img_name}|" th:each="i : ${img}"> -->
+	<!-- 				</div> -->
+	
+					<div>
+						<span>제품명</span>
+						<span th:text="|${promap['pro'].getP_name}|"></span>
+					</div>
+					
+					<div>
+						<span>수량</span>
+						<span th:text=""></span>
+					</div>
+	
+					<div>
+						<span>가격</span>
+<!-- 						<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span> -->
+						<span th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+					</div>
+	
+					<div>
+						<span>판매자</span>
+						<span th:text="|${promap['pro'].p_nickname_m_fk}|"></span>
+					</div>
 				</div>
-
-				<div>
-					<span>가격</span>
-					<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-					<span th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-				</div>
-
-				<div>
-					<span>판매자</span>
-					<span th:text="|${promap['pro'].p_nickname_m_fk}|"></span>
-				</div>
-			</div>
-			<button type="submit">주문</button>
+				<button type="submit">주문</button>
 				<button type="reset">취소</button>
-		</form>
+			</form>
+		</div>
 	</div>
 	<footer th:replace="footer ::footer"></footer>
 </body>

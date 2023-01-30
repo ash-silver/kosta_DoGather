@@ -22,6 +22,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 <script type="text/javascript" th:src="@{/js/productdetail.js}"></script>
+<script type="text/javascript" th:src="@{/js/productbuy.js}"></script>
 </head>
 
 <body>
@@ -84,10 +85,10 @@
 
 					</div>
 					<div class="prodetail_text price_text">
-						<span class="price"
-							th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-						<span class="disprice"
-							th:text="${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}"></span>
+						<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="disprice" th:text="${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}"></span>
+						<span class="price" th:text="|기본 가격:${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="disprice" th:text="|현재 할인 가격:${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}|"></span>
 					</div>
 					<div class="prodetail_text">
 						<span th:text="|판매자:${promap['pro'].getP_nickname_m_fk}|"></span>
@@ -106,28 +107,26 @@
 					</div>
 					<div class="prodetail_text text2">
 						<select name="opt_option2" class="option2">
+						
 						</select>
 					</div>
 
 					<form class="prodetail_bt-n_box" th:method="get" th:action="|/ordersheet/${promap['pro'].getP_id}|">
-					<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
-					<input type="hidden" name="o_option1">
-					<input type="hidden" name="o_option2">
-						<select name="o_quantity">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-						</select>
-						<button type="button" id="addCart">장바구니 추가</button>
-						<button type="submit" id="purchase">구매하기</button>
-						
-<!-- 						<a th:href="@{/ordersheet/}+${p_id}">구매하기</a> -->
-						
-						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
-							id="p_recruitdate" readonly>
-						<input type="hidden" th:value="${promap['pro'].getP_duedate}"
-							id="p_duedate" readonly>
+						<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
+						<input type="hidden" name="o_option1">
+						<input type="hidden" name="o_option2">
+							<select name="o_quantity">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+							<button type="button" id="addCart">장바구니 추가</button>
+							<button type="submit" id="purchase">구매하기</button>
+							<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
+								id="p_recruitdate" readonly>
+							<input type="hidden" th:value="${promap['pro'].getP_duedate}"
+								id="p_duedate" readonly>
 					</form>
 
 					<div class="time_box">

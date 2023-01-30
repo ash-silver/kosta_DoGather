@@ -5,7 +5,38 @@ $(function() {
 	let img = $(".mini_img").attr("src");
 	let p_id = $("#p_id").val();
 	let p_recruit_date = $("#p_recruitdate").val();
+	let opt1_default = $(".option1").val();
 	$(".big_img").attr("src", img);
+
+
+
+	$.ajax({
+		type: "GET",
+		url: "/products/options/" + p_id,
+		traditional: true,
+		data: {
+			opt_option1: opt1_default
+		},
+		dataType: 'json',
+		beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(data) {
+			let html = ""
+			$.each(data, function(idx, val) {
+				html += `
+				<option value="-----">-----</option>
+						<option value="${val.opt_option2}">${val.opt_option2}</option>
+				`;
+			});
+			$(".option2").html(html);
+
+		},
+		error: function(e) {
+			alert('에러');
+
+		}
+	});
 
 
 	const countDownTimer = function(id, date) {
