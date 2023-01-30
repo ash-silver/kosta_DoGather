@@ -35,32 +35,9 @@
 				<input type="text" name="o_address" id="o_address" required="required" />
 			</div>
 			<div>
-				
-			</div>
-			
-			<div class="color_green">
-<!-- 				<div> -->
-<!-- 					<img th:src="|/projectimg/${i.img_name}|" th:each="i : ${img}"> -->
-<!-- 				</div> -->
-
-				<div>
-					<span>제품명</span>
-					<span th:text="|${promap['pro'].getP_name}|"></span>
-				</div>
-
-				<div>
-					<span>가격</span>
-					<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-					<span th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-				</div>
-
-				<div>
-					<span>판매자</span>
-					<span th:text="|${promap['pro'].p_nickname_m_fk}|"></span>
-				</div>
-			</div>
-			<button type="submit">주문</button>
+				<button type="submit">주문</button>
 				<button type="reset">취소</button>
+			</div>
 		</form>
 	</div>
 	<footer th:replace="footer ::footer"></footer>

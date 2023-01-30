@@ -109,19 +109,25 @@
 						</select>
 					</div>
 
-					<form class="prodetail_bt-n_box" method="get">
-						<select name="order_quantity">
+					<form class="prodetail_bt-n_box" th:method="get" th:action="|/ordersheet/${promap['pro'].getP_id}|">
+					<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
+					<input type="hidden" name="o_option1">
+					<input type="hidden" name="o_option2">
+						<select name="o_quantity">
 							<option>1</option>
 							<option>2</option>
 							<option>3</option>
 							<option>4</option>
 						</select>
 						<button type="button" id="addCart">장바구니 추가</button>
-						<a th:href="@{/ordersheet/}+${p_id}">구매하기</a>
-							<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
-								id="p_recruitdate" readonly>
-							<input type="hidden" th:value="${promap['pro'].getP_duedate}"
-								id="p_duedate" readonly>
+						<button type="submit" id="purchase">구매하기</button>
+						
+<!-- 						<a th:href="@{/ordersheet/}+${p_id}">구매하기</a> -->
+						
+						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
+							id="p_recruitdate" readonly>
+						<input type="hidden" th:value="${promap['pro'].getP_duedate}"
+							id="p_duedate" readonly>
 					</form>
 
 					<div class="time_box">

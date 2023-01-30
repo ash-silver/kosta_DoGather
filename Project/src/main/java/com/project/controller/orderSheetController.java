@@ -1,7 +1,10 @@
 package com.project.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,20 +27,19 @@ public class orderSheetController {
 	@Autowired
 	private ProductService pService;
 
-	@GetMapping("")
-	public String orderSheet() {
-		return "ordersheet";
-	}
+//	@GetMapping("")
+//	public String orderSheet() {
+//		return "ordersheet";
+//	}
+
 
 	@GetMapping("/{p_id}")
-	public String addOrder(@PathVariable("p_id") int p_id) {
-		System.out.println("dddd");
+	public String addOrder(PurchaseModel order, @PathVariable int p_id, Model model) {
+		System.out.println("ddd"+order);
+		
+		Map<String, Object> promap = pService.FindProduct(p_id);
+		System.out.println("bbbbb"+promap);
+		model.addAttribute("promap", promap);
 		return "ordersheet";
-	}
-
-	@PostMapping("/{p_id}")
-	public String addOrder(@PathVariable("p_id") int p_id, PurchaseModel order) {
-		orderSheetService.AddOrder(order, p_id);
-		return "redirect:/ordersheet";
 	}
 }

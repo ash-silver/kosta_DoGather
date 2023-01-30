@@ -37,10 +37,10 @@
 	</resultMap>
 
 	<!-- ==============================join result========================================= -->
-<!-- 	<select id="GetProductForOrder" parameterType="int" resultType="int"> -->
-<!-- 		SELECT * FROM order  -->
-<!-- 		INNER JOIN product ON product.p_id = #{o_product_p_fk} -->
-<!-- 	</select> -->
+	<select id="getProduct" parameterType="int" resultMap="ProductMap">
+		SELECT * FROM product 
+		WHERE o_product_p_fk=#{p_id}
+	</select>
 
 	<!-- ===================================add part ============================== -->
 

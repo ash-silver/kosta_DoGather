@@ -108,6 +108,7 @@ public class ProductService {
 	public Map<String, Object> FindProduct(int p_id) {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
+		System.out.println(pro);
 		int Now_Discount = 0;
 		int discount_price = pro.getP_price();
 		List<String> overlap_chk = new ArrayList<>();
