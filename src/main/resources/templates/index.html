@@ -45,9 +45,9 @@
 			
 				<div class="slide_box"> 
      			    <ul class="bxslider">
-						<li><img src="/projectimg/배너1.jpg" /></li>
-						<li><img src="/projectimg/배너2.jpg" /></li>
-						<li><img src="/projectimg/배너3.jpg" /></li>
+						<li><a href="#"><img src="/projectimg/배너1.jpg" /></a></li>
+						<li><a href="#"><img src="/projectimg/배너2.jpg" /></a></li>
+						<li><a href="#"><img src="/projectimg/배너3.jpg" /></a></li>
 					</ul>
    				</div>
 			
@@ -55,11 +55,14 @@
 					<h3>인기상품</h3>
 				</div>
 
-				<div class="main_contentbox">
+				<div class="main_contentbox ">
 				
 					<div class="main_imgbox" th:each="best : ${bestlist}" th:if="${bestlist!=null}">
-						<a th:href="/products/${row.p_id}/detail" class="img_url"><img th:src="@{/projectimg/${img[index].img_name}"></a>
-						<a th:href="/products/${row.p_id}/detail" class="name_url" th:text="|제품명:${best.p_name}|">OUTTER1</a> <span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>
+						<a th:href="|/products/${best.p_id}/detail|" class="img_url" th:each=" img : ${best['img']}"><img th:src="|/projectimg/${img.img_name}|">
+						<span class="name_url" th:text="|제품명:${best.p_name}|">best</span> 
+						<span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>
+						<span th:text="|마감일자:${best.p_duedate}|">마감일자</span>
+						</a>
 					</div>
 
 
@@ -72,9 +75,12 @@
 				<div class="main_contentbox">
 
 
-					<div class="main_imgbox" th:each="new : ${newlist}" th:if="${newlist!=null}">
-						<a th:href="/products/${row.p_id}/detail" class="img_url"><img th:src="@{/projectimg/${img[index].img_name}"></a>
-						<a th:href="/products/${row.p_id}/detail" class="name_url" th:text="|품명:${new.p_name}|">OUTTER1</a> <span th:text="|가격:${new.p_price}원|">가격 : PRICE</span>
+					<div class="main_imgbox" th:each="nl : ${newlist}" th:if="${newlist!=null}">
+						<a th:href="|/products/${nl.p_id}/detail|" class="img_url" th:each=" img : ${nl['img']}"><img th:src="|/projectimg/${img.img_name}|">
+						<span class="name_url" th:text="|제품명:${nl.p_name}|">new</span>
+						<span th:text="|가격:${nl.p_price}원|">가격 : PRICE</span>
+						<span th:text="|마감일자:${nl.p_duedate}|">마감일자</span>
+						</a>
 					</div>
 
 

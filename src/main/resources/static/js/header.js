@@ -14,18 +14,35 @@ $(function() {
 		$(".mymenu_drop_menu2").show();
 		$(".mymenu_drop_menu2").toggleClass("hide");
 	});
-	
-	
-	$("#search_bt").click(function(){
-			let f = $('#search').val();
-			if (f == "") {
-				alert("검색어를 입력하세요");
-				return false;
-			} else {
-				$(".search_form").submit();
-			}
-		});
-	
-	
-});
 
+	$("#modal_open").click(function() {
+		$(".modal_form").css("display", "flex");
+	});
+
+	$(document).mouseup(function(e) {
+		if ($(".modal_form").has(e.target).length === 0) {
+			$(".modal_form").hide();
+		}
+	});
+
+	$(document).keydown(function(e) {
+		//keyCode 구 브라우저, which 현재 브라우저
+		var code = e.keyCode || e.which;
+
+		if (code == 27) { // 27은 ESC 키번호
+			$('.modal_form').hide();
+		}
+	});
+
+
+
+	$("#search_bt").click(function() {
+		let f = $('#search').val();
+		if (f == "") {
+			alert("검색어를 입력하세요");
+			return false;
+		} else {
+			$(".search_form").submit();
+		}
+	});
+});

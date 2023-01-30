@@ -1,52 +1,59 @@
 package com.project.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.project.model.Discount;
+import com.project.model.Img;
+import com.project.model.Option;
 import com.project.model.Product;
-import com.project.model.SearchDto;
 
 @Mapper
 public interface ProductMapper {
-	
-	ArrayList<Product> Productbest();
 
-	ArrayList<Product> Productnew();
-	
-	List<Product> Search(Map<String, Object> map);
+	void AddProduct(Product pro);
 
-	List<Product> SearchTotal(Map<String, Object> map);
-   
-	List<Product> Category(Map<String, Object> map);
-	
-	List<Product> CategoryNew(Map<String, Object> map);
-	
-	List<Product> CategoryPrice(Map<String, Object> map);
-	
-	List<Product> CategoryPriceDesc(Map<String, Object> map);
-	
-	List<Product> CategoryBest(Map<String, Object> map);
+	void AddOption(Option opt);
 
-	List<Product> newlist(SearchDto params);
-	
-	List<Product> pricelist(SearchDto params);
-	
-	List<Product> pricelistdesc(SearchDto params);
-	
-	List<Product> bestlist(SearchDto params);
-	
-	List<Product> PagingList(SearchDto params);
-	
-	int count();
+	void AddImg(Img img);
 
-	int category_count(String params);
+	void AddDiscount(Discount discount);
+
+	void UpdateDiscount(Discount discount);
+
+	void UpdateImg(Img img);
+
+	void UpdateProduct(Product pro);
+
+	List<Img> img_length(Img i);
+
+	List<Discount> Update_find(int p_id);
+
+	Product FindProduct(int p_id);
+	Product FindCalender(int p_id);
 	
-	int SearchCount(@Param("keyword") String keyword, @Param("search") String search);
+	Map<String,Object> All_SellCount(String p_nickname_m_fk);
+	List<Integer> All_SellPrice(String p_nickname_m_fk);
+	List<Integer> All_Sell(String p_nickname_m_fk);
+	
+	
+	List<Option> Option_List(int p_id);
+	List<Option> FindOption(Map<String, Object> map);
+	
+	void CreateNewEvent(String value);
 
-	int SearchTotCount(@Param("search") String search);
+	void removeProduct(int p_id);
+	
+	void OptionRemove(String opt_name);
 
+	List<Product> WriterProductlist(Map<String, Object> map);
+
+	int WriterProductlistCount(String p_nickname_m_fk);
+
+	List<Product> SearchSeller(Map<String, Object> map);
+
+	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search);
 }

@@ -1,7 +1,5 @@
 package com.project.model;
 
-import com.project.model.SearchDto;
-
 import lombok.Getter;
 
 @Getter
@@ -14,7 +12,6 @@ public class Pagination {
     private int limitStart;         // LIMIT 시작 위치
     private boolean existPrevPage;  // 이전 페이지 존재 여부
     private boolean existNextPage;  // 다음 페이지 존재 여부
-	
 
     public Pagination(int totalRecordCount, SearchDto params) {
         if (totalRecordCount > 0) {
