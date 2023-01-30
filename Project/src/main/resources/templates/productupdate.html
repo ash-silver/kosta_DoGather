@@ -95,13 +95,10 @@
 					<h1>변경할 이미지를 클릭</h1>
 					<div class="modal_box">
 						<div class="modal_img_box">
-							<th:block th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
-								<label th:class="|img_label ${numStat.index}|">
-									<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-									<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img">
-								</label>
-								<button type="button" th:value="${img.img_name}" th:id="${numStat.index}" class="imgRemove">위 사진 삭제하기</button>
-							</th:block>
+							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
+								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img">
+							</label>
 						</div>
 					</div>
 					<label class="img_box">
@@ -114,13 +111,11 @@
 					<h1>변경할 이미지를 클릭</h1>
 					<div class="modal_box">
 						<div class="modal_img_box">
-							<th:block th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg" class="t_block">
-								<label th:class="|img_label ${numStat.index}|">
-									<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-									<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg">
-								</label>
-								<button type="button" th:value="${img.img_name}" th:id="${numStat.index}" class="imgRemove">위 사진 삭제하기</button>
-							</th:block>
+							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
+								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg">
+
+							</label>
 						</div>
 					</div>
 

@@ -126,12 +126,7 @@ public class ProductController {
 			}
 		}
 	}
-	@ResponseBody
-	@DeleteMapping("/imgs")
-	public String RemoveImg(String img_name) {
-		pService.ImgRemove(img_name);
-		return img_name+"삭제완료";
-	}
+
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword, String searching) {
@@ -142,6 +137,7 @@ public class ProductController {
 			img_name.addAll(img.getImg());
 		}
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+		System.out.println(sell_cnt);
 		model.addAttribute("img", img_name);
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);

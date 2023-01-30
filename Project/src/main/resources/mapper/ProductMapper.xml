@@ -127,16 +127,16 @@
 		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
 	</select>
 	<select id="All_SellPrice" parameterType="String" resultType="int">
-		SELECT p_endprice
+		SELECT p_price
 		FROM Product WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk='endprice' ORDER BY p_id
+		p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk='end' ORDER BY p_id
 	</select>
-	<select id="All_Sell" parameterType="String" resultType="int">
+		<select id="All_Sell" parameterType="String" resultType="int">
 		SELECT p_sell
 		FROM Product WHERE
 		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk='endprice'
-		ORDER BY p_id
+		p_chk='end' ORDER BY p_id
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
@@ -214,9 +214,8 @@
 	</update>
 
 
-	<delete id="ImgRemove" parameterType="String">
-		DELETE FROM img WHERE img_name=#{img_name}
-	</delete>
+
+
 	<delete id="OptionRemove" parameterType="String">
 		DELETE FROM opt WHERE opt_option1=#{opt_name}
 	</delete>

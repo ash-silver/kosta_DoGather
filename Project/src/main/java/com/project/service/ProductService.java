@@ -142,16 +142,7 @@ public class ProductService {
 			}
 		}
 	}
-	@Transactional
-	public void ImgRemove(String img_name) {
-		pMapper.ImgRemove(img_name);
-		String delpath = path + img_name;
-		File file1 = new File(delpath);
-		file1.delete();
-	}
-	
-	
-	
+
 	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
