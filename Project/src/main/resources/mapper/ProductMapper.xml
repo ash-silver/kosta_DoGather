@@ -38,6 +38,7 @@
 		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg_name" />
 	</resultMap>
 
+
 	<resultMap type="com.project.model.Img" id="ImgMap">
 		<id property="img_id" column="img_id" />
 		<result property="img_name" column="img_name" />

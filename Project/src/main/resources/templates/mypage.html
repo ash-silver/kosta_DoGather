@@ -172,7 +172,8 @@ function movePage(page) {
 
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
-								<span th:text="|총 판매액:${sell_cnt['sel_point']}원|"></span>
+								<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['sel_point'], 3, 'COMMA') + '원'}|"></span>
+								
 							</div>
 							<div class="status_bar_2_text2">
 								<span>보유캐시:</span>

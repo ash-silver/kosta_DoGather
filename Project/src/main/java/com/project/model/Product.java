@@ -26,6 +26,7 @@ public class Product {
 	private int p_id;
 	private int p_price;
 	private int p_sell;
+	private int p_endprice;
 	private ArrayList<Img> img;
 	private ArrayList<Option> option;
 	private ArrayList<Discount> discount;

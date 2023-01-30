@@ -25,6 +25,7 @@ import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
 import com.project.service.ProductService;
+import com.project.service.SchedulerService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
+	
 
 	/* ==================================================================== */
 	@GetMapping("")
@@ -142,5 +144,4 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
-
 }

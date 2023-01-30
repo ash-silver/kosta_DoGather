@@ -20,7 +20,6 @@ public class Order {
 	private String o_option1;
 	private String o_option2;
 	private Timestamp o_date;
-	
 	private Product product;
 	private Img img;
 }
