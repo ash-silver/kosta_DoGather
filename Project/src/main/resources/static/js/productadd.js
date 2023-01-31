@@ -78,9 +78,5 @@ $(function() {
 			++cl;
 			$("#count").attr("value", cl);
 		}
-
-
-
-
 	});
 });

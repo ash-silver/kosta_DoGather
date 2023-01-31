@@ -51,9 +51,9 @@ public interface ProductMapper {
 
 	List<Product> WriterProductlist(Map<String, Object> map);
 
-	int WriterProductlistCount(String p_nickname_m_fk);
+	int WriterProductlistCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("keyword") String keyword);
 
 	List<Product> SearchSeller(Map<String, Object> map);
 
-	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search);
+	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search,@Param("keyword") String keyword);
 }

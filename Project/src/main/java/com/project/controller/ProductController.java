@@ -35,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
-	
 
 	/* ==================================================================== */
 	@GetMapping("")
@@ -68,6 +67,7 @@ public class ProductController {
 
 	@PutMapping("/{p_id}/info")
 	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro) throws Exception {
+
 		pService.UpdateProduct(pro);
 		return "redirect:/products/options/" + p_id + "/info";
 	}
@@ -96,6 +96,7 @@ public class ProductController {
 	public String OptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> optmap = pService.Option_List(p_id);
 
+		System.out.println(optmap);
 		model.addAttribute("optmap", optmap);
 		return "optionUpdate";
 	}
@@ -114,19 +115,24 @@ public class ProductController {
 
 	@ResponseBody
 	@PostMapping("/options")
-	public void AddOption2(String opt_option1, @RequestParam("opt_option2") String[] opt_option2,
-			@RequestParam("opt_quantity") String[] opt_quantity, int opt_pid) {
-		int index = 0;
-		for (String opt_2 : opt_option2) {
-			if (!opt_2.isEmpty()) {
-				Option option = Option.builder().opt_pid_p_fk(opt_pid).opt_option1(opt_option1).opt_option2(opt_2)
-						.opt_quantity(opt_quantity[index]).build();
-				index++;
+	public void AddOption2(Option opt, int opt_pid) {
+		if (opt.getOpt_opt1_list() == null) {
+			for (int i = 0; i < opt.getOpt_opt2_list().size(); i++) {
+				if (!opt.getOpt_opt2_list().get(i).isEmpty()) {
+					Option option = Option.builder().opt_pid_p_fk(opt_pid).opt_option1(opt.getOpt_option1())
+							.opt_option2(opt.getOpt_opt2_list().get(i)).opt_quantity(opt.getOpt_quantity_list().get(i))
+							.build();
+					pService.AddOption(option);
+				}
+			}
+		} else {
+			for (int i = 0; i < opt.getOpt_opt1_list().size(); i++) {
+				Option option = Option.builder().opt_pid_p_fk(opt_pid).opt_option1(opt.getOpt_opt1_list().get(i))
+						.opt_quantity(opt.getOpt_quantity_list().get(i)).build();
 				pService.AddOption(option);
 			}
 		}
 	}
-
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword, String searching) {
@@ -137,7 +143,6 @@ public class ProductController {
 			img_name.addAll(img.getImg());
 		}
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		System.out.println(sell_cnt);
 		model.addAttribute("img", img_name);
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);

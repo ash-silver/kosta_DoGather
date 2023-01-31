@@ -33,7 +33,7 @@ public class Product {
 
 	private List<MultipartFile> p_img; // request 용
 	private List<MultipartFile> p_contentimg; // request 용
-	private int[] p_discount_quan; // request 용
-	private int[] p_discount_count; // request 용
+	private	List<Integer> p_discount_quan; // request 용
+	private List<Integer> p_discount_count; // request 용
 
 }

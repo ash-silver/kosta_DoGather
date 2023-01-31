@@ -302,9 +302,10 @@
 }
 
 .paging_btn {
-	width: 100%;
+	width: 500px;
 	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	
 }

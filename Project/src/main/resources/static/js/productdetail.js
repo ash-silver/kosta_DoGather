@@ -1,7 +1,7 @@
 $(function() {
 
-	let token = $("meta[name='_csrf']").attr("content");
-	let header = $("meta[name='_csrf_header']").attr("content");
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
 	let img = $(".mini_img").attr("src");
 	let p_id = $("#p_id").val();
 	let p_recruit_date = $("#p_recruitdate").val();

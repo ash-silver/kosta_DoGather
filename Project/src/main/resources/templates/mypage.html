@@ -97,14 +97,13 @@ function drawPage(pagination, params) {
   }
 
   // 페이지 번호
-  html += '<p>';
+  html += '';
   		// 1,2,3,4,5~~~ 페이지의 번호를 만들어내는 구문
   for (let i = pagination.startPage; i <= pagination.endPage; i++) {
     html += (i !== params.page)
             ? `<a href="javascript:void(0);" onclick="movePage(${i});">${i}</a>`
             : `<span class="on">${i}</span>`
   }
-  html += '</p>';
 
   // 다음 페이지, 마지막 페이지
   if (pagination.existNextPage) {

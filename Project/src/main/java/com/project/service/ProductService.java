@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -64,32 +62,27 @@ public class ProductService {
 
 	@Transactional // 할인율 생성 ,수정
 	public void AddDiscount(Product pro) {
-		int index = 0;
-		for (int discountlist : pro.getP_discount_count()) {
-			Discount dis = Discount.builder().dis_count(discountlist).dis_quantity(pro.getP_discount_quan()[index])
-					.dis_pid_p_fk(pro.getP_id()).build();
-			index++;
+		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
+			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
+					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
 			pMapper.AddDiscount(dis);
-
 		}
 	}
 
 	@Transactional
 	public void EditDiscount(Product pro) {
-		int index = 0;
 		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
-		for (int discountlist : pro.getP_discount_count()) {
-			Discount dis = Discount.builder().dis_count(discountlist).dis_quantity(pro.getP_discount_quan()[index])
-					.dis_pid_p_fk(pro.getP_id()).build();
-			if (dis_length.size() < pro.getP_discount_count().length) {
-				if (index <= dis_length.size() - 1) {
-					dis.setDis_id(dis_length.get(index).getDis_id());
+		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
+			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
+					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
+			if (dis_length.size() < pro.getP_discount_count().size()) {
+				if (i <= dis_length.size() - 1) {
+					dis.setDis_id(dis_length.get(i).getDis_id());
 					pMapper.UpdateDiscount(dis);
 				} else {
 					pMapper.AddDiscount(dis);
 				}
 			}
-			index++;
 		}
 
 	}
@@ -221,10 +214,10 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<>();
 		List<Product> list = new ArrayList<>();
 		if (search != null) {
-			count = pMapper.SearchSellerCount(p_nickname_m_fk, search);
+			count = pMapper.SearchSellerCount(p_nickname_m_fk, search,keyword);
 			map.put("search", search);
 		} else {
-			count = pMapper.WriterProductlistCount(p_nickname_m_fk);
+			count = pMapper.WriterProductlistCount(p_nickname_m_fk,keyword);
 		}
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
@@ -266,13 +259,15 @@ public class ProductService {
 
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
-		List<String> newList = new ArrayList<>();
-		for (Option option1 : opt) {
-			newList.add(option1.getOpt_option1());
-		}
-		List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
 		Map<String, Object> map = new HashMap<>();
-		map.put("opt1", opt1);
+		List<String> newList = new ArrayList<>();
+		if(opt.size()!=0 && opt.get(0).getOpt_option2()!=null) {
+			for (Option option1 : opt) {
+				newList.add(option1.getOpt_option1());
+			}
+			List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
+			map.put("opt1", opt1);
+		}
 		map.put("opt", opt);
 		return map;
 	}

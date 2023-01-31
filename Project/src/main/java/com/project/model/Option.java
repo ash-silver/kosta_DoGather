@@ -1,5 +1,7 @@
 package com.project.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,10 @@ public class Option {
 	private int opt_pid_p_fk;
 	private String opt_option1;
 	private String opt_option2;
-	private String opt_quantity;
-
+	private int opt_quantity;
+	
+	private List<Integer> opt_quantity_list;
+	private List<String> opt_opt1_list;
+	private List<String> opt_opt2_list;
+	
 }
