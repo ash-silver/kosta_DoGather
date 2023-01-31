@@ -11,6 +11,7 @@
 	position: fixed;
 	background: #fff;
 	top:0;
+	z-index: 3;
 }
 
 .header_con_box {

@@ -71,6 +71,29 @@
 		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='장바구니'
 	</select>
 
+
+
+	<select id="buyList" resultMap="Order" parameterType="hashMap">
+		SELECT *
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
+		LIMIT #{limitstart},#{recordsize}
+	</select>
+	
+	<select id="buyListCount" resultType="int" parameterType="int">
+		SELECT count(*)
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
+		
+	</select>
+
+
+
+	<select id="favorite" resultMap="Order" parameterType="int">
+		SELECT *
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='찜하기'
+	</select>
+
+
+
 	<select id="findMember" resultType="int" parameterType="String">
 		SELECT
 		m_id
@@ -97,17 +120,9 @@
 		o_id=#{o_id}
 	</delete>
 
-	<!-- 구매내역 xml 
-	<select id="buylist" parameterType="hashMap" resultMap="Order">
-		SELECT
-		o_id,o_option1,o_option2,o_quantity,o_member_m_fk
-		FROM ord WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk=#{keyword}
-		LIMIT
-		#{limitstart},#{recordsize}
-	</select>
--->
+	<!-- 구매내역 xml <select id="buylist" parameterType="hashMap" resultMap="Order"> 
+		SELECT o_id,o_option1,o_option2,o_quantity,o_member_m_fk FROM ord WHERE p_nickname_m_fk=#{p_nickname_m_fk} 
+		AND p_chk=#{keyword} LIMIT #{limitstart},#{recordsize} </select> -->
 
 
 

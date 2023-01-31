@@ -2,7 +2,7 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.model.Img;
 import com.project.model.Order;
+import com.project.model.PagingResponse;
+import com.project.model.Product;
+import com.project.model.SearchDto;
 import com.project.service.OrderService;
-import com.project.service.ProductService;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -59,6 +61,26 @@ public class OrderController {
 		for (int a : o_id) {
 			oService.delCartItem(a);
 		}
+	}
+
+	// 구매내역
+	@GetMapping("/buylists")
+	public String buyList(Model model, Principal principal, SearchDto params) {
+		String m_nickname = principal.getName();
+		ArrayList<Order> order = oService.findCart(m_nickname);
+		List<Product> product = new ArrayList<>();
+		List<Img>img=new ArrayList<>();
+		for(Order i:order) {
+			img.add(i.getImg());
+			product.add(i.getProduct());
+		}
+		PagingResponse<Order> ordlist = oService.buyList(m_nickname, params);
+		model.addAttribute("img", img);
+		model.addAttribute("product", product);
+		model.addAttribute("ordlist", ordlist);
+		
+		
+		return "mypage1";
 	}
 
 }

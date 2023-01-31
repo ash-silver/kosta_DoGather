@@ -34,10 +34,12 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
+	
 
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
+
 		model.addAttribute("name", prin.getName());
 		return "productadd";
 	}
@@ -79,6 +81,7 @@ public class ProductController {
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
+
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
@@ -91,6 +94,7 @@ public class ProductController {
 	@GetMapping("/options/{p_id}/info")
 	public String OptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> optmap = pService.Option_List(p_id);
+
 		model.addAttribute("optmap", optmap);
 		return "optionUpdate";
 	}
@@ -98,9 +102,8 @@ public class ProductController {
 	@DeleteMapping("/options/{opt_name}/info")
 	public String OptionRemove(@PathVariable String opt_name, int opt_pid) {
 		pService.OptionRemove(opt_name);
-		return "redirect:/products/options/"+opt_pid+"/info";
+		return "redirect:/products/options/" + opt_pid + "/info";
 	}
-
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
@@ -131,15 +134,13 @@ public class ProductController {
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
-		} 
-		Map<String,Object> sell_cnt=pService.All_SellCount(id);
-		Map<String,Object> sell_price=pService.All_SellPrice(id);
-
+		}
+		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+		System.out.println(sell_cnt);
 		model.addAttribute("img", img_name);
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
-
 }

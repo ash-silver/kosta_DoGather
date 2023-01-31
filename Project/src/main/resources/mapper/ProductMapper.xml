@@ -38,6 +38,7 @@
 		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg_name" />
 	</resultMap>
 
+
 	<resultMap type="com.project.model.Img" id="ImgMap">
 		<id property="img_id" column="img_id" />
 		<result property="img_name" column="img_name" />
@@ -99,7 +100,8 @@
 		opt_option1=#{opt_option1}
 	</select>
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
-		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND  p_chk=#{keyword} AND p_name LIKE
+		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk=#{keyword} AND p_name LIKE
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
@@ -119,15 +121,22 @@
 	<select id="Option_List" resultMap="OptionMap" parameterType="int">
 		SELECT * FROM opt WHERE opt_pid_p_fk=#{p_id}
 	</select>
-	
-	
+
+
 	<select id="All_SellCount" parameterType="String" resultType="map">
 		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
 	</select>
-	<select id="All_SellPrice" parameterType="String" resultType="map">
-		SELECT p_price,p_sell
+	<select id="All_SellPrice" parameterType="String" resultType="int">
+		SELECT p_price
 		FROM Product WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk='end'
+		p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk='end' ORDER BY p_id
+	</select>
+		<select id="All_Sell" parameterType="String" resultType="int">
+		SELECT p_sell
+		FROM Product WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk='end' ORDER BY p_id
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
@@ -199,14 +208,14 @@
 		UPDATE product AS p, discount AS d, img AS i ,opt AS o
 		SET
 		p.p_chk='remove',d.dis_chk='remove',i.img_chk='remove',o.opt_chk='remove'
-		WHERE 
+		WHERE
 		p.p_id=#{p_id} AND d.dis_pid_p_fk=#{p_id} AND i.img_pid_p_fk=#{p_id}
 		AND o.opt_pid_p_fk=#{p_id}
 	</update>
-	
-	
-	
-	
+
+
+
+
 	<delete id="OptionRemove" parameterType="String">
 		DELETE FROM opt WHERE opt_option1=#{opt_name}
 	</delete>
