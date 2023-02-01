@@ -28,6 +28,10 @@
 <script type="text/javascript" th:src="@{/js/cart.js}"></script>
 
 
+<script>
+	$(document).ready(function() {	});
+</script>
+
 
 </head>
 <body>
@@ -42,15 +46,23 @@
 			</div>
 
 			<form th:action="@{/orders/carts}" th:method="put" class="cart_form">
-
+			<label>
+			<span>전체선택</span>	<input type="checkbox" id="cbx_chkAll" class="allcheck"> 
+			</label>
 
 				<div class="cart_list" th:each="orderitem :${order}">
 					<input type="hidden" name="o_product_p_fk"
 						th:value="${orderitem.o_product_p_fk}">
+						
+						
 					<!--  체크 박스 -->
+					
+					
 					<div class="product_select_event">
-						<input type="checkbox" th:value="${orderitem.o_id}" name="o_id">
+						<input type="checkbox" th:value="${orderitem.o_id}"  name="o_id">
 					</div>
+					
+					
 					<!-- 상품 이미지 -->
 					<div class="product_img">
 						<img th:src="@{/projectimg/}+${orderitem['img'].getImg_name}">

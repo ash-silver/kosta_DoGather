@@ -41,7 +41,6 @@ public class OrderController {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
 		for (Order ord : order) {
-			System.out.println(ord);
 		}
 		model.addAttribute("order", order);
 		return "cart";
@@ -63,24 +62,23 @@ public class OrderController {
 		}
 	}
 
-	// 구매내역
 	@GetMapping("/buylists")
 	public String buyList(Model model, Principal principal, SearchDto params) {
 		String m_nickname = principal.getName();
-		ArrayList<Order> order = oService.findCart(m_nickname);
 		List<Product> product = new ArrayList<>();
-		List<Img>img=new ArrayList<>();
-		for(Order i:order) {
-			img.add(i.getImg());
-			product.add(i.getProduct());
-		}
+		List<Img> img = new ArrayList<>();
 		PagingResponse<Order> ordlist = oService.buyList(m_nickname, params);
+		for (Order ord : ordlist.getList()) {
+			product.add(ord.getProduct());
+			img.add(ord.getImg());
+		}
 		model.addAttribute("img", img);
 		model.addAttribute("product", product);
 		model.addAttribute("ordlist", ordlist);
-		
-		
-		return "mypage1";
+		System.out.println("ddsdasdas" + product);
+		System.out.println("cdsdsvdfbgnghmn" + img);
+
+		return "buylist";
 	}
 
 }

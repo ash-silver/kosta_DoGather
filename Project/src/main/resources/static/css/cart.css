@@ -8,7 +8,6 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	
 }
 
 .main_box {
@@ -32,12 +31,24 @@
 }
 
 .cart_form {
-	
 	width: 1200px;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	display: flex;
 	flex-direction: column;
+}
+
+.cart_form label {
+	margin-left: 20px;
+}
+
+.allcheck {
+	justify-content: flex-start;
+	display: flex;
+	width: 20px;
+	height: 20px;
+	align-items: flex-start;
+	margin-left: 20px;
 }
 
 .cart_list {
@@ -121,7 +132,6 @@
 }
 
 .product_box2 {
-	border: 1px solid red;
 	width: 950px;
 	height: 130px;
 	display: flex;
@@ -168,7 +178,6 @@
 }
 
 .buttons {
-	border: 1px solid red;
 	width: 1200px;
 	height: 100px;
 	display: flex;
@@ -189,14 +198,14 @@
 	height: 900px;
 	position: absolute;
 	background: black;
-	opacity:0.9;
+	opacity: 0.9;
 	z-index: 2;
-	top:300px;
-	left:100px;
+	top: 300px;
+	left: 100px;
 	box-shadow: 0 0 10px #000;
 }
 
-.modal_content{
+.modal_content {
 	border: 1px solid yellow;
 	justify-content: center;
 	align-items: center;
@@ -204,12 +213,7 @@
 	height: 400px;
 	display: flex;
 	flex-direction: column;
-	
 }
-
-
-
-
 
 /*flex-direction :row -> 왼쪽에서 오른쪽 정렬
  flex-direction : column -> 위에서 아래로 정렬*/

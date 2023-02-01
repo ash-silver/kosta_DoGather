@@ -53,6 +53,21 @@ $(function() {
 
 	});
 
+	$(document).ready(function() {
+			$("#cbx_chkAll").click(function() {
+				if($("#cbx_chkAll").is(":checked")) $("input[name=o_id]").prop("checked", true);
+				else $("input[name=o_id]").prop("checked", false);
+			});
+			
+			$("input[name=o_id]").click(function() {
+				var total = $("input[name=o_id]").length;
+				var checked = $("input[name=o_id]:checked").length;
+				
+				if(total != checked) $("#cbx_chkAll").prop("checked", false);
+				else $("#cbx_chkAll").prop("checked", true); 
+			});
+		});
+
 
 
 

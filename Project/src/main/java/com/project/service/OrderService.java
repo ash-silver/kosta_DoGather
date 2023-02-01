@@ -54,7 +54,6 @@ public class OrderService {
 
 	// 구매내역
 	public PagingResponse<Order> buyList(String o_nickname, SearchDto params) {
-		System.out.println("0값");
 		int o_member_m_fk = oMapper.findMember(o_nickname);
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
@@ -71,7 +70,6 @@ public class OrderService {
 		map.put("recordsize", params.getRecordSize());
 		List<Order> list = oMapper.buyList(map);
 		for (Order ord : list) {
-			System.out.println("ddddddddddddd" + ord);
 		}
 		return new PagingResponse<>(list, pagination);
 
