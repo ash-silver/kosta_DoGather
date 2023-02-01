@@ -26,8 +26,8 @@
     	  speed: 500,        // 이동 속도를 설정
     	  auto: true,        // 자동 실행 여부
     	  slideWidth: 1500,   // 슬라이드 너비
-    	  autoHover: true   // 마우스 호버시 정지 여부
-    	  
+    	  autoHover: true,   // 마우스 호버시 정지 여부
+    	  controls: false   
       });
     });
     
@@ -61,7 +61,6 @@
 						<a th:href="|/products/${best.p_id}/detail|" class="img_url" th:each=" img : ${best['img']}"><img th:src="|/projectimg/${img.img_name}|">
 						<span class="name_url" th:text="|제품명:${best.p_name}|">best</span> 
 						<span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>
-						<span th:text="|마감일자:${best.p_duedate}|">마감일자</span>
 						</a>
 					</div>
 
@@ -79,7 +78,6 @@
 						<a th:href="|/products/${nl.p_id}/detail|" class="img_url" th:each=" img : ${nl['img']}"><img th:src="|/projectimg/${img.img_name}|">
 						<span class="name_url" th:text="|제품명:${nl.p_name}|">new</span>
 						<span th:text="|가격:${nl.p_price}원|">가격 : PRICE</span>
-						<span th:text="|마감일자:${nl.p_duedate}|">마감일자</span>
 						</a>
 					</div>
 

@@ -123,7 +123,7 @@ public class IndexController {
 	
 	@GetMapping("/category")
 	public String category(@ModelAttribute("params") SearchDto params, String p_category, Model model) {
-		System.out.println(params+"aaa");
+		
 		PagingResponse<Product> plist = iService.Category(params, p_category);
 		
 		List<Img> img_name = new ArrayList<>();

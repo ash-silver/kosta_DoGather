@@ -33,20 +33,21 @@ public class IndexService {
 	}
 	
 	 public PagingResponse<Product> Category(SearchDto params, String p_category) {
-
         int count = pMapper.category_count(p_category);
+   
         if (count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
         }
-
+    
         Pagination pagination = new Pagination(count, params);
+        
         params.setPagination(pagination);
         Map<String, Object> map = new HashMap<>();
 		map.put("p_category", p_category);
-		map.put("limitstart", params.getPagination().getLimitStart());
-		map.put("recordsize", params.getRecordSize());
+		map.put("limitStart", pagination.getLimitStart());
+		map.put("recordSize", params.getRecordSize());
 		List<Product> list = pMapper.Category(map);
-
+		System.out.println(list);
         return new PagingResponse<>(list, pagination);
      }
 	 
