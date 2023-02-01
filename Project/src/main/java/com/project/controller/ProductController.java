@@ -47,7 +47,7 @@ public class ProductController {
 	@PostMapping("")
 	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
 		pService.AddProduct(pro);
-		re.addFlashAttribute("p_id", pro.getP_id());
+		re.addAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
 	}
 
@@ -82,13 +82,16 @@ public class ProductController {
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
-
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
 
 	@GetMapping("/options")
-	public String OptionAddForm() {
+	public String OptionAddForm(Model model, int p_id) {
+		Option opt=pService.FindOption(p_id);
+		System.out.println(opt);
+		model.addAttribute("opt",opt);
+		model.addAttribute("p_id",p_id);
 		return "option";
 	}
 
@@ -101,38 +104,47 @@ public class ProductController {
 		return "optionUpdate";
 	}
 
-	@DeleteMapping("/options/{opt_name}/info")
-	public String OptionRemove(@PathVariable String opt_name, int opt_pid) {
-		pService.OptionRemove(opt_name);
-		return "redirect:/products/options/" + opt_pid + "/info";
+	@DeleteMapping("/options/{opt_option1}/info/{opt_pid_p_fk}")
+	public String OptionRemove(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
+		pService.OptionRemove(opt_option1, opt_pid_p_fk);
+		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
+	}
+
+	@DeleteMapping("/options/{opt_pid}/info")
+	public String OneOptionRemove(@PathVariable int opt_id, int opt_pid_p_fk) {
+		pService.OneOptionRemove(opt_id);
+		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
-	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
+	public List<String> FindOption2(String opt_option1, @PathVariable int p_id) {
 		return pService.FindOption2(opt_option1, p_id);
 	}
 
+
 	@ResponseBody
 	@PostMapping("/options")
-	public void AddOption2(Option opt, int opt_pid) {
+	public String AddOption2(Option opt, int opt_pid_p_fk) {
 		if (opt.getOpt_opt1_list() == null) {
 			for (int i = 0; i < opt.getOpt_opt2_list().size(); i++) {
 				if (!opt.getOpt_opt2_list().get(i).isEmpty()) {
-					Option option = Option.builder().opt_pid_p_fk(opt_pid).opt_option1(opt.getOpt_option1())
+					Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk).opt_option1(opt.getOpt_option1())
 							.opt_option2(opt.getOpt_opt2_list().get(i)).opt_quantity(opt.getOpt_quantity_list().get(i))
 							.build();
 					pService.AddOption(option);
 				}
 			}
+			return "AllOptionAdd";
 		} else {
 			for (int i = 0; i < opt.getOpt_opt1_list().size(); i++) {
-				Option option = Option.builder().opt_pid_p_fk(opt_pid).opt_option1(opt.getOpt_opt1_list().get(i))
+				Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk).opt_option1(opt.getOpt_opt1_list().get(i))
 						.opt_quantity(opt.getOpt_quantity_list().get(i)).build();
 				pService.AddOption(option);
 			}
-		}
+		} return "OneOptionAdd";
 	}
+
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword, String searching) {

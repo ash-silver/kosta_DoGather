@@ -79,13 +79,20 @@
 
 
 	<select id="WriterProductlistCount" resultType="int" parameterType="String">
-		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk=#{keyword}
+
+		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
+		<if test="#{keyword} != 'all'">
+			AND p_chk=#{keyword}
+		</if>
 	</select>
 	<select id="WriterProductlist" parameterType="hashMap" resultMap="ProductList">
 		SELECT
 		p_id,p_name,p_price,p_duedate,p_recruitdate,p_nickname_m_fk,p_chk,p_sell
 		FROM Product WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk=#{keyword}
+		p_nickname_m_fk=#{p_nickname_m_fk}
+		<if test="#{keyword} != 'all'">
+			AND p_chk=#{keyword}
+		</if>
 		LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="getImg_name" parameterType="int" resultMap="ImgMap">
@@ -95,17 +102,22 @@
 	<!-- ===================================JOIN RESULT======================================== -->
 
 	<!-- ===================================SELECT 부분======================================== -->
-	<select id="FindOption" parameterType="hashMap" resultMap="OptionMap">
-		SELECT opt_option2 FROM opt WHERE opt_pid_p_fk=${opt_pid} AND
+	<select id="FindOption2" parameterType="hashMap" resultType="String">
+		SELECT opt_option2 FROM opt WHERE opt_pid_p_fk=${opt_pid_p_fk} AND
 		opt_option1=#{opt_option1}
 	</select>
+	<select id="FindOption" parameterType="int" resultMap="OptionMap">
+		SELECT * FROM opt WHERE opt_pid_p_fk=${opt_pid_p_fk} LIMIT 0,1
+	</select>
+
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
 		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
 		p_chk=#{keyword} AND p_name LIKE
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
-		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk=#{keyword} AND
+		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
+		p_chk=#{keyword} AND
 		p_name LIKE
 		CONCAT('%',#{search},'%')
 	</select>
@@ -158,7 +170,7 @@
 
 	<insert id="AddOption" parameterType="com.project.model.Option">
 
-	INSERT INTO opt(
+		INSERT INTO opt(
 		<if test='opt_option2 != null'>
 			opt_pid_p_fk,opt_option1,opt_option2,opt_quantity
 			) VALUES(
@@ -226,8 +238,10 @@
 
 
 
-	<delete id="OptionRemove" parameterType="String">
-		DELETE FROM opt WHERE opt_option1=#{opt_name}
+	<delete id="OptionRemove" parameterType="com.project.model.Option">
+		DELETE FROM opt WHERE opt_option1=#{opt_option1} AND opt_pid_p_fk=#{opt_pid_p_fk}
 	</delete>
-
+	<delete id="OneOptionRemove" parameterType="int">
+		DELETE FROM opt WHERE opt_id=#{opt_id}
+	</delete>
 </mapper>

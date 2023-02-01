@@ -24,16 +24,16 @@
 	<div id="container">
 		<header th:replace="header :: header"> </header>
 		<main id="option_update_con">
-			<div class="type_btn_box">
+			<input type="hidden" name="opt_pid_p_fk" th:value="${p_id}" th:if="${p_id!=null}">
+			<div class="type_btn_box" th:if="${#lists.isEmpty(optmap['opt'])}">
 				<button id="All_option">2개옵션 추가</button>
 				<button id="One_option">한개옵션 추가</button>
 			</div>
-
 			<form action="" method="post" class="option_form" th:if=" ${optmap['opt1']}!=null or ${#lists.isEmpty(optmap['opt'])}">
 				<div class="form_text">
 					<h1>모든 옵션 추가</h1>
 				</div>
-				<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
+
 				<div class="opt_box">
 					<div class="opt_tag tag_option1">
 						<span>대분류</span>
@@ -64,9 +64,9 @@
 
 
 
-			<form th:action="|/products/options/${opt}/info|" th:method="delete" class="opt_box1" th:each="opt : ${optmap['opt1']}"
+
+			<form th:action="|/products/options/${opt}/info/${p_id}|" th:method="delete" class="opt_box1" th:each="opt : ${optmap['opt1']}"
 				th:if="${optmap['opt1']}!=null">
-				<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
 				<div class="opt_tag1">
 					<span>상품 옵션1</span>
 					<input type="text" name="opt_option1_reading" th:value="${opt}" readonly>
@@ -86,7 +86,6 @@
 
 				<div class="optlist_btn">
 					<input type="hidden" th:value="${opt}" name="opt_name">
-					<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
 					<button type="submit" id="Updateoption_btn">옵션 삭제</button>
 				</div>
 			</form>
@@ -95,8 +94,7 @@
 
 
 
-			<form action="" method="post" class="option_form_1 opt_null">
-				<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
+			<form action="" method="post" class="option_form_1 opt_null_up">
 				<div class="form_text">
 					<h1>단일 옵션 추가</h1>
 				</div>
@@ -118,14 +116,13 @@
 					</div>
 				</div>
 				<div class="optadd_btn">
-					<button type="button" id="Addoption_one">옵션 추가</button>
+					<button type="button" class="Addoption_one">옵션 추가</button>
 				</div>
 			</form>
 
 
 
 			<form action="" method="post" class="option_form_1" th:if="${optmap['opt1']}==null AND ${not #lists.isEmpty(optmap['opt'])}">
-				<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
 				<div class="form_text">
 					<h1>단일 옵션 추가2</h1>
 				</div>
@@ -147,13 +144,12 @@
 					</div>
 				</div>
 				<div class="optadd_btn">
-					<button type="button" id="Addoption_one">옵션 추가</button>
+					<button type="button" class="Addoption_one">옵션 추가</button>
 				</div>
 			</form>
 
 			<div class="option_list_form" th:if="${optmap['opt1']}==null AND ${not #strings.isEmpty(optmap['opt'])}">
-				<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
-				<form th:action="|/products/options/${opt.opt_option1}/info|" th:method="delete" class="opt_box2" th:each="opt : ${optmap['opt']}">
+				<form th:action="|/products/options/${opt.opt_id}/info|" th:method="delete" class="opt_box2" th:each="opt : ${optmap['opt']}">
 					<div class="opt_tag1">
 						<span>상품 옵션1</span>
 						<input type="text" name="opt_option1_reading" th:value="${opt.opt_option1}" readonly>
@@ -166,7 +162,7 @@
 
 					<div class="optlist_btn">
 						<input type="hidden" th:value="${opt.opt_option1}" name="opt_name">
-						<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
+
 						<button type="submit" id="Updateoption_btn">옵션 삭제</button>
 					</div>
 				</form>

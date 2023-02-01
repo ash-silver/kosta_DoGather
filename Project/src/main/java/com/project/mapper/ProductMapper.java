@@ -38,17 +38,18 @@ public interface ProductMapper {
 	Map<String,Object> All_SellCount(String p_nickname_m_fk);
 	List<Integer> All_SellPrice(String p_nickname_m_fk);
 	List<Integer> All_Sell(String p_nickname_m_fk);
-	
+	Option FindOption(int opt_pid_p_fk);
 	
 	List<Option> Option_List(int p_id);
-	List<Option> FindOption(Map<String, Object> map);
+	List<String> FindOption2(Map<String, Object> map);
 	
 	void CreateNewEvent(String value);
 
 	void removeProduct(int p_id);
 	
-	void OptionRemove(String opt_name);
-
+	void OptionRemove(Option opt);
+	void OneOptionRemove(int opt_id);
+	
 	List<Product> WriterProductlist(Map<String, Object> map);
 
 	int WriterProductlistCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("keyword") String keyword);

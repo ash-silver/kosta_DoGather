@@ -54,7 +54,7 @@ public class DatabaseConfig {
 		// SqlSessionFactoryBean자체가 아닌 , getObject메소드가 리턴하는 SqlSessionFactory를 생성
 		factoryBean.setDataSource(dataSource());
 		// 위의 메소드에서 받아온 DataSource를 Bean의 source값에 주입
-		factoryBean.setMapperLocations(context.getResources("classpath:/mapper/**/*Mapper.xml"));
+		factoryBean.setMapperLocations(context.getResources("classpath:/mapper/*Mapper.xml"));
 		// DB와 연결시킬 Mapper.XML파일의 위치를 설정해 스프링이 Mapper를 인식할 수 있게함.
 		// context는 ApplicationContext로 IoC(컨테이너)를 담당, Bean의 생성 ,관계 설정을 한다
 		factoryBean.setConfiguration(mybatisConfig());

@@ -38,9 +38,6 @@ public class OrderController {
 	public String findCart(Model model, Principal principal) {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
-		for (Order ord : order) {
-			System.out.println(ord);
-		}
 		model.addAttribute("order", order);
 		return "cart";
 	}

@@ -18,6 +18,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/option.js}"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
+<script type="text/javascript" th:src="@{/js/option_chk.js}"></script>
 </head>
 
 <body>
@@ -27,12 +28,17 @@
 		<main id="productoption_main_con">
 
 			<div class="productoption_box">
-
+				<div class="type_btn_box">
+					<button id="All_option">2개옵션 추가</button>
+					<button id="One_option">한개옵션 추가</button>
+				</div>
 				<form action="" method="post" class="option_form">
 					<div class="form_text">
 						<h1>모든 옵션 추가</h1>
 					</div>
-					<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
+					<input type="hidden" name="opt_pid_p_fk" th:value="${p_id}" th:if="${p_id!=null}">
+					<input type="hidden" name=opt_chk th:value="${opt.opt_option1}" th:if="${opt}!=null">
+					<input type="hidden" name="opt_chk2" th:value="${opt.opt_option2}" th:if="${opt}!=null">
 					<div class="opt_box">
 						<div class="opt_tag tag_option1">
 							<span>대분류</span>
@@ -61,15 +67,14 @@
 				</form>
 
 
-				<form action="" method="post" class="option_form_1">
+				<form action="" method="post" class="option_form_1 opt_null">
 					<div class="form_text">
-						<h1>한개 옵션만 추가</h1>
+						<h1>단일 옵션 추가</h1>
 					</div>
-					<input type="hidden" name="opt_pid" th:value="${p_id}" th:if="${p_id!=null}">
 					<div class="opt_box">
 						<div class="opt_tag opt_tag1_opt1">
 							<span>
-								대분류
+								옵션1
 								<button type="button" id="option_form_1_opt1">+</button>
 							</span>
 							<input type="text" name="opt_option1_one" class="opt1_option1">
@@ -77,14 +82,15 @@
 
 						<div class="opt_tag opt_tag1_quantity">
 							<span>
-								상품 수량
+								수량
 								<button type="button" id="option_form_1_quan">+</button>
 							</span>
 							<input type="text" name="opt_quantity_one" class="opt1_quantity">
 						</div>
 					</div>
 					<div class="optadd_btn">
-						<button type="button" id="Addoption_one">옵션 추가</button>
+
+						<button type="button" class="Addoption_one">옵션 추가</button>
 					</div>
 				</form>
 			</div>

@@ -96,7 +96,12 @@
 	justify-content: center;
 	flex-direction: column;
 }
-
+.opt_tag span{
+	height: 30px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
 .opt_tag span button {
 	margin-left: 5px;
 	width: 25px;
@@ -107,7 +112,7 @@
 	color: white;
 }
 
-.opt_null {
+.opt_null_up {
 	display: none;
 }
 

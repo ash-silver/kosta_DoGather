@@ -31,16 +31,17 @@ function findAllPost() {
 
   const pagination = /*[[${prolist.pagination}]]*/"";//PagingResponse의 멤버인 pagination을 의미
  const img=/*[[${img}]]*/"";
+ const keyword=/*[[${keyword}]]*/"";
   const params =/*[[${params}]]*/""; // @ModelAttribute로 바로 1ㄷ1 맵핑시킨 값을 받아옴
  																				// ex) 100 - ((1-1)*10) = 100
-  drawList(list, img);
+  drawList(list, img,keyword);
   drawPage(pagination, params);
 }
 
 
 // 리스트 HTML draw
 // 제품 리스트를 출력
-function drawList(list, img) {
+function drawList(list, img,keyword) {
 let index=0;
   let html = '';
   list.forEach(row => { // list 의 갯수만큼 반복진행 row 라는 변수명으로 list명을 대체함 화살표함수
@@ -58,17 +59,17 @@ let index=0;
 					<span>현재 판매된 수량:${row.p_sell}개</span>
 					<span>총 판매액:${row.p_price*row.p_sell}원</span>
 				</div>
-			
-				<div class="mypage_info">
-				<a href="/products/${row.p_id}/info">
-					세부정보
-				</a>
-				</div>
-			
-			</div>
-		</div>
-       
-    `;        
+			`;
+		if(keyword=='add'){
+			 html += `<div class="mypage_info">
+					<a href="/products/${row.p_id}/info">
+						제품수정
+					</a>
+					</div>
+					`;
+		}
+	
+	html+="	</div> </div>";	       
     index++;
   })	
   html+='<div class="paging_btn"></div>'
@@ -172,7 +173,7 @@ function movePage(page) {
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
 								<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['sel_point'], 3, 'COMMA') + '원'}|"></span>
-								
+
 							</div>
 							<div class="status_bar_2_text2">
 								<span>보유캐시:</span>

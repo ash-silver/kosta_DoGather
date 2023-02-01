@@ -14,6 +14,25 @@
 	align-items: center;
 	justify-content: center;
 }
+.type_btn_box {
+	width: 800px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.type_btn_box button {
+	width: 200px;
+	height: 40px;
+	border: 1px solid #e2e2e2;
+	margin-top: 50px;
+	border-radius: 10px;
+}
+
+.type_btn_box button:hover {
+	background-color: #4285F4;
+	color: white;
+}
 
 .form_text {
 	font-size: 24px;
@@ -24,10 +43,22 @@
 	align-items: center;
 	justify-content: center;
 }
-
+.option_form_1 {
+	width: 900px;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-top: 100px;
+	border: 1px solid #e2e2e2;
+	border-radius: 20px;
+}
+.opt_null {
+	display: none;
+}
 .productoption_box {
 	width: 800px;
-	height: 700px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -35,10 +66,12 @@
 }
 
 .option_form {
-	width: 800px;
+	margin-top:100px;
+	border:1px solid #e2e2e2;
+	width: 900px;
 	height: 300px;
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 }
@@ -97,7 +130,7 @@
 	width: 150px;
 }
 
-#Addoption_one {
+.Addoption_one {
 	margin-right: 20px;
 	width: 150px;
 	height: 30px;

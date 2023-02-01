@@ -69,6 +69,7 @@ public class ProductService {
 		}
 	}
 
+	
 	@Transactional
 	public void EditDiscount(Product pro) {
 		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
@@ -141,7 +142,7 @@ public class ProductService {
 		File file1 = new File(delpath);
 		file1.delete();
 	}
-
+	
 	public void CreateNewEvent(Product pro, String type) {
 		String value = "";
 		if (type.equals("UPDATE")) {
@@ -168,7 +169,7 @@ public class ProductService {
 	public void AddOption(Option opt) {
 		pMapper.AddOption(opt);
 	}
-
+	
 	public Map<String, Object> FindProduct(int p_id) {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
@@ -200,12 +201,13 @@ public class ProductService {
 		map.put("pro", pro);
 		return map;
 	}
-
-	public List<Option> FindOption2(String opt_option1, int p_id) {
+	
+	public List<String> FindOption2(String opt_option1, int p_id) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("opt_option1", opt_option1);
-		map.put("opt_pid", p_id);
-		return pMapper.FindOption(map);
+		map.put("opt_pid_p_fk", p_id);
+		System.out.println(pMapper.FindOption2(map));
+		return pMapper.FindOption2(map);
 	}
 
 	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
@@ -256,7 +258,7 @@ public class ProductService {
 		pMapper.removeProduct(p_id);
 
 	}
-
+	
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
 		Map<String, Object> map = new HashMap<>();
@@ -271,7 +273,7 @@ public class ProductService {
 		map.put("opt", opt);
 		return map;
 	}
-
+	
 	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) {
 		Map<String, Object> sel_count = pMapper.All_SellCount(p_nickname_m_fk);
 		List<Integer> sel_Price = pMapper.All_SellPrice(p_nickname_m_fk);
@@ -287,8 +289,16 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void OptionRemove(String opt_name) {
-		pMapper.OptionRemove(opt_name);
+	public void OptionRemove(String opt_option1,int opt_pid_p_fk) {
+		Option opt=Option.builder().opt_option1(opt_option1).opt_pid_p_fk(opt_pid_p_fk).build();
+		pMapper.OptionRemove(opt);
 	}
-
+	@Transactional
+	public void OneOptionRemove(int opt_id) {
+		pMapper.OneOptionRemove(opt_id);
+	}
+	
+	public Option FindOption(int opt_pid_p_fk) {
+		return pMapper.FindOption(opt_pid_p_fk);
+	}
 }
