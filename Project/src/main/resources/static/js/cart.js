@@ -28,9 +28,32 @@ $(function() {
 
 			}
 		});
+	});
+	
+	
+	$("#moalbutton").click(function() {
+		$(".modal").css("display", "flex");
+	});
+	
+	$(document).mouseup(function(e) {
+		if ($(".modal").has(e.target).length === 0) {
+			$(".modal").hide();
+		}
+		
+	});
 
+	$(document).keydown(function(e) {
+		//keyCode 구 브라우저, which 현재 브라우저
+		var code = e.keyCode || e.which;
 
-
+		if (code == 27) { // 27은 ESC 키번호
+			$('.modal').hide();
+		
+		}
 
 	});
+
+
+
+
 });

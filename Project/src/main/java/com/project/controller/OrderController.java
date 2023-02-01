@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.model.Img;
 import com.project.model.Order;
+import com.project.model.PagingResponse;
+import com.project.model.Product;
+import com.project.model.SearchDto;
 import com.project.service.OrderService;
-import com.project.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,8 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class OrderController {
 
 	private final OrderService oService;
-	private final ProductService pService;
-	static public ArrayList<Order> items;
 
 	@ResponseBody
 	@PostMapping("/carts")
@@ -38,6 +40,9 @@ public class OrderController {
 	public String findCart(Model model, Principal principal) {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
+		for (Order ord : order) {
+			System.out.println(ord);
+		}
 		model.addAttribute("order", order);
 		return "cart";
 	}
@@ -56,7 +61,26 @@ public class OrderController {
 		for (int a : o_id) {
 			oService.delCartItem(a);
 		}
+	}
 
+	// 구매내역
+	@GetMapping("/buylists")
+	public String buyList(Model model, Principal principal, SearchDto params) {
+		String m_nickname = principal.getName();
+		List<Product> product = new ArrayList<>();
+		List<Img> img = new ArrayList<>();
+		PagingResponse<Order> ordlist = oService.buyList(m_nickname, params);
+		for(Order ord:ordlist.getList()) {
+			product.add(ord.getProduct());
+			img.add(ord.getImg());
+		}
+		model.addAttribute("img", img);
+		model.addAttribute("product", product);
+		model.addAttribute("ordlist", ordlist);
+		System.out.println("ddsdasdas"+product);
+		System.out.println("cdsdsvdfbgnghmn"+img);
+
+		return "mypage1";
 	}
 
 }

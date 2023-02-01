@@ -20,7 +20,8 @@ $(function() {
 		let value = $(this).val();
 		num_check(value, $(this));
 	});
-	$("#Addoption_btn").click(function() {
+	
+	$("#Addoption_btn").click(function() {   
 		let opt_option1 = $("input[name=opt_option1]").val();
 		let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
 		let opt_option2 = [];

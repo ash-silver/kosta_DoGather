@@ -1,4 +1,5 @@
 $(function() {
+	
 	$.ajax({
 			type: "POST",
 			url: "/products/options",

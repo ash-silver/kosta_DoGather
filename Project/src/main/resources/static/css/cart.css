@@ -8,16 +8,16 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	position: relative;
+	
 }
 
 .main_box {
+	position: relative;
 	width: 1200px;
 	justify-content: center;
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	padding-top: 170px;
 }
 
@@ -32,9 +32,10 @@
 }
 
 .cart_form {
+	
 	width: 1200px;
-	justify-content: flex-start;
-	align-items: flex-start;
+	justify-content: center;
+	align-items: center;
 	display: flex;
 	flex-direction: column;
 }
@@ -49,7 +50,6 @@
 }
 
 .product_select_event {
-	border: 1px solid blue;
 	padding: 10px;
 	margin-top: 10px;
 	width: 50px;
@@ -175,10 +175,41 @@
 	justify-content: space-around;
 	align-items: center;
 }
-.btn11{
-	width:100px;
+
+.btn11 {
+	width: 100px;
 	height: 80px;
 }
+
+.modal {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	width: 1000px;
+	height: 900px;
+	position: absolute;
+	background: black;
+	opacity:0.9;
+	z-index: 2;
+	top:300px;
+	left:100px;
+	box-shadow: 0 0 10px #000;
+}
+
+.modal_content{
+	border: 1px solid yellow;
+	justify-content: center;
+	align-items: center;
+	width: 500px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+	
+}
+
+
+
+
 
 /*flex-direction :row -> 왼쪽에서 오른쪽 정렬
  flex-direction : column -> 위에서 아래로 정렬*/

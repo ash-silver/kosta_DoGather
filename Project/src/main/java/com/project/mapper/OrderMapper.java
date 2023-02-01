@@ -1,11 +1,14 @@
 package com.project.mapper;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.project.model.Order;
+import com.project.model.Product;
 
 @Mapper
 public interface OrderMapper {
@@ -14,7 +17,6 @@ public interface OrderMapper {
 	void AddCart(Order oid);
 	
 	ArrayList<Order> findCart(int o_member_m_fk);
-
 	int findMember(String m_nickname);
 	
 	//장바구니에서 구매
@@ -24,4 +26,6 @@ public interface OrderMapper {
 	void delCartItem(int o_id);
 	
 	
+	List<Order> buyList(Map<String, Object> map);
+	int buyListCount( int o_member_m_fk);
 }
