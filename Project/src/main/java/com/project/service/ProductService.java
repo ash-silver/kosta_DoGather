@@ -274,17 +274,17 @@ public class ProductService {
 		return map;
 	}
 	
-	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) {
-		Map<String, Object> sel_count = pMapper.All_SellCount(p_nickname_m_fk);
-		List<Integer> sel_Price = pMapper.All_SellPrice(p_nickname_m_fk);
-		List<Integer> sel_AllSell = pMapper.All_Sell(p_nickname_m_fk);
-		int sel_point = 0;
-		for (int i = 0; i < sel_Price.size(); i++) {
-			sel_point += sel_Price.get(i) * sel_AllSell.get(i);
+	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계싼
+		Map<String, Object> sell_count = pMapper.All_SellCount(p_nickname_m_fk);
+		List<Integer> sell_Price = pMapper.All_SellPrice(p_nickname_m_fk);
+		List<Integer> sell_AllSell = pMapper.All_Sell(p_nickname_m_fk);
+		int sell_point = 0;
+		for (int i = 0; i < sell_Price.size(); i++) {
+			sell_point += sell_Price.get(i) * sell_AllSell.get(i);
 		}
 		Map<String, Object> map = new HashMap<>();
-		map.put("sel_count", sel_count);
-		map.put("sel_point", sel_point);
+		map.put("sell_count", sell_count);
+		map.put("sell_point", sell_point);
 		return map;
 	}
 

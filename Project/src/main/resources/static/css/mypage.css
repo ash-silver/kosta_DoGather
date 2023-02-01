@@ -98,6 +98,7 @@
 	flex-direction: column;
 }
 
+
 .mypage_status_bar {
 	width: 850px;
 	height: 100px;
@@ -185,9 +186,20 @@
 	border: 1px solid #e2e2e2;
 }
 /*=======================검색창==========================*/
+
+
+#chart1{
+	width:850px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border:1px solid #e2e2e2;
+	height: 200px;
+}
+
 .mypage_list {
 	width: 850px;
-	
+	margin-top:50px;
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-start;

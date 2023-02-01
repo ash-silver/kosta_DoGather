@@ -40,9 +40,7 @@ public class OrderController {
 	public String findCart(Model model, Principal principal) {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
-		for (Order ord : order) {
-			System.out.println(ord);
-		}
+	
 		model.addAttribute("order", order);
 		return "cart";
 	}
@@ -77,8 +75,7 @@ public class OrderController {
 		model.addAttribute("img", img);
 		model.addAttribute("product", product);
 		model.addAttribute("ordlist", ordlist);
-		System.out.println("ddsdasdas"+product);
-		System.out.println("cdsdsvdfbgnghmn"+img);
+	
 
 		return "mypage1";
 	}

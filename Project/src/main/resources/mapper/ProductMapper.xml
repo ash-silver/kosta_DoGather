@@ -37,7 +37,7 @@
 		<result property="p_sell" column="p_sell" />
 		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg_name" />
 	</resultMap>
-
+	
 
 	<resultMap type="com.project.model.Img" id="ImgMap">
 		<id property="img_id" column="img_id" />
@@ -139,16 +139,16 @@
 		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
 	</select>
 	<select id="All_SellPrice" parameterType="String" resultType="int">
-		SELECT p_price
+		SELECT p_endprice
 		FROM Product WHERE
 		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk='end' ORDER BY p_id
+		p_chk='endprice'  ORDER BY p_id
 	</select>
 	<select id="All_Sell" parameterType="String" resultType="int">
 		SELECT p_sell
 		FROM Product WHERE
 		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk='end' ORDER
+		p_chk='endprice' ORDER
 		BY p_id
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->

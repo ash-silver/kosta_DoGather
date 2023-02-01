@@ -68,9 +68,6 @@ public class OrderService {
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		List<Order> list = oMapper.buyList(map);
-		for (Order ord : list) {
-			System.out.println("ddddddddddddd" + ord);
-		}
 		return new PagingResponse<>(list, pagination);
 
 	}

@@ -89,13 +89,24 @@
 }
 
 #discount_btn {
-	width: 75px;
+	width: 25px;
 	height: 25px;
 	background-color: #278ff8;
 	color:white;
 	border-radius:5px;
 	margin-left:15px;
-	
+	font-size:20px;
+	font-weight:bold;
+}
+#discount_revbtn{
+	width: 25px;
+	height: 25px;
+	background-color: red;
+	color:white;
+	font-size:20px;
+	font-weight:bold;
+	border-radius:5px;
+	margin-left:10px;
 }
 
 .discount_add {

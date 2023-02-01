@@ -13,7 +13,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js "></script>
+
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
+<script type="text/javascript" th:src="@{/js/chart.js}"></script>
 <script th:inline="javascript">
 /*<![CDATA[*/
 
@@ -163,17 +166,21 @@ function movePage(page) {
 					<div class="mypage_status_bar">
 						<label class="status_bar">
 							<span> 판매 완료된 공고 수 </span>
-							<span th:text="|${sell_cnt['sel_count']['count(*)']}개|"></span>
+							<span th:text="|${sell_cnt['sell_count']['count(*)']}개|"></span>
 						</label>
 						<label class="status_bar">
 							<span> 판매된 제품의 총합 </span>
-							<span th:text="|${sell_cnt['sel_count']['sum(p_sell)']}개|"></span>
+							<span th:text="|${sell_cnt['sell_count']['sum(p_sell)']}개|"></span>
 						</label>
 
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
-								<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['sel_point'], 3, 'COMMA') + '원'}|"></span>
-
+								<th:block th:if="${sell_cnt['sell_point']}!=0">
+								<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['sell_point'], 3, 'COMMA') + '원'}|"></span>
+								</th:block>
+								<th:block th:if="${sell_cnt['sell_point']}==0">
+								<span th:text="|총 판매액:|"></span>
+								</th:block>
 							</div>
 							<div class="status_bar_2_text2">
 								<span>보유캐시:</span>
@@ -194,10 +201,11 @@ function movePage(page) {
 						</div>
 					</form>
 
+					<div id="chart1"></div>
 					<div class="mypage_list">
 						<div class="mypage_tagbar">
 							<label class="tagbar_menu">
-								<a href="/products/end/lists">
+								<a href="/products/endprice/lists">
 									<span>판매종료</span>
 								</a>
 							</label>
