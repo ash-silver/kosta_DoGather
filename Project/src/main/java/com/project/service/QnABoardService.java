@@ -29,7 +29,6 @@ public class QnABoardService {
 		
 		map.put("q_id", q_id);
 		map.put("qnaModel", qnaModel);
-		System.out.println(qnaModel);
 		if (qnaModel.getQ_answer() != null) {
 			map.put("q_answer", qnaModel.getQ_answer());
 		}

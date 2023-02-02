@@ -45,10 +45,16 @@
 				<div th:if="${questionMap['qnaModel'].getQ_answer}==null">
 					<span th:text="|답변이 아직 없습니다.|"></span>
 				</div>
+				
 				<div th:if="${questionMap['qnaModel'].getQ_answer}!=null">
 					<span th:text="|답변 : ${questionMap['qnaModel'].getQ_answer}|"></span>
 				</div>
+				<div th:if="${questionMap['qnaModel'].getQ_answer}!=null">
+					<span th:text="|답변 : ${questionMap['qnaModel'].getQ_answer}|"></span>
+				</div>
+				
 			</form>
+			
 		</div>
 
 		<footer th:replace="footer ::footer"></footer>
