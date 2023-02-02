@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/header.css}" rel="stylesheet" />
+<link th:href="@{/css/footer.css}" rel="stylesheet" />
+<link th:href="@{/css/chart.css}" rel="stylesheet" />
+<link th:href="@{/css/reset2.css}" rel="stylesheet" />
+<link th:href="@{/css/reset.css}" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script type="text/javascript" th:src="@{/js/header.js}"></script>
+<script type="text/javascript" th:src="@{/js/chart.js}"></script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+  	const WeekSell=/*[[${WeekSell}]]*/"";									
+  	const Week=/*[[${Week}]]*/"";									
+	window.onload = () => {
+		WeekList(Week);
+		WeekSellList(WeekSell);
+}
+/*]]>*/
+</script>
+
+</head>
+<body>
+
+
+	<div id="container">
+		<header th:replace="header :: header"> </header>
+		<main id="chart_main_con">
+			<div class="chart_text_box">
+				<div class="chart_text"></div>
+				<div class="chart_text"></div>
+				<div class="chart_text"></div>
+				<div class="chart_text"></div>
+			</div>
+			<div class="chart_box">
+				<div class="chart_line">
+					<div class="type">
+						<canvas id="type1" width="450" height="250"></canvas>
+					</div>
+					<div class="type">
+						<canvas id="type2" width="450" height="250"></canvas>
+					</div>
+				</div>
+				<div class="chart_line">
+					<div class="type">
+						<canvas id="type3"></canvas>
+					</div>
+					<div class="type">
+						<canvas id="type4"></canvas>
+					</div>
+				</div>
+				<div class="chart_line">
+					<div class="type">
+						<canvas id="type5"></canvas>
+					</div>
+					<div class="type">
+						<canvas id="type6"></canvas>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<footer th:replace="footer ::footer"></footer>
+
+	</div>
+
+
+
+</body>
+</html>

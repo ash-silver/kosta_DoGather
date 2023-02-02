@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,6 @@ public class ProductService {
 		}
 	}
 
-	
 	@Transactional
 	public void EditDiscount(Product pro) {
 		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
@@ -142,7 +142,7 @@ public class ProductService {
 		File file1 = new File(delpath);
 		file1.delete();
 	}
-	
+
 	public void CreateNewEvent(Product pro, String type) {
 		String value = "";
 		if (type.equals("UPDATE")) {
@@ -169,7 +169,7 @@ public class ProductService {
 	public void AddOption(Option opt) {
 		pMapper.AddOption(opt);
 	}
-	
+
 	public Map<String, Object> FindProduct(int p_id) {
 		Map<String, Object> map = new HashMap<>();
 		Product pro = pMapper.FindProduct(p_id);
@@ -181,12 +181,17 @@ public class ProductService {
 			overlap_chk.add(opt.getOpt_option1());
 		}
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
-		int index = 1;
+		int index = 0;
 		for (Discount dis : pro.getDiscount()) {
+
 			if (dis.getDis_quantity() <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
 				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
+				if (index < pro.getDiscount().size()-1) {
+					Next_Discount_sell = pro.getDiscount().get(index + 1).getDis_quantity();
+				}
+
 			}
 			index++;
 		}
@@ -201,7 +206,7 @@ public class ProductService {
 		map.put("pro", pro);
 		return map;
 	}
-	
+
 	public List<String> FindOption2(String opt_option1, int p_id) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("opt_option1", opt_option1);
@@ -210,16 +215,16 @@ public class ProductService {
 		return pMapper.FindOption2(map);
 	}
 
-	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
+	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto   params, String keyword,
 			String search) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 		List<Product> list = new ArrayList<>();
 		if (search != null) {
-			count = pMapper.SearchSellerCount(p_nickname_m_fk, search,keyword);
+			count = pMapper.SearchSellerCount(p_nickname_m_fk, search, keyword);
 			map.put("search", search);
 		} else {
-			count = pMapper.WriterProductlistCount(p_nickname_m_fk,keyword);
+			count = pMapper.WriterProductlistCount(p_nickname_m_fk, keyword);
 		}
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
@@ -258,12 +263,12 @@ public class ProductService {
 		pMapper.removeProduct(p_id);
 
 	}
-	
+
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
 		Map<String, Object> map = new HashMap<>();
 		List<String> newList = new ArrayList<>();
-		if(opt.size()!=0 && opt.get(0).getOpt_option2()!=null) {
+		if (opt.size() != 0 && opt.get(0).getOpt_option2() != null) {
 			for (Option option1 : opt) {
 				newList.add(option1.getOpt_option1());
 			}
@@ -273,7 +278,7 @@ public class ProductService {
 		map.put("opt", opt);
 		return map;
 	}
-	
+
 	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계싼
 		Map<String, Object> sell_count = pMapper.All_SellCount(p_nickname_m_fk);
 		List<Integer> sell_Price = pMapper.All_SellPrice(p_nickname_m_fk);
@@ -289,15 +294,16 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void OptionRemove(String opt_option1,int opt_pid_p_fk) {
-		Option opt=Option.builder().opt_option1(opt_option1).opt_pid_p_fk(opt_pid_p_fk).build();
+	public void OptionRemove(String opt_option1, int opt_pid_p_fk) {
+		Option opt = Option.builder().opt_option1(opt_option1).opt_pid_p_fk(opt_pid_p_fk).build();
 		pMapper.OptionRemove(opt);
 	}
+
 	@Transactional
 	public void OneOptionRemove(int opt_id) {
 		pMapper.OneOptionRemove(opt_id);
 	}
-	
+
 	public Option FindOption(int opt_pid_p_fk) {
 		return pMapper.FindOption(opt_pid_p_fk);
 	}

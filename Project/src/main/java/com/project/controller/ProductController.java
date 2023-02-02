@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.model.Chart;
 import com.project.model.Img;
 import com.project.model.Option;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
+import com.project.service.ChartService;
 import com.project.service.ProductService;
-import com.project.service.SchedulerService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
+	private final ChartService cService;
 
 	/* ==================================================================== */
 	@GetMapping("")
@@ -155,10 +156,23 @@ public class ProductController {
 			img_name.addAll(img.getImg());
 		}
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+		List<Chart> chart=cService.OneWeekChart(id);
 		model.addAttribute("img", img_name);
+		model.addAttribute("chart", chart);
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);
 		model.addAttribute("keyword", keyword);
 		return "mypage";
+	}
+	
+	@GetMapping("/charts")
+	public String chart(Principal principal, Model model,String searching) {
+		String id = principal.getName();
+		List<Chart> Week=cService.OneWeekChart(id);
+		List<Chart> WeekSell=cService.OneWeekSellPrice(id);
+		
+		model.addAttribute("WeekSell",WeekSell);
+		model.addAttribute("Week",Week);
+		return "chart";
 	}
 }

@@ -189,12 +189,11 @@
 
 
 #chart1{
-	width:850px;
+	width:700px;
+	height:200px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border:1px solid #e2e2e2;
-	height: 200px;
 }
 
 .mypage_list {
@@ -234,7 +233,7 @@
 	margin-top: 50px;
 	width: 820px;
 	border: 1px solid #e2e2e2;
-	
+	padding-bottom:20px;
 	border-radius: 15px;
 	display: flex;
 	align-items: center;

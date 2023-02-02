@@ -47,9 +47,10 @@
 							<span>현재 할인 적용</span>
 						</label>
 						<label class="progress_bar">
-
 							<progress th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
-							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}"></span>
+							
+							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}|" th:if="${promap['pro'].getP_sell}<${promap['Next_Discount_sell']}"></span>
+							<span th:text="|달성완료|" th:if="${promap['pro'].getP_sell}>=${promap['Next_Discount_sell']}"></span>
 						</label>
 
 
