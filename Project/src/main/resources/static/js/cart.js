@@ -68,6 +68,10 @@ $(function() {
 			});
 		});
 
+	$(document).ready(function() {	});
+
+
+
 
 
 

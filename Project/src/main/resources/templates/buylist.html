@@ -5,9 +5,11 @@
 <title>Insert title here</title>
 <link th:href="@{/css/header.css}" rel="stylesheet" />
 <link th:href="@{/css/footer.css}" rel="stylesheet" />
-<link th:href="@{/css/mypage.css}" rel="stylesheet" />
 <link th:href="@{/css/reset2.css}" rel="stylesheet" />
 <link th:href="@{/css/reset.css}" rel="stylesheet" />
+<link th:href="@{/css/buylist.css}" rel="stylesheet" />
+
+
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,14 +99,14 @@ function drawPage(pagination, params) {
   }
 
   // 페이지 번호
-  html += '<p>';
+ 
   		// 1,2,3,4,5~~~ 페이지의 번호를 만들어내는 구문
   for (let i = pagination.startPage; i <= pagination.endPage; i++) {
     html += (i !== params.page)
             ? `<a href="javascript:void(0);" onclick="movePage(${i});">${i}</a>`
             : `<span class="on">${i}</span>`
   }
-  html += '</p>';
+ 
 
   // 다음 페이지, 마지막 페이지
   if (pagination.existNextPage) {
@@ -207,15 +209,15 @@ function movePage(page) {
 						</div>
 
 						<div class="mypage_list_cont"></div>
-
 					</div>
 
+					<div class="paging_btn"></div>
 				</div>
-
 
 			</div>
 
 		</main>
+
 
 		<footer th:replace="footer ::footer"></footer>
 

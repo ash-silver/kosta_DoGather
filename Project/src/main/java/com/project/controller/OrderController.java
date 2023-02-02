@@ -74,9 +74,9 @@ public class OrderController {
 		}
 		model.addAttribute("img", img);
 		model.addAttribute("product", product);
+		model.addAttribute("params", params);
 		model.addAttribute("ordlist", ordlist);
-		System.out.println("ddsdasdas" + product);
-		System.out.println("cdsdsvdfbgnghmn" + img);
+
 
 		return "buylist";
 	}
