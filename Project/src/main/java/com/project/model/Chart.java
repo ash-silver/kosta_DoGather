@@ -12,5 +12,6 @@ public class Chart {
 	private int count;
 	private int endprice;
 	private String nickname;
+	private String category;
 	
 }

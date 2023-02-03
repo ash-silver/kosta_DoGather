@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,8 @@ public class ProductController {
 
 	private final ProductService pService;
 	private final ChartService cService;
+	@Value("${chart.NoKeyword}")
+	private String NoKeyword;
 
 	/* ==================================================================== */
 	@GetMapping("")
@@ -89,10 +92,10 @@ public class ProductController {
 
 	@GetMapping("/options")
 	public String OptionAddForm(Model model, int p_id) {
-		Option opt=pService.FindOption(p_id);
+		Option opt = pService.FindOption(p_id);
 		System.out.println(opt);
-		model.addAttribute("opt",opt);
-		model.addAttribute("p_id",p_id);
+		model.addAttribute("opt", opt);
+		model.addAttribute("p_id", p_id);
 		return "option";
 	}
 
@@ -123,7 +126,6 @@ public class ProductController {
 		return pService.FindOption2(opt_option1, p_id);
 	}
 
-
 	@ResponseBody
 	@PostMapping("/options")
 	public String AddOption2(Option opt, int opt_pid_p_fk) {
@@ -143,7 +145,8 @@ public class ProductController {
 						.opt_quantity(opt.getOpt_quantity_list().get(i)).build();
 				pService.AddOption(option);
 			}
-		} return "OneOptionAdd";
+		}
+		return "OneOptionAdd";
 	}
 
 	@GetMapping("/{keyword}/lists")
@@ -155,8 +158,10 @@ public class ProductController {
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
 		}
+		System.out.println(id);
+		System.out.println(NoKeyword);
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		List<Chart> chart=cService.OneWeekChart(id);
+		List<Chart> chart = cService.OneWeekChart(id, NoKeyword);
 		model.addAttribute("img", img_name);
 		model.addAttribute("chart", chart);
 		model.addAttribute("sell_cnt", sell_cnt);
@@ -164,15 +169,13 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
-	
-	@GetMapping("/charts")
-	public String chart(Principal principal, Model model,String searching) {
+
+	@GetMapping({ "/charts", "/charts/{day}" })
+	public String chart(@PathVariable(required = false) String day, Principal principal, Model model,
+			String searching) {
 		String id = principal.getName();
-		List<Chart> Week=cService.OneWeekChart(id);
-		List<Chart> WeekSell=cService.OneWeekSellPrice(id);
-		
-		model.addAttribute("WeekSell",WeekSell);
-		model.addAttribute("Week",Week);
+		Map<String, Object> ChartMap = cService.AllChartList(id, NoKeyword);
+		model.addAttribute("ChartMap", ChartMap);
 		return "chart";
 	}
 }

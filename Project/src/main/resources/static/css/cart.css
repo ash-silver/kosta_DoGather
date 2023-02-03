@@ -8,7 +8,6 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	
 }
 
 .main_box {
@@ -32,7 +31,6 @@
 }
 
 .cart_form {
-	
 	width: 1200px;
 	justify-content: center;
 	align-items: center;
@@ -185,32 +183,58 @@
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	width: 1000px;
-	height: 900px;
-	position: absolute;
+	width: 600px;
+	height: 400px;
+	position: fixed;
 	background: black;
-	opacity:0.9;
+	opacity: 0.8;
 	z-index: 2;
-	top:300px;
-	left:100px;
+	left: 600px;
+	top: 150px;
 	box-shadow: 0 0 10px #000;
 }
 
-.modal_content{
-	border: 1px solid yellow;
+.modal_content {
 	justify-content: center;
 	align-items: center;
-	width: 500px;
+	width: 600px;
 	height: 400px;
 	display: flex;
 	flex-direction: column;
-	
 }
 
+.modal_btnbox {
+	width: 400px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+#apibtn{
+	width:150px;
+	height: 30px;
+	border:1px solid #e2e2e2;
+	border-radius: 5px;
+	color:white;
+	margin-left:20px;
+}
+#sample6_postcode {
+	padding-left: 10px; width : 200px;
+	height: 30px;
+	border-radius: 5px;
+	border: 1px solid #e2e2e2;
+	width: 200px;
+}
 
-
-
-
+.modal_textbox {
+	margin-top:30px;
+	width: 300px;
+	height: 50px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+}
 /*flex-direction :row -> 왼쪽에서 오른쪽 정렬
  flex-direction : column -> 위에서 아래로 정렬*/
 

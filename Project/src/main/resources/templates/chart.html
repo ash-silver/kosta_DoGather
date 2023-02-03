@@ -19,11 +19,16 @@
 
 <script th:inline="javascript">
 /*<![CDATA[*/
-  	const WeekSell=/*[[${WeekSell}]]*/"";									
-  	const Week=/*[[${Week}]]*/"";									
+  	const c=/*[[${ChartMap}]]*/"";		
+  	const WeekSell=c.WeekSell;
+  	const Week=c.Week;								
+  	const MonthCategoryList=c.MonthCategory;								
+  	const MonthFailPro=c.MonthFailPro;						
 	window.onload = () => {
 		WeekList(Week);
 		WeekSellList(WeekSell);
+		MonthCategory(MonthCategoryList);
+		MonthFailProList(MonthFailPro);
 }
 /*]]>*/
 </script>
@@ -44,27 +49,29 @@
 			<div class="chart_box">
 				<div class="chart_line">
 					<div class="type">
-						<canvas id="type1" width="450" height="250"></canvas>
+						<canvas id="type1" width="450" height="250" class="chart"></canvas>
 					</div>
 					<div class="type">
-						<canvas id="type2" width="450" height="250"></canvas>
+						<canvas id="type2" width="450" height="250" class="chart"></canvas>
+					</div>
+				</div>
+				<div class="chart_line">
+					<div class="type type_circle">
+						<span>한달간 카테고리별 판매량</span>
+						<canvas id="type3" width="450" height="200" class="chart"></canvas>
+					</div>
+					<div class="type type_circle">
+						<span>한달간 공고 진행 현황 </span>
+						<canvas id="type4" widht="350" height="150" class="chart"></canvas>
 					</div>
 				</div>
 				<div class="chart_line">
 					<div class="type">
-						<canvas id="type3"></canvas>
+						<canvas id="type5" class="chart"></canvas>
 					</div>
 					<div class="type">
-						<canvas id="type4"></canvas>
-					</div>
-				</div>
-				<div class="chart_line">
-					<div class="type">
-						<canvas id="type5"></canvas>
-					</div>
-					<div class="type">
-						<canvas id="type6"></canvas>
-					</div>
+						<canvas id="type6" class="chart"></canvas>
+					</div> 
 				</div>
 			</div>
 		</main>

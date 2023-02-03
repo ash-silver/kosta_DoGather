@@ -39,10 +39,6 @@ public class ProductService {
 	@Value("${file.Upimg}")
 	private String path;
 
-	/*
-	 * ======================================Proudct
-	 * Add부분===============================================
-	 */
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
 	public void AddProduct(Product pro) throws Exception {
 		pMapper.AddProduct(pro);
@@ -160,10 +156,7 @@ public class ProductService {
 				+ pro.getP_id();
 		pMapper.CreateNewEvent(value);
 	}
-	/*
-	 * ======================================Proudct
-	 * Add부분===============================================
-	 */
+
 
 	@Transactional
 	public void AddOption(Option opt) {

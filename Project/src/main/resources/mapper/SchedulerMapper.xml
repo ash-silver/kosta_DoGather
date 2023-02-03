@@ -32,23 +32,34 @@
 	</select>
 	<select id="getDiscount" resultMap="DiscountScheDule" parameterType="int">
 		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id}
-		ORDER BY
-		dis_id
+		ORDER BY dis_id
 	</select>
 	<select id="getOrder" resultMap="OrderScheDule" parameterType="int">
 		SELECT o_id,o_quantity,o_product_p_fk,o_member_m_fk FROM ord WHERE
 		o_product_p_fk=#{o_product_p_fk}
 	</select>
 
-
-	<update id="EndPriceMember" parameterType="int">
-		UPDATE member AS m,product AS p SET m.m_cash=m.m_cash+#{p_endprice},p.p_chk='endprice' WHERE
-		m.m_id=#{m_id} AND p.p_id=#{p_id}
-
-	</update>
 	<update id="EndPriceSeller" parameterType="com.project.model.Product">
 		UPDATE member AS m, product AS p SET m.m_cash=m_cash+#{p_endprice},p.p_endprice=#{p_price} WHERE
 		m.m_nickname=#{p_nickname_m_fk} AND p.p_id=#{p_id}
 	</update>
+
+	<update id="EndPriceMember" parameterType="int">
+		UPDATE member AS m,product AS p SET m.m_cash=m.m_cash+#{p_endprice},
+		<choose>
+			<when test="p_sell==0">
+				p.p_chk='failed'
+			</when>
+			<otherwise>
+				p.p_chk='endprice'
+			</otherwise>
+		</choose>
+		WHERE
+		<if test="m_id!=0">
+			m.m_id=#{m_id} AND
+		</if>
+		p.p_id=#{p_id}
+	</update>
+
 
 </mapper>

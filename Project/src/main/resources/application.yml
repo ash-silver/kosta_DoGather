@@ -41,3 +41,6 @@ server:
 file:
   Upimg: C:/projectimg/    #파일의 저장,출력을 이클립스의 외부경로 ex) C드라이브에서 가져올때 MvcConfig에서 사용할 경로의 값을 미리 선언,
   Upfolder: file:///projectimg/
+
+chart:
+  NoKeyword: NoKeyword

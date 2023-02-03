@@ -51,5 +51,7 @@
 	border:1px solid #e2e2e2;
 	align-items: center;
 	justify-content:center;
-	
+}
+.type_circle{
+	flex-direction: column;
 }

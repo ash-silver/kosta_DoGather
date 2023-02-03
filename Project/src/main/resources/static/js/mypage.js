@@ -97,7 +97,7 @@ function drawPage(pagination, params) {
 	//SearchDto의 기본 Default값을 바탕으로 mybatis의 count를 같이 받아와 계산후 저장시켜둔 pagingnation과 SearchDto를 받아옴
 	if (!pagination || !params) {
 		// pagination, params가 존재하지 않는다면 해당 스크립트를 출력
-		$(".paging_btn").html("버튼이상");
+		$(".paging_btn").html("결과값이 존재하지 않습니다.");
 		return false;
 	}
 

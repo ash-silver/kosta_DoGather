@@ -81,7 +81,7 @@
 	<select id="WriterProductlistCount" resultType="int" parameterType="String">
 
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
-		<if test="#{keyword} != 'all'">
+		<if test="keyword != 'all'">
 			AND p_chk=#{keyword}
 		</if>
 	</select>
@@ -90,7 +90,7 @@
 		p_id,p_name,p_endprice,p_duedate,p_recruitdate,p_nickname_m_fk,p_chk,p_sell
 		FROM Product WHERE
 		p_nickname_m_fk=#{p_nickname_m_fk}
-		<if test="#{keyword} != 'all'">
+		<if test="keyword != 'all'">
 			AND p_chk=#{keyword}
 		</if>
 		LIMIT #{limitstart},#{recordsize}
@@ -136,7 +136,7 @@
 
 
 	<select id="All_SellCount" parameterType="String" resultType="map">
-		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
+		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND p_chk='endprice'
 	</select>
 	<select id="All_SellPrice" parameterType="String" resultType="int">
 		SELECT p_endprice
