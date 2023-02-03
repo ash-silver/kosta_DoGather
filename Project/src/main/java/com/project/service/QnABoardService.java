@@ -32,9 +32,11 @@ public class QnABoardService {
 		if (qnaModel.getQ_answer() != null) {
 			map.put("q_answer", qnaModel.getQ_answer());
 		}
-		
 		return map;
-		
+	}
+	
+	public void AddAnswer(QnABoardModel qna) {
+		qnaMapper.AddAnswer(qna);
 	}
 	
 	

@@ -11,7 +11,7 @@
 		<result property="q_date" column="q_date"/>
 		<result property="q_answer" column="q_answer"/>
 	</resultMap>
-	<insert id="AddQuestion" parameterType="com.project.model.QnABoardModel" useGeneratedKeys="true" keyProperty="q_id">
+	<insert id="AddQuestion" parameterType="com.project.model.QnABoardModel">>
 		INSERT INTO question(
 			q_name_p_fk, q_title, q_content, q_nickname_m_fk, q_date, q_answer
 		)
@@ -24,6 +24,10 @@
 			#{q_answer}
 			
 		)
+	</insert>
+	
+	<insert id="AddAnswer" parameterType="com.project.model.QnABoardModel">
+		UPDATE question SET q_answer = #{q_answer} WHERE q_id = #{q_id}
 	</insert>
 	<select id="FindQuestion" parameterType="int" resultMap="QnAMap">
 		SELECT * FROM question WHERE q_id=#{q_id}

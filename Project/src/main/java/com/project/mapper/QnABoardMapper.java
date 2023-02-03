@@ -9,6 +9,7 @@ public interface QnABoardMapper {
 	
 //	void selectSomething(QnABoardModel a);
 	void AddQuestion(QnABoardModel qna);
+	void AddAnswer(QnABoardModel qna);
 	
 	QnABoardModel FindQuestion(int q_id);
 }

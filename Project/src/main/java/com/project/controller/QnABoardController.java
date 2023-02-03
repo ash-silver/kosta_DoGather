@@ -31,8 +31,8 @@ public class QnABoardController {
 	
 	@PostMapping("") 
 	public String addQuestion(QnABoardModel qna) throws Exception{
-		qna.setQ_name_p_fk("aaa");
-		qna.setQ_nickname_m_fk("bbb");
+		qna.setQ_name_p_fk("exProductname");
+		qna.setQ_nickname_m_fk("exNickname");
 		qnaService.AddQuestion(qna);
 		return "redirect:/QnABoardModel";
 	}
@@ -41,6 +41,20 @@ public class QnABoardController {
 	public String readQuestion(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
 		Map<String, Object> questionMap = qnaService.FindQuestion(q_id);
 		model.addAttribute("questionMap", questionMap);
-		return "answer";
+		return "qnaBoard";
+	}
+	
+	@GetMapping("/answer/{q_id}")
+	public String goAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
+		Map<String, Object> questionMap = qnaService.FindQuestion(q_id);
+		model.addAttribute("questionMap", questionMap);
+		System.out.println();
+		return "questionMap";
+	}
+	
+	@PostMapping("/answer/{q_id}")
+	public String addAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
+		qnaService.AddAnswer(qna);
+		return "redirect:/qnaboard/"+q_id;
 	}
 }
