@@ -17,23 +17,44 @@ public interface ProductMapper {
 	void AddProduct(Product pro);
 
 	void AddOption(Option opt);
-	
+
 	void AddImg(Img img);
-	
+
 	void AddDiscount(Discount discount);
-	
+
+	void UpdateDiscount(Discount discount);
+
+	void UpdateImg(Img img);
+
+	void UpdateProduct(Product pro);
+
+	List<Img> img_length(Img i);
+
+	List<Discount> Update_find(int p_id);
+
 	Product FindProduct(int p_id);
+	Product FindCalender(int p_id);
 	
-	List<Option> FindOption(Map<String,Object> map);
+	Map<String,Object> All_SellCount(String p_nickname_m_fk);
+	List<Integer> All_SellPrice(String p_nickname_m_fk);
+	List<Integer> All_Sell(String p_nickname_m_fk);
+	Option FindOption(int opt_pid_p_fk);
+	
+	List<Option> Option_List(int p_id);
+	List<String> FindOption2(Map<String, Object> map);
 	
 	void CreateNewEvent(String value);
-	
+
 	void removeProduct(int p_id);
 	
-	List<Product> WriterProductlist(Map<String,Object> map);
+	void OptionRemove(Option opt);
+	void OneOptionRemove(int opt_id);
 	
-	int WriterProductlistCount(String p_nickname_m_fk);
-	
-	List<Product> ProductSearchList(Map<String,Object>map);
-	int SearchSellerCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("search") String search);
+	List<Product> WriterProductlist(Map<String, Object> map);
+
+	int WriterProductlistCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("keyword") String keyword);
+
+	List<Product> SearchSeller(Map<String, Object> map);
+
+	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search,@Param("keyword") String keyword);
 }

@@ -111,7 +111,8 @@
 						</select>
 					</div>
 
-					<form class="prodetail_bt-n_box" th:method="get" th:action="|/ordersheet/${promap['pro'].getP_id}|">
+<!-- 					<form class="prodetail_bt-n_box" th:method="get" th:action="|/ordersheet/${promap['pro'].getP_id}|"> -->
+					<form class="prodetail_bt-n_box" th:method="get" th:action="|/ordersheet|">
 						<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
 						<input type="hidden" name="o_option1">
 						<input type="hidden" name="o_option2">
@@ -128,7 +129,10 @@
 							<input type="hidden" th:value="${promap['pro'].getP_duedate}"
 								id="p_duedate" readonly>
 					</form>
-
+					
+					<a href="/qnaBoard/ ${promap['pro'].getP_name}">Q&A</a>
+					
+					
 					<div class="time_box">
 						<h1 id="time"></h1>
 					</div>

@@ -1,23 +1,64 @@
 #container {
 	width: 100%;
-	height: 1000px;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	position: relative;
 }
 
 #productoption_main_con {
 	width: 100%;
-	height: 800px;
+	padding-top: 170px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+.type_btn_box {
+	width: 800px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
 
+.type_btn_box button {
+	width: 200px;
+	height: 40px;
+	border: 1px solid #e2e2e2;
+	margin-top: 50px;
+	border-radius: 10px;
+}
+
+.type_btn_box button:hover {
+	background-color: #4285F4;
+	color: white;
+}
+
+.form_text {
+	font-size: 24px;
+	font-weight: bold;
+	width: 800px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.option_form_1 {
+	width: 900px;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-top: 100px;
+	border: 1px solid #e2e2e2;
+	border-radius: 20px;
+}
+.opt_null {
+	display: none;
+}
 .productoption_box {
 	width: 800px;
-	height: 700px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -25,10 +66,12 @@
 }
 
 .option_form {
-	width: 800px;
+	margin-top:100px;
+	border:1px solid #e2e2e2;
+	width: 900px;
 	height: 300px;
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 }
@@ -49,6 +92,16 @@
 	align-items: center;
 	width: 200px;
 	height: 300px;
+}
+
+.opt_tag span button {
+	margin-left: 5px;
+	width: 25px;
+	height: 20px;
+	border: 1px solid #e2e2e2;
+	border-radius: 5px;
+	background-color: #4285F4;
+	color: white;
 }
 
 .opt_tag input {
@@ -77,6 +130,17 @@
 	width: 150px;
 }
 
+.Addoption_one {
+	margin-right: 20px;
+	width: 150px;
+	height: 30px;
+	border: 3px solid #e2e2e2;
+	font-size: 16px;
+	font-weight: bold;
+	width: 150px;
+}
+
+
 .file_form {
 	width: 800px;
 	height: 200px;
@@ -101,10 +165,11 @@
 	align-items: center;
 	justify-content: center;
 }
-#file_btn button{
-	width:150px;
+
+#file_btn button {
+	width: 150px;
 	height: 30px;
 	font-size: 18px;
 	font-weight: bold;
-	border:3px solid #e2e2e2;
+	border: 3px solid #e2e2e2;
 }

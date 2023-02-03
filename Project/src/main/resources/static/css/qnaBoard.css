@@ -16,6 +16,6 @@
 	width:180%;
 	height:50%;
 	overflow: auto;
-	border: 1px solid black;
+	border: 1px solid #e2e2e2;
 	border-collapse: collapse;
 }

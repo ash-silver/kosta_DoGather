@@ -19,7 +19,7 @@
 <body>
 	<header th:replace="header :: header"> </header>
 	<div id="container">
-		<br>
+		<br><br><br><br><br>
 		<div id="questionRead_area">
 			<form enctype="multipart/form-data" method="get">
 				<div id="qna_id" class="qna_show">
@@ -46,7 +46,7 @@
 <!-- 					<span th:text="|답변이 아직 없습니다.|"></span> -->
 <!-- 				</div> -->
 				
-				<div th:if="${questionMap['qnaModel'].getQ_answer}!=null">
+				<div th:if="${questionMap['qnaModel'].getQ_answer}!=null" class="qna_show">
 					<span th:text="|답변 : ${questionMap['qnaModel'].getQ_answer}|"></span>
 				</div>
 				
