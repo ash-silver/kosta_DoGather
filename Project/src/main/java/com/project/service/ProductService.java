@@ -133,7 +133,7 @@ public class ProductService {
 		}
 	}
 
-	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
+	public void delimg(Img i) { 
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
 		file1.delete();
@@ -157,7 +157,6 @@ public class ProductService {
 		pMapper.CreateNewEvent(value);
 	}
 
-
 	@Transactional
 	public void AddOption(Option opt) {
 		pMapper.AddOption(opt);
@@ -176,12 +175,11 @@ public class ProductService {
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
 		int index = 0;
 		for (Discount dis : pro.getDiscount()) {
-
 			if (dis.getDis_quantity() <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
 				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
-				if (index < pro.getDiscount().size()-1) {
+				if (index < pro.getDiscount().size() - 1) {
 					Next_Discount_sell = pro.getDiscount().get(index + 1).getDis_quantity();
 				}
 
@@ -204,11 +202,10 @@ public class ProductService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("opt_option1", opt_option1);
 		map.put("opt_pid_p_fk", p_id);
-		System.out.println(pMapper.FindOption2(map));
 		return pMapper.FindOption2(map);
 	}
 
-	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto   params, String keyword,
+	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
 			String search) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
@@ -237,7 +234,7 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void removeProduct(int p_id) {
+	public void RemoveEvent(int p_id) {
 		String value = "";
 		Product FindCalender = pMapper.FindCalender(p_id);
 		String p_recruitdate_str = FindCalender.getP_recruitdate();

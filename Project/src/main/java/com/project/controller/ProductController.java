@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,13 +37,12 @@ public class ProductController {
 
 	private final ProductService pService;
 	private final ChartService cService;
-	@Value("${chart.NoKeyword}")
-	private String NoKeyword;
+	@Value("${chart.OneWeek}")
+	private String OneWeek;
 
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
-
 		model.addAttribute("name", prin.getName());
 		return "productadd";
 	}
@@ -53,12 +52,6 @@ public class ProductController {
 		pService.AddProduct(pro);
 		re.addAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
-	}
-
-	@DeleteMapping("")
-	public String DelProduct(@RequestParam int p_id) {
-		pService.removeProduct(p_id);
-		return null;
 	}
 
 	/* ==================================================================== */
@@ -78,7 +71,7 @@ public class ProductController {
 
 	@DeleteMapping("/{p_id}/info")
 	public String ProductRemove(@PathVariable int p_id) throws Exception {
-		pService.removeProduct(p_id);
+		pService.RemoveEvent(p_id);
 		return "redirect:/products/add/lists";
 
 	}
@@ -158,10 +151,9 @@ public class ProductController {
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
 		}
-		System.out.println(id);
-		System.out.println(NoKeyword);
+		System.out.println(OneWeek);
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		List<Chart> chart = cService.OneWeekChart(id, NoKeyword);
+		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
 		model.addAttribute("img", img_name);
 		model.addAttribute("chart", chart);
 		model.addAttribute("sell_cnt", sell_cnt);
@@ -170,11 +162,12 @@ public class ProductController {
 		return "mypage";
 	}
 
-	@GetMapping({ "/charts", "/charts/{day}" })
-	public String chart(@PathVariable(required = false) String day, Principal principal, Model model,
-			String searching) {
+	@GetMapping("/charts/{day}/{month}")
+	public String chart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,
+			Principal principal, Model model) {
 		String id = principal.getName();
-		Map<String, Object> ChartMap = cService.AllChartList(id, NoKeyword);
+		Map<String, Object> ChartMap = new HashMap<>();
+		ChartMap = cService.AllChartList(id, day, month);
 		model.addAttribute("ChartMap", ChartMap);
 		return "chart";
 	}

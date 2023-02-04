@@ -10,12 +10,12 @@ import com.project.model.Chart;
 @Mapper
 public interface ChartMapper {
 
-	List<Chart> OneWeekChart(@Param("p_nickname_m_fk")String p_nickname_m_fk, String Day);
+	List<Chart> OneWeekChart(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("Day") String Day);
 
-	List<Chart> OneWeekSellPrice(@Param("p_nickname_m_fk")String p_nickname_m_fk, String Day);
+	List<Chart> OneWeekSellPrice(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("Day")  String Day);
 
-	List<Chart> OneMonthCategorySell(@Param("p_nickname_m_fk")String p_nickname_m_fk, String Day);
+	List<Chart> OneMonthCategorySell(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("Day")  String Day);
 
-	List<Chart> OneMonthFailedProduct(@Param("p_nickname_m_fk")String p_nickname_m_fk, String Day);
+	List<Chart> OneMonthFailedProduct(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("Day")  String Day);
 
 }

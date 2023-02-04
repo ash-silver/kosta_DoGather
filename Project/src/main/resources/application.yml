@@ -43,4 +43,4 @@ file:
   Upfolder: file:///projectimg/
 
 chart:
-  NoKeyword: NoKeyword
+  OneWeek: -7 DAY

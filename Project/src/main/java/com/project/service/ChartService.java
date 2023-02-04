@@ -17,12 +17,12 @@ public class ChartService {
 
 	private final ChartMapper cMapper;
 
-	public Map<String, Object> AllChartList(String p_nickname_m_fk, String Day) {
+	public Map<String, Object> AllChartList(String p_nickname_m_fk, String Day,String Month) {
 		Map<String, Object> ChartMap = new HashMap<>();
 		List<Chart> Week = cMapper.OneWeekChart(p_nickname_m_fk, Day);
 		List<Chart> WeekSell = cMapper.OneWeekSellPrice(p_nickname_m_fk, Day);
-		List<Chart> MonthCategory = cMapper.OneMonthCategorySell(p_nickname_m_fk, Day);
-		List<Chart> MonthFailPro = cMapper.OneMonthFailedProduct(p_nickname_m_fk, Day);
+		List<Chart> MonthCategory = cMapper.OneMonthCategorySell(p_nickname_m_fk, Month);
+		List<Chart> MonthFailPro = cMapper.OneMonthFailedProduct(p_nickname_m_fk, Month);
 		ChartMap.put("Week", Week);
 		ChartMap.put("WeekSell", WeekSell);
 		ChartMap.put("MonthCategory", MonthCategory);
@@ -32,8 +32,7 @@ public class ChartService {
 
 	// product service mypage 필요
 	public List<Chart> OneWeekChart(String p_nickname_m_fk, String Day) {
-		System.out.println("sddasda" + p_nickname_m_fk);
-		System.out.println("sddasda" + Day);
+		
 		return cMapper.OneWeekChart(p_nickname_m_fk,Day);
 	}
 
