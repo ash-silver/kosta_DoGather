@@ -86,7 +86,6 @@ public class ProductController {
 	@GetMapping("/options")
 	public String OptionAddForm(Model model, int p_id) {
 		Option opt = pService.FindOption(p_id);
-		System.out.println(opt);
 		model.addAttribute("opt", opt);
 		model.addAttribute("p_id", p_id);
 		return "option";
@@ -96,7 +95,6 @@ public class ProductController {
 	public String OptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> optmap = pService.Option_List(p_id);
 
-		System.out.println(optmap);
 		model.addAttribute("optmap", optmap);
 		return "optionUpdate";
 	}
@@ -151,7 +149,6 @@ public class ProductController {
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
 		}
-		System.out.println(OneWeek);
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
 		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
 		model.addAttribute("img", img_name);
@@ -170,5 +167,12 @@ public class ProductController {
 		ChartMap = cService.AllChartList(id, day, month);
 		model.addAttribute("ChartMap", ChartMap);
 		return "chart";
+	}
+
+	@ResponseBody
+	@GetMapping("/options/chk")
+	public Option FindOptionAddChk(int opt_pid_p_fk) {
+		Option opt = pService.FindOption(opt_pid_p_fk);
+		return opt;
 	}
 }

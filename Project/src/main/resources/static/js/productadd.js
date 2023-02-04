@@ -31,6 +31,14 @@ $(function() {
 		}
 	});
 
+	$('input[name=p_price]').on('keyup', function() {
+		if (isNaN($(this).val())) {
+			alert('가격은 숫자만 입력하세요.');
+			$(this).val("");
+			return false;
+		}
+	});
+
 	$("#addpro_btn").click(() => {
 		let chk = 0;
 		let ret = true;
@@ -44,7 +52,6 @@ $(function() {
 				let chk = $(item).val();
 				if (parseInt(count) >= parseInt(chk)) {
 					alert("할인율이 유효하지 않습니다 순서를 확인해주세요");
-
 					$(item).val("");
 					ret = false;
 					return false;
@@ -75,7 +82,8 @@ $(function() {
 			// 아무값없이 띄어쓰기만 있을 때도 빈 값으로 체크되도록 trim() 함수 호출
 			if ($(this).val().trim() == '') {
 				if ($(this).attr("name") == 'p_discount_quan' || $(this).attr("name") == 'p_discount_count') {
-					if (!isNaN($(this).val())) {
+					if (isNaN($(this).val())) {
+						$(this).val("");
 						alert("할인 수량,할인율 숫자만 입력");
 						++chk;
 						ret = false;
@@ -129,11 +137,13 @@ $(function() {
 	$("#discount_revbtn").click(() => {
 		if (index > 1) {
 			--index;
+			let classChk = $(".discount_add").length - 1;
+			$(".discount_add")[classChk].remove();
+			let cl = $('.discount_add').length;
+			$("#count").attr("value", cl);
 		}
-		let classChk = $(".discount_add").length - 1;
-		$(".discount_add")[classChk].remove();
-		let cl = $('.discount_add').length;
-		$("#count").attr("value", cl);
+
+
 
 	});
 });
