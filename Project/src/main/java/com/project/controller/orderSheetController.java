@@ -28,18 +28,19 @@ public class orderSheetController {
 	@Autowired
 	private ProductService pService;
 
-
 	@GetMapping("")
-	public String addProduct(PurchaseModel order, Model model,Order ord) {
+	public String addProduct(Model model, Order ord) {
 		Map<String, Object> promap = pService.FindProduct(ord.getO_product_p_fk());
 		model.addAttribute("promap", promap);
+		model.addAttribute("order", ord);
 		return "ordersheet";
 	}
 	
-	@PostMapping("/{p_id}")
-	public String addOrder(PurchaseModel order, @PathVariable int p_id) {
-		System.out.println(order);
-		orderSheetService.AddOrder(order, p_id);
+	@PostMapping("")
+	public String addOrder(Order order) {
+		orderSheetService.AddOrder(order);
 		return "products";
 	}
+//	@PostMapping("")
+//	public String 
 }

@@ -28,4 +28,6 @@ public interface OrderMapper {
 	
 	List<Order> buyList(Map<String, Object> map);
 	int buyListCount( int o_member_m_fk);
+
+	ArrayList<Order> findCart(String o_member_m_fk);
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.mapper.OrderSheetMapper;
+import com.project.model.Order;
 import com.project.model.PurchaseModel;
 
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class orderSheetService {
 	private OrderSheetMapper orderSheetMapper;
 	
 	@Transactional
-	public void AddOrder(PurchaseModel order, int p_id) {
-		orderSheetMapper.AddOrder(order, p_id);
+	public void AddOrder(Order order) {
+		orderSheetMapper.AddOrder(order);
 	}
 	
 }

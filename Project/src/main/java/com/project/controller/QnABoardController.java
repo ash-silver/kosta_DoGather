@@ -55,7 +55,7 @@ public class QnABoardController {
 //	@GetMapping("/qnaList/{p_id}")
 //	public String readQnaList(@PathVariable int p_id) throws Exception{
 //		
-//	}
+//	}	
 	
 	@PostMapping("/answer/{q_id}")
 	public String addAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
