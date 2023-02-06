@@ -16,6 +16,7 @@ public interface OrderMapper {
 	//장바구니에 추가
 	void AddCart(Order oid);
 	
+	//장바루니 목록
 	ArrayList<Order> findCart(int o_member_m_fk);
 	int findMember(String m_nickname);
 	
@@ -25,7 +26,9 @@ public interface OrderMapper {
 	//장바구니에서 삭재ㅔ
 	void delCartItem(int o_id);
 	
-	
+	//구매내역 & 페이징처리
 	List<Order> buyList(Map<String, Object> map);
 	int buyListCount( int o_member_m_fk);
+
+	
 }

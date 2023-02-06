@@ -79,20 +79,12 @@
 		LIMIT #{limitstart},#{recordsize}
 	</select>
 	
+	
 	<select id="buyListCount" resultType="int" parameterType="int">
 		SELECT count(*)
 		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
 		
 	</select>
-
-
-
-	<select id="favorite" resultMap="Order" parameterType="int">
-		SELECT *
-		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='찜하기'
-	</select>
-
-
 
 	<select id="findMember" resultType="int" parameterType="String">
 		SELECT

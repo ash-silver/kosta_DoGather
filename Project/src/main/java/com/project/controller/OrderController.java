@@ -62,6 +62,7 @@ public class OrderController {
 		}
 	}
 
+	// 구매내역
 	@GetMapping("/buylists")
 	public String buyList(Model model, Principal principal, SearchDto params) {
 		String m_nickname = principal.getName();
@@ -77,8 +78,17 @@ public class OrderController {
 		model.addAttribute("params", params);
 		model.addAttribute("ordlist", ordlist);
 
-
 		return "buylist";
 	}
 
-}
+
+	@GetMapping("/delivery")
+		public String delivery() {
+			
+		return"delivery";
+		}
+	}
+	
+	
+	
+

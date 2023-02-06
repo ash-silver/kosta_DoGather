@@ -96,11 +96,14 @@
 				<!-- =====================================================================================  -->
 				<div class="modal">
 					<div class="modal_content" title="클릭하면 창이 닫힙니다.">
-						<input type="text" id="sample6_postcode" placeholder="우편번호">
-						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-						<input type="text" id="sample6_address" placeholder="주소">
+						<div class="position">
+						<input type="text" id="sample6_postcode" placeholder="우편번호" readonly="readonly">
+						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >
+						</div>
+						
+						<input type="text" id="sample6_address" placeholder="주소" readonly="readonly">
   			   			<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-						<input type="text" id="sample6_extraAddress" placeholder="참고항목"> <br>
+						<input type="text" id="sample6_extraAddress" placeholder="배송메세지"> <br>
 						
 						<input type="submit" value="입력완료">
 						

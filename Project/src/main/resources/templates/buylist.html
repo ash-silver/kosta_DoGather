@@ -94,24 +94,24 @@ function drawPage(pagination, params) {
   if (pagination.existPrevPage) { // 현재페이지에서 보이는 스타트페이지가 1이 아닐경우 해당 스크립트의 HTML이 만들어진다. ( <  이전 페이지 ) 
     html += `
         <a href="javascript:void(0);" onclick="movePage(1)" class="page_bt first">첫 페이지</a>
+        
         <a href="javascript:void(0);" onclick="movePage(${pagination.startPage - 1})" class="page_bt prev">이전 페이지</a>
     `;
   }
 
   // 페이지 번호
- 
   		// 1,2,3,4,5~~~ 페이지의 번호를 만들어내는 구문
   for (let i = pagination.startPage; i <= pagination.endPage; i++) {
     html += (i !== params.page)
             ? `<a href="javascript:void(0);" onclick="movePage(${i});">${i}</a>`
             : `<span class="on">${i}</span>`
   }
- 
 
   // 다음 페이지, 마지막 페이지
   if (pagination.existNextPage) {
     html += `
         <a href="javascript:void(0);" onclick="movePage(${pagination.endPage + 1});" class="page_bt next">다음 페이지</a>
+        
         <a href="javascript:void(0);" onclick="movePage(${pagination.totalPageCount});" class="page_bt last">마지막 페이지</a>
     `;
   }
@@ -126,15 +126,11 @@ function movePage(page) {
   }
   location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
 }
-	
 
 /*]]>*/
 
 </script>
-
-
 </head>
-
 <body>
 	<div id="container">
 		<header th:replace="header :: header"> </header>
@@ -201,11 +197,10 @@ function movePage(page) {
 							</label> <label class="tagbar_menu"> <a href="/orders/buylists">
 									<span>구매내역</span>
 							</a>
-							</label> <label class="tagbar_menu"> <!--  <a href="#">--> <a
-								href="https://www.cjlogistics.com/ko/tool/parcel/tracking"
-								target="_blank">CJ 배송조회</a>
-
+							</label> <label class="tagbar_menu"> <a href="/orders/delivery">
+								<span>배송조회</span>
 							</label>
+							
 						</div>
 
 						<div class="mypage_list_cont"></div>
