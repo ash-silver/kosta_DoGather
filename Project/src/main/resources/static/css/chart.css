@@ -15,43 +15,74 @@
 	align-items: center;
 	flex-direction: column;
 }
-.chart_box{
-	flex-direction:column;
-	width:1200px;
+
+.chart_box {
+	flex-direction: column;
+	width: 1200px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	margin:50px;
+	margin: 50px;
 }
-.chart_line{
-	width:1100px;
+
+.chart_line {
+	width: 1100px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.chart_text_box{
-	width:1100px;
-	display:flex;
+
+.chart_text_box {
+	width: 1100px;
+	display: flex;
 	align-items: center;
 	justify-content: space-around;
 }
-.chart_text{
-	width:200px;
+
+.chart_text {
+	width: 200px;
 	height: 100px;
-	border:1px solid #e2e2e2;
-	display:flex;
+	border: 1px solid #e2e2e2;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.type{
-	margin:25px;
-	width:500px;
-	display:flex;
+
+.type {
+	margin: 25px;
+	width: 500px;
+	display: flex;
 	height: 300px;
-	border:1px solid #e2e2e2;
+	border: 1px solid #e2e2e2;
 	align-items: center;
-	justify-content:center;
+	justify-content: center;
 }
-.type_circle{
+
+.type_circle {
 	flex-direction: column;
+}
+
+.chart_btn {
+	width: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.chart_btn a {
+	cursor: pointer;
+	width: 200px;
+	height: 50px;
+	border: 1px solid #e2e2e2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px;
+	border-radius: 10px;
+}
+
+.chart_btn a:hover{
+	color:white;
+	background-color: blue;
+	
 }

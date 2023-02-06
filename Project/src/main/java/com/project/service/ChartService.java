@@ -20,10 +20,14 @@ public class ChartService {
 	public Map<String, Object> AllChartList(String p_nickname_m_fk, String Day,String Month) {
 		Map<String, Object> ChartMap = new HashMap<>();
 		List<Chart> Week = cMapper.OneWeekChart(p_nickname_m_fk, Day);
+		List<Chart> NowAllSell = cMapper.NowAllSell(p_nickname_m_fk);
 		List<Chart> WeekSell = cMapper.OneWeekSellPrice(p_nickname_m_fk, Day);
 		List<Chart> MonthCategory = cMapper.OneMonthCategorySell(p_nickname_m_fk, Month);
 		List<Chart> MonthFailPro = cMapper.OneMonthFailedProduct(p_nickname_m_fk, Month);
 		ChartMap.put("Week", Week);
+		ChartMap.put("NowAllSell", NowAllSell);
+		ChartMap.put("Day", Day);
+		ChartMap.put("Month", Month);
 		ChartMap.put("WeekSell", WeekSell);
 		ChartMap.put("MonthCategory", MonthCategory);
 		ChartMap.put("MonthFailPro", MonthFailPro);

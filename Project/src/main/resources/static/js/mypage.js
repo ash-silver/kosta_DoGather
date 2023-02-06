@@ -1,12 +1,22 @@
-
-function ChartList(chart) {
-	let DaysList = []; // x축 데이터 배열 생성
-	let DayCountList = [];
-	chart.forEach(row => {
-		DaysList.push(row.date);
-		DayCountList.push(row.count);
-	});
-
+function WeekList(Week) {
+	let WeekRange = [];
+	for (let i = 7; i >= 1; i--) {
+		WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+	}
+	let DayValue = [];
+	let DaysList = [];
+	let arrayIndex = 0;
+	for (let i = 0; i < WeekRange.length; i++) {
+		let tempD = moment(WeekRange[0]).add(i, 'day').format('MM-DD');
+		if (Week[arrayIndex].date != null && Week[arrayIndex].date == tempD) {
+			DaysList.push(tempD);
+			DayValue.push(Week[arrayIndex].count);
+			arrayIndex++;
+		} else {
+			DayValue.push(0);
+			DaysList.push(tempD);
+		}
+	}
 	let context = document
 		.getElementById('myChart')
 		.getContext('2d');
@@ -16,45 +26,43 @@ function ChartList(chart) {
 			labels: DaysList,//x축
 			datasets: [
 				{ //데이터
-					label: '최근 7일간 판매 현황', //차트 제목
+					label: "최근 7일간 제품 판매완료 수량", //차트 제목
 					fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-					data: DayCountList,
+					data: DayValue,
 					backgroundColor: [
-						//색상
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
+						'rgba(255, 99, 132, 0.6)',
+						'rgba(54, 162, 235, 0.6)',
+						'rgba(255, 206, 86, 0.6)',
+						'rgba(75, 192, 192, 0.6)',
+						'rgba(153, 102, 255, 0.6)',
+						'rgba(255, 159, 64, 0.6)',
+						'rgba(255, 159, 64, 0.6)'
 					],
 					borderColor: [
-						//경계선 색상
 						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
 						'rgba(54, 162, 235, 1)',
 						'rgba(255, 206, 86, 1)',
 						'rgba(75, 192, 192, 1)',
 						'rgba(153, 102, 255, 1)',
 						'rgba(255, 159, 64, 1)'
 					],
-					borderWidth: 1 //경계선 굵기
-				}
-			]
+					borderWidth: 1
+				}]
 		},
 		options: {
+			responsive: false,
 			scales: {
-
-				yAxes: [
-					{
-						ticks: {
-							beginAtZero: true
-						}
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
 					}
-				]
-			}
+				}]
+			},
 		}
 	});
 }
+
 /*<![CDATA[*/
 function drawList(list, img, keyword) {
 	let index = 0;

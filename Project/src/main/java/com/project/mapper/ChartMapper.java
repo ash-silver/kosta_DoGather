@@ -18,4 +18,6 @@ public interface ChartMapper {
 
 	List<Chart> OneMonthFailedProduct(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("Day")  String Day);
 
+	List<Chart> NowAllSell(String p_nickname_m_fk);
+
 }

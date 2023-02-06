@@ -142,9 +142,9 @@ public class ProductController {
 
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
-			@PathVariable String keyword, String searching) {
+			@PathVariable String keyword) {
 		String id = principal.getName();
-		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword, searching);
+		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword);
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
@@ -158,6 +158,27 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
+	
+	@GetMapping("/{keyword}/lists/buy")
+	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
+			@PathVariable String keyword) {
+		String id = principal.getName();
+		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword);
+		List<Img> img_name = new ArrayList<>();
+		for (Product img : pro.getList()) {
+			img_name.addAll(img.getImg());
+		}
+		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
+		model.addAttribute("img", img_name);
+		model.addAttribute("chart", chart);
+		model.addAttribute("sell_cnt", sell_cnt);
+		model.addAttribute("prolist", pro);
+		model.addAttribute("keyword", keyword);
+		return "mypage";
+	}
+	
+
 
 	@GetMapping("/charts/{day}/{month}")
 	public String chart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,

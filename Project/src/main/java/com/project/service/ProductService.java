@@ -205,14 +205,13 @@ public class ProductService {
 		return pMapper.FindOption2(map);
 	}
 
-	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword,
-			String search) {
+	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 		List<Product> list = new ArrayList<>();
-		if (search != null) {
-			count = pMapper.SearchSellerCount(p_nickname_m_fk, search, keyword);
-			map.put("search", search);
+		if (params.getSearching()!= null) {
+			count = pMapper.SearchSellerCount(p_nickname_m_fk, params.getSearching(), keyword);
+			map.put("search", params.getSearching());
 		} else {
 			count = pMapper.WriterProductlistCount(p_nickname_m_fk, keyword);
 		}
@@ -225,7 +224,7 @@ public class ProductService {
 		map.put("keyword", keyword);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
-		if (search != null) {
+		if (params.getSearching() != null) {
 			list = pMapper.SearchSeller(map);
 		} else {
 			list = pMapper.WriterProductlist(map);

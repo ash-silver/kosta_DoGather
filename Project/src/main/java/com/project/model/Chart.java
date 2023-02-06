@@ -13,5 +13,6 @@ public class Chart {
 	private int endprice;
 	private String nickname;
 	private String category;
+	private int p_sell;
 	
 }

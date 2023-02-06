@@ -35,6 +35,13 @@ public class OrderController {
 		oService.AddCart(principal, order);
 
 	}
+	
+	@GetMapping("/address")
+	public String Address() {
+		
+		return "address";
+	}
+	
 
 	@GetMapping("/carts")
 	public String findCart(Model model, Principal principal) {

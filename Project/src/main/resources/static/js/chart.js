@@ -1,10 +1,22 @@
 
+let WeekRange = [];
+for (let i = 7; i >= 1; i--) {
+	WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+}
+let TwoWeekRange = [];
+for (let i = 14; i >= 1; i--) {
+	TwoWeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+}
 
-function MonthFailProList(MonthFailPro) {
+
+function MonthFailProList(MonthFailPro,Month) {
+	if(Month=="-1 MONTH"){
+		$(".circle_txt2").text("한달간 공고 진행상태");
+	}else if(Month="-6 MONTH"){
+		$(".circle_txt2").text("6개월간 공고 진행상태");
+	}
 	let Count = []; // x축 데이터 배열 생성
-	let context = document
-		.getElementById('type4')
-		.getContext('2d');
+	let context = document.getElementById('type4').getContext('2d');
 	MonthFailPro.forEach(row => {
 		Count.push(row.count);
 	});
@@ -44,12 +56,17 @@ function MonthFailProList(MonthFailPro) {
 
 
 
-function MonthCategory(MonthCategoryList) {
+function MonthCategory(MonthCategoryList,Month) {
 	let CountDate = []; // x축 데이터 배열 생성
 	let CategoryList = [];
-	let context = document
-		.getElementById('type3')
-		.getContext('2d');
+	let context = document.getElementById('type3').getContext('2d');
+	let title="";
+	if(Month=="-1 MONTH"){
+		$(".circle_txt1").text("한달간 카테고리별 판매수량");
+		
+	}else if(Month="-6 MONTH"){
+		$(".circle_txt1").text("6개월간 카테고리별 판매수량");
+	}
 	MonthCategoryList.forEach(row => {
 		CountDate.push(row.count);
 		CategoryList.push(row.category);
@@ -59,7 +76,7 @@ function MonthCategory(MonthCategoryList) {
 		data: {
 			labels: CategoryList,
 			datasets: [{
-				label: '한달간 카테고리별 판매수량',
+				label: title,
 				data: CountDate,      // 섭취량, 총급여량 - 섭취량
 				backgroundColor: [
 					'#0000CC',
@@ -82,22 +99,87 @@ function MonthCategory(MonthCategoryList) {
 	});
 }
 
-function WeekSellList(WeekSell) {
+
+function WeekLength(Week, day) {
 	let DaysList = []; // x축 데이터 배열 생성
-	let DaySellPriceList = [];
-	let context = document
-		.getElementById('type2')
-		.getContext('2d');
-	WeekSell.forEach(row => {
-		DaysList.push(row.date);
-		DaySellPriceList.push(row.endprice);
-	});
+	let DayValue = [];
+	let WeekRange = [];
+	let map = new Map;
+	let arrayIndex = 0;
+	if (day == '-7 DAY') {
+		for (let i = 7; i >= 1; i--) {
+			WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+		}
+	} else if (day == '-14 DAY') {
+		for (let i = 14; i >= 1; i--) {
+			WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+		}
+	}
+	for (let i = 0; i < WeekRange.length; i++) {
+		let tempD = moment(WeekRange[0]).add(i, 'day').format('MM-DD');
+		if (Week[arrayIndex].date != null && Week[arrayIndex].date == tempD) {
+			DaysList.push(tempD);
+			DayValue.push(Week[arrayIndex].count);
+			arrayIndex++;
+		} else {
+			DayValue.push(0);
+			DaysList.push(tempD);
+		}
+	}
+	map.set("DayValue", DayValue);
+	map.set("DaysList", DaysList);
+	return map;
+}
+
+function WeekSellerLength(WeekSell, day) {
+	let DaysList = []; // x축 데이터 배열 생성
+	let DayValue = [];
+	let WeekRange = [];
+	let arrayIndex = 0;
+	let map = new Map;
+	if (day == '-7 DAY') {
+		for (let i = 7; i >= 1; i--) {
+			WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+		}
+	} else if (day == '-14 DAY') {
+		for (let i = 14; i >= 1; i--) {
+			WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
+		}
+	}
+	for (let i = 0; i < WeekRange.length; i++) {
+		let tempD = moment(WeekRange[0]).add(i, 'day').format('MM-DD');
+		if (WeekSell[arrayIndex].date != null && WeekSell[arrayIndex].date == tempD) {
+			DaysList.push(tempD);
+			DayValue.push(WeekSell[arrayIndex].endprice);
+			arrayIndex++;
+		} else {
+			DayValue.push(0);
+			DaysList.push(tempD);
+		}
+	}
+	map.set("DayValue", DayValue);
+	map.set("DaysList", DaysList);
+	return map;
+}
+
+function WeekSellList(WeekSell, Day) {
+	let context = document.getElementById('type2').getContext('2d');
+	let map = WeekSellerLength(WeekSell, Day);
+	let DaysList = map.get("DaysList");
+	let DaySellPriceList = map.get("DayValue");
+		let title = "";
+	if (Day == "-7 DAY") {
+		title = "최근 7일간 판매 매출";
+	}else if(Day=="-14 DAY"){
+		title = "최근 14일간 판매 매출";
+	}
+
 	let myChart = new Chart(context, {
 		type: 'line',
 		data: {
 			labels: DaysList,
 			datasets: [{
-				label: '최근 7일간 판매 매출',
+				label: title,
 				data: DaySellPriceList,
 				backgroundColor: [
 					'rgba(255, 99, 132, 0.3)',
@@ -133,14 +215,16 @@ function WeekSellList(WeekSell) {
 	});
 }
 
-function WeekList(Week) {
-	let DaysList = []; // x축 데이터 배열 생성
-	let DayCountList = [];
-	Week.forEach(row => {
-		DaysList.push(row.date);
-		DayCountList.push(row.count);
-	});
-
+function WeekList(Week, Day) {
+	let map = WeekLength(Week, Day);
+	let DayCountList = map.get("DayValue");
+	let DaysList = map.get("DaysList");
+	let title = "";
+	if (Day == "-7 DAY") {
+		title = "최근 7일간 제품 판매완료 수량";
+	}else if(Day=="-14 DAY"){
+		title = "최근 14일간 제품 판매완료 수량";
+	}
 	let context = document
 		.getElementById('type1')
 		.getContext('2d');
@@ -150,7 +234,7 @@ function WeekList(Week) {
 			labels: DaysList,//x축
 			datasets: [
 				{ //데이터
-					label: '최근 7일간 제품 판매완료 수량', //차트 제목
+					label: title, //차트 제목
 					fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 					data: DayCountList,
 					backgroundColor: [

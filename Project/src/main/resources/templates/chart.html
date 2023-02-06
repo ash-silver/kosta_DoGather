@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 <script type="text/javascript" th:src="@{/js/chart.js}"></script>
 
@@ -21,14 +22,16 @@
 /*<![CDATA[*/
   	const c=/*[[${ChartMap}]]*/"";		
   	const WeekSell=c.WeekSell;
-  	const Week=c.Week;								
+  	const Week=c.Week;
+  	const Day=c.Day;
+  	const Month=c.Month;
   	const MonthCategoryList=c.MonthCategory;								
   	const MonthFailPro=c.MonthFailPro;						
 	window.onload = () => {
-		WeekList(Week);
-		WeekSellList(WeekSell);
-		MonthCategory(MonthCategoryList);
-		MonthFailProList(MonthFailPro);
+		WeekList(Week,Day);
+		WeekSellList(WeekSell,Day);
+		MonthCategory(MonthCategoryList,Month);
+		MonthFailProList(MonthFailPro,Month);
 }
 /*]]>*/
 </script>
@@ -41,12 +44,26 @@
 		<header th:replace="header :: header"> </header>
 		<main id="chart_main_con">
 			<div class="chart_text_box">
-				<div class="chart_text"></div>
-				<div class="chart_text"></div>
-				<div class="chart_text"></div>
-				<div class="chart_text"></div>
+				<div class="chart_text">
+					<span>현재 판매중인 공고 판매량</span>
+				</div>
+				<div class="chart_text">
+					<span>오늘 판매종료 예정 공고</span>
+				</div>
+				<div class="chart_text">
+					<span>오늘 판매종료 예정 공고</span>
+				</div>
+				<div class="chart_text">
+					<span>오늘 판매종료 예정 공고</span>
+				</div>
 			</div>
+
 			<div class="chart_box">
+				<div class="chart_btn">
+					<a th:href="|/products/charts/-14 DAY/${ChartMap['Month']}|">2주일 평균 보기</a>
+					<a th:href="|/products/charts/-7 DAY/${ChartMap['Month']}|">최근 일주일 평균 보기</a>
+				</div>
+
 				<div class="chart_line">
 					<div class="type">
 						<canvas id="type1" width="450" height="250" class="chart"></canvas>
@@ -55,13 +72,19 @@
 						<canvas id="type2" width="450" height="250" class="chart"></canvas>
 					</div>
 				</div>
+				
+				
+				<div class="chart_btn">
+					<a th:href="|/products/charts/${ChartMap['Day']}/-6 MONTH|">최근 6개월 통계보기</a>
+					<a th:href="|/products/charts/${ChartMap['Day']}/-1 MONTH|">최근 한달 통계보기</a>
+				</div>
 				<div class="chart_line">
 					<div class="type type_circle">
-						<span>한달간 카테고리별 판매량</span>
+						<span class="circle_txt1">한달간 카테고리별 판매량</span>
 						<canvas id="type3" width="450" height="200" class="chart"></canvas>
 					</div>
 					<div class="type type_circle">
-						<span>한달간 공고 진행 현황 </span>
+						<span class="circle_txt2">한달간 공고 진행 현황 </span>
 						<canvas id="type4" widht="350" height="150" class="chart"></canvas>
 					</div>
 				</div>
@@ -71,7 +94,7 @@
 					</div>
 					<div class="type">
 						<canvas id="type6" class="chart"></canvas>
-					</div> 
+					</div>
 				</div>
 			</div>
 		</main>

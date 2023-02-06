@@ -112,12 +112,13 @@
 
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
 		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk=#{keyword} AND p_name LIKE
+		<if test="keyword!='all'"> p_chk=#{keyword} AND</if> p_name LIKE
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk=#{keyword} AND
+		
+		<if test="keyword!='all'"> p_chk=#{keyword} AND</if>
 		p_name LIKE
 		CONCAT('%',#{search},'%')
 	</select>
