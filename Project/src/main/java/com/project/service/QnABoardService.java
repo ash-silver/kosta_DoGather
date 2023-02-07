@@ -1,6 +1,7 @@
 package com.project.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,8 @@ public class QnABoardService {
 		qnaMapper.AddAnswer(qna);
 	}
 	
+	public List<QnABoardModel> getList(){
+		return qnaMapper.getList();
+	};
 	
 }

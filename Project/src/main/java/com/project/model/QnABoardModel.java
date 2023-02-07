@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class QnABoardModel {
 	private int q_id;
-	private String q_name_p_fk;
+	private int q_id_p_fk;
 	private String q_title;
 	private String q_content;
 	private String q_nickname_m_fk;

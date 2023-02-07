@@ -31,7 +31,7 @@ public class QnABoardController {
 	
 	@PostMapping("") 
 	public String addQuestion(QnABoardModel qna) throws Exception{
-		qna.setQ_name_p_fk("exProductname");
+		qna.setQ_id_p_fk(1234);
 		qna.setQ_nickname_m_fk("exNickname");
 		qnaService.AddQuestion(qna);
 		return "redirect:/QnABoardModel";
@@ -61,5 +61,10 @@ public class QnABoardController {
 	public String addAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
 		qnaService.AddAnswer(qna);
 		return "redirect:/qnaboard/"+q_id;
+	}
+	
+	@GetMapping("/list/{p_id}")
+	public void qnaList(QnABoardModel qna, Model model) {
+		model.addAttribute("list", qnaService.getList());
 	}
 }
