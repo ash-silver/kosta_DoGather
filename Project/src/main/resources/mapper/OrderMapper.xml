@@ -122,7 +122,9 @@
 		SELECT o_id,o_option1,o_option2,o_quantity,o_member_m_fk FROM ord WHERE p_nickname_m_fk=#{p_nickname_m_fk} 
 		AND p_chk=#{keyword} LIMIT #{limitstart},#{recordsize} </select> -->
 
-
+	<update id="PostCodeAdd" parameterType="com.project.model.Order">
+		UPDATE ord SET o_postCode=#{o_postCode},o_postCompanyKey=#{o_postCompanyKey} WHERE o_id=#{o_id}
+	</update>
 
 
 </mapper>

@@ -18,6 +18,24 @@ import com.project.model.SearchDto;
 
 import lombok.RequiredArgsConstructor;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.project.mapper.OrderMapper;
+import com.project.model.Order;
+import com.project.model.Pagination;
+import com.project.model.PagingResponse;
+import com.project.model.SearchDto;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -65,11 +83,18 @@ public class OrderService {
 		Pagination pagination = new Pagination(count, params);
 		params.setPagination(pagination);
 		map.put("o_member_m_fk", o_member_m_fk);
+
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		List<Order> list = oMapper.buyList(map);
+		for (Order ord : list) {
+		}
 		return new PagingResponse<>(list, pagination);
 
+	}
+
+	public void PostCodeAdd(Order o) {
+		oMapper.PostCodeAdd(o);
 	}
 
 }

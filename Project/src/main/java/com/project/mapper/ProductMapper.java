@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.project.model.Discount;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Order;
 import com.project.model.Product;
 
 @Mapper
@@ -55,6 +56,8 @@ public interface ProductMapper {
 	int WriterProductlistCount(@Param("p_nickname_m_fk")String p_nickname_m_fk,@Param("keyword") String keyword);
 
 	List<Product> SearchSeller(Map<String, Object> map);
+	List<Order> BuyProduct(Map<String, Object> map);
 
 	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search,@Param("keyword") String keyword);
+	int BuyProductCount(String p_nickname_m_fk);
 }

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import com.project.mapper.ProductMapper;
 import com.project.model.Discount;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Order;
 import com.project.model.Pagination;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
@@ -229,6 +229,25 @@ public class ProductService {
 		} else {
 			list = pMapper.WriterProductlist(map);
 		}
+		return new PagingResponse<>(list, pagination);
+	}
+	
+	
+	
+	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params) {
+		int count = 0;
+		Map<String, Object> map = new HashMap<>();
+		
+		count=pMapper.BuyProductCount(p_nickname_m_fk);
+		if (count < 1) {
+			return new PagingResponse<>(Collections.emptyList(), null);
+		}
+		Pagination pagination = new Pagination(count, params);
+		params.setPagination(pagination);
+		map.put("p_nickname_m_fk", p_nickname_m_fk);
+		map.put("limitstart", params.getPagination().getLimitStart());
+		map.put("recordsize", params.getRecordSize());
+		List<Order> list=pMapper.BuyProduct(map);
 		return new PagingResponse<>(list, pagination);
 	}
 

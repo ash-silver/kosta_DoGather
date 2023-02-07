@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.model.Chart;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Order;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
@@ -159,23 +160,16 @@ public class ProductController {
 		return "mypage";
 	}
 	
-	@GetMapping("/{keyword}/lists/buy")
-	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
-			@PathVariable String keyword) {
+	@GetMapping("/lists/buy")
+	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params) {
 		String id = principal.getName();
-		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword);
-		List<Img> img_name = new ArrayList<>();
-		for (Product img : pro.getList()) {
-			img_name.addAll(img.getImg());
-		}
+		PagingResponse<Order> order = pService.BuyProduct(id, params);
+		
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
-		model.addAttribute("img", img_name);
-		model.addAttribute("chart", chart);
+		
 		model.addAttribute("sell_cnt", sell_cnt);
-		model.addAttribute("prolist", pro);
-		model.addAttribute("keyword", keyword);
-		return "mypage";
+		model.addAttribute("order", order);
+		return "buymember";
 	}
 	
 
@@ -196,4 +190,5 @@ public class ProductController {
 		Option opt = pService.FindOption(opt_pid_p_fk);
 		return opt;
 	}
+	
 }

@@ -35,19 +35,13 @@ public class OrderController {
 		oService.AddCart(principal, order);
 
 	}
-	
-	@GetMapping("/address")
-	public String Address() {
-		
-		return "address";
-	}
-	
 
 	@GetMapping("/carts")
 	public String findCart(Model model, Principal principal) {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
-	
+		for (Order ord : order) {
+		}
 		model.addAttribute("order", order);
 		return "cart";
 	}
@@ -75,16 +69,31 @@ public class OrderController {
 		List<Product> product = new ArrayList<>();
 		List<Img> img = new ArrayList<>();
 		PagingResponse<Order> ordlist = oService.buyList(m_nickname, params);
-		for(Order ord:ordlist.getList()) {
+		for (Order ord : ordlist.getList()) {
 			product.add(ord.getProduct());
 			img.add(ord.getImg());
 		}
 		model.addAttribute("img", img);
 		model.addAttribute("product", product);
+		model.addAttribute("params", params);
 		model.addAttribute("ordlist", ordlist);
-	
 
-		return "mypage1";
+		return "buylist";
+	}
+
+	@GetMapping("/delivery")
+	public String delivery() {
+
+		return "delivery";
+	}
+
+	@ResponseBody
+	@PostMapping("/{o_id}/posts")
+	public String PostCodeAdd(Order o) {
+		System.out.println(o);
+		System.out.println("sdsdsds");
+		oService.PostCodeAdd(o);
+		return "추가완료";
 	}
 
 }
