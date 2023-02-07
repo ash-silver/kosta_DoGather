@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,7 @@ import com.project.model.Option;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
+import com.project.service.IndexService;
 import com.project.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +34,8 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
+	
+	private final IndexService iService;
 
 	/* ==================================================================== */
 	@GetMapping("")
@@ -80,8 +82,19 @@ public class ProductController {
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
+		
+		int reviewct = iService.reviewct(p_id);
+		double reviewstar = iService.reviewStar(p_id);
+		reviewstar = Math.round(((reviewstar/reviewct)*10)/10.0);
+		
+		
+		
 
 		model.addAttribute("promap", promap);
+		model.addAttribute("p_id", p_id);
+		model.addAttribute("reviewct", reviewct);
+		model.addAttribute("reviewstar", reviewstar);
+		
 		return "productdetail";
 	}
 
@@ -142,5 +155,6 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
+	
 
 }

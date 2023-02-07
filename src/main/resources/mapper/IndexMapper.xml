@@ -140,7 +140,7 @@
 		resultMap="ProductMap">
 		SELECT * FROM product 
 		WHERE p_category = #{keyword} and p_name like
-		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
+		CONCAT('%',#{search},'%') LIMIT #{limitStart},#{recordSize}
 	</select>
 	
 	<!-- 전체 검색 -->
@@ -149,7 +149,7 @@
 		SELECT * FROM product 
 		WHERE p_name like
 		CONCAT('%',#{search},'%') 
-		LIMIT #{limitstart},#{recordsize}
+		LIMIT #{limitStart},#{recordSize}
 	</select>
 
 	

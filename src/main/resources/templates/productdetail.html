@@ -11,13 +11,183 @@
 <link th:href="@{/css/productdetail.css}" rel="stylesheet" />
 <link th:href="@{/css/reset2.css}" rel="stylesheet" />
 <link th:href="@{/css/reset.css}" rel="stylesheet" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 <script type="text/javascript" th:src="@{/js/productdetail.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+
+/*<![CDATA[*/
+
+$(function(){
+
+	
+	$("#review_btn").click(function() {
+		const token = $("meta[name='_csrf']").attr("content");
+		const header = $("meta[name='_csrf_header']").attr("content");
+		
+		let params= $("#addReview").serialize();		
+			$.ajax({
+				url : "/reviews",
+				type : "POST",
+				data : params,
+				beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+				},
+				datetype : "json",
+				success : function(result) {
+					alert("작성 완료!");
+					PageList();
+					$("#rvcnt").text("상품리뷰("+result.reviewct+")개");						
+					$("#rvstar").text("평점("+result.reviewstar+")");	
+				},
+				error : function(e) {
+					console.log("ERROR : ", e);
+					alert("fail");
+				}
+			});
+		
+	});
+	
+
+
+})
+const drawStar = (target) => {
+	  $(`.star span`).css({ width: `${target.value * 20}%` });
+	}
+	
+$(document).ready(function(){
+
+	PageList();
+
+});
+
+
+function PageList(){
+	const r_pid_p_fk = $("#r_pid_p_fk").val();
+	$.ajax({
+		type:"GET",
+		url:"/reviews",
+		data:{
+			r_pid_p_fk:r_pid_p_fk,
+	        recordSize: 10,
+	        pageSize: 10
+			
+		},
+		success : function(result) {
+			let list=result.prolist;
+			let params=result.params;
+			let pagination=result.pagination;
+			drawList(list);
+			drawPage(pagination,params);
+			
+		},
+		error : function(e) {
+			alert('에러');
+
+		}
+ 	});
+}
+
+function drawList(list) {
+
+    let html = "";
+	console.log(list);
+    list.forEach(result => {
+    	html += "<form>"
+    	html += "<input type='hidden' name='r_id' id='r_id' th:value="+result.r_id+">"
+  	    html += "<div class='review'>";
+		html += "<label class='review_id'>";
+		html += "<p class='p1'>작성자:" + result.r_nickname_m_fk
+				+ " </p>  <p class='p2'>등록날짜:" + result.r_datetxt
+				+ "</p><p class='p3'>평점:" + result.r_rating + "</p>   </label>";
+		html += "<label class='review_text'>";
+		html += "<p>CONTENT:" + result.r_content + " </p>";
+		html +="</label>";
+		html += "<button type='button' id='reviewDel_btn'>"+'삭제'+"</button>"
+		html += "</div>"
+		html += "</form>";
+		});
+		
+		$(".review_box").html(html);
+		
+ }
+ 
+ 
+    
+  
+
+function drawPage(pagination,params){
+	if ( !pagination || !params ) {	        
+  	  $(".btn_box").html("");
+      throw new Error('Missing required parameters...');
+    }
+
+	let html="";
+   // 첫 페이지, 이전 페이지
+   
+	 if (pagination.existPrevPage) { 
+	        html += `
+	            <a href="javascript:void(0);" onclick="movePage(1)">첫 페이지</a>
+	            <a href="javascript:void(0);" onclick="movePage("+ pagination.startPage-1 +")">이전 페이지</a>
+	        `;
+	      }
+	 // 페이지 번호
+    html += '<p>';
+    		// 1,2,3,4,5~~~ 페이지의 번호를 만들어내는 구문
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+      if(i !== params.page){
+      	html+="<a href='javascript:void(0);' class='"+i+"'onclick='movePage("+i+");'>"+i+"</a>";
+      }else{
+      	html+="<span class='on' id='on'>"+i+"</span>";
+      }
+      			              
+    }
+    html += '</p>';
+
+    // 다음 페이지, 마지막 페이지
+    if (pagination.existNextPage) {
+      html += `
+          <a href="javascript:void(0);" onclick="movePage("+pagination.endPage+1 +");">다음 페이지</a>
+          <a href="javascript:void(0);" onclick="movePage("+pagination.totalPageCount+");" >마지막 페이지</a>
+      `;
+    }
+    $(".btn_box").html(html);	 
+    
+    $("#reviewDel_btn").click(function(){
+		$.ajax({
+			url : "/reviews",
+			type : "Delete",
+			dataType : "json",
+			success : function(){
+				alert("삭제 완료");
+				PageList();
+			},
+			error : function(e) {
+				console.log("ERROR : ", e);
+				alert("fail");
+			}
+		});
+		
+		
+	});
+}
+	
+
+
+
+
+
+/*]]>*/
+
+</script>
 </head>
 
 <body>
@@ -29,11 +199,12 @@
 
 
 
-	<div class="prodetail_box">
+			<div class="prodetail_box">
 				<div class="prodetail_img_box">
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
-							<img th:src="|/projectimg/${i.img_name}|" class="mini_img" th:each="i : ${promap['pro'].getImg}"
+							<img th:src="|/projectimg/${i.img_name}|" class="mini_img"
+								th:each="i : ${promap['pro'].getImg}"
 								th:if="${i.img_keyword}=='p_img' AND ${i.img_keyword}!=null">
 
 
@@ -43,30 +214,26 @@
 						</div>
 					</div>
 					<div class="prodetail_progress">
-						<label class="progress_text">
-							<span>현재 할인 적용</span>
-						</label>
-						<label class="progress_bar">
-
-							<progress th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
-							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}"></span>
-						</label>
-
-
-						<label class="progress_quantity">
-							<span th:text="|공구 시작일:${promap['pro'].getP_recruitdate}|">시작일: </span>
-							<span th:text="|공구 마감일:${promap['pro'].getP_duedate}|">마감일: </span>
-						</label>
-
-
-						<label class="progress_quantity">
-							<span th:each="quantity, Stat:${promap['pro'].getDiscount}" th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차 할인:20개</span>
-						</label>
-						<label class="progress_quantity">
-							<span th:each="count , Stat:${promap['pro'].getDiscount}" th:text="|${Stat.count}차 할인율:${count.dis_count}%|">1차 할인:20개</span>
-						</label>
-						<label class="progress_sail">
-							<span th:text="|현재 할인 적용:${promap['Now_Discount']}%|">현재 할인 적용: 20%</span>
+						<label class="progress_text"> <span>현재 할인 적용</span>
+						</label> <label class="progress_bar"> <progress
+								th:value="${promap['pro'].getP_sell}"
+								th:max="${promap['Next_Discount_sell']}"></progress> <span
+							th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}"></span>
+						</label> <label class="progress_quantity"> <span
+							th:text="|공구 시작일:${promap['pro'].getP_recruitdate}|">시작일:
+						</span> <span th:text="|공구 마감일:${promap['pro'].getP_duedate}|">마감일:
+						</span>
+						</label> <label class="progress_quantity"> <span
+							th:each="quantity, Stat:${promap['pro'].getDiscount}"
+							th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차
+								할인:20개</span>
+						</label> <label class="progress_quantity"> <span
+							th:each="count , Stat:${promap['pro'].getDiscount}"
+							th:text="|${Stat.count}차 할인율:${count.dis_count}%|">1차
+								할인:20개</span>
+						</label> <label class="progress_sail"> <span
+							th:text="|현재 할인 적용:${promap['Now_Discount']}%|">현재 할인 적용:
+								20%</span>
 						</label>
 
 					</div>
@@ -79,15 +246,17 @@
 
 				<div class="prodetail_text_box">
 					<div class="prodetail_text text1">
-						<span th:text="|제품명: ${promap['pro'].getP_name}|"></span>
-						<a href="#">
-							<span class="material-symbols-outlined"> favorite </span>
+						<span th:text="|제품명: ${promap['pro'].getP_name}|"></span> <a
+							href="#"> <span class="material-symbols-outlined">
+								favorite </span>
 						</a>
 
 					</div>
 					<div class="prodetail_text price_text">
-						<span class="price" th:text="|기본 가격:${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-						<span class="disprice" th:text="|현재 할인 가격:${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="price"
+							th:text="|기본 가격:${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="disprice"
+							th:text="|현재 할인 가격:${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}|"></span>
 					</div>
 					<div class="prodetail_text">
 						<span th:text="|판매자:${promap['pro'].getP_nickname_m_fk}|"></span>
@@ -99,7 +268,9 @@
 					<div class="prodetail_text text2">
 						<input type="hidden" th:value="${promap['pro'].getP_id}" id="p_id">
 						<select name="opt_option1" class="option1">
-							<option th:value="${opt1}" th:each="opt1 : ${promap['opt_option1']}" th:if=" ${promap['opt_option1']}!=null" th:text="${opt1}"></option>
+							<option th:value="${opt1}"
+								th:each="opt1 : ${promap['opt_option1']}"
+								th:if=" ${promap['opt_option1']}!=null" th:text="${opt1}"></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2">
@@ -117,8 +288,9 @@
 						<button type="button" id="addCart">장바구니 추가</button>
 						<button type="button" id="addOrder">구매하기</button>
 
-						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}" id="p_recruitdate" readonly>
-						<input type="hidden" th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>
+						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
+							id="p_recruitdate" readonly> <input type="hidden"
+							th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>
 					</form>
 					<div class="time_box">
 						<h1 id="time"></h1>
@@ -129,13 +301,43 @@
 			</div>
 
 			<div class="detail_content_box">
-				<div class="box" th:each="i : ${promap['pro'].getImg}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
+				<div class="box" th:each="i : ${promap['pro'].getImg}"
+					th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
 					<img th:src="|/projectimg/${i.img_name}|">
 				</div>
 
 			</div>
 
+			<div class="review_form">
+				<label class="pro_review_tag"
+					th:if="${reviewstar!=null && reviewct!=null}">
+					<p th:text="|상품리뷰(${reviewct})개|" id="rvcnt"></p>
+					<p th:text="| 평점(${reviewstar})|" id="rvstar"></p>
+				</label>
+				<form class="addReview" action="/addReview" method="post"
+					id="addReview">
+					<input type="hidden" name="r_pid_p_fk" id="r_pid_p_fk"
+						th:value="${p_id}">
 
+					<div class="star_box">
+						<span class="star">★★★★★<span>★★★★★</span> <input
+							type="range" name="r_rating" oninput="drawStar(this)" value="0"
+							step="0.5" min="0" max="5">
+						</span> <span class="text-bold">별점을 선택해주세요</span>
+					</div>
+
+					<div class="review_textbox">
+						<textarea placeholder="리뷰를 작성 하세요" name="r_content" id="r_content"></textarea>
+						<button type="button" id="review_btn">등록</button>
+					</div>
+
+				</form>
+				
+				<div class="review_box"></div>
+			
+				<div class="btn_box"></div>
+				
+			</div>
 
 		</main>
 

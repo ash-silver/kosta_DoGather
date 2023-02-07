@@ -8,11 +8,12 @@
 }
 
 #index_main {
-	width: 100%;
+	width: 120%;
 	padding-top: 170px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-left: 1px;
 }
 
 .main_buytag {
@@ -36,35 +37,32 @@
 }
 
 .main_contentbox {
-	font-family: Georgia, serif;
 	display: flex;
-	flex-direction: row;
 	justify-content: space-around;
-	align-items: center;
-	width: 100%;
+	align-items: flex-start;
+	width:1200px;
 	height: 400px;
-	max-width: 1200px;
-	min-width: 600px;
 	font-size: 14px;
 }
 
 .main_imgbox {
+	margin-top:50px;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	width: 200px;
-	height: 250px;
-	border: 1px solid rgb(0, 0, 0);
 }
 
 .main_imgbox .img_url {
 	width: 100%;
-	height: 200px;
+	height: 300px;
+	
 }
 
 .main_imgbox a img {
 	width: 100%;
 	height: 200px;
+	border-radius: 10px;
 }
 
 .name_url {

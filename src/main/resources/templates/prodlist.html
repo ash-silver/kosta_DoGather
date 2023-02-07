@@ -50,11 +50,9 @@ function drawList(list, img) {
 				<a href="/products/${row.p_id}/detail"> 
 					<div class="list_box_url">
 						<img src="/projectimg/${img[index].img_name}">
-					</div>
-			    	<div  class="list_box_name">
 						<span>제품명:${row.p_name}</span>
 						<span>가격:${row.p_price}원</span>
-					</div>
+					</div>					
 				</a>
 			</div>               
         `;
@@ -85,14 +83,14 @@ function drawPage(pagination, params) {
 	}
 
 	// 페이지 번호
-	html += '<p>';
+	html += '';
 	// 1,2,3,4,5~~~ 페이지의 번호를 만들어내는 구문
 	for (let i = pagination.startPage; i <= pagination.endPage; i++) {
 		html += (i !== params.page)// 현재 페이지 번호( params.page )와 그려야 할 페이지 번호( i )가 같으면,해당 페이지 번호를 활성화(on)
 			? `<a href="javascript:void(0);" onclick="movePage(${i});">${i}</a>`
 			: `<span class="on">${i}</span>`
 	}
-	html += '</p>';
+	html += '';
 
 	// 다음 페이지, 마지막 페이지
 	if (pagination.existNextPage) {//현재 위치한 페이지 뒤에 데이터가 있는 경우, 다음 페이지 버튼과 끝 페이지 버튼을 HTML에 추가
@@ -125,12 +123,15 @@ function movePage(page) {
 				
 		
 		<div class="product_order_list">	
-		<input type="hidden" th:value="${category}" name="category">
 			<ul>
-		        <li><a href="/newlist">최신순</a></li>
-		        <li><a href="/pricelist">낮은가격순</a></li>
-		        <li><a href="/pricelistdesc">높은가격순</a></li>
-		        <li><a href="/bestlist">판매량순</a></li>
+		        <li th:if="${category}==null" ><a href="/newlist">최신순</a></li>
+		        <li th:if="${category}!=null" ><a th:href="|/newlist/${category}|">최신순</a></li>		        
+		        <li th:if="${category}==null" ><a href="/pricelist">낮은가격순</a></li>
+		        <li th:if="${category}!=null"><a th:href="|/pricelist/${category}|">낮은가격순</a></li>
+		        <li th:if="${category}==null"><a href="/pricelistdesc">높은가격순</a></li>
+		        <li th:if="${category}!=null"><a th:href="|/pricelistdesc/${category}|">높은가격순</a></li>
+		        <li th:if="${category}==null"><a href="/bestlist">판매량순</a></li>
+		        <li th:if="${category}!=null"><a th:href="|/bestlist/${category}|">판매량순</a></li>
 	        </ul>
 		</div>
 		

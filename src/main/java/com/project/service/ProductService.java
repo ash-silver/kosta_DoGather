@@ -193,8 +193,6 @@ public class ProductService {
 				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
 			}
 			index++;
-			System.out.println(dis.getDis_quantity());
-			System.out.println(pro.getP_sell());
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);

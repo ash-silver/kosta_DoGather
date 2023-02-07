@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.mapper.IndexMapper;
+import com.project.mapper.ReviewMapper;
 import com.project.model.Pagination;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
+import com.project.model.Review;
 import com.project.model.SearchDto;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,10 @@ public class IndexService {
 	
 	@Autowired
 	private final IndexMapper pMapper;
+	
+	@Autowired
+	private final ReviewMapper rMapper;
+	
 	
 	public ArrayList<Product> Productbest(){
 		return pMapper.Productbest();
@@ -73,12 +79,13 @@ public class IndexService {
 		 if (count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
 	     }
+		 System.out.println(p_category);
 		 Pagination pagination = new Pagination(count, params);
 		 params.setPagination(pagination);
 		 Map<String, Object> map = new HashMap<>();
 		 map.put("p_category", p_category);
-		 map.put("limitstart", params.getPagination().getLimitStart());
-		 map.put("recordsize", params.getRecordSize());
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
 		 List<Product> list = new ArrayList<>();
 		 if(p_category == null) {
 			 list = pMapper.newlist(params);
@@ -103,8 +110,8 @@ public class IndexService {
 		 params.setPagination(pagination);
 		 Map<String, Object> map = new HashMap<>();
 		 map.put("p_category", p_category);
-		 map.put("limitstart", params.getPagination().getLimitStart());
-		 map.put("recordsize", params.getRecordSize());
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
 		 List<Product> list = new ArrayList<>();
 		 if(p_category == null) {
 			 list = pMapper.pricelist(params);
@@ -129,8 +136,8 @@ public class IndexService {
 		 params.setPagination(pagination);
 		 Map<String, Object> map = new HashMap<>();
 		 map.put("p_category", p_category);
-		 map.put("limitstart", params.getPagination().getLimitStart());
-		 map.put("recordsize", params.getRecordSize());
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
 		 List<Product> list = new ArrayList<>();
 		 if(p_category == null) {
 			 list = pMapper.pricelistdesc(params);
@@ -155,8 +162,8 @@ public class IndexService {
 		 params.setPagination(pagination);
 		 Map<String, Object> map = new HashMap<>();
 		 map.put("p_category", p_category);
-		 map.put("limitstart", params.getPagination().getLimitStart());
-		 map.put("recordsize", params.getRecordSize());
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
 		 List<Product> list = new ArrayList<>();
 		 if(p_category == null) {
 			 list = pMapper.bestlist(params);
@@ -183,8 +190,8 @@ public class IndexService {
 		 Map<String, Object> map = new HashMap<>();
 		 map.put("search", search);
 		 map.put("keyword", keyword);
-		 map.put("limitstart", params.getPagination().getLimitStart());
-		 map.put("recordsize", params.getRecordSize());
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
 		 List<Product> list = null;
 		 if(keyword.equals("total")) {
 			 list = pMapper.SearchTotal(map);
@@ -193,7 +200,40 @@ public class IndexService {
 		 }
 		 return new PagingResponse<>(list, pagination);
 	 }
+	 
+	 public void ReviewAdd(Review r) {
+		 rMapper.AddReview(r);
+	 }
+	 
+	 public PagingResponse<Review> AllReview(SearchDto params, int r_pid_p_fk){
+		 int count = rMapper.Review_count(r_pid_p_fk);
+		 if (count < 1) {
+				return new PagingResponse<>(Collections.emptyList(), null);
+			}
+		 Pagination pagination = new Pagination(count, params);
+		 params.setPagination(pagination);
+		 Map<String, Object> map = new HashMap<>();
+		 map.put("r_pid_p_fk", r_pid_p_fk);
+		 map.put("limitStart", params.getPagination().getLimitStart());
+		 map.put("recordSize", params.getRecordSize());
+		 List<Review> list = rMapper.ReviewList(map);
+		 return new PagingResponse<>(list, pagination);
+	 }
+	 
+	 public String findnick(String m_email) {
+		 
+		 return rMapper.findnick(m_email);
+	 }
+	 
+	 public int reviewct(int r_pid_p_fk) {
+		 return rMapper.Review_count(r_pid_p_fk);
+	 }
+	 
+	 public double reviewStar(int r_pid_p_fk) {
+		 return rMapper.ReviewStar(r_pid_p_fk);
+	 }
 	
-	
-	
+	 public void ReviewDel(int r_id) {
+		 rMapper.RemoveReview(r_id);
+	 }
 }
