@@ -192,7 +192,7 @@ public class IndexController {
 	
 	@ResponseBody
 	@PostMapping("/reviews")
-	public String addReview(Review r, Principal prin) {
+	public void addReview(Review r, Principal prin) {
 		
 		String nick = iService.findnick(prin.getName());
 		if(nick == null || nick == "") {
@@ -201,17 +201,17 @@ public class IndexController {
 		r.setR_nickname_m_fk(nick);
 		iService.ReviewAdd(r);
 		
-		return "produtdetail";
+		
 		
 	}
 
 	@ResponseBody
 	@DeleteMapping("/reviews")
-	public String DelReview(@RequestParam("r_id") int r_id) {
+	public void DelReview(int r_id) {
 		
 		iService.ReviewDel(r_id);
 		
-		return "produtdetail";
+		
 	}
 	
 }

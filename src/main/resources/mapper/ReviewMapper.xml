@@ -34,9 +34,6 @@
 		LIMIT #{limitStart},#{recordSize}
 	</select>
 	
-	<!-- 평점순 -->
-	
-	<!-- 최신순 -->
 	
 	<!-- 리뷰 카운트 -->
 	<select id="Review_count" parameterType="int" resultType="int">

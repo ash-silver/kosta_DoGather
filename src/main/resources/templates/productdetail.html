@@ -45,8 +45,7 @@ $(function(){
 				success : function(result) {
 					alert("작성 완료!");
 					PageList();
-					$("#rvcnt").text("상품리뷰("+result.reviewct+")개");						
-					$("#rvstar").text("평점("+result.reviewstar+")");	
+					
 				},
 				error : function(e) {
 					console.log("ERROR : ", e);
@@ -72,6 +71,7 @@ $(document).ready(function(){
 
 function PageList(){
 	const r_pid_p_fk = $("#r_pid_p_fk").val();
+	console.log(r_pid_p_fk);
 	$.ajax({
 		type:"GET",
 		url:"/reviews",
@@ -87,6 +87,8 @@ function PageList(){
 			let pagination=result.pagination;
 			drawList(list);
 			drawPage(pagination,params);
+			$("#rvcnt").text("상품리뷰("+result.reviewct+")개");						
+			$("#rvstar").text("평점("+result.reviewstar+")");	
 			
 		},
 		error : function(e) {
@@ -99,10 +101,9 @@ function PageList(){
 function drawList(list) {
 
     let html = "";
-	console.log(list);
     list.forEach(result => {
     	html += "<form>"
-    	html += "<input type='hidden' name='r_id' id='r_id' th:value="+result.r_id+">"
+    	html += "<input type='hidden' name='r_id' id='r_id' value="+result.r_id+">"
   	    html += "<div class='review'>";
 		html += "<label class='review_id'>";
 		html += "<p class='p1'>작성자:" + result.r_nickname_m_fk
@@ -162,12 +163,20 @@ function drawPage(pagination,params){
     $(".btn_box").html(html);	 
     
     $("#reviewDel_btn").click(function(){
+    	const r_id = $("#r_id").val();
+    	const token = $("meta[name='_csrf']").attr("content");
+		const header = $("meta[name='_csrf_header']").attr("content");
 		$.ajax({
 			url : "/reviews",
-			type : "Delete",
-			dataType : "json",
-			success : function(){
-				alert("삭제 완료");
+			type : "DELETE",
+			data : {
+				r_id : r_id
+			},
+			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data){
+				alert("삭제완료");
 				PageList();
 			},
 			error : function(e) {
