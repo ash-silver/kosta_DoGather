@@ -40,6 +40,7 @@
 	</resultMap>
 
 	<!-- ==============================join result========================================= -->
+	
 	<select id="getProduct" parameterType="int" resultMap="ProductMap">
 		SELECT * FROM product 
 		WHERE o_product_p_fk=#{p_id}
@@ -48,14 +49,14 @@
 	<select id="getMember" parameterType="String" resultType="int">
 		SELECT m.m_id FROM member AS m LEFT JOIN product AS p on
 		m.m_nickname=p.p_nickname_m_fk 
-		WHERE m.m_nickname='user' GROUP BY m.m_nickname ;
+		WHERE m.m_nickname=#{p_nickname_m_fk} GROUP BY m.m_nickname;
 	</select>
+	
 	<!-- ===================================add part ============================== -->
 
-	<insert id="AddOrder"
-		parameterType="com.project.model.Order">
+	<insert id="AddOrder" parameterType="com.project.model.Order">
 
-		INSERT INTO order(
+		INSERT INTO project.order(
 		o_quantity
 		, o_product_p_fk
 		, o_member_m_fk

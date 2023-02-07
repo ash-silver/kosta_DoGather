@@ -43,7 +43,7 @@
 	
 					<div>
 						<span>제품명</span>
-						<span th:text="|${promap['pro'].getP_name}|"></span>
+						<span th:text="${promap['pro'].getP_name}"></span>
 					</div>
 					
 					<div>
@@ -63,16 +63,17 @@
 					</div>
 	
 					<div>
-						<span>가격</span>
+						<span>가격</span> 
 <!-- 						<span class="price" th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span> -->
 						<span th:text="|${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
 					</div>
 	
 					<div>
 						<span>판매자</span>
-						<span th:text="|${promap['pro'].p_nickname_m_fk}|"></span>
-						<input type="hidden" th:value="${promap['pro'].getP_nickname_m_fk}" name="o_member_m_fk">
+						<span th:text="${promap['pro'].getP_nickname_m_fk}"></span>
+						<input type="hidden" th:value="${promap['pro'].getP_nickname_m_fk}" name="p_nickname_m_fk">
 					</div>
+					
 					<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
 					<input type="hidden" th:value="|구매완료|" name="o_state">
 					<input type="hidden" th:value="|배송준비중|" name="o_dstate">

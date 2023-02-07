@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.mapper.OrderSheetMapper;
 import com.project.model.Order;
-import com.project.model.PurchaseModel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +17,9 @@ public class orderSheetService {
 	private OrderSheetMapper orderSheetMapper;
 	
 	@Transactional
-	public void AddOrder(Order order) {
+	public void AddOrder(Order order, String p_nickname_m_fk) {
+		order.setO_member_m_fk(orderSheetMapper.getMember(p_nickname_m_fk));
+		System.out.println(order);
 		orderSheetMapper.AddOrder(order);
 	}
 	

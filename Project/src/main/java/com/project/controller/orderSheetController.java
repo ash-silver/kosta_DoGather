@@ -37,10 +37,8 @@ public class orderSheetController {
 	}
 	
 	@PostMapping("")
-	public String addOrder(Order order) {
-		orderSheetService.AddOrder(order);
-		return "products";
+	public String addOrder(Order order, String p_nickname_m_fk) {
+		orderSheetService.AddOrder(order, p_nickname_m_fk);
+		return "redirect:/products/"+order.getO_product_p_fk()+"/detail";
 	}
-//	@PostMapping("")
-//	public String 
 }
