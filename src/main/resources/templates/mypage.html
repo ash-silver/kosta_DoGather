@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link th:href="@{/css/header.css}" rel="stylesheet" />
+<link th:href="@{/css/footer.css}" rel="stylesheet" />
+<link th:href="@{/css/mypage.css}" rel="stylesheet" />
+<link th:href="@{/css/reset2.css}" rel="stylesheet" />
+<link th:href="@{/css/reset.css}" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/header.js}"></script>
+</head>
+
+<body>
+	<div id="container">
+		<header th:replace="header :: header"> </header>
+		<main id="mypage_main_con">
+			<div class="mypage_box">
+				<div class="mypage_bar">
+					<div class="mypage_bar_logo">
+						<span>MyPage</span>
+					</div>
+					<div class="mypage_bar_list">
+						<ul class="bar_list1">
+							<li><span>제품관리</span>
+							<li><a href="#">판매중</a>
+							<li><a href="#">판매완료</a>
+							<li><a href="#">판매예정</a>							
+						</ul>
+						<ul class="bar_list1">
+							<li><span>배송관리</span>
+							<li><a href="#">상품준비</a>
+							<li><a href="#">배송중</a>
+							<li><a href="#">배송완료</a>							
+						</ul>
+						
+					</div>
+
+				</div>
+				<div class="mypage_text_box">
+					<div class="mypage_status_bar">
+						<label class="status_bar">
+							<a href="#">판매완료</a>
+
+						</label>
+						<label class="status_bar">
+							<a href="#">배송중</a>
+						</label>
+
+						<div class="status_bar_2">
+							<div class="status_bar_2_text1">
+								<span>총 판매액:</span>
+							</div>
+							<div class="status_bar_2_text2">
+								<span>보유캐시:</span>
+							</div>
+						</div>
+					</div>
+
+
+					<form class="mypage_search">
+						<div class="mypage_text">
+							<span>제품 검색</span>
+						</div>
+						<div class="mypage_saerchbox">
+							<input type="search" name="searching" placeholder="검색할 제품 입력">
+							<button type="submit">검색</button>
+						</div>
+					</form>
+
+					<div class="mypage_list">
+						<div class="mypage_tagbar">
+							<label class="tagbar_menu">
+								<a href="#"> <span>판매종료</span>
+								</a>
+							</label>
+							<label class="tagbar_menu">
+								<a href="#"> <span>판매중</span>
+								</a>
+							</label>
+							<label class="tagbar_menu">
+								<a href="#"> <span>판매예정</span>
+								</a>
+							</label>
+							<label class="tagbar_menu">
+								<a href="#"> <span>배송정보</span>
+								</a>
+							</label>
+						</div>
+						
+						<div class="mypage_list_cont">
+								<div class="mypage_list_tag">
+									<div class="mypage_list_tag_img">
+									<a href="#">
+										<img src="/projectimg/logo.png">
+									</a>
+									</div>
+									<div class="myapge_list_tag_text">
+										<span>제품명</span>
+										<span>판매된 수량</span>
+										<span>총 판매액</span>
+										<span>판매율</span>
+									</div>
+									
+									<div></div>
+								</div>
+			
+								
+								
+								<div class="paging_btn">
+									
+								</div>						
+						
+						
+						</div>
+
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</main>
+
+		<footer th:replace="footer ::footer"></footer>
+
+	</div>
+</body>
+
+</html>
