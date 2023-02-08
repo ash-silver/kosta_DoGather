@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,21 +60,28 @@ public class OrderService {
 		Map<String, Object> map = new HashMap<>();
 		count = oMapper.buyListCount(o_member_m_fk);
 		if (count < 1) {
-
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
 		Pagination pagination = new Pagination(count, params);
 		params.setPagination(pagination);
 		map.put("o_member_m_fk", o_member_m_fk);
-		
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		List<Order> list = oMapper.buyList(map);
 		for (Order ord : list) {
 		}
 		return new PagingResponse<>(list, pagination);
+	}
+
+	// 동일한 상품이 장바구니 안에 있는지 확인
+	public int countCart(Order order, String id) {
+		int o_member_m_fk = oMapper.findMember(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("o_product_p_fk", order.getO_product_p_fk());
+		map.put("o_member_m_fk", o_member_m_fk);
+
+		return oMapper.countCart(map);
 
 	}
 
-	
 }

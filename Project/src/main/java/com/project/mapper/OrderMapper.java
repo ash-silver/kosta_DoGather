@@ -7,12 +7,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.project.model.Order;
 import com.project.model.Product;
 
 @Mapper
 public interface OrderMapper {
 
+	
 	//장바구니에 추가
 	void AddCart(Order oid);
 	
@@ -30,5 +32,9 @@ public interface OrderMapper {
 	List<Order> buyList(Map<String, Object> map);
 	int buyListCount( int o_member_m_fk);
 
+	
+	//장바구니에 동일한 상품이 있는지 확인 
+	int countCart(Map<String, Object> map);
+	
 	
 }

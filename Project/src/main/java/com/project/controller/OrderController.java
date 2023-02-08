@@ -31,8 +31,17 @@ public class OrderController {
 
 	@ResponseBody
 	@PostMapping("/carts")
-	public void AddCart(Principal principal, Order order) {
-		oService.AddCart(principal, order);
+	public String AddCart(Principal principal, Order order) {
+		String id = principal.getName();
+
+		// 장바구니에 기존 상품이 있는지 검사
+		int count = oService.countCart(order, id);
+		if (count == 0) {
+			oService.AddCart(principal, order);
+			return "장바구니에 추가 되었습니다";
+		} else {
+			return "이미 장바구니에 존재하는 상품입니다";
+		}
 
 	}
 
@@ -54,12 +63,11 @@ public class OrderController {
 		return "redirect:/orders/carts";
 	}
 
-	@DeleteMapping("/carts")
 	@ResponseBody
-	public void delCartItem(int[] o_id) {
-		for (int a : o_id) {
-			oService.delCartItem(a);
-		}
+	@DeleteMapping("/carts")
+	public void delCartItem(int chk) {
+		oService.delCartItem(chk);
+
 	}
 
 	// 구매내역
@@ -81,14 +89,9 @@ public class OrderController {
 		return "buylist";
 	}
 
-
+	// 배송조회 페이지로 전환 하는 메소드
 	@GetMapping("/delivery")
-		public String delivery() {
-			
-		return"delivery";
-		}
+	public String delivery() {
+		return "delivery";
 	}
-	
-	
-	
-
+}
