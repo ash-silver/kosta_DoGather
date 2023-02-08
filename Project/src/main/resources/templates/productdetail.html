@@ -29,7 +29,7 @@
 
 
 
-	<div class="prodetail_box">
+			<div class="prodetail_box">
 				<div class="prodetail_img_box">
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
@@ -47,8 +47,8 @@
 							<span>현재 할인 적용</span>
 						</label>
 						<label class="progress_bar">
-							<progress th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
-							
+							<progress id="progress1" th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
+
 							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}|" th:if="${promap['pro'].getP_sell}<${promap['Next_Discount_sell']}"></span>
 							<span th:text="|달성완료|" th:if="${promap['pro'].getP_sell}>=${promap['Next_Discount_sell']}"></span>
 						</label>
@@ -81,9 +81,7 @@
 				<div class="prodetail_text_box">
 					<div class="prodetail_text text1">
 						<span th:text="|제품명: ${promap['pro'].getP_name}|"></span>
-						<a href="#">
-							<span class="material-symbols-outlined"> favorite </span>
-						</a>
+
 
 					</div>
 					<div class="prodetail_text price_text">
@@ -126,9 +124,30 @@
 					</div>
 
 				</div>
-
 			</div>
 
+			<div class="detail_seller_box">
+				<div class="detail_seller_text"></div>
+				<div class="detail_seller_text"></div>
+				<div class="detail_seller_text"></div>
+				<div class="detail_seller_text"></div>
+				<div class="detail_seller_text"></div>
+			</div>
+
+			<div class="detail_seller_menu_box">
+				<div class="detail_menu">
+					<a href="#"> 상세정보 </a>
+				</div>
+				<div class="detail_menu">
+					<a href="#"> Review() </a>
+				</div>
+				<div class="detail_menu">
+					<a href="#"> Q&A</a>
+				</div>
+				<div class="detail_menu">
+					<a href="#"> 뭐..하..지..? </a>
+				</div>
+			</div>
 			<div class="detail_content_box">
 				<div class="box" th:each="i : ${promap['pro'].getImg}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
 					<img th:src="|/projectimg/${i.img_name}|">

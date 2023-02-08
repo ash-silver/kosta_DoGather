@@ -34,6 +34,7 @@ public interface ProductMapper {
 	List<Discount> Update_find(int p_id);
 
 	List<Map<String, Object>> Sell_chart(String p_nickname_m_fk);
+	List<Map<String, Object>> SellerBestProduct(String p_nickname_m_fk);
 
 	Product FindProduct(int p_id);
 
@@ -52,6 +53,8 @@ public interface ProductMapper {
 	void OptionRemove(Option opt);
 
 	void OneOptionRemove(int opt_id);
+
+	void OptionRemoveProduct(int p_id);
 
 	List<Product> WriterProductlist(Map<String, Object> map);
 

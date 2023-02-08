@@ -86,14 +86,16 @@
 		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id} ORDER BY
 		dis_id
 	</select>
+
+	<select id="SellerBestProduct" resultType="hashMap" parameterType="String">
+		SELECT p.p_name,p.p_price,p.p_sell,i.img_name FROM product AS p left join
+		img AS i ON p.p_id=i.img_pid_p_fk WHERE p_nickname_m_fk=#{p_nickname_m_fk} order by p_sell desc LIMIT 0,5 ;
+	</select>
 	<!-- ================================== detail JOIN RESULT======================================== -->
 
 
 
 	<!-- ================================== 판매자 list JOIN RESULT======================================== -->
-
-
-
 	<select id="WriterProductlistCount" resultType="int" parameterType="String">
 
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
@@ -167,7 +169,6 @@
 	<select id="Option_List" resultMap="OptionMap" parameterType="int">
 		SELECT * FROM opt WHERE opt_pid_p_fk=#{p_id}
 	</select>
-
 
 	<select id="Sell_chart" parameterType="String" resultType="hashMap">
 		SELECT p_endprice,p_sell,p_id FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
@@ -257,6 +258,10 @@
 	</update>
 	<!-- ===================================제품 삭제======================================== -->
 
+
+	<delete id="OptionRemoveProduct" parameterType="int">
+		DELETE FROM product WHERE p_id=#{p_id}
+	</delete>
 
 	<delete id="OptionRemove" parameterType="com.project.model.Option">
 		DELETE FROM opt WHERE opt_option1=#{opt_option1} AND opt_pid_p_fk=#{opt_pid_p_fk}

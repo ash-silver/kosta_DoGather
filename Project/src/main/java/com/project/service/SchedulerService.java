@@ -59,8 +59,8 @@ public class SchedulerService {
 				}
 				buyer.clear();
 			}
-
 		}
-
 	}
+	
+	
 }

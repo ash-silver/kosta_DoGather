@@ -7,8 +7,8 @@ $(function() {
 	let opt1_default = $(".option1").val();
 	$(".big_img").attr("src", img);
 
-	
-		
+
+
 
 
 	const countDownTimer = function(id, date) {
@@ -28,6 +28,8 @@ $(function() {
 					$("#" + id).text('판매종료 되었습니다!');
 					$(".prodetail_btn_box").css("display", "none");
 					$(".time_box").css("margin-top", "150px");
+					$(".time_box").css('background-color', 'gray');
+
 					return;
 				} else {
 					let p_duedate = $("#p_duedate").val();
@@ -59,8 +61,7 @@ $(function() {
 
 	let dateObj = new Date();
 	dateObj.setDate(dateObj.getDate() + 1);
-	countDownTimer('time', p_recruit_date); // 2024년 4월 1일까지, 시간을 표시하려면 01:00 AM과 같은 형식을 사용한다.
-
+	countDownTimer('time', p_recruit_date);
 
 
 	$(".option1").change(function() {
@@ -95,26 +96,13 @@ $(function() {
 			}
 		});
 	}
-	
+
 	addcategory(opt1_default);
-	
+
 	$('.mini_img').click(function() {
 		let value = $(this).attr("src");
 		$(".big_img").attr("src", value);
 	});
-
-
-
-	
-
-
-
-
-
-
-
-
-
 
 	$("#addCart").click(function() {
 		// select box Name로 접근하여 선택된 값 읽기
@@ -144,15 +132,5 @@ $(function() {
 
 			}
 		});
-
-
 	});
-
-
-
-
-
-
-
-
 });

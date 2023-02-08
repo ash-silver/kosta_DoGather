@@ -40,6 +40,7 @@ public class ProductController {
 	private final ChartService cService;
 	@Value("${chart.OneWeek}")
 	private String OneWeek;
+
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
@@ -52,6 +53,18 @@ public class ProductController {
 		pService.AddProduct(pro);
 		re.addAttribute("p_id", pro.getP_id());
 		return "redirect:/products/options";
+	}
+
+	@ResponseBody
+	@DeleteMapping("")
+	public String OptionRemoveProduct(int opt_pid_p_fk) {
+		List<Option> list = pService.option_chk(opt_pid_p_fk);
+		if (list == null || list.isEmpty()) {
+			pService.OptionRemoveProduct(opt_pid_p_fk);
+			return "옵션이 지정되지 않아 제품이 삭제처리 되었습니다.";
+		} else {
+			return "옵션 저장 완료";
+		}
 	}
 
 	/* ==================================================================== */
@@ -158,20 +171,19 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
-	
+
 	@GetMapping("/{keyword}/lists/buy")
-	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,@PathVariable String keyword) {
+	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
+			@PathVariable String keyword) {
 		String id = principal.getName();
 		PagingResponse<Order> order = pService.BuyProduct(id, params);
-		
+
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		
+
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("order", order);
 		return "buymember";
 	}
-	
-
 
 	@GetMapping("/charts/{day}/{month}")
 	public String chart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,
@@ -189,5 +201,5 @@ public class ProductController {
 		Option opt = pService.FindOption(opt_pid_p_fk);
 		return opt;
 	}
-	
+
 }

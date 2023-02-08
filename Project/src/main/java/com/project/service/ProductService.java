@@ -188,6 +188,8 @@ public class ProductService {
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
+		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
+		map.put("SellerBest", SellerBest);
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
@@ -272,8 +274,8 @@ public class ProductService {
 
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
-		Map<String, Object> map = new HashMap<>();
 		List<String> newList = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
 		if (opt.size() != 0 && opt.get(0).getOpt_option2() != null) {
 			for (Option option1 : opt) {
 				newList.add(option1.getOpt_option1());
@@ -289,7 +291,7 @@ public class ProductService {
 		List<Map<String, Object>> Sell_Map = pMapper.Sell_chart(p_nickname_m_fk);
 		int Sell_Money = 0;
 		int Total_Sell = 0;
-		for (Map map : Sell_Map) {
+		for (Map<String, Object> map : Sell_Map) {
 			Sell_Money += Integer.parseInt(map.get("p_endprice").toString())
 					* Integer.parseInt(map.get("p_sell").toString());
 			Total_Sell += Integer.parseInt(map.get("p_sell").toString());
@@ -310,6 +312,15 @@ public class ProductService {
 	@Transactional
 	public void OneOptionRemove(int opt_id) {
 		pMapper.OneOptionRemove(opt_id);
+	}
+
+	@Transactional
+	public void OptionRemoveProduct(int p_id) {
+		pMapper.OptionRemoveProduct(p_id);
+	}
+
+	public List<Option> option_chk(int opt_pid_p_fk) {
+		return pMapper.Option_List(opt_pid_p_fk);
 	}
 
 	public Option FindOption(int opt_pid_p_fk) {
