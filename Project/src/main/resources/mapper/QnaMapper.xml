@@ -20,7 +20,7 @@
 	
 	<resultMap type="com.project.model.QnABoardModel" id = "QnAMap">
 		<id property="q_id" column="q_id"/>
-		<result property="q_id_p_fk" column="q_name_p_fk"/>
+		<result property="q_id_p_fk" column="q_id_p_fk"/>
 		<result property="q_title" column="q_title"/>
 		<result property="q_content" column="q_content"/>
 		<result property="q_nickname_m_fk" column="q_nickname_m_fk"/>
@@ -30,10 +30,12 @@
 	
 <!-- 	============= join result ====================================== -->
 	
-<!-- 	<select id="getProductId" parameterType="String" resultType="int"> -->
-<!-- 		SELECT p.p_id FROM product AS p LEFT JOIN question AS q  -->
-<!-- 		ON  -->
-<!-- 	</select> -->
+	<select id="getQnAList" parameterType="int" resultType="com.project.model.QnABoardModel">
+		SELECT * FROM question AS q LEFT JOIN product AS p 
+		ON q.q_id_p_fk=p.p_id
+		WHERE q.q_id_p_fk=#{p_id}
+<!-- 		 GROUP BY q.q_id_p_fk; -->
+	</select>
 	
 	<insert id="AddQuestion" parameterType="com.project.model.QnABoardModel">>
 		INSERT INTO question(
@@ -58,9 +60,5 @@
 		SELECT * FROM question WHERE q_id=#{q_id}
 	</select>
 	
-	<select id="getQnAList" resultType="com.project.model.QnABoardModel">
-		SELECT * FROM question
-		WHERE question.q_id_p_fk=#{q_id_p_fk}
-	</select>
 	
 </mapper>

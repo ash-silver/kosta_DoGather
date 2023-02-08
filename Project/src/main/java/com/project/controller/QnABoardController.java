@@ -52,11 +52,6 @@ public class QnABoardController {
 		return "questionMap";
 	}
 
-//	@GetMapping("/qnaList/{p_id}")
-//	public String readQnaList(@PathVariable int p_id) throws Exception{
-//		
-//	}	
-	
 	@PostMapping("/answer/{q_id}")
 	public String addAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
 		qnaService.AddAnswer(qna);
@@ -64,7 +59,9 @@ public class QnABoardController {
 	}
 	
 	@GetMapping("/list/{p_id}")
-	public void qnaList(QnABoardModel qna, Model model) {
-		model.addAttribute("list", qnaService.getList());
+	public String qnaList(QnABoardModel qna, Model model, @PathVariable int p_id) {
+//		model.addAttribute("list", qnaService.getList());
+		qnaService.getList(p_id);
+		return "qnaList";
 	}
 }

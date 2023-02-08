@@ -24,11 +24,17 @@
 </head>
 
 <body>
-	<div th:if=
-	<div class="qnaList">
-		
-	</div>
+	<header th:replace="header :: header"> </header>
+	<br><br><br><br><br>
 	
+	<form enctype="multipart/form-data" method="get">
+			<div id="qna_title" class="qna_show">
+				<span th:text="|상품 id|"></span>
+				<span th:text="|작성날짜|"></span>
+				<span th:text="|제목|"></span>
+				<span th:text="|내용|"></span>
+			</div>
+	</form>
 </body>
 
 </html>

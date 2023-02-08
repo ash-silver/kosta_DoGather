@@ -13,6 +13,6 @@ public interface QnABoardMapper {
 	void AddQuestion(QnABoardModel qna);
 	void AddAnswer(QnABoardModel qna);
 	QnABoardModel FindQuestion(int q_id);
-	public List<QnABoardModel> getList();
+	public List<QnABoardModel> getQnAList(int p_id);
 	
 }

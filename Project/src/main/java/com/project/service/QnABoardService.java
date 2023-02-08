@@ -40,8 +40,8 @@ public class QnABoardService {
 		qnaMapper.AddAnswer(qna);
 	}
 	
-	public List<QnABoardModel> getList(){
-		return qnaMapper.getList();
+	public List<QnABoardModel> getList(int p_id){
+		return qnaMapper.getQnAList(p_id);
 	};
 	
 }
