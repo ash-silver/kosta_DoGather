@@ -38,7 +38,7 @@ function drawList(list) {
 								</div>
 									<div class="PostBtn">
 										`;
-		if (row.o_postCode == 0) {
+		if (row.o_postCode ==null) {
 			html += `<button type="button" class="PostCoad_txtBtn" value="${row.o_id}">운송장</button>`;
 		} else {
 			html += `<button type="button" class="PostCoad_EndBtn" value="${row.o_id}" disabled="disabled">등록O</button>`;
@@ -102,16 +102,9 @@ function movePage(page) {
 }
 
 
-
-
-
-
 $(function() {
 	let token = $("meta[name='_csrf']").attr("content");
 	let header = $("meta[name='_csrf_header']").attr("content");
-
-
-
 
 	$(document).on('click', '.PostCoad_txtBtn', function() {
 		let o_id = $(this).val();
@@ -177,14 +170,8 @@ $(function() {
 			}
 		});
 
-
 	});
 
-
-
-
-
 });
-
 
 /*]]>*/

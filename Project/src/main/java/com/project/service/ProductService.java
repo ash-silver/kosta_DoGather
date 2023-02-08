@@ -133,7 +133,7 @@ public class ProductService {
 		}
 	}
 
-	public void delimg(Img i) { 
+	public void delimg(Img i) {
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
 		file1.delete();
@@ -209,7 +209,7 @@ public class ProductService {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 		List<Product> list = new ArrayList<>();
-		if (params.getSearching()!= null) {
+		if (params.getSearching() != null) {
 			count = pMapper.SearchSellerCount(p_nickname_m_fk, params.getSearching(), keyword);
 			map.put("search", params.getSearching());
 		} else {
@@ -231,14 +231,12 @@ public class ProductService {
 		}
 		return new PagingResponse<>(list, pagination);
 	}
-	
-	
-	
+
 	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
-		
-		count=pMapper.BuyProductCount(p_nickname_m_fk);
+
+		count = pMapper.BuyProductCount(p_nickname_m_fk);
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
@@ -247,7 +245,7 @@ public class ProductService {
 		map.put("p_nickname_m_fk", p_nickname_m_fk);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
-		List<Order> list=pMapper.BuyProduct(map);
+		List<Order> list = pMapper.BuyProduct(map);
 		return new PagingResponse<>(list, pagination);
 	}
 
@@ -287,18 +285,20 @@ public class ProductService {
 		return map;
 	}
 
-	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계싼
-		Map<String, Object> sell_count = pMapper.All_SellCount(p_nickname_m_fk);
-		List<Integer> sell_Price = pMapper.All_SellPrice(p_nickname_m_fk);
-		List<Integer> sell_AllSell = pMapper.All_Sell(p_nickname_m_fk);
-		int sell_point = 0;
-		for (int i = 0; i < sell_Price.size(); i++) {
-			sell_point += sell_Price.get(i) * sell_AllSell.get(i);
+	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계산
+		List<Map<String, Object>> Sell_Map = pMapper.Sell_chart(p_nickname_m_fk);
+		int Sell_Money = 0;
+		int Total_Sell = 0;
+		for (Map map : Sell_Map) {
+			Sell_Money += Integer.parseInt(map.get("p_endprice").toString())
+					* Integer.parseInt(map.get("p_sell").toString());
+			Total_Sell += Integer.parseInt(map.get("p_sell").toString());
 		}
-		Map<String, Object> map = new HashMap<>();
-		map.put("sell_count", sell_count);
-		map.put("sell_point", sell_point);
-		return map;
+		Map<String, Object> create_map = new HashMap<>();
+		create_map.put("Sell_Count", Sell_Map.size());
+		create_map.put("Total_Sell", Total_Sell);
+		create_map.put("Sell_Money", Sell_Money);
+		return create_map;
 	}
 
 	@Transactional

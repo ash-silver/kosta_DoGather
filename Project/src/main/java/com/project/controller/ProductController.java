@@ -40,7 +40,6 @@ public class ProductController {
 	private final ChartService cService;
 	@Value("${chart.OneWeek}")
 	private String OneWeek;
-
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
@@ -160,8 +159,8 @@ public class ProductController {
 		return "mypage";
 	}
 	
-	@GetMapping("/lists/buy")
-	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params) {
+	@GetMapping("/{keyword}/lists/buy")
+	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,@PathVariable String keyword) {
 		String id = principal.getName();
 		PagingResponse<Order> order = pService.BuyProduct(id, params);
 		

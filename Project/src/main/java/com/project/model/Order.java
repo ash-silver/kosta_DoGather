@@ -20,8 +20,8 @@ public class Order {
 	private String o_dstate;
 	private String o_option1;
 	private String o_option2;
-	private int o_postCode;
-	private int o_postCompanyKey;
+	private String o_postCode;
+	private long o_postCompanyKey;
 	private Timestamp o_date;
 	private Product product;
 	private Img img;

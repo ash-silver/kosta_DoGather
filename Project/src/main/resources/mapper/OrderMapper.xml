@@ -27,6 +27,8 @@
 		<result property="o_option1" column="o_option1" />
 		<result property="o_option2" column="o_option2" />
 		<result property="o_date" column="o_date" />
+		<result property="o_postCode" column="o_postCode" />
+		<result property="o_postCompanyKey" column="o_postCompanyKey" />
 		<collection property="img" column="o_product_p_fk"
 			javaType="java.lang.String" ofType="com.project.model.Img"
 			select="getImg" />

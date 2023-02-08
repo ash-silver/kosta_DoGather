@@ -71,7 +71,7 @@
 		<result property="dis_quantity" column="dis_quantity" />
 	</resultMap>
 
-	<!-- ===================================JOIN RESULT======================================== -->
+	<!-- ================================== detail JOIN RESULT======================================== -->
 	<select id="FindProduct" parameterType="int" resultMap="ProductMap">
 		SELECT * FROM product WHERE p_id=#{p_id}
 	</select>
@@ -86,6 +86,11 @@
 		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id} ORDER BY
 		dis_id
 	</select>
+	<!-- ================================== detail JOIN RESULT======================================== -->
+
+
+
+	<!-- ================================== 판매자 list JOIN RESULT======================================== -->
 
 
 
@@ -110,7 +115,7 @@
 		SELECT img_name FROM Img WHERE img_pid_p_fk=#{p_id} AND img_keyword='p_img' LIMIT 0,1
 	</select>
 
-	<!-- ===================================JOIN RESULT======================================== -->
+	<!-- ================================== 판매자 list JOIN RESULT======================================== -->
 
 	<!-- ===================================SELECT 부분======================================== -->
 	<select id="FindOption2" parameterType="hashMap" resultType="String">
@@ -121,6 +126,8 @@
 		SELECT * FROM opt WHERE opt_pid_p_fk=${opt_pid_p_fk} LIMIT 0,1
 	</select>
 
+
+
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
 		SELECT * FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
 		<if test="keyword!='all'"> p_chk=#{keyword} AND</if>
@@ -129,30 +136,23 @@
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
-
 		<if test="keyword!='all'"> p_chk=#{keyword} AND</if>
 		p_name LIKE
 		CONCAT('%',#{search},'%')
 	</select>
 
 
-
-
-
 	<select id="BuyProduct" parameterType="hashMap" resultMap="OrderMap">
 		SELECT m.m_nickname,o.o_id,o.o_dstate,o.o_postCode,
 		o.o_option1,o.o_option2,DATE_FORMAT(DATE(o.o_date), '%m-%d') AS o_date, p.p_endprice , p.p_name ,o.o_quantity FROM ord AS o LEFT JOIN product AS p
 		ON p.p_id=o_product_p_fk
-		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk} LIMIT #{limitstart},#{recordsize}
+		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk} LIMIT
+		#{limitstart},#{recordsize}
 	</select>
 	<select id="BuyProductCount" parameterType="String" resultType="int">
 		SELECT count(*) FROM ord AS o LEFT JOIN product AS p ON p.p_id=o_product_p_fk
 		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk}
 	</select>
-
-
-
-
 
 
 
@@ -169,23 +169,9 @@
 	</select>
 
 
-	<select id="All_SellCount" parameterType="String" resultType="map">
-		SELECT count(*),sum(p_sell) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
-		AND p_chk='endprice'
-	</select>
-	<select id="All_SellPrice" parameterType="String" resultType="int">
-		SELECT p_endprice
-		FROM Product WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk='endprice' ORDER BY p_id
-	</select>
-	<select id="All_Sell" parameterType="String" resultType="int">
-		SELECT p_sell
-		FROM Product WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} AND
-		p_chk='endprice'
-		ORDER
-		BY p_id
+	<select id="Sell_chart" parameterType="String" resultType="hashMap">
+		SELECT p_endprice,p_sell,p_id FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
+		AND p_chk='endprice' group by p_id;
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
@@ -242,10 +228,8 @@
 	<update id="CreateNewEvent" parameterType="String">
 		${value}
 	</update>
-
-
 	<!-- ===================================CREATE EVENT 부분======================================== -->
-	<!-- ===================================UPDATE , DELETE 부분======================================== -->
+	<!-- ===================================제품 수정======================================== -->
 	<update id="UpdateProduct" parameterType="com.project.model.Product">
 		UPDATE product SET
 		p_name=#{p_name},p_price=#{p_price},p_category=#{p_category}
@@ -259,8 +243,9 @@
 	<update id="UpdateImg" parameterType="com.project.model.Img">
 		UPDATE img SET img_name=#{img_name},img_origname=#{img_origname} WHERE img_id=#{img_id}
 	</update>
+	<!-- ===================================제품 수정======================================== -->
 
-
+	<!-- ===================================제품 삭제======================================== -->
 
 	<update id="removeProduct" parameterType="int">
 		UPDATE product AS p, discount AS d, img AS i ,opt AS o
@@ -270,8 +255,7 @@
 		p.p_id=#{p_id} AND d.dis_pid_p_fk=#{p_id} AND i.img_pid_p_fk=#{p_id}
 		AND o.opt_pid_p_fk=#{p_id}
 	</update>
-
-
+	<!-- ===================================제품 삭제======================================== -->
 
 
 	<delete id="OptionRemove" parameterType="com.project.model.Option">

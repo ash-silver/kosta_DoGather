@@ -50,7 +50,7 @@ const chart=/*[[${chart}]]*/"";
 			<div class="mypage_box">
 				<div class="mypage_bar">
 					<div class="mypage_bar_logo">
-						<span>판매자페이지</span>
+						<span>판매자 관리페이지</span>
 					</div>
 					<div class="mypage_bar_list">
 						<ul class="bar_list1">
@@ -60,8 +60,9 @@ const chart=/*[[${chart}]]*/"";
 							<li><a href="/products/add/lists">판매예정</a>
 						</ul>
 						<ul class="bar_list1">
-							<li><a href="/products/charts/-7 DAY/-1 MONTH">통계보기</a>
-							<li><a href="/products/lists/buy">구매자 목록</a>
+							<li><span>-판매관리-</span>
+							<li><a href="/products/charts/-7 DAY/-1 MONTH">판매 통계</a>
+							<li><a href="/products/all/lists/buy">정보/운송장</a>
 						</ul>
 
 					</div>
@@ -71,19 +72,19 @@ const chart=/*[[${chart}]]*/"";
 					<div class="mypage_status_bar">
 						<label class="status_bar">
 							<span> 판매 완료된 공고 수 </span>
-							<span th:text="|${sell_cnt['sell_count']['count(*)']}개|"></span>
+							<span th:text="|${sell_cnt['Sell_Count']}개|"></span>
 						</label>
 						<label class="status_bar">
 							<span> 판매된 제품의 총합 </span>
-							<span th:text="|${sell_cnt['sell_count']['sum(p_sell)']}개|"></span>
+							<span th:text="|${sell_cnt['Total_Sell']}개|"></span>
 						</label>
 
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
-								<th:block th:if="${sell_cnt['sell_point']}!=0">
-									<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['sell_point'], 3, 'COMMA') + '원'}|"></span>
+								<th:block th:if="${sell_cnt['Sell_Money']}!=0">
+									<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['Sell_Money'], 3, 'COMMA') + '원'}|"></span>
 								</th:block>
-								<th:block th:if="${sell_cnt['sell_point']}==0">
+								<th:block th:if="${sell_cnt['Sell_Money']}==0">
 									<span th:text="|총 판매액:|"></span>
 								</th:block>
 							</div>
