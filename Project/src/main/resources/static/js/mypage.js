@@ -78,9 +78,11 @@ function drawList(list, img, keyword) {
 			</div>
 			<div class="myapge_list_tag_text">
 				<div class="myapge_text">
-					<span>제품명:${row.p_name}</span>
-					<span>현재 판매된 수량:${row.p_sell}개</span>
-					<span>총 판매액:${row.p_endprice * row.p_sell}원</span>
+					<span>제품명: ${row.p_name}</span>
+					<span>현재 판매된 수량: ${row.p_sell}개</span>
+					<span>총 판매액: ${row.p_endprice * row.p_sell}원</span>
+					<span>제품 카테고리: ${row.p_category}</span>
+					<span>공고 상태 확인: ${row.p_chk}</span>
 				</div>
 			`;
 		if (keyword == 'add') {

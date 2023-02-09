@@ -294,6 +294,10 @@
 	justify-content: center;
 	flex-direction: column;
 }
+.myapge_text span{
+	margin:3px;
+	
+}
 
 .mypage_info {
 	width: 100px;
@@ -313,10 +317,23 @@
 }
 
 .paging_btn {
+	margin-top:20px;
 	width: 500px;
-	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	
+}
+.paging_btn p{
+	width:500px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.paging_btn p span{
+	margin:5px;
+}
+.paging_btn p a{
+	margin: 5px;
 }

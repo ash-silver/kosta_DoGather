@@ -50,7 +50,7 @@ $(function() {
 							<p>${row.p_id}</p>
 						</div>
 						<div class="modal_tag2">
-							<p>${row.p_category}</p>
+							<p>${row.p_chk}</p>
 						</div>
 						<div class="modal_tag3">
 							<p>${row.p_name}</p>
@@ -95,7 +95,7 @@ $(function() {
 				html = forhtml(NowAllSell, title);
 			}
 			if (hre == 'NowAllProduct') {
-				let title = ['제품번호', '카테고리', '제품명', '종료시간', '판매량']
+				let title = ['제품번호', '공고상태', '제품명', '종료시간', '판매량']
 				html = forhtml(NowAllProduct, title);
 			}
 			$(".chart_modal_con").css("display", "flex");

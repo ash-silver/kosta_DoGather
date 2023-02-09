@@ -6,19 +6,33 @@ $(function() {
 	$(".duedate").attr("min", date);
 	$(".recruidate").attr("min", date);
 
+	$("input[type=file]").change(function() {
+		let fileVal = $(this).val();
+		if (fileVal != "") {
+			let ext = fileVal.split('.').pop().toLowerCase(); //확장자분리
+			if ($.inArray(ext, ['jpg', 'jpeg', 'gif', 'png', 'jfif']) == -1) {
+				alert('jpg,gif,jpeg,png,jfif 파일만 업로드 할수 있습니다.');
+				return;
+			}
+		}
+	});
+
 	$("input[name=p_recruitdate]").change(function() {
 		if ($(".recruidate").val() < date) {
 			alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
 			$(".recruidate").val(date);
+			return false;
 		}
 	});
 	$("input[name=p_duedate]").change(function() {
 		if ($(".duedate").val() < date) {
 			alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
 			$(".duedate").val(date);
+				return false;
 		} else if ($(".recruidate").val() >= $(".duedate").val()) {
 			alert("마감시간은 시작일자보다 늦을 수 없습니다.");
 			$(".duedate").val(date);
+				return false;
 		}
 	});
 
@@ -112,7 +126,7 @@ $(function() {
 			++chk;
 			return false;
 		}
-		if (date_chk>= $(".recruidate").val()) {
+		if (date_chk >= $(".recruidate").val()) {
 			alert("시작일자는 현재시간보다 늦을 수 없습니다.");
 			++chk;
 			return false;

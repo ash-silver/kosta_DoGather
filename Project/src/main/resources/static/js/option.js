@@ -104,9 +104,8 @@ $(function() {
 			},
 			success: function(result) {
 				alert("추가완료");
-				$("input[name=opt_option1]").val("");
-				$("input[name=opt_option2]").val("");
-				$("input[name=opt_quantity]").val("");
+				$("input[name=opt_option1_one]").val("");
+				$("input[name=opt_quantity_one]").val("");
 				$(".type_btn_box").css("display", "none");
 				if (result == "OneOptionAdd") {
 					$(".option_form").css("display", "none");

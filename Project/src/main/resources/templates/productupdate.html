@@ -97,7 +97,7 @@
 						<div class="modal_img_box">
 							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img" accept="image/gif, image/jpeg, image/png">
 							</label>
 						</div>
 					</div>
@@ -113,7 +113,7 @@
 						<div class="modal_img_box">
 							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg" accept="image/gif, image/jpeg, image/png">
 
 							</label>
 						</div>
