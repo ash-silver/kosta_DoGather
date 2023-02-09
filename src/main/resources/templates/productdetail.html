@@ -27,37 +27,74 @@
 /*<![CDATA[*/
 
 $(function(){
-
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
 	
-	$("#review_btn").click(function() {
-		const token = $("meta[name='_csrf']").attr("content");
-		const header = $("meta[name='_csrf_header']").attr("content");
+	$("#review_btn").click(function() {		
 		
-		let params= $("#addReview").serialize();		
-			$.ajax({
-				url : "/reviews",
-				type : "POST",
-				data : params,
-				beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-					xhr.setRequestHeader(header, token);
-				},
-				datetype : "json",
-				success : function(result) {
-					alert("작성 완료!");
-					PageList();
-					
-				},
-				error : function(e) {
-					console.log("ERROR : ", e);
-					alert("fail");
+		const p_id = $("#r_pid_p_fk").val();
+		
+		$.ajax({
+			url:"/comment",
+			type:"GET",
+			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+			},
+			data:{
+				p_id : p_id
+			},
+			success : function(check){
+				console.log(check);
+				if(check==true){
+					addReview();
+				}else{
+					alert("구매한 회원이 아닙니다.");
 				}
-			});
+			},
+			error : function(e) {
+				console.log("ERROR : ", e);
+				alert("fail");
+			}
+			
+		})
+		
+		
+		
+		
+		
+		
+		function addReview(){	
+			const form = $("#addReview")[0];
+			let data = new FormData(form);
+			
+				$.ajax({
+					url : "/reviews",
+					type : "POST",
+					data : data,
+					enctype : "multipart/form-data",
+					beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader(header, token);
+					},
+					processData : false,
+					contentType : false,
+					success : function(result) {
+						alert("작성 완료!");
+						PageList();
+						
+					},
+					error : function(e) {
+						console.log("ERROR : ", e);
+						alert("로그인 후 이용하세요!");
+					}
+				});
+				
+		}
 		
 	});
-	
-
 
 })
+
+
 const drawStar = (target) => {
 	  $(`.star span`).css({ width: `${target.value * 20}%` });
 	}
@@ -65,13 +102,14 @@ const drawStar = (target) => {
 $(document).ready(function(){
 
 	PageList();
+	
+	
 
 });
 
 
 function PageList(){
 	const r_pid_p_fk = $("#r_pid_p_fk").val();
-	console.log(r_pid_p_fk);
 	$.ajax({
 		type:"GET",
 		url:"/reviews",
@@ -85,7 +123,9 @@ function PageList(){
 			let list=result.prolist;
 			let params=result.params;
 			let pagination=result.pagination;
-			drawList(list);
+			let img = result.img;
+			let m_nickname = result.m_nickname;
+			drawList(list,img,m_nickname);
 			drawPage(pagination,params);
 			$("#rvcnt").text("상품리뷰("+result.reviewct+")개");						
 			$("#rvstar").text("평점("+result.reviewstar+")");	
@@ -98,26 +138,72 @@ function PageList(){
  	});
 }
 
-function drawList(list) {
-
+function drawList(list,img,m_nickname) {
     let html = "";
+    let index = 0;
+    
     list.forEach(result => {
+    	
+    	
     	html += "<form>"
     	html += "<input type='hidden' name='r_id' id='r_id' value="+result.r_id+">"
   	    html += "<div class='review'>";
-		html += "<label class='review_id'>";
-		html += "<p class='p1'>작성자:" + result.r_nickname_m_fk
-				+ " </p>  <p class='p2'>등록날짜:" + result.r_datetxt
-				+ "</p><p class='p3'>평점:" + result.r_rating + "</p>   </label>";
-		html += "<label class='review_text'>";
+		html += "<span class='review_id1'>";
+		html += "<p class='p1'>작성자:"+result.r_nickname_m_fk+"</p>";
+		html += "</span>";
+		html += "<span class='review_id2'>";
+		html += "<p class='p2'>등록날짜:"+result.r_datetxt+"</p>";
+		html += "</span>";			
+
+		html += "<span class='review_id3'>";
+		html += "<p class='p3'>평점:"+result.r_rating+"</p>";	
+		html += "</span>";	
+		html += "<span class='review_text'>";
 		html += "<p>CONTENT:" + result.r_content + " </p>";
-		html +="</label>";
+		html += "</span>";
+		
+		for(let i =0; i<img.length; i++){
+			if(result.r_id==img[i].img_rid_r_fk){
+				html += "<div class='review_img_box'>";
+				html += "<img src='/projectimg/"+img[i].img_name+"'>";
+				html += "</div>";
+			}
+		}
+		if(m_nickname == result.r_nickname_m_fk){	
 		html += "<button type='button' id='reviewDel_btn'>"+'삭제'+"</button>"
+		}
 		html += "</div>"
 		html += "</form>";
 		});
+    
 		
 		$(".review_box").html(html);
+		
+		$("#reviewDel_btn").click(function(){
+	    	const r_id = $("#r_id").val();
+	    	const token = $("meta[name='_csrf']").attr("content");
+			const header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+				url : "/reviews",
+				type : "DELETE",
+				data : {
+					r_id : r_id
+				},
+				beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data){
+					alert("삭제완료");
+					PageList();
+				},
+				error : function(e) {
+					console.log("ERROR : ", e);
+					alert("fail");
+				}
+			});
+			
+			
+		});
 		
  }
  
@@ -160,33 +246,8 @@ function drawPage(pagination,params){
           <a href="javascript:void(0);" onclick="movePage("+pagination.totalPageCount+");" >마지막 페이지</a>
       `;
     }
-    $(".btn_box").html(html);	 
-    
-    $("#reviewDel_btn").click(function(){
-    	const r_id = $("#r_id").val();
-    	const token = $("meta[name='_csrf']").attr("content");
-		const header = $("meta[name='_csrf_header']").attr("content");
-		$.ajax({
-			url : "/reviews",
-			type : "DELETE",
-			data : {
-				r_id : r_id
-			},
-			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				xhr.setRequestHeader(header, token);
-			},
-			success : function(data){
-				alert("삭제완료");
-				PageList();
-			},
-			error : function(e) {
-				console.log("ERROR : ", e);
-				alert("fail");
-			}
-		});
-		
-		
-	});
+    $(".btn_box").html(html);
+ 
 }
 	
 
@@ -324,19 +385,23 @@ function drawPage(pagination,params){
 					<p th:text="| 평점(${reviewstar})|" id="rvstar"></p>
 				</label>
 				<form class="addReview" action="/addReview" method="post"
-					id="addReview">
+					id="addReview" enctype="multipart/form-data">
 					<input type="hidden" name="r_pid_p_fk" id="r_pid_p_fk"
 						th:value="${p_id}">
 
 					<div class="star_box">
 						<span class="star">★★★★★<span>★★★★★</span> <input
-							type="range" name="r_rating" oninput="drawStar(this)" value="0"
+							type="range" name="r_rating" id="r_rating" oninput="drawStar(this)" value="0"
 							step="0.5" min="0" max="5">
 						</span> <span class="text-bold">별점을 선택해주세요</span>
 					</div>
 
 					<div class="review_textbox">
 						<textarea placeholder="리뷰를 작성 하세요" name="r_content" id="r_content"></textarea>
+						<label class="reviewimg_box">
+							<span>리뷰 이미지 등록 클릭</span>
+							<input type="file" multiple="multiple" name="r_img" id="r_img" style="display: none;" data-name="리뷰 이미지">
+						</label>
 						<button type="button" id="review_btn">등록</button>
 					</div>
 

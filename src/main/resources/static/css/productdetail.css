@@ -343,3 +343,9 @@ progress {
 	overflow: hidden;
 	pointer-events: none;
 }
+.review_img_box{
+	width: 100%;
+	height: 75px;
+	border-radius: 10px;
+}
+

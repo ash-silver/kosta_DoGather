@@ -84,7 +84,8 @@
     
     <!-- 카테고리로 불러오기 -->
     <select id="Category" parameterType="hashMap" resultMap="ProductMap">
-		SELECT * FROM product WHERE p_category=#{p_category} LIMIT #{limitStart},#{recordSize}
+		SELECT * FROM product WHERE p_category=#{p_category} 
+		LIMIT #{limitStart},#{recordSize}
 	</select>
 	
 	 <!-- 카테고리 최신순 정렬 -->
