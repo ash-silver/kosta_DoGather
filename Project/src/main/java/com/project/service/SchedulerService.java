@@ -29,11 +29,12 @@ public class SchedulerService {
 			Product product_one = new Product();
 			product_one.setP_endprice(pro.getP_price());
 			product_one.setP_id(pro.getP_id());
+			product_one.setP_price(pro.getP_price());
 			for (Discount dis : pro.getDiscount()) {
 				if (pro.getP_sell() >= dis.getDis_quantity()) { // 판매량이 할인율기준 갯수보다 높거나 같다면 그 할인율을 적용, 할인율최저치보다 낮다면 원금을
 																// 그대로 반환,
 					int p_endprice_txt = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
-					seller_return.setP_endprice((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell()); 
+					seller_return.setP_endprice((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell());
 					seller_return.setP_nickname_m_fk(pro.getP_nickname_m_fk()); // 판매자의 이름을 입력 100*5=5%는 수수료의 발생,
 					seller_return.setP_price(p_endprice_txt);
 					seller_return.setP_id(pro.getP_id());
@@ -50,17 +51,14 @@ public class SchedulerService {
 		}
 		for (Product pro1 : Product_end_price) {
 			List<Order> buyer = sMapper.getOrder(pro1.getP_id());
-			if (buyer.size() == 0) {
-				sMapper.EndPriceMember(pro1.getP_endprice(), pro1.getP_id(), 0, pro1.getP_sell());
-			} else {
+			if (buyer.size() != 0) {
 				for (Order buy : buyer) { // 제품번호에 해당하는 제품을 주문한 모든 주문자에게 적립금으로 반환,
 					sMapper.EndPriceMember(pro1.getP_endprice(), pro1.getP_id(), buy.getO_member_m_fk(),
-							pro1.getP_sell());
+							pro1.getP_sell(), pro1.getP_price());
 				}
 				buyer.clear();
 			}
 		}
 	}
-	
-	
+
 }

@@ -26,7 +26,9 @@
   	const Day=c.Day;
   	const Month=c.Month;
   	const MonthCategoryList=c.MonthCategory;								
-  	const MonthFailPro=c.MonthFailPro;						
+  	const MonthFailPro=c.MonthFailPro;
+  	const NowAllSell=c.NowAllSell;
+  	
 	window.onload = () => {
 		WeekList(Week,Day);
 		WeekSellList(WeekSell,Day);
@@ -45,23 +47,28 @@
 		<main id="chart_main_con">
 			<div class="chart_text_box">
 				<div class="chart_text">
-					<a href="#">
-						<span>오늘 판매량</span>
+
+					<span>오늘 판매량</span>
+					<a href="javascript:void(0);" class="atag" id="NowAllSell" th:value="${#lists.size(ChartMap['NowAllSell'])}">
+						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
-					<a href="#">
-						<span>판매량 미달 공고</span>
+					<span>판매량 미달 공고</span>
+					<a href="javascript:void(0);">
+						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
-					<a href="#">
-						<span>오늘 종료되는 공고</span>
+					<span>오늘 종료되는 공고</span>
+					<a href="javascript:void(0);">
+						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
-					<a href="#">
-						<span>오늘 종료된 공고 수익</span>
+					<span>오늘 종료된 공고 수익</span>
+					<a href="javascript:void(0);">
+						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
 					</a>
 				</div>
 			</div>
@@ -97,7 +104,17 @@
 					</div>
 				</div>
 
+
 			</div>
+			<div class="chart_modal_con">	
+				<div class="chart_modal_text">
+					<h2>상세 정보</h2>
+				</div>
+				<div class="chart_modal_box">
+					
+				</div>
+			</div>
+
 		</main>
 
 		<footer th:replace="footer ::footer"></footer>

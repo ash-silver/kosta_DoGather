@@ -1,4 +1,89 @@
+$(function() {
 
+	let forhtml = function(list, title) {
+		let html = "";
+		let index = 0;
+		list.forEach(row => {
+			if (index == 0) {
+				html += `
+				<div class="modal_tagbox">
+					<div class="modal_tag1">
+						<p>${title[0]}</p>
+					</div>
+					<div class="modal_tag2">
+						<p>${title[1]}</p>
+					</div>
+					<div class="modal_tag3">
+						<p>${title[2]}</p>
+					</div>
+					<div class="modal_tag4">
+						<p>${title[3]}</p>
+					</div>
+					<div class="modal_tag5">
+						<p>${title[4]}</p>
+					</div>
+				</div>
+				`;
+			}
+			html += `<div class="modal_tagbox">
+						<div class="modal_tag1">
+							<p>${row.o_id}</p>
+						</div>
+						<div class="modal_tag2">
+							<p>${row.o_quantity}</p>
+						</div>
+						<div class="modal_tag3">
+							<p>${row.p_name}</p>
+						</div>
+						<div class="modal_tag4">
+							<p>${row.o_option1}</p>
+						</div>
+						<div class="modal_tag5">
+							<p>${row.o_option2}</p>
+						</div>
+					</div>`;
+			index++;
+		});
+		return html;
+	};
+
+	$(document).mouseup(function(e) {
+		if ($(".chart_modal_con").has(e.target).length === 0) {
+			$(".chart_modal_con").hide();
+		}
+	});
+	$(document).keydown(function(e) {
+		var code = e.keyCode || e.which;
+		if (code == 27) { // 27은 ESC 키번호
+			$('.chart_modal_con').hide();
+		}
+
+	});
+
+	$(".atag").click(function() {
+		const regex = /[^0-9]/g;
+		let a_text = $(this).text();
+		let a_value = parseInt(a_text.replace(regex, ""));
+		let hre = $(this).attr('id');
+		let html = "";
+		if (a_value == 0) {
+			alert("불러올 리스트가 존재하지 않습니다");
+		} else {
+			if (hre == 'NowAllSell') {
+				let title = ['주문번호', '주문수량', '제품명', '선택옵션1', '선택옵션2']
+				html = forhtml(NowAllSell, title);
+
+			}
+
+			$(".chart_modal_con").css("display", "flex");
+			$(".chart_modal_box").html(html);
+		}
+
+	});
+
+
+
+});
 let WeekRange = [];
 for (let i = 7; i >= 1; i--) {
 	WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
@@ -9,10 +94,11 @@ for (let i = 14; i >= 1; i--) {
 }
 
 
-function MonthFailProList(MonthFailPro,Month) {
-	if(Month=="-1 MONTH"){
+
+function MonthFailProList(MonthFailPro, Month) {
+	if (Month == "-1 MONTH") {
 		$(".circle_txt2").text("한달간 공고 진행상태");
-	}else if(Month="-6 MONTH"){
+	} else if (Month = "-6 MONTH") {
 		$(".circle_txt2").text("6개월간 공고 진행상태");
 	}
 	let Count = []; // x축 데이터 배열 생성
@@ -56,15 +142,15 @@ function MonthFailProList(MonthFailPro,Month) {
 
 
 
-function MonthCategory(MonthCategoryList,Month) {
+function MonthCategory(MonthCategoryList, Month) {
 	let CountDate = []; // x축 데이터 배열 생성
 	let CategoryList = [];
 	let context = document.getElementById('type3').getContext('2d');
-	let title="";
-	if(Month=="-1 MONTH"){
+	let title = "";
+	if (Month == "-1 MONTH") {
 		$(".circle_txt1").text("한달간 카테고리별 판매수량");
-		
-	}else if(Month="-6 MONTH"){
+
+	} else if (Month = "-6 MONTH") {
 		$(".circle_txt1").text("6개월간 카테고리별 판매수량");
 	}
 	MonthCategoryList.forEach(row => {
@@ -167,10 +253,10 @@ function WeekSellList(WeekSell, Day) {
 	let map = WeekSellerLength(WeekSell, Day);
 	let DaysList = map.get("DaysList");
 	let DaySellPriceList = map.get("DayValue");
-		let title = "";
+	let title = "";
 	if (Day == "-7 DAY") {
 		title = "최근 7일간 판매 매출";
-	}else if(Day=="-14 DAY"){
+	} else if (Day == "-14 DAY") {
 		title = "최근 14일간 판매 매출";
 	}
 
@@ -222,7 +308,7 @@ function WeekList(Week, Day) {
 	let title = "";
 	if (Day == "-7 DAY") {
 		title = "최근 7일간 제품 판매완료 수량";
-	}else if(Day=="-14 DAY"){
+	} else if (Day == "-14 DAY") {
 		title = "최근 14일간 제품 판매완료 수량";
 	}
 	let context = document

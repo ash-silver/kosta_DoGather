@@ -58,8 +58,8 @@ public class ProductController {
 	@ResponseBody
 	@DeleteMapping("")
 	public String OptionRemoveProduct(int opt_pid_p_fk) {
-		List<Option> list = pService.option_chk(opt_pid_p_fk);
-		if (list == null || list.isEmpty()) {
+		Option pro_opt_chk = pService.option_chk(opt_pid_p_fk);
+		if (pro_opt_chk == null) {
 			pService.OptionRemoveProduct(opt_pid_p_fk);
 			return "옵션이 지정되지 않아 제품이 삭제처리 되었습니다.";
 		} else {
@@ -98,7 +98,7 @@ public class ProductController {
 
 	@GetMapping("/options")
 	public String OptionAddForm(Model model, int p_id) {
-		Option opt = pService.FindOption(p_id);
+		Option opt = pService.option_chk(p_id);
 		model.addAttribute("opt", opt);
 		model.addAttribute("p_id", p_id);
 		return "option";
@@ -126,7 +126,7 @@ public class ProductController {
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
-	public List<String> FindOption2(String opt_option1, @PathVariable int p_id) {
+	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
 		return pService.FindOption2(opt_option1, p_id);
 	}
 
@@ -198,7 +198,7 @@ public class ProductController {
 	@ResponseBody
 	@GetMapping("/options/chk")
 	public Option FindOptionAddChk(int opt_pid_p_fk) {
-		Option opt = pService.FindOption(opt_pid_p_fk);
+		Option opt = pService.option_chk(opt_pid_p_fk);
 		return opt;
 	}
 

@@ -87,10 +87,19 @@
 		dis_id
 	</select>
 
-	<select id="SellerBestProduct" resultType="hashMap" parameterType="String">
-		SELECT p.p_name,p.p_price,p.p_sell,i.img_name FROM product AS p left join
-		img AS i ON p.p_id=i.img_pid_p_fk WHERE p_nickname_m_fk=#{p_nickname_m_fk} order by p_sell desc LIMIT 0,5 ;
+	<select id="CategoryBestProduct" resultType="hashMap" parameterType="String">
+		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p
+		left join
+		img AS i ON p.p_id=i.img_pid_p_fk WHERE p.p_category=#{p_category} group by
+		p_id order by p_sell desc LIMIT 0,9 ;
 	</select>
+
+	<select id="SellerBestProduct" resultType="HashMap" parameterType="String">
+		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p left join
+		img AS i ON p.p_id=i.img_pid_p_fk WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} group by p_id order by p_sell desc LIMIT 0,9;
+	</select>
+
 	<!-- ================================== detail JOIN RESULT======================================== -->
 
 
@@ -120,13 +129,6 @@
 	<!-- ================================== 판매자 list JOIN RESULT======================================== -->
 
 	<!-- ===================================SELECT 부분======================================== -->
-	<select id="FindOption2" parameterType="hashMap" resultType="String">
-		SELECT opt_option2 FROM opt WHERE opt_pid_p_fk=${opt_pid_p_fk} AND
-		opt_option1=#{opt_option1}
-	</select>
-	<select id="FindOption" parameterType="int" resultMap="OptionMap">
-		SELECT * FROM opt WHERE opt_pid_p_fk=${opt_pid_p_fk} LIMIT 0,1
-	</select>
 
 
 

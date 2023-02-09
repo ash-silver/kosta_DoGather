@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.mapper.ChartMapper;
 import com.project.model.Chart;
+import com.project.model.Product;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,12 +21,15 @@ public class ChartService {
 	public Map<String, Object> AllChartList(String p_nickname_m_fk, String Day,String Month) {
 		Map<String, Object> ChartMap = new HashMap<>();
 		List<Chart> Week = cMapper.OneWeekChart(p_nickname_m_fk, Day);
-		List<Chart> NowAllSell = cMapper.NowAllSell(p_nickname_m_fk);
+		List<Map<String, Object>> NowAllSell = cMapper.NowAllSell(p_nickname_m_fk);
 		List<Chart> WeekSell = cMapper.OneWeekSellPrice(p_nickname_m_fk, Day);
 		List<Chart> MonthCategory = cMapper.OneMonthCategorySell(p_nickname_m_fk, Month);
 		List<Chart> MonthFailPro = cMapper.OneMonthFailedProduct(p_nickname_m_fk, Month);
+		List<Product>  NowAllProduct= cMapper.NowAllProduct(p_nickname_m_fk);
+		System.out.println(NowAllProduct);
 		ChartMap.put("Week", Week);
 		ChartMap.put("NowAllSell", NowAllSell);
+		ChartMap.put("NowAllProduct", NowAllProduct);
 		ChartMap.put("Day", Day);
 		ChartMap.put("Month", Month);
 		ChartMap.put("WeekSell", WeekSell);

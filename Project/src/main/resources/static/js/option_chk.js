@@ -2,7 +2,6 @@ $(function() {
 	const opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
 	const token = $("meta[name='_csrf']").attr("content");
 	const header = $("meta[name='_csrf_header']").attr("content");
-	let cc = 0;
 	$.ajax({
 		type: "GET",
 		url: "/products/options/chk",

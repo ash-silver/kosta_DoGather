@@ -188,7 +188,10 @@ public class ProductService {
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
+		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),
+				pro.getP_category());
 		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
+		map.put("CategoryBest", CategoryBest);
 		map.put("SellerBest", SellerBest);
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
@@ -200,11 +203,15 @@ public class ProductService {
 		return map;
 	}
 
-	public List<String> FindOption2(String opt_option1, int p_id) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("opt_option1", opt_option1);
-		map.put("opt_pid_p_fk", p_id);
-		return pMapper.FindOption2(map);
+	public List<Option> FindOption2(String opt_option1, int p_id) {
+		List<Option> option_list = pMapper.Option_List(p_id);
+		List<Option> FindOption = new ArrayList<>();
+		for (Option opt : option_list) {
+			if (opt.getOpt_option1().equals(opt_option1)) {
+				FindOption.add(opt);
+			}
+		}
+		return FindOption;
 	}
 
 	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword) {
@@ -319,11 +326,12 @@ public class ProductService {
 		pMapper.OptionRemoveProduct(p_id);
 	}
 
-	public List<Option> option_chk(int opt_pid_p_fk) {
-		return pMapper.Option_List(opt_pid_p_fk);
+	public Option option_chk(int opt_pid_p_fk) {
+		List<Option> pid_All_OptionList = pMapper.Option_List(opt_pid_p_fk);
+		if (pid_All_OptionList.size() > 0) {
+			return pid_All_OptionList.get(0);
+		}
+		return null;
 	}
 
-	public Option FindOption(int opt_pid_p_fk) {
-		return pMapper.FindOption(opt_pid_p_fk);
-	}
 }

@@ -34,17 +34,17 @@ public interface ProductMapper {
 	List<Discount> Update_find(int p_id);
 
 	List<Map<String, Object>> Sell_chart(String p_nickname_m_fk);
+
 	List<Map<String, Object>> SellerBestProduct(String p_nickname_m_fk);
+
+	List<Map<String, Object>> CategoryBestProduct(@Param("p_nickname_m_fk") String p_nickname_m_fk,
+			@Param("p_category") String p_category);
 
 	Product FindProduct(int p_id);
 
 	Product FindCalender(int p_id);
 
-	Option FindOption(int opt_pid_p_fk);
-
 	List<Option> Option_List(int p_id);
-
-	List<String> FindOption2(Map<String, Object> map);
 
 	void CreateNewEvent(String value);
 

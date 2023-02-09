@@ -1,12 +1,35 @@
 $(function() {
 	const token = $("meta[name='_csrf']").attr("content");
 	const header = $("meta[name='_csrf_header']").attr("content");
+	let Option_Array = [];
 	let img = $(".mini_img").attr("src");
 	let p_id = $("#p_id").val();
 	let p_recruit_date = $("#p_recruitdate").val();
 	let opt1_default = $(".option1").val();
 	$(".big_img").attr("src", img);
 
+
+	new Swiper('.swiper-container', {
+
+		slidesPerView: 3, // 동시에 보여줄 슬라이드 갯수
+		spaceBetween: 20, // 슬라이드간 간격
+		slidesPerGroup: 3, // 그룹으로 묶을 수, slidesPerView 와 같은 값을 지정하는게 좋음
+
+		// 그룹수가 맞지 않을 경우 빈칸으로 메우기
+		// 3개가 나와야 되는데 1개만 있다면 2개는 빈칸으로 채워서 3개를 만듬
+		loopFillGroupWithBlank: true,
+
+		loop: true, // 무한 반복
+
+		pagination: { // 페이징
+			el: '.swiper-pagination',
+			clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
+		},
+		navigation: { // 네비게이션
+			nextEl: '.swiper-button-next', // 다음 버튼 클래스명
+			prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
+		},
+	});
 
 
 
@@ -64,10 +87,6 @@ $(function() {
 	countDownTimer('time', p_recruit_date);
 
 
-	$(".option1").change(function() {
-		let opt1 = $(this).val();
-		addcategory(opt1);
-	});
 	let addcategory = function(val) {
 		$.ajax({
 			type: "GET",
@@ -81,14 +100,20 @@ $(function() {
 				xhr.setRequestHeader(header, token);
 			},
 			success: function(data) {
+				Option_Array = data;
 				let html = ""
-				$.each(data, function(idx, val) {
-					html += `
-						<option value="${val}">${val}</option>
+				if (data[0].opt_option2 != null) {
+					$.each(data, function(index, item) {
+						html += `
+						<option value="${item.opt_option2}">${item.opt_option2}</option>
 				`;
-				});
-				$(".option2").html(html);
-
+						if (index == 0) {
+							$(".option_quanity").html("선택한 옵션의 남은 수량 :" + item.opt_quantity + "개");
+						}
+					});
+					$(".option2").html(html);
+					$(".option2").css('display', 'flex');
+				}
 			},
 			error: function(e) {
 				alert('에러');
@@ -97,7 +122,21 @@ $(function() {
 		});
 	}
 
-	addcategory(opt1_default);
+	$(".option1").change(function() {
+		let opt_option1_value = $(this).val();
+		addcategory(opt_option1_value);
+	});
+
+	$(".option2").change(function() {
+		const opt_option2_value = $(this).val();
+		$.each(Option_Array, function(idx, val) {
+			if (opt_option2_value == val.opt_option2) {
+				$(".option_quanity").html("선택한 옵션의 남은 수량 :" + val.opt_quantity + "개");
+			}
+		});
+	});
+
+
 
 	$('.mini_img').click(function() {
 		let value = $(this).attr("src");
@@ -133,4 +172,5 @@ $(function() {
 			}
 		});
 	});
+	addcategory(opt1_default);
 });
