@@ -33,7 +33,7 @@ public class AdminController {
 		List<Member> Member = aService.ListMember();
 		List<String> date = new ArrayList<>();
 		for (Member mem : Member) {
-			String create = mem.getM_create_date().toString();
+			String create = mem.getM_reg_date().toString();
 			String[] da = create.split(" ");
 			date.add(da[0]);
 		}
@@ -55,7 +55,7 @@ public class AdminController {
 			List<String> date = new ArrayList<>();
 			List<Member> memberresult = aService.FindMember(searchText);
 			for (Member mem : memberresult) {
-				String create = mem.getM_create_date().toString();
+				String create = mem.getM_reg_date().toString();
 				String[] da = create.split(" ");
 				date.add(da[0]);
 			}

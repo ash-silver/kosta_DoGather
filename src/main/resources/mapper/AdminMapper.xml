@@ -26,7 +26,7 @@
 		<result property="m_Tel" column="m_Tel" />
 		<result property="m_temp" column="m_temp" />
 		<result property="m_cash" column="m_cash" />
-		<result property="m_create_date" column="m_create_date" />
+		<result property="m_reg_date" column="m_reg_date" />
 		<result property="m_type" column="m_type" />
 	
 	</resultMap>

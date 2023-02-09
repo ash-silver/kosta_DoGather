@@ -1,7 +1,3 @@
-@font-face {
-  font-family : '이쁜폰트';
-  src : url(nanumsquare.ttf)
-}
 
 
 
@@ -31,7 +27,7 @@
 }
 #admin_foot_con {
 	width:100%;
-    height: 100px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,7 +114,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
-border : 0px solid transparent;
+	border : 0px solid transparent;
 }
 
 
@@ -137,21 +133,17 @@ border : 0px solid transparent;
 
 .admin_list_product {
 	width: 650px;
-	border:1px solid #040117;;
+	border:none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	border-top:none;
-	border-right:none;
-	border-left:none;
-	border-bottom:none;
 	
 }
 
 .admin_list_member {
 	width: 650px;
-	border:1px solid #040117;;
+	border:1px solid #040117;
 	border-top:none;
 	border-right:none;
 	border-bottom:none;
@@ -170,6 +162,7 @@ border : 0px solid transparent;
 	justify-content: center;
 	border-radius:15px;	
 	color:#7618f1;
+	border: none;
 }
 
 
@@ -177,6 +170,8 @@ border : 0px solid transparent;
 	width: 650px;
 	height: 50px;
 	border: 1px solid #040117;
+	border-right:none;
+	border-left: none;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -188,6 +183,7 @@ border : 0px solid transparent;
 	width: 650px;
 	height: 50px;
 	border: 1px solid #040117;
+	border-right:none;
 	border-left: none;
 	display: flex;
 	align-items: center;
@@ -242,7 +238,7 @@ border : 0px solid transparent;
 	height: 500px;
 	padding:0px; 
 	border:none;
-	scrollbar-width: thin;	
+	
 }
 .content_box::-webkit-scrollbar {
     width: 8px;  /* 스크롤바의 너비 */
@@ -250,9 +246,10 @@ border : 0px solid transparent;
 }
 
 .content_box::-webkit-scrollbar-thumb {
-    height: 50px; /* 스크롤바의 길이 */
+   	
     background: #4800A6; /* 스크롤바의 색상 */
     border-radius: 30px;
+		
 }
 
 .content_box::-webkit-scrollbar-track {

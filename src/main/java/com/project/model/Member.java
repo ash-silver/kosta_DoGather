@@ -20,7 +20,7 @@ public class Member {
 	
 	
 	
-	private Timestamp m_create_date;
+	private Timestamp m_reg_date;
 	private int m_id,m_temp,m_cash;
 	
 
