@@ -98,11 +98,11 @@
 							<option th:value="${opt1}" th:each="opt1 : ${promap['opt_option1']}" th:if=" ${promap['opt_option1']}!=null" th:text="${opt1}"></option>
 						</select>
 					</div>
-					<div class="prodetail_text text2">
+					<div class="prodetail_text text2" id="option2">
 						<select name="opt_option2" class="option2">
 						</select>
 					</div>
-					<div class="prodetail_text text2">
+					<div class="prodetail_text text2" id="quantity">
 						<p class="option_quanity">선택한 옵션의 남은 수량 :</p>
 					</div>
 
@@ -140,7 +140,9 @@
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide" th:each="best:${promap['CategoryBest']}" th:if="${!#lists.isEmpty(promap['CategoryBest'])}">
-							<img th:src="|/projectimg/${best['img_name']}|">
+							<a th:href="|/products/${best['p_id']}/detail|">
+								<img th:src="|/projectimg/${best['img_name']}|">
+							</a>
 							<div class="seller_best_text">
 								<span th:text="|가격: ${best['p_price']}"></span>
 								<span th:text="|제품명: ${best['p_name']}"></span>
@@ -157,7 +159,7 @@
 
 			<div class="detail_seller_menu_box">
 				<div class="detail_menu">
-					<a href="#"> 상세정보 </a>
+					<a href="#ProductText"> 상세정보 </a>
 				</div>
 				<div class="detail_menu">
 					<a href="#"> Review() </a>
@@ -166,7 +168,7 @@
 					<a href="#"> Q&A</a>
 				</div>
 				<div class="detail_menu">
-					<a href="#"> 뭐..하..지..? </a>
+					<a href="#SellBest">판매자 BEST</a>
 				</div>
 			</div>
 
@@ -176,7 +178,7 @@
 
 
 			<div class="detail_content_box">
-				<h2>제품 상세 정보</h2>
+				<h2 id="ProductText">제품 상세 정보</h2>
 				<div class="box" th:each="i : ${promap['pro'].getImg}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
 					<img th:src="|/projectimg/${i.img_name}|">
 				</div>
@@ -189,13 +191,14 @@
 
 			<div class="detail_seller_box">
 				<div class="detail_seller_tag">
-					<h2>판매자 Best</h2>
+					<h2 id="SellBest">판매자 Best</h2>
 				</div>
-
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide" th:each="best:${promap['SellerBest']}" th:if="${!#lists.isEmpty(promap['SellerBest'])}">
-							<img th:src="|/projectimg/${best['img_name']}|">
+							<a href="#">
+								<img th:src="|/projectimg/${best['img_name']}|">
+							</a>
 							<div class="seller_best_text">
 								<span th:text="|가격: ${best['p_price']}"></span>
 								<span th:text="|제품명: ${best['p_name']}"></span>

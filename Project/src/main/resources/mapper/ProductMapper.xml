@@ -91,13 +91,13 @@
 		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p
 		left join
 		img AS i ON p.p_id=i.img_pid_p_fk WHERE p.p_category=#{p_category} group by
-		p_id order by p_sell desc LIMIT 0,9 ;
+		p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id order by p_sell desc LIMIT 0,9 ;
 	</select>
 
 	<select id="SellerBestProduct" resultType="HashMap" parameterType="String">
 		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p left join
 		img AS i ON p.p_id=i.img_pid_p_fk WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} group by p_id order by p_sell desc LIMIT 0,9;
+		p_nickname_m_fk=#{p_nickname_m_fk} group by p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id order by p_sell desc LIMIT 0,9;
 	</select>
 
 	<!-- ================================== detail JOIN RESULT======================================== -->
@@ -174,7 +174,7 @@
 
 	<select id="Sell_chart" parameterType="String" resultType="hashMap">
 		SELECT p_endprice,p_sell,p_id FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
-		AND p_chk='endprice' group by p_id;
+		AND p_chk='endprice' group by p_endprice,p_sell,p_id;
 	</select>
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->

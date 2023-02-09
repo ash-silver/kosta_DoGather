@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Chart {
 	private String date;
-	private int count;
-	private int endprice;
 	private String nickname;
 	private String category;
+	private int count;
+	private int endprice;
 	private int p_sell;
 	
 }

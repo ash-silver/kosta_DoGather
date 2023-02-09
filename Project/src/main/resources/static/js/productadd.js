@@ -40,9 +40,9 @@ $(function() {
 	});
 
 	$("#addpro_btn").click(() => {
+		let date_chk = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
 		let chk = 0;
 		let ret = true;
-
 		let quantity = 0;
 		let count = 0;
 		$("input[name=p_discount_count]").each(function(index, item) {
@@ -110,9 +110,17 @@ $(function() {
 		if ($(".recruidate").val() >= $(".duedate").val()) {
 			alert("마감시간은 시작일자보다 늦을 수 없습니다.");
 			++chk;
+			return false;
+		}
+		if (date_chk>= $(".recruidate").val()) {
+			alert("시작일자는 현재시간보다 늦을 수 없습니다.");
+			++chk;
+			return false;
 		}
 		if (chk == 0 && numberchk) {
 			$("form").submit();
+		} else {
+			alert("작성값에 이상이 있습니다.");
 		}
 	});
 

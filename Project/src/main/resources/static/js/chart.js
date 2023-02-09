@@ -25,7 +25,8 @@ $(function() {
 				</div>
 				`;
 			}
-			html += `<div class="modal_tagbox">
+			if (title[0] == '주문번호') {
+				html += `<div class="modal_tagbox">
 						<div class="modal_tag1">
 							<p>${row.o_id}</p>
 						</div>
@@ -42,6 +43,26 @@ $(function() {
 							<p>${row.o_option2}</p>
 						</div>
 					</div>`;
+			}
+			if (title[0] == '제품번호') {
+				html += `<div class="modal_tagbox">
+						<div class="modal_tag1">
+							<p>${row.p_id}</p>
+						</div>
+						<div class="modal_tag2">
+							<p>${row.p_category}</p>
+						</div>
+						<div class="modal_tag3">
+							<p>${row.p_name}</p>
+						</div>
+						<div class="modal_tag4">
+							<p>${row.p_duedate}</p>
+						</div>
+						<div class="modal_tag5">
+							<p>${row.p_sell}</p>
+						</div>
+					</div>`;
+			}
 			index++;
 		});
 		return html;
@@ -72,9 +93,11 @@ $(function() {
 			if (hre == 'NowAllSell') {
 				let title = ['주문번호', '주문수량', '제품명', '선택옵션1', '선택옵션2']
 				html = forhtml(NowAllSell, title);
-
 			}
-
+			if (hre == 'NowAllProduct') {
+				let title = ['제품번호', '카테고리', '제품명', '종료시간', '판매량']
+				html = forhtml(NowAllProduct, title);
+			}
 			$(".chart_modal_con").css("display", "flex");
 			$(".chart_modal_box").html(html);
 		}

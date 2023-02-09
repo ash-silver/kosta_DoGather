@@ -22,6 +22,9 @@ public interface ChartMapper {
 
 	List<Map<String, Object>> NowAllSell(String p_nickname_m_fk);
 
-	List<Product> NowAllProduct(String p_nickname_m_fk);
+	List<Map<String, Object>> NowAllProduct(String p_nickname_m_fk);
+
+	List<Map<String, Object>> NowEndSellMoney(String p_nickname_m_fk);
+	
 
 }

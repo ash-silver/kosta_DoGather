@@ -52,7 +52,8 @@ $(function() {
 					$(".prodetail_btn_box").css("display", "none");
 					$(".time_box").css("margin-top", "150px");
 					$(".time_box").css('background-color', 'gray');
-
+					$("select").prop('disabled',true);
+					$("#quantity").css("display","none");
 					return;
 				} else {
 					let p_duedate = $("#p_duedate").val();
@@ -61,8 +62,6 @@ $(function() {
 					$(".prodetail_btn_box").css("display", "flex");
 					$(".time_box").css("margin-top", 0);
 				}
-
-
 			}
 
 			let days = Math.floor(distDt / _day);
@@ -95,11 +94,11 @@ $(function() {
 			data: {
 				opt_option1: val
 			},
-			dataType: 'json',
 			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 				xhr.setRequestHeader(header, token);
 			},
 			success: function(data) {
+				console.log(data);
 				Option_Array = data;
 				let html = ""
 				if (data[0].opt_option2 != null) {
@@ -112,7 +111,14 @@ $(function() {
 						}
 					});
 					$(".option2").html(html);
-					$(".option2").css('display', 'flex');
+					$("#option2").css('display', 'flex');
+				} else {
+					$.each(data, function(index, item) {
+						if (val == item.opt_option1) {
+							$(".option_quanity").html("선택한 옵션의 남은 수량 :" + item.opt_quantity + "개");
+						}
+
+					});
 				}
 			},
 			error: function(e) {
@@ -136,7 +142,7 @@ $(function() {
 		});
 	});
 
-
+	addcategory(opt1_default);
 
 	$('.mini_img').click(function() {
 		let value = $(this).attr("src");
@@ -172,5 +178,5 @@ $(function() {
 			}
 		});
 	});
-	addcategory(opt1_default);
+
 });

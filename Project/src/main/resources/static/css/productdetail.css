@@ -42,7 +42,7 @@
 	justify-content: center;
 	flex-direction: column;
 }
-.option2{
+#option2{
 	display: none;
 }
 .prodetail_box {
@@ -335,9 +335,8 @@ progress {
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	border: 5px solid #e2e2e2;
 	border-radius: 7px;
-	box-shadow: 0 0 20px #ccc inset;
+	box-shadow: 0 0 20px 1px #e2e2e2 inset; 	
 	width: 1200px;
 }
 

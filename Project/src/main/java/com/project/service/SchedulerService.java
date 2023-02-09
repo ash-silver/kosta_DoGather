@@ -27,6 +27,8 @@ public class SchedulerService {
 		for (Product pro : product_end) {
 			Product seller_return = new Product();
 			Product product_one = new Product();
+			seller_return.setP_id(pro.getP_id());
+			seller_return.setP_nickname_m_fk(pro.getP_nickname_m_fk());
 			product_one.setP_endprice(pro.getP_price());
 			product_one.setP_id(pro.getP_id());
 			product_one.setP_price(pro.getP_price());
@@ -34,19 +36,19 @@ public class SchedulerService {
 				if (pro.getP_sell() >= dis.getDis_quantity()) { // 판매량이 할인율기준 갯수보다 높거나 같다면 그 할인율을 적용, 할인율최저치보다 낮다면 원금을
 																// 그대로 반환,
 					int p_endprice_txt = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
-					seller_return.setP_endprice((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell());
-					seller_return.setP_nickname_m_fk(pro.getP_nickname_m_fk()); // 판매자의 이름을 입력 100*5=5%는 수수료의 발생,
-					seller_return.setP_price(p_endprice_txt);
-					seller_return.setP_id(pro.getP_id());
+					seller_return.setP_endprice(p_endprice_txt);
+					seller_return.setP_price((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell());
+					seller_return.setP_sell(pro.getP_sell());
 					product_one.setP_endprice(pro.getP_price() - p_endprice_txt);
 				} else {
 					product_one.setP_sell(0);
 				}
 			}
+			System.out.println(seller_return);
 			if (seller_return.getP_endprice() != 0) {
 				product_one.setP_sell(1);
-				sMapper.EndPriceSeller(seller_return);
 			}
+			sMapper.EndPriceSeller(seller_return);
 			Product_end_price.add(product_one);
 		}
 		for (Product pro1 : Product_end_price) {

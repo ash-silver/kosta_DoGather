@@ -28,6 +28,8 @@
   	const MonthCategoryList=c.MonthCategory;								
   	const MonthFailPro=c.MonthFailPro;
   	const NowAllSell=c.NowAllSell;
+  	const NowAllProduct=c.NowAllProduct;
+  	const NowEndSellMoney=c.NowEndSellMoney;
   	
 	window.onload = () => {
 		WeekList(Week,Day);
@@ -49,20 +51,20 @@
 				<div class="chart_text">
 
 					<span>오늘 판매량</span>
-					<a href="javascript:void(0);" class="atag" id="NowAllSell" th:value="${#lists.size(ChartMap['NowAllSell'])}">
+					<a href="javascript:void(0);" class="atag" id="NowAllSell" >
 						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
 					<span>판매량 미달 공고</span>
-					<a href="javascript:void(0);">
-						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
+					<a href="javascript:void(0);" >
+						<span th:text="|${#lists.size(ChartMap['NowAllProduct'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
 					<span>오늘 종료되는 공고</span>
-					<a href="javascript:void(0);">
-						<span th:text="|${#lists.size(ChartMap['NowAllSell'])}개|"></span>
+					<a href="javascript:void(0);" class="atag" id="NowAllProduct">
+						<span th:text="|${#lists.size(ChartMap['NowAllProduct'])}개|"></span>
 					</a>
 				</div>
 				<div class="chart_text">
