@@ -41,7 +41,7 @@ public class ChartService {
 	// product service mypage 필요
 	public List<Chart> OneWeekChart(String p_nickname_m_fk, String Day) {
 		
-		return cMapper.OneWeekChart(p_nickname_m_fk,Day);
+		return cMapper.OneWeekChart(p_nickname_m_fk, Day);
 	}
 
 }
