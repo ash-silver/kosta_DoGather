@@ -1,0 +1,26 @@
+#container {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	position: relative;
+}
+
+#address_main {
+	width: 100%;
+	padding-top: 170px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.address_box{
+	width:1200px;
+	height: 800px;
+	border:1px solid #e2e2e2;
+}
+.address_company{
+	width:1000px;
+	height: 600px;
+	border:1px solid #e2e2e2;
+}

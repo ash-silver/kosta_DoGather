@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import com.project.mapper.ProductMapper;
 import com.project.model.Discount;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Order;
 import com.project.model.Pagination;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
@@ -39,10 +39,6 @@ public class ProductService {
 	@Value("${file.Upimg}")
 	private String path;
 
-	/*
-	 * ======================================Proudct
-	 * Add부분===============================================
-	 */
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
 	public void AddProduct(Product pro) throws Exception {
 		pMapper.AddProduct(pro);
@@ -137,7 +133,7 @@ public class ProductService {
 		}
 	}
 
-	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
+	public void delimg(Img i) {
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
 		file1.delete();
@@ -160,10 +156,6 @@ public class ProductService {
 				+ pro.getP_id();
 		pMapper.CreateNewEvent(value);
 	}
-	/*
-	 * ======================================Proudct
-	 * Add부분===============================================
-	 */
 
 	@Transactional
 	public void AddOption(Option opt) {
@@ -183,12 +175,11 @@ public class ProductService {
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
 		int index = 0;
 		for (Discount dis : pro.getDiscount()) {
-
 			if (dis.getDis_quantity() <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
 				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
-				if (index < pro.getDiscount().size()-1) {
+				if (index < pro.getDiscount().size() - 1) {
 					Next_Discount_sell = pro.getDiscount().get(index + 1).getDis_quantity();
 				}
 
@@ -197,6 +188,11 @@ public class ProductService {
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
+		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),
+				pro.getP_category());
+		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
+		map.put("CategoryBest", CategoryBest);
+		map.put("SellerBest", SellerBest);
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
@@ -207,22 +203,24 @@ public class ProductService {
 		return map;
 	}
 
-	public List<String> FindOption2(String opt_option1, int p_id) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("opt_option1", opt_option1);
-		map.put("opt_pid_p_fk", p_id);
-		System.out.println(pMapper.FindOption2(map));
-		return pMapper.FindOption2(map);
+	public List<Option> FindOption2(String opt_option1, int p_id) {
+		List<Option> option_list = pMapper.Option_List(p_id);
+		List<Option> FindOption = new ArrayList<>();
+		for (Option opt : option_list) {
+			if (opt.getOpt_option1().equals(opt_option1)) {
+				FindOption.add(opt);
+			}
+		}
+		return FindOption;
 	}
 
-	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto   params, String keyword,
-			String search) {
+	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 		List<Product> list = new ArrayList<>();
-		if (search != null) {
-			count = pMapper.SearchSellerCount(p_nickname_m_fk, search, keyword);
-			map.put("search", search);
+		if (params.getSearching() != null) {
+			count = pMapper.SearchSellerCount(p_nickname_m_fk, params.getSearching(), keyword);
+			map.put("search", params.getSearching());
 		} else {
 			count = pMapper.WriterProductlistCount(p_nickname_m_fk, keyword);
 		}
@@ -235,7 +233,7 @@ public class ProductService {
 		map.put("keyword", keyword);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
-		if (search != null) {
+		if (params.getSearching() != null) {
 			list = pMapper.SearchSeller(map);
 		} else {
 			list = pMapper.WriterProductlist(map);
@@ -243,8 +241,25 @@ public class ProductService {
 		return new PagingResponse<>(list, pagination);
 	}
 
+	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params) {
+		int count = 0;
+		Map<String, Object> map = new HashMap<>();
+
+		count = pMapper.BuyProductCount(p_nickname_m_fk);
+		if (count < 1) {
+			return new PagingResponse<>(Collections.emptyList(), null);
+		}
+		Pagination pagination = new Pagination(count, params);
+		params.setPagination(pagination);
+		map.put("p_nickname_m_fk", p_nickname_m_fk);
+		map.put("limitstart", params.getPagination().getLimitStart());
+		map.put("recordsize", params.getRecordSize());
+		List<Order> list = pMapper.BuyProduct(map);
+		return new PagingResponse<>(list, pagination);
+	}
+
 	@Transactional
-	public void removeProduct(int p_id) {
+	public void RemoveEvent(int p_id) {
 		String value = "";
 		Product FindCalender = pMapper.FindCalender(p_id);
 		String p_recruitdate_str = FindCalender.getP_recruitdate();
@@ -266,8 +281,8 @@ public class ProductService {
 
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
-		Map<String, Object> map = new HashMap<>();
 		List<String> newList = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
 		if (opt.size() != 0 && opt.get(0).getOpt_option2() != null) {
 			for (Option option1 : opt) {
 				newList.add(option1.getOpt_option1());
@@ -279,18 +294,20 @@ public class ProductService {
 		return map;
 	}
 
-	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계싼
-		Map<String, Object> sell_count = pMapper.All_SellCount(p_nickname_m_fk);
-		List<Integer> sell_Price = pMapper.All_SellPrice(p_nickname_m_fk);
-		List<Integer> sell_AllSell = pMapper.All_Sell(p_nickname_m_fk);
-		int sell_point = 0;
-		for (int i = 0; i < sell_Price.size(); i++) {
-			sell_point += sell_Price.get(i) * sell_AllSell.get(i);
+	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계산
+		List<Map<String, Object>> Sell_Map = pMapper.Sell_chart(p_nickname_m_fk);
+		int Sell_Money = 0;
+		int Total_Sell = 0;
+		for (Map<String, Object> map : Sell_Map) {
+			Sell_Money += Integer.parseInt(map.get("p_endprice").toString())
+					* Integer.parseInt(map.get("p_sell").toString());
+			Total_Sell += Integer.parseInt(map.get("p_sell").toString());
 		}
-		Map<String, Object> map = new HashMap<>();
-		map.put("sell_count", sell_count);
-		map.put("sell_point", sell_point);
-		return map;
+		Map<String, Object> create_map = new HashMap<>();
+		create_map.put("Sell_Count", Sell_Map.size());
+		create_map.put("Total_Sell", Total_Sell);
+		create_map.put("Sell_Money", Sell_Money);
+		return create_map;
 	}
 
 	@Transactional
@@ -304,7 +321,17 @@ public class ProductService {
 		pMapper.OneOptionRemove(opt_id);
 	}
 
-	public Option FindOption(int opt_pid_p_fk) {
-		return pMapper.FindOption(opt_pid_p_fk);
+	@Transactional
+	public void OptionRemoveProduct(int p_id) {
+		pMapper.OptionRemoveProduct(p_id);
 	}
+
+	public Option option_chk(int opt_pid_p_fk) {
+		List<Option> pid_All_OptionList = pMapper.Option_List(opt_pid_p_fk);
+		if (pid_All_OptionList.size() > 0) {
+			return pid_All_OptionList.get(0);
+		}
+		return null;
+	}
+
 }

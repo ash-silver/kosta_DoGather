@@ -2,9 +2,11 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.model.Chart;
 import com.project.model.Img;
 import com.project.model.Option;
+import com.project.model.Order;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
@@ -36,11 +38,12 @@ public class ProductController {
 
 	private final ProductService pService;
 	private final ChartService cService;
+	@Value("${chart.OneWeek}")
+	private String OneWeek;
 
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
-
 		model.addAttribute("name", prin.getName());
 		return "productadd";
 	}
@@ -52,10 +55,16 @@ public class ProductController {
 		return "redirect:/products/options";
 	}
 
+	@ResponseBody
 	@DeleteMapping("")
-	public String DelProduct(@RequestParam int p_id) {
-		pService.removeProduct(p_id);
-		return null;
+	public String OptionRemoveProduct(int opt_pid_p_fk) {
+		Option pro_opt_chk = pService.option_chk(opt_pid_p_fk);
+		if (pro_opt_chk == null) {
+			pService.OptionRemoveProduct(opt_pid_p_fk);
+			return "옵션이 지정되지 않아 제품이 삭제처리 되었습니다.";
+		} else {
+			return "옵션 저장 완료";
+		}
 	}
 
 	/* ==================================================================== */
@@ -75,7 +84,7 @@ public class ProductController {
 
 	@DeleteMapping("/{p_id}/info")
 	public String ProductRemove(@PathVariable int p_id) throws Exception {
-		pService.removeProduct(p_id);
+		pService.RemoveEvent(p_id);
 		return "redirect:/products/add/lists";
 
 	}
@@ -89,10 +98,9 @@ public class ProductController {
 
 	@GetMapping("/options")
 	public String OptionAddForm(Model model, int p_id) {
-		Option opt=pService.FindOption(p_id);
-		System.out.println(opt);
-		model.addAttribute("opt",opt);
-		model.addAttribute("p_id",p_id);
+		Option opt = pService.option_chk(p_id);
+		model.addAttribute("opt", opt);
+		model.addAttribute("p_id", p_id);
 		return "option";
 	}
 
@@ -100,7 +108,6 @@ public class ProductController {
 	public String OptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> optmap = pService.Option_List(p_id);
 
-		System.out.println(optmap);
 		model.addAttribute("optmap", optmap);
 		return "optionUpdate";
 	}
@@ -119,10 +126,9 @@ public class ProductController {
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
-	public List<String> FindOption2(String opt_option1, @PathVariable int p_id) {
+	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
 		return pService.FindOption2(opt_option1, p_id);
 	}
-
 
 	@ResponseBody
 	@PostMapping("/options")
@@ -143,20 +149,21 @@ public class ProductController {
 						.opt_quantity(opt.getOpt_quantity_list().get(i)).build();
 				pService.AddOption(option);
 			}
-		} return "OneOptionAdd";
+		}
+		return "OneOptionAdd";
 	}
 
 	@GetMapping("/{keyword}/lists")
 	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
-			@PathVariable String keyword, String searching) {
+			@PathVariable String keyword) {
 		String id = principal.getName();
-		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword, searching);
+		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword);
 		List<Img> img_name = new ArrayList<>();
 		for (Product img : pro.getList()) {
 			img_name.addAll(img.getImg());
 		}
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		List<Chart> chart=cService.OneWeekChart(id);
+		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
 		model.addAttribute("img", img_name);
 		model.addAttribute("chart", chart);
 		model.addAttribute("sell_cnt", sell_cnt);
@@ -164,15 +171,35 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
-	
-	@GetMapping("/charts")
-	public String chart(Principal principal, Model model,String searching) {
+
+	@GetMapping("/{keyword}/lists/buy")
+	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
+			@PathVariable String keyword) {
 		String id = principal.getName();
-		List<Chart> Week=cService.OneWeekChart(id);
-		List<Chart> WeekSell=cService.OneWeekSellPrice(id);
-		
-		model.addAttribute("WeekSell",WeekSell);
-		model.addAttribute("Week",Week);
+		PagingResponse<Order> order = pService.BuyProduct(id, params);
+
+		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+
+		model.addAttribute("sell_cnt", sell_cnt);
+		model.addAttribute("order", order);
+		return "buymember";
+	}
+
+	@GetMapping("/charts/{day}/{month}")
+	public String chart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,
+			Principal principal, Model model) {
+		String id = principal.getName();
+		Map<String, Object> ChartMap = new HashMap<>();
+		ChartMap = cService.AllChartList(id, day, month);
+		model.addAttribute("ChartMap", ChartMap);
 		return "chart";
 	}
+
+	@ResponseBody
+	@GetMapping("/options/chk")
+	public Option FindOptionAddChk(int opt_pid_p_fk) {
+		Option opt = pService.option_chk(opt_pid_p_fk);
+		return opt;
+	}
+
 }
