@@ -92,6 +92,18 @@
 		, #{o_reason}
 		)
 	</insert>
+	
+	<insert id="Refund" parameterType="int">
+		INSERT INTO project.ord(
+			o_reason
+		)
+		VALUES(
+			"교환/환불 요청 상태"
+		)
+		WHERE o_id = #{o_id}
+		
+ 
+	</insert>
 
 
 </mapper>

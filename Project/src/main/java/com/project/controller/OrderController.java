@@ -83,6 +83,7 @@ public class OrderController {
 			product.add(ord.getProduct());
 			img.add(ord.getImg());
 		}
+		System.out.println(ordlist);
 		model.addAttribute("img", img);
 		model.addAttribute("product", product);
 		model.addAttribute("params", params);

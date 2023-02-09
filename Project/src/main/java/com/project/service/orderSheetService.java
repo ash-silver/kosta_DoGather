@@ -23,6 +23,6 @@ public class orderSheetService {
 	}
 	
 	public void Refund(int o_id) {
-		
+		orderSheetMapper.Refund(o_id);
 	}
 }

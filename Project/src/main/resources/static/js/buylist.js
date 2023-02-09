@@ -19,18 +19,24 @@ function drawList(list, product, img) {
 					<span>가갹:${product[index].p_price}원</span>
 					<span>옵션1:${row.o_option1}원</span>
 					`;
-		if (row.o_postCode !=null) {
+		if (row.o_postCode != null) {
 			html += `<input type="hidden" name="o_postCode" class="o_postCode" id="${index}" value="${row.o_postCode}">
 					<input type="hidden" name="o_postCompanyKey" class="o_postCompanyKey" value="${row.o_postCompanyKey}">
 					<span class="${index}"></span>`;
-		}else{
-			html+=`<span>상품 준비중</span>`;
+		} else {
+			html += `<span>상품 준비중</span>`;
 		}
 
 		html += `
 				</div>
 			
 			</div>
+			
+			<div class="request_Box">
+				<button id="request_btn" value="${row.o_id}">교환문의</button>
+		
+				<button class="request_btn" value="${row.o_id}">환불문의</button>
+			</div>	
 		</div>
        
     `;
@@ -40,6 +46,13 @@ function drawList(list, product, img) {
 }
 
 
+
+$(document).on("click","#request_btn",function() {
+	let o_id = $(this).val();
+	alert(o_id);
+	$("#buyList_Modal").attr("action", "/refund/"+o_id);
+	
+});
 // 페이지 HTML draw  하단의 버튼에 해당하는 스크립트로 페이징의 핵심
 function drawPage(pagination, params) {
 	//SearchDto의 기본 Default값을 바탕으로 mybatis의 count를 같이 받아와 계산후 저장시켜둔 pagingnation과 SearchDto를 받아옴
@@ -94,7 +107,7 @@ function address() {
 	let myKey = "iH5hwc1qRUyfHb3NTdchiw"; // sweet tracker에서 발급받은 자신의 키 넣는다.
 	let t_code = [];
 	let t_invoice = [];
-	let t_id=[];
+	let t_id = [];
 	$('.o_postCompanyKey').each(function(index, item) {
 		if ($(item).val() != 0) {
 			t_invoice.push($(item).val());
@@ -110,8 +123,8 @@ function address() {
 			t_id.push($(this).attr("id"));
 		}
 	});
-	
-	
+
+
 	$(t_code).each(function(index, item) {
 		$.ajax({
 			type: "GET",
@@ -123,12 +136,12 @@ function address() {
 				let myTracking = "";
 				$.each(trackingDetails, function(index, item) {
 					if (index == length - 1)
-					myTracking = item.kind;
+						myTracking = item.kind;
 				});
-				if(myTracking==null || myTracking==""){
-					$("."+t_id[index]).text("배송 준비중");
-				}else{
-					$("."+t_id[index]).text(myTracking);
+				if (myTracking == null || myTracking == "") {
+					$("." + t_id[index]).text("배송 준비중");
+				} else {
+					$("." + t_id[index]).text(myTracking);
 				}
 			}
 		});

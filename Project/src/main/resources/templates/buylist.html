@@ -117,10 +117,10 @@ function findAllPost() {
 									<span>구매내역</span>
 								</a>
 							</label>
-							<label class="tagbar_menu">
-								<a href="/orders/delivery">
-									<span>배송조회</span>
-							</label>
+<!-- 							<label class="tagbar_menu"> -->
+<!-- 								<a href="/orders/delivery"> -->
+<!-- 									<span>배송조회</span> -->
+<!-- 							</label> -->
 
 						</div>
 
@@ -133,7 +133,28 @@ function findAllPost() {
 				</div>
 
 			</div>
-
+			
+				<form th:action="|/refund/|" method="post" id="buyList_Modal">
+					<div>
+						<b style="font-size : 24px;">취소 사유를 선택해주세요</b>
+					</div>
+					<div>
+						<input type="radio" name="o_reason" value="상품이 마음에 들지 않음(단순변심)">상품이 마음에 들지 않음(단순변심)
+					</div>
+					<div>
+						<input type="radio" name="o_reason" value="다른 상품 추가 후 재주문 예정">다른 상품 추가 후 재주문 예정
+					</div>
+					<div>
+						<input type="radio" name="o_reason" value="상품의 옵션 선택을 잘못함">상품의 옵션 선택을 잘못함
+					</div>
+					<div>
+						<input type="radio" name="o_reason" value="다른 사이트의 가격이 더 저렴함">다른 사이트의 가격이 더 저렴함
+					</div>
+					<div>
+						<input type="radio" name="o_reason" value="기타">기타
+					</div>
+					<button type="submit">교환/환불 하기</button>
+				</form>
 		</main>
 
 
