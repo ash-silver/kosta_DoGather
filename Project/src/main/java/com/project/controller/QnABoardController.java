@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,6 @@ public class QnABoardController {
 	public String goAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
 		Map<String, Object> questionMap = qnaService.FindQuestion(q_id);
 		model.addAttribute("questionMap", questionMap);
-		System.out.println();
 		return "questionMap";
 	}
 
@@ -58,10 +59,16 @@ public class QnABoardController {
 		return "redirect:/qnaboard/"+q_id;
 	}
 	
-	@GetMapping("/list/{p_id}")
-	public String qnaList(QnABoardModel qna, Model model, @PathVariable int p_id) {
-//		model.addAttribute("list", qnaService.getList());
-		qnaService.getList(p_id);
-		return "qnaList";
-	}
+//	@GetMapping("/list/{p_id}")
+//	public String qnaList(QnABoardModel qna, Model model, @PathVariable int p_id) {
+////		model.addAttribute("list", qnaService.getList());
+////		ArrayList<QnABoardModel> qnaList = new ArrayList<QnABoardModel>();
+//		List<QnABoardModel> qnaListMap = qnaService.getList(p_id);
+//		System.out.println(qnaListMap);
+//		if (qnaListMap != null) {
+//			model.addAllAttributes(qnaListMap);
+//		}
+////		qnaList.addAll(qnaListMap);
+//		return "qnaList";
+//	}
 }

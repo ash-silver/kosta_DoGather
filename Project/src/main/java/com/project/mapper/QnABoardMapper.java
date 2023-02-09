@@ -1,6 +1,7 @@
 package com.project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,6 @@ public interface QnABoardMapper {
 	void AddQuestion(QnABoardModel qna);
 	void AddAnswer(QnABoardModel qna);
 	QnABoardModel FindQuestion(int q_id);
-	public List<QnABoardModel> getQnAList(int p_id);
+	List<Map<String, Object>> getQnAList(int p_id);
 	
 }

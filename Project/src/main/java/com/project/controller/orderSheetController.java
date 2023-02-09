@@ -41,4 +41,10 @@ public class orderSheetController {
 		orderSheetService.AddOrder(order, p_nickname_m_fk);
 		return "redirect:/products/"+order.getO_product_p_fk()+"/detail";
 	}
+	
+	@GetMapping("/refund/{o_id}")
+	public String refundProduct(@PathVariable int o_id) {
+		orderSheetService.Refund(o_id);
+		return "mypage";
+	}
 }

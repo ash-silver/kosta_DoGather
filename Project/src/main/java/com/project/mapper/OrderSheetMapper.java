@@ -9,4 +9,5 @@ import com.project.model.PurchaseModel;
 public interface OrderSheetMapper {
 	void AddOrder(Order model);
 	int getMember(String p_nickname_m_fk);
+	void Refund(int o_id);
 }

@@ -4,17 +4,20 @@
 	<resultMap type="com.project.model.Order"
 		id="OrderSheetMap">
 		<id property="o_id" column="o_id" />
-		<result property="o_quantity" column="o_quantity" />
 		<result property="o_product_p_fk" column="o_product_p_fk" />
 		<result property="o_member_m_fk" column="o_member_m_fk" />
-		<result property="o_recipient" column="o_recipient" />
 		<result property="o_phoneNumber" column="o_phoneNumber" />
+		<result property="o_address" column="o_address" />
+		<result property="o_recipient" column="o_recipient" />
+		<result property="o_date" column="o_date" />
+		<result property="o_quantity" column="o_quantity" />
 		<result property="o_state" column="o_state" />
 		<result property="o_dstate" column="o_dstate" />
 		<result property="o_option1" column="o_option1" />
 		<result property="o_option2" column="o_option2" />
-		<result property="o_address" column="o_address" />
-		<result property="o_date" column="o_date" />
+		<result property="o_postCode" column="o_postCode" />
+		<result property="o_postCompanyKey" column="o_postCompanyKey" />
+		<result property="o_reason" column="o_reason" />
 	</resultMap>
 	
 	<resultMap type="com.project.model.Product" id="ProductMap">
@@ -56,31 +59,37 @@
 
 	<insert id="AddOrder" parameterType="com.project.model.Order">
 
-		INSERT INTO project.order(
-		o_quantity
-		, o_product_p_fk
+		INSERT INTO project.ord(
+		o_product_p_fk
 		, o_member_m_fk
-		, o_recipient
 		, o_phoneNumber
+		, o_address
+		, o_recipient
+		, o_date
+		, o_quantity
 		, o_state
 		, o_dstate
 		, o_option1
 		, o_option2
-		, o_address
-		, o_date
+		, o_postCode
+		, o_postCompanyKey
+		, o_reason
 		)
 		VALUES(
-		#{o_quantity}
-		, #{o_product_p_fk}
+		#{o_product_p_fk}
 		, #{o_member_m_fk}
-		, #{o_recipient}
 		, #{o_phoneNumber}
+		, #{o_address}
+		, #{o_recipient}
+		, NOW()
+		, #{o_quantity}
 		, #{o_state}
 		, #{o_dstate}
 		, #{o_option1}
 		, #{o_option2}
-		, #{o_address}
-		, NOW()
+		, #{o_postCode}
+		, #{o_postCompanyKey}
+		, #{o_reason}
 		)
 	</insert>
 

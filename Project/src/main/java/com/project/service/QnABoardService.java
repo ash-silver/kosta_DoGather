@@ -36,11 +36,12 @@ public class QnABoardService {
 		return map;
 	}
 	
+	@Transactional
 	public void AddAnswer(QnABoardModel qna) {
 		qnaMapper.AddAnswer(qna);
 	}
 	
-	public List<QnABoardModel> getList(int p_id){
+	public List<Map<String, Object>> getList(int p_id){
 		return qnaMapper.getQnAList(p_id);
 	};
 	

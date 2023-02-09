@@ -19,8 +19,10 @@ public class orderSheetService {
 	@Transactional
 	public void AddOrder(Order order, String p_nickname_m_fk) {
 		order.setO_member_m_fk(orderSheetMapper.getMember(p_nickname_m_fk));
-		System.out.println(order);
 		orderSheetMapper.AddOrder(order);
 	}
 	
+	public void Refund(int o_id) {
+		
+	}
 }

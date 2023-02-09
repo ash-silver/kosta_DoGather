@@ -67,30 +67,27 @@
 
 
 	<select id="findCart" resultMap="Order" parameterType="int">
-		SELECT * FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='장바구니'
+		SELECT *
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='장바구니'
 	</select>
 
 
 
 	<select id="buyList" resultMap="Order" parameterType="hashMap">
-		SELECT * FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
-		LIMIT #{limitstart},#{recordsize}
-	</select>
-	
-	<select id="buyListCount" resultType="int" parameterType="int">
-		SELECT count(*)
-		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
-		
-	</select>
-
-
-
-	<select id="favorite" resultMap="Order" parameterType="int">
 		SELECT *
-		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='찜하기'
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
+		LIMIT
+		#{limitstart},#{recordsize}
 	</select>
 
 
+	<select id="buyListCount" resultType="int" parameterType="int">
+		SELECT
+		count(*)
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND
+		o_state='구매완료'
+
+	</select>
 
 	<select id="findMember" resultType="int" parameterType="String">
 		SELECT
@@ -105,24 +102,56 @@
 		AS p
 		SET
 		o.o_state='구매완료', o.o_dstate='배송준비중',
-		o.o_quantity=#{o_quantity},
+		o.o_quantity=#{o_quantity},\
+		
 		p.p_sell=p.p_sell+#{o_quantity}
 		WHERE
 		o.o_id=#{o_id} AND
 		p.p_id=#{o_product_p_fk}
 	</update>
 
+
 	<delete id="delCartItem" parameterType="int">
-		delete from ord
+		DELETE from ord
 		WHERE
-		o_id=#{o_id}
+		 o_id=#{o_id}
 	</delete>
 
-	<!-- 구매내역 xml <select id="buylist" parameterType="hashMap" resultMap="Order"> 
-		SELECT o_id,o_option1,o_option2,o_quantity,o_member_m_fk FROM ord WHERE p_nickname_m_fk=#{p_nickname_m_fk} 
-		AND p_chk=#{keyword} LIMIT #{limitstart},#{recordsize} </select> -->
+
+	<!-- 장바구니에 동일한 상품이 있는지 확인 -->
+	<select id="countCart" resultType="int">
+		select count(*)
+		FROM ord
+		WHERE o_member_m_fk=#{o_member_m_fk}
+		AND o_product_p_fk=#{o_product_p_fk}
+		AND o_state='장바구니'
+	</select>
 
 
 
+
+
+
+
+
+<update id="PostCodeAdd" parameterType="com.project.model.Order">
+		UPDATE ord SET o_postCode=#{o_postCode},o_postCompanyKey=#{o_postCompanyKey} WHERE o_id=#{o_id}
+	</update>
+
+
+
+
+
+
+
+
+
+
+	<!-- LEFT OUTER JOIN   product/ ord / opt -->
+	<select id="join" resultType="HashMap" parameterType="HashMap">
+		select opt.opt_quantity,o.o_product_p_fk FROM opt AS opt LEFT JOIN ord AS o ON opt.opt_pid_p_fk=o_product_p_fk
+		WHERE opt.opt_option1=#{opt_option1} AND opt.opt_option2=#{opt_option2} AND opt.opt_pid_p_fk=#{opt_pid_p_fk}
+	</select>
+	
 
 </mapper>

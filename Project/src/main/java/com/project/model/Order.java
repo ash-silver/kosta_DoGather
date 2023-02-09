@@ -12,17 +12,20 @@ import lombok.NoArgsConstructor;
 public class Order {
 	
 	private int o_id;
-	private int o_quantity;
 	private int o_product_p_fk;
 	private int o_member_m_fk;
+	private String o_phoneNumber;
+	private String o_address;
 	private String o_recipient;
+	private Timestamp o_date;
+	private int o_quantity;
 	private String o_state;
 	private String o_dstate;
 	private String o_option1;
 	private String o_option2;
 	private String o_postCode;
 	private long o_postCompanyKey;
-	private Timestamp o_date;
+	private String o_reason;
 	private Product product;
 	private Img img;
 	

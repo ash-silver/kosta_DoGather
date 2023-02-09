@@ -31,10 +31,11 @@
 <!-- 	============= join result ====================================== -->
 	
 	<select id="getQnAList" parameterType="int" resultType="com.project.model.QnABoardModel">
-		SELECT * FROM question AS q LEFT JOIN product AS p 
+		SELECT 
+		q_id, q_id_p_fk, q_title, q_content, q_nickname_m_fk, q_date, q_answer, p_name
+		FROM question AS q LEFT JOIN product AS p 
 		ON q.q_id_p_fk=p.p_id
 		WHERE q.q_id_p_fk=#{p_id}
-<!-- 		 GROUP BY q.q_id_p_fk; -->
 	</select>
 	
 	<insert id="AddQuestion" parameterType="com.project.model.QnABoardModel">>
