@@ -1,5 +1,8 @@
 package com.project.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +25,8 @@ public class orderSheetService {
 		orderSheetMapper.AddOrder(order);
 	}
 	
-	public void Refund(int o_id) {
-		orderSheetMapper.Refund(o_id);
+	public void Refund(int o_id, String o_reason) {
+		Order ord = Order.builder().o_id(o_id).o_reason(o_reason).build();
+		orderSheetMapper.Refund(ord);
 	}
 }

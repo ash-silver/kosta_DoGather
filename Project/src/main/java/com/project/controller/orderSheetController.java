@@ -45,9 +45,10 @@ public class orderSheetController {
 	
 
 	
-	@GetMapping("/refund/{o_id}")
-	public String refundProduct(@PathVariable int o_id) {
-		orderSheetService.Refund(o_id);
-		return "mypage";
+	@PostMapping("/refund/{o_id}")
+	public String refundProduct(@PathVariable int o_id, String o_reason) {
+		
+		orderSheetService.Refund(o_id, o_reason);
+		return "redirect:/orders/buylists";
 	}
 }

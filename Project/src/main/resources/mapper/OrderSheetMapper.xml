@@ -93,17 +93,13 @@
 		)
 	</insert>
 	
-	<insert id="Refund" parameterType="int">
-		INSERT INTO project.ord(
-			o_reason
-		)
-		VALUES(
-			"교환/환불 요청 상태"
-		)
-		WHERE o_id = #{o_id}
-		
+	<update id="Refund" parameterType="com.project.model.Order">
+		UPDATE ord
+		SET o_state="환불/교환 요청"
+		, o_reason=#{o_reason}
+		WHERE o_id=#{o_id}		
  
-	</insert>
+	</update>
 
 
 </mapper>

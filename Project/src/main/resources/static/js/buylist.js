@@ -35,7 +35,7 @@ function drawList(list, product, img) {
 			<div class="request_Box">
 				<button id="request_btn" value="${row.o_id}">교환문의</button>
 		
-				<button class="request_btn" value="${row.o_id}">환불문의</button>
+				<button id="request_btn" value="${row.o_id}">환불문의</button>
 			</div>	
 		</div>
        
@@ -49,8 +49,10 @@ function drawList(list, product, img) {
 
 $(document).on("click","#request_btn",function() {
 	let o_id = $(this).val();
-	alert(o_id);
-	$("#buyList_Modal").attr("action", "/refund/"+o_id);
+	$('#buyList_Modal').css("display", "flex");
+	$("#buyList_Modal").attr("action", "/ordersheet/refund/"+o_id);
+	document.getElementById("set_o_id").value = "o_id";
+	//$("#buyList_Modal").attr("value", o_id);
 	
 });
 // 페이지 HTML draw  하단의 버튼에 해당하는 스크립트로 페이징의 핵심

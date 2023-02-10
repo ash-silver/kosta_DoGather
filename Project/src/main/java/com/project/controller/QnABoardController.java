@@ -56,7 +56,7 @@ public class QnABoardController {
 	@PostMapping("/answer/{q_id}")
 	public String addAnswer(@PathVariable int q_id, QnABoardModel qna, Model model) throws Exception{
 		qnaService.AddAnswer(qna);
-		return "redirect:/qnaboard/"+q_id;
+		return "redirect:/qnaboard/"+q_id;	
 	}
 	
 //	@GetMapping("/list/{p_id}")

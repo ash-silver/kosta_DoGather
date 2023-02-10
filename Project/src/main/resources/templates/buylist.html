@@ -134,12 +134,12 @@ function findAllPost() {
 
 			</div>
 			
-				<form th:action="|/refund/|" method="post" id="buyList_Modal">
+				<form th:action="|/ordersheet/refund/|" method="post" id="buyList_Modal">
 					<div>
 						<b style="font-size : 24px;">취소 사유를 선택해주세요</b>
 					</div>
 					<div>
-						<input type="radio" name="o_reason" value="상품이 마음에 들지 않음(단순변심)">상품이 마음에 들지 않음(단순변심)
+						<input type="radio" name="o_reason" value="상품이 마음에 들지 않음(단순변심)" checked>상품이 마음에 들지 않음(단순변심)
 					</div>
 					<div>
 						<input type="radio" name="o_reason" value="다른 상품 추가 후 재주문 예정">다른 상품 추가 후 재주문 예정
@@ -153,6 +153,7 @@ function findAllPost() {
 					<div>
 						<input type="radio" name="o_reason" value="기타">기타
 					</div>
+<!-- 					<input type="hidden" value="" name="o_id" id = "set_o_id"> -->
 					<button type="submit">교환/환불 하기</button>
 				</form>
 		</main>

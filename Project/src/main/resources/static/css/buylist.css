@@ -312,7 +312,7 @@
 	z-index: 99;
 	width: 800px;
 	height: 600px;
-	display: flex;
+	display: none;
 	align-items: center;
 	justify-content: center;
 	position: fixed;
