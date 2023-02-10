@@ -43,7 +43,7 @@
 	</select>
 	<select id="FindMember" parameterType="String"
 	resultMap="MemebrMapAdmin">
-		SELECT * FROM member WHERE m_type!='black' AND
+		SELECT * FROM member WHERE m_type!='ROLE_BLACK' AND
 		m_nickname LIKE
 		CONCAT('%',#{search},'%')
 	</select>
