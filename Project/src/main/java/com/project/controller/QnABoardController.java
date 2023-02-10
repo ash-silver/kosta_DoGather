@@ -1,6 +1,5 @@
 package com.project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +24,10 @@ public class QnABoardController {
 	@Autowired
 	private QnABoardService qnaService;
 	
-	@GetMapping("")
-	public String form() {
-		return "qnaboard";
-	}
+//	@GetMapping("/{p_id}")
+//	public String form() {
+//		return "question";
+//	}
 	
 	
 	@PostMapping("") 
@@ -59,16 +58,13 @@ public class QnABoardController {
 		return "redirect:/qnaboard/"+q_id;	
 	}
 	
-//	@GetMapping("/list/{p_id}")
-//	public String qnaList(QnABoardModel qna, Model model, @PathVariable int p_id) {
-////		model.addAttribute("list", qnaService.getList());
-////		ArrayList<QnABoardModel> qnaList = new ArrayList<QnABoardModel>();
-//		List<QnABoardModel> qnaListMap = qnaService.getList(p_id);
-//		System.out.println(qnaListMap);
-//		if (qnaListMap != null) {
-//			model.addAllAttributes(qnaListMap);
-//		}
-////		qnaList.addAll(qnaListMap);
-//		return "qnaList";
-//	}
+	@GetMapping("/list/{p_id}")
+	public String qnaList(QnABoardModel qna, Model model, @PathVariable int p_id) {
+//		model.addAttribute("list", qnaService.getList());
+//		ArrayList<QnABoardModel> qnaList = new ArrayList<QnABoardModel>();
+		List<Map<String, Object>> qnaListMap = qnaService.getList(p_id);
+			model.addAttribute("qnaListMap",qnaListMap);
+//		qnaList.addAll(qnaListMap);
+		return "qnaList";
+	}
 }

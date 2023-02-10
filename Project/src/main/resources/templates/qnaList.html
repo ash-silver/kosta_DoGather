@@ -30,25 +30,28 @@
 	<br>
 	<br>
 	<br>
-
-	<!-- 민규오빠 여기서 리스트 값ㅇ ㅣ있는지를 받아오고 싶어요~ -->
+	
 	<th:block th:if="${#lists.isEmpty(qnaListMap)}">
-		<div>
 			<span th:text="|등록된 문의가 없습니다.|"></span>
-		</div>
-
-		<div th:each="qna,${qnaListMap}">
-			<span th:text="qna.getQ_id"></span>
-		</div>
-
+	</th:block>
+	
+	<th:block th:if="${!#lists.isEmpty(qnaListMap)}">
 		<div id="qna_title" class="qna_show">
 			<span th:text="|상품 id|"></span>
-			<span th:text="|작성날짜|"></span>
+<!-- 			<span th:text="|작성날짜|"></span> -->
 			<span th:text="|제목|"></span>
-			<span th:text="|내용|"></span>
+<!-- 			<span th:text="|내용|"></span> -->
+		</div>
+
+		<div th:each="qna:${qnaListMap}">
+			<span th:text="${qna['q_id']}"></span>
+			<a th:href="|/qnaboard/${qna['q_id']}|" th:text="${qna['q_title']}"></a>
+<!-- 			<span th:text="${qna['q_content']}"></span> -->
+<!-- 			<span th:text="${qna['q_nickname_m_fk']}"></span> -->
+<!-- 			<span th:text="${qna['q_date']}"></span> -->
+<!-- 			<span th:text="${qna['q_answer']}"></span> -->
 		</div>
 	</th:block>
-	<!-- 	그리고 여기서 FOR문을 써서 리스트를 하나씩 출력하고 싶네요~ -->
 </body>
 
 </html>
