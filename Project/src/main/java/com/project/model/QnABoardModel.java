@@ -18,5 +18,5 @@ public class QnABoardModel {
 	private String q_nickname_m_fk;
 	private Timestamp q_date;
 	private String q_answer;
-	
+	private String q_deleteCheck;
 }

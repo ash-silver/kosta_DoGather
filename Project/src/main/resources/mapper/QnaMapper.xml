@@ -26,6 +26,7 @@
 		<result property="q_nickname_m_fk" column="q_nickname_m_fk"/>
 		<result property="q_date" column="q_date"/>
 		<result property="q_answer" column="q_answer"/>
+		<result property="q_deleteCheck" column="q_deleteCheck"/>
 	</resultMap>
 	
 <!-- 	============= join result ====================================== -->
