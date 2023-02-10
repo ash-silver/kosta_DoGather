@@ -49,9 +49,9 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void UpdateProduct(Product pro) throws Exception {
+	public void UpdateProduct(Product pro, int discount_length) throws Exception {
 		pMapper.UpdateProduct(pro);
-		EditDiscount(pro);
+		EditDiscount(pro, discount_length);
 		CreateNewEvent(pro, "UPDATE");
 		EditImg(pro.getP_img(), pro.getP_id(), "p_img");
 		EditImg(pro.getP_contentimg(), pro.getP_id(), "p_contentimg");
@@ -67,19 +67,12 @@ public class ProductService {
 	}
 
 	@Transactional
-	public void EditDiscount(Product pro) {
-		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
+	public void EditDiscount(Product pro, int discount_length) {
+		pMapper.DeleteDiscount(pro.getP_id());
 		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
 			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
 					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
-			if (dis_length.size() < pro.getP_discount_count().size()) {
-				if (i <= dis_length.size() - 1) {
-					dis.setDis_id(dis_length.get(i).getDis_id());
-					pMapper.UpdateDiscount(dis);
-				} else {
-					pMapper.AddDiscount(dis);
-				}
-			}
+			pMapper.AddDiscount(dis);
 		}
 
 	}

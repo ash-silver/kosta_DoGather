@@ -77,9 +77,9 @@ public class ProductController {
 	}
 
 	@PutMapping("/{p_id}/info")
-	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro) throws Exception {
-
-		pService.UpdateProduct(pro);
+	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro,int dis_length) throws Exception {
+		
+		pService.UpdateProduct(pro,dis_length);
 		return "redirect:/products/options/" + p_id + "/info";
 	}
 
@@ -108,7 +108,6 @@ public class ProductController {
 	@GetMapping("/options/{p_id}/info")
 	public String OptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> optmap = pService.Option_List(p_id);
-
 		model.addAttribute("optmap", optmap);
 		return "optionUpdate";
 	}
@@ -119,8 +118,8 @@ public class ProductController {
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
 
-	@DeleteMapping("/options/{opt_pid}/info")
-	public String OneOptionRemove(@PathVariable int opt_id, int opt_pid_p_fk) {
+	@DeleteMapping("/options/{opt_id}/info")
+	public String OneOptionRemove(@PathVariable int opt_id,int opt_pid_p_fk) {
 		pService.OneOptionRemove(opt_id);
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}

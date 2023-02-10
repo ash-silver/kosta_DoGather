@@ -28,6 +28,8 @@
 
 			<form class="productadd_form" id="product_form" th:action="|/products/${promap['pro'].getP_id}/info|" th:method="put" enctype="multipart/form-data">
 				<input type="hidden" th:value="${promap['pro'].getP_id}" name="p_id" readonly>
+				<input type="hidden" th:value="${#lists.size(promap['pro']['discount'])}" name="dis_length" readonly>
+				
 				<h1>제품 정보 수정</h1>
 				<label class="input_tag">
 					<input type="text" name="p_name" placeholder="제품명 입력" th:value="${promap['pro'].getP_name}">
@@ -60,24 +62,29 @@
 				<label class="input_tag">
 					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력" th:value="${promap['pro'].getP_nickname_m_fk}" readonly>
 				</label>
-				<label class="img_box">
-					<span>대표 이미지 변경(클릭)</span>
-				</label>
-				<label class="contentimg_box">
-					<span>상세 이미지 변경(클릭)</span>
-				</label>
+				<div class="img_con">
+					<label class="img_box">
+						<span>대표 이미지(클릭)</span>
+						<span class="material-symbols-outlined">upload </span>
+					</label>
+
+					<label class="contentimg_box">
+						<span>상세 이미지(클릭)</span>
+						<span class="material-symbols-outlined">upload </span>
+					</label>
+				</div>
 
 				<div class="input_tag_discount">
-					<div class="discount_text">
+						<div class="discount_text">
 						<span>수량별 할인율 설정</span>
-						<button type="button" id="discount_btn">항목추가</button>
+						<button type="button" id="discount_btn">+</button>
+						<button type="button" id="discount_revbtn">-</button>
 					</div>
 					<div class="discount_add" th:each="dis : ${promap['pro'].getDiscount}">
 						<span>설정:</span>
 						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" th:value="${dis.dis_quantity}">
 						<input type="text" name="p_discount_count" placeholder="할인율" th:value="${dis.dis_count}">
 					</div>
-					`
 				</div>
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
@@ -88,7 +95,7 @@
 					<input type="datetime-local" name="p_duedate" th:value="${promap['p_duedate']}" class="duedate">
 				</label>
 
-				<button type="button" id="addpro_btn">제품 등록하기</button>
+				
 
 
 				<div class="modal_form_pimg">
@@ -97,7 +104,8 @@
 						<div class="modal_img_box">
 							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img" accept="image/gif, image/jpeg, image/png">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img"
+									accept="image/gif, image/jpeg, image/png">
 							</label>
 						</div>
 					</div>
@@ -113,21 +121,24 @@
 						<div class="modal_img_box">
 							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg" accept="image/gif, image/jpeg, image/png">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg"
+									accept="image/gif, image/jpeg, image/png">
 
 							</label>
 						</div>
 					</div>
 
 					<label class="img_box">
-						<span>상세 이미지 추가 클릭(다중선택 가능)</span> 
+						<span>상세 이미지 추가 클릭(다중선택 가능)</span>
 						<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
 					</label>
 				</div>
 
 			</form>
-			<form th:action="|/products/${promap['pro'].getP_id}/info|" th:method="delete">
-				<button type="submit">삭제하기</button>
+			
+			<form th:action="|/products/${promap['pro'].getP_id}/info|" th:method="delete" class="proremove_btn">
+				<button type="button" id="addpro_btn">제품 수정완료</button>
+				<button type="submit" id="removePro_btn">삭제하기</button>
 			</form>
 		</main>
 

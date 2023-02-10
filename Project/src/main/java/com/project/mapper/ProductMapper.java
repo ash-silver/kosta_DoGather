@@ -54,6 +54,8 @@ public interface ProductMapper {
 
 	void OneOptionRemove(int opt_id);
 
+	void DeleteDiscount(int dis_pid_p_fk);
+
 	void OptionRemoveProduct(int p_id);
 
 	List<Product> WriterProductlist(Map<String, Object> map);

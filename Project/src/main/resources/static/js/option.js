@@ -2,7 +2,7 @@ $(function() {
 	let token = $("meta[name='_csrf']").attr("content");
 	let header = $("meta[name='_csrf_header']").attr("content");
 	let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
-	
+
 	let num_check = function(value, cla) {
 		const num_chk = /[^0-9]/g;
 		if (num_chk.test(value)) {
@@ -73,6 +73,7 @@ $(function() {
 		let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
 		let opt_option1 = [];
 		let opt_quantity = [];
+		let opt_list_count=$("input[name=opt_list_count]").val();
 		const blank_chk = /^\s+|\s+$/g;
 		$("input[name=opt_option1_one]").each(function(index, item) {
 			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
@@ -90,6 +91,7 @@ $(function() {
 			alert("옵션간 입력 갯수가 일치하지 않습니다.");
 			return false;
 		}
+	
 		$.ajax({
 			type: "POST",
 			url: "/products/options",
@@ -104,14 +106,13 @@ $(function() {
 			},
 			success: function(result) {
 				alert("추가완료");
-				$("input[name=opt_option1_one]").val("");
-				$("input[name=opt_quantity_one]").val("");
 				$(".type_btn_box").css("display", "none");
 				if (result == "OneOptionAdd") {
 					$(".option_form").css("display", "none");
 					$(".opt_null").css("display", "flex");
 				};
 				$("input[name=chk]").val("chk");
+				location.reload();
 			},
 			error: function(e) {
 				alert('에러');
@@ -126,8 +127,8 @@ $(function() {
 	let inputadd = function(box, name, cla) {
 		let html = "<input type='text' name='" + name + "' class='" + cla + "'>";
 		let cl = $('.' + cla).length;
-		if (cl > 5) {
-			alert('옵션당 6개 까지만 등록가능')
+		if (cl > 6) {
+			alert('옵션별 최대 입력수 제한');
 		} else {
 			$('.' + box).append(html);
 		}
@@ -143,6 +144,12 @@ $(function() {
 	});
 	$("#option_form_1_quan").click(() => {
 		inputadd("opt_tag1_quantity", "opt_quantity_one", "opt1_quantity");
+	});
+	$("#option_form_1_opt2").click(() => {
+		inputadd("opt_tag1_opt2", "opt_option1_one", "opt1_option1");
+	});
+	$("#option_form_1_quan2").click(() => {
+		inputadd("opt_tag2_quantity", "opt_quantity_one", "opt1_quantity");
 	});
 	$("#One_option").click(() => {
 		let chk = $(".opt_box2").length;

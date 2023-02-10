@@ -263,17 +263,21 @@
 		p_name=#{p_name},p_price=#{p_price},p_category=#{p_category}
 		,p_recruitdate=#{p_recruitdate},p_duedate=#{p_duedate} WHERE p_id=#{p_id}
 	</update>
-	<update id="UpdateDiscount" parameterType="com.project.model.Discount">
-		UPDATE discount SET
-		dis_count=#{dis_count},dis_quantity=#{dis_quantity} WHERE
-		dis_id=#{dis_id}
-	</update>
 	<update id="UpdateImg" parameterType="com.project.model.Img">
 		UPDATE img SET img_name=#{img_name},img_origname=#{img_origname} WHERE img_id=#{img_id}
 	</update>
+	
+	
+	
+	
 	<!-- ===================================제품 수정======================================== -->
 
 	<!-- ===================================제품 삭제======================================== -->
+
+	<delete id="DeleteDiscount" parameterType="int">
+		delete from discount WHERE dis_pid_p_fk=#{dis_pid_p_fk}
+	</delete>
+
 
 	<update id="removeProduct" parameterType="int">
 		UPDATE product AS p, discount AS d, img AS i ,opt AS o
