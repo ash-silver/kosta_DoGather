@@ -23,6 +23,7 @@
 		<result property="o_member_m_fk" column="o_member_m_fk" />
 		<result property="o_recipient" column="o_recipient" />
 		<result property="o_state" column="o_state" />
+		<result property="o_dstate" column="o_dstate" />
 		<result property="o_option1" column="o_option1" />
 		<result property="o_option2" column="o_option2" />
 		<result property="o_date" column="o_date" />
@@ -50,9 +51,9 @@
 		<result property="img_origname" column="img_origname" />
 	</resultMap>
 
-	<select id="findProduct" parameterType="int"
-		resultMap="Product">
-		SELECT * FROM product WHERE
+	<select id="findProduct" parameterType="int" resultMap="Product">
+		SELECT *
+		FROM product WHERE
 		p_id=#{o_product_p_fk}
 	</select>
 
@@ -70,23 +71,82 @@
 		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='장바구니'
 	</select>
 
+
+
+	<select id="buyList" resultMap="Order" parameterType="hashMap">
+		SELECT *
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
+		LIMIT
+		#{limitstart},#{recordsize}
+	</select>
+
+
+	<select id="buyListCount" resultType="int" parameterType="int">
+		SELECT
+		count(*)
+		FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND
+		o_state='구매완료'
+
+	</select>
+
 	<select id="findMember" resultType="int" parameterType="String">
-		SELECT m_id
+		SELECT
+		m_id
 		FROM member WHERE m_nickname=#{m_nickname}
 	</select>
-	
-	
-	<update id="findMember" parameterType="String">
-		SELECT m_id
-		FROM member WHERE m_nickname=#{m_nickname}
+
+
+
+	<update id="cartBuyItem" parameterType="int">
+		update ord AS o, product
+		AS p
+		SET
+		o.o_state='구매완료', o.o_dstate='배송준비중',
+		o.o_quantity=#{o_quantity},
+
+		p.p_sell=p.p_sell+#{o_quantity}
+		WHERE
+		o.o_id=#{o_id} AND
+		p.p_id=#{o_product_p_fk}
 	</update>
 
-	<delete id="findMember" parameterType="String">
-		SELECT m_id
-		FROM member WHERE m_nickname=#{m_nickname}
+
+	<delete id="delCartItem" parameterType="int">
+		DELETE from ord
+		WHERE
+		o_id=#{o_id}
 	</delete>
 
-	
+
+	<!-- 장바구니에 동일한 상품이 있는지 확인 -->
+	<select id="countCart" resultType="int">
+		select count(*)
+		FROM ord
+		WHERE
+		o_member_m_fk=#{o_member_m_fk}
+		AND o_product_p_fk=#{o_product_p_fk}
+		AND
+		o_state='장바구니'
+	</select>
+
+
+
+
+
+
+	<!-- product/ord/opt 3개의 테이블을 조인 하여 상품 공고의 남은 시간을 가져오고 품절처리 하기-->
+	<select id="aa" resultType="hashMap" parameterType="hashMap">
+		select p.p_duedate,op.opt_option1,op.opt_option2,op.opt_quantity
+		from
+		product AS p LEFT JOIN ord AS o ON p.p_id = o.o_id LEFT JOIN opt AS op
+		ON p.p_id = op.opt_id
+		WHERE
+		op.opt_option1=#{opt_option1}
+		AND
+		op.opt_option2=#{opt_option2}
+		AND o.o_member_m_fk=#{o_member_m_fk}
+	</select>
+
 
 
 

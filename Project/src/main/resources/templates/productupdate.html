@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Insert title here</title>
-
 <link th:href="@{/css/header.css}" rel="stylesheet" />
 <link th:href="@{/css/footer.css}" rel="stylesheet" />
 <link th:href="@{/css/productupdate.css}" rel="stylesheet" />
@@ -25,9 +26,9 @@
 		<main id="productadd_main_con">
 
 
-			<form class="productadd_form" id="product_form" th:action="|/products/${promap['pro'].getP_id}/info|" th:method="POST"
-				enctype="multipart/form-data">
-				<h1>제품 등록</h1>
+			<form class="productadd_form" id="product_form" th:action="|/products/${promap['pro'].getP_id}/info|" th:method="put" enctype="multipart/form-data">
+				<input type="hidden" th:value="${promap['pro'].getP_id}" name="p_id" readonly>
+				<h1>제품 정보 수정</h1>
 				<label class="input_tag">
 					<input type="text" name="p_name" placeholder="제품명 입력" th:value="${promap['pro'].getP_name}">
 				</label>
@@ -57,14 +58,13 @@
 					</select>
 				</label>
 				<label class="input_tag">
-					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력" th:value="${promap['pro'].getP_nickname_m_fk}">
+					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력" th:value="${promap['pro'].getP_nickname_m_fk}" readonly>
 				</label>
 				<label class="img_box">
 					<span>대표 이미지 변경(클릭)</span>
 				</label>
 				<label class="contentimg_box">
 					<span>상세 이미지 변경(클릭)</span>
-
 				</label>
 
 				<div class="input_tag_discount">
@@ -76,57 +76,58 @@
 						<span>설정:</span>
 						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" th:value="${dis.dis_quantity}">
 						<input type="text" name="p_discount_count" placeholder="할인율" th:value="${dis.dis_count}">
-
-					</div>
-
-
+					</div>`
 				</div>
-
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
-					<input type="datetime-local" name="p_recruitdate" th:value="${promap['pro'].getP_recruitdate}">
+					<input type="datetime-local" name="p_recruitdate" th:value="${promap['p_recruitdate']}" class="recruidate">
 				</label>
 				<label class="productadd_time">
 					<span>모집 마감일자:</span>
-					<input type="datetime-local" name="p_duedate" th:value="${promap['pro'].getP_duedate}">
-
+					<input type="datetime-local" name="p_duedate" th:value="${promap['p_duedate']}" class="duedate">
 				</label>
 
-				<button type="submit" id="addpro_btn">제품 등록하기</button>
-			</form>
-			<form action="" method="post" class="modal_form_pimg">
-				<h1>변경할 이미지를 클릭</h1>
-				<div class="modal_box">
-					<div class="modal_img_box">
-						<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
-							<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-							<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none">
-						</label>
+				<button type="button" id="addpro_btn">제품 등록하기</button>
+
+
+				<div class="modal_form_pimg">
+					<h1>변경할 이미지를 클릭</h1>
+					<div class="modal_box">
+						<div class="modal_img_box">
+							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
+								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img">
+							</label>
+						</div>
 					</div>
-				</div>
 					<label class="img_box">
-					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_img" style="display: none;">
-				</label>
-			</form>
-
-			<form action="" method="post" class="modal_form_contentimg">
-				<h1>변경할 이미지를 클릭</h1>
-				<div class="modal_box">
-					<div class="modal_img_box">
-						<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
-							<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
-							<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none">
-						</label>
-					</div>
+						<span>대표 이미지 추가 클릭(다중선택 가능)</span>
+						<input type="file" multiple="multiple" name="p_img" style="display: none;">
+					</label>
 				</div>
-				<label class="img_box">
-					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_img" style="display: none;">
-				</label>
+
+				<div class="modal_form_contentimg">
+					<h1>변경할 이미지를 클릭</h1>
+					<div class="modal_box">
+						<div class="modal_img_box" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
+							<label class="img_label">
+								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
+								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg">
+
+							</label>
+						</div>
+					</div>
+
+					<label class="img_box">
+						<span>상세 이미지 추가 클릭(다중선택 가능)</span>
+						<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
+					</label>
+				</div>
 
 			</form>
-
+			<form th:action="|/products/${promap['pro'].getP_id}/info|" th:method="delete">
+				<button type="submit">삭제하기</button>
+			</form>
 		</main>
 
 		<footer th:replace="footer ::footer"></footer>

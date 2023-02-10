@@ -17,6 +17,7 @@
 }
 
 #mypage_main_con {
+	position:relative;
 	font-family: 'OTWelcomeRA';
 	width: 100%;
 	padding-top: 170px;
@@ -27,7 +28,6 @@
 
 .mypage_box {
 	width: 1000px;
-	
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
@@ -91,7 +91,6 @@
 /*=========================mypage 좌측 작은 메뉴완료===========================*/
 .mypage_text_box {
 	width: 850px;
-
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
@@ -114,8 +113,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction:column;
-	color:white;
+	flex-direction: column;
+	color: white;
 	border-right: 2px solid #e2e2e2;
 }
 
@@ -185,9 +184,17 @@
 	border: 1px solid #e2e2e2;
 }
 /*=======================검색창==========================*/
+#chart1 {
+	width: 700px;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .mypage_list {
 	width: 850px;
-	
+	margin-top: 50px;
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-start;
@@ -218,11 +225,11 @@
 	justify-content: center;
 }
 /*============================배송,예정,판매중박스====================================*/
-.mypage_list_cont {
+.buymember_list_cont {
 	margin-top: 50px;
 	width: 820px;
 	border: 1px solid #e2e2e2;
-	
+	padding-bottom: 20px;
 	border-radius: 15px;
 	display: flex;
 	align-items: center;
@@ -230,81 +237,208 @@
 	justify-content: flex-start;
 }
 
-.mypage_list_tag {
+.buymember_list_box {
+	margin-top: 27px;
 	width: 750px;
-	height: 150px;
-	border: 1px solid #e2e2e2;
-	margin-top: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.buymember_boxlist {
+	margin-top: 20px;
+	width: 750px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+}
+
+.buymember_content {
+	width: 700px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	border: 2px solid #e2e2e2;
 	border-radius: 10px;
 }
 
-.mypage_list_tag_img {
-	width: 200px;
-	height: 100px;
+.PostBtn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0px 0px 5px black;
+	margin-left: 10px;
+	width: 50px;
+	height: 30px;
 }
 
-.mypage_list_tag_img a {
+.PostCoad_txtBtn {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: 10px;
+	border: 1px solid #4285F4;
+	border-radius: 5px;
+	background-color: #4285F4;
+	color: white;
 }
 
-.mypage_list_tag_img img {
+.PostCoad_EndBtn {
 	width: 100%;
-	height: 100%;
-}
-
-.myapge_list_tag_text {
-	width: 450px;
-	height: 100px;
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-}
-
-.myapge_list_tag_text span {
-	margin-left: 15px;
-}
-
-.myapge_text {
-	width: 300px;
-	height: 100%;
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.mypage_info {
-	width: 100px;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-size: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: GRAY;
+	color: white;
 }
 
-.mypage_info a {
-	width: 70px;
+
+.buy_topbox {
+	width: 700px;
 	height: 50px;
-	border: 1px solid #e2e2e2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+.buy_toptag1 {
+	width: 400px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tag span {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buy_toptag2 {
+	border-left: 1px solid #e2e2e2;
+	width: 150px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buy_botbox {
+	width: 700px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buy_tag2 {
+	width: 125px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buy_tag1 {
+	width: 275px;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .paging_btn {
-	width: 100%;
+	width: 500px;
 	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+
+.paging_btn p {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.paging_btn p span {
+	margin: 5px;
+}
+
+.paging_btn p a {
+	margin: 5px;
+}
+
+
+#PostCodeModal{
+	top:250px;
+	z-index:10;
+	background-color:black;
+	opacity:0.7;
+	position:fixed;
+	width:400px;
+	height:300px;
+	display:none;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+#PostCodeModal button{
+	color:white;
+	width:100px;
+	height: 30px;
+	border:2px solid #e2e2e2;
+	border-radius: 10px;
+}
+.PostCodeModal_text{
+	width:300px;
+	height:200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.PostCodeModal_text span{
+	color:white;
+	width:300px;
+	height: 50px;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.PostCodeModal_text input{
+	width: 200px;
+	height: 30px;
+	border:2px solid #e2e2e2;
+	border-radius: 5px;
+	padding-left: 15px;
+}
+.PostCodeModal_text select {
+	margin-top:15px;
+	width:200px;
+	height: 30px;
+	border:2px solid #e2e2e2;
+	border-radius: 5px;	
+	
+}
+
+

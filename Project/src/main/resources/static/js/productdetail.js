@@ -110,18 +110,20 @@ $(function() {
 
 
 
+
+	//2/8 OrderController 에서 중복상품 추가 불가 메소드 구현 . -혁주
 	$("#addCart").click(function() {
 		// select box Name로 접근하여 선택된 값 읽기
-		const p_id=$("#p_id").val();
+		const p_id = $("#p_id").val();
 		const opt_option1 = $("select[name=opt_option1]").val();
 		const opt_option2 = $("select[name=opt_option2]").val();
 		const o_quantity = $("select[name=order_quantity]").val();
 
 		$.ajax({
 			type: "POST",
-			url: "/orders/AddCart",
+			url: "/orders/carts",
 			data: {
-				o_product_p_fk:p_id,
+				o_product_p_fk: p_id,
 				o_quantity: o_quantity,
 				o_option1: opt_option1,
 				o_option2: opt_option2
@@ -131,10 +133,13 @@ $(function() {
 			},
 
 			success: function(result) {
-				
+				alert(result);
+
+
+
 			},
 			error: function(e) {
-				alert('이미 장바구니에 존재하는 상품입니다');
+				alert("에러입니다");
 
 			}
 		});
