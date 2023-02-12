@@ -1,0 +1,162 @@
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+.skip {display:none}
+
+
+
+/* #0074e9  #e7223d */ 
+h1 {text-align:center; margin: 50px; auto:30px; }
+h1 a {}
+h1 a img {width:150px }
+main {width:500px;  margin:0 auto;}
+main #join_form {border-bottom:1px solid #ccc; margin-bottom:20px; padding-bottom:20px}
+main #join_form fieldset {}
+ul {}
+li {
+	border:1px solid #ccc; background:#fff;
+	/*li내에 있는 span의 크기를 자유롭게 하기 위해 작성 ..좌우크기나  배치등*/
+	display:flex; flex-row: nowrap;
+	margin-bottom:10px;
+	position:relative;
+}
+.error {
+	color:#e7223d; padding:5px;  font-size:0.85rem; display:none;
+	/*border:0;*/
+}     
+
+
+
+main #join_form fieldset ul li.email_error {}  
+main #join_form fieldset ul li.code_error {}
+main #join_form fieldset ul li.pwd_error {}
+li span {
+	
+}
+.img {
+border-right:1px solid #ccc;
+background-color:#f5f5f5 ; 	
+padding:10px; 
+/*width:30px; height:30px;*/
+}
+	/*
+		content:''; display:inline-block;
+background-image: url(../images/email.svg);
+	*//*
+	border-right:1px solid #ccc;
+	padding:20px; width:50px;
+	
+
+/*	margin-left:5px; 
+	
+	position:relative;  
+	/*relative	요소 자기 자신을 기준으로 배치 
+	absolute	부모(조상) 요소를 기준으로 배치 
+}  
+/*위에 email_bg에 있던 내용을 그림을 제대로 보이게 하기 위해 따로 작성*/
+/*.email_bg ::after { 
+	content: ''; display:block;
+	background-image: url(../images/icon.svg) ; 
+	background-position: 0 0;
+	width:21px; height:21px;
+	position:absolute; left:14px; top:11px;
+}*/
+
+
+.code_bg { }
+
+/* 혹시나 싶어 이메일 실패하고 한 번 더해봤는데도 안됨.. 
+재밌는 건 안되서 부트스트랩으로 이미지 따와서 넣었더니  부트스트랩이랑은 겹쳐서 나타남.
+식별자? 아무튼 이런 정하는 이름이 잘못된 건 가 싶다가도 */
+/*
+.pwd_bg {
+	border-right:1px solid #ccc;
+	padding:20px;width:50px;
+	background-color:#f5f5f5;
+	position:relative;
+}
+
+.pwd_bg ::after{
+	content:''; display:block;
+	background-image: url(../images/icon.svg) ; 
+	background-position: -21px 0; 
+	width:21px; height:21px;
+	position:absolute; left:14px; top:11px;
+} 
+
+*/
+input[type=text],input[type=password] {
+
+		width:400px; height:30px; border:0; padding-left:10px;
+	
+}
+input::placeholder {
+	
+	font-size:0.85rem; color:#aaa;
+}
+
+main #join_form fieldset ul li span input[type=text] {
+	
+}
+main #join_form fieldset ul li span input[type=password] { }
+
+
+/*
+.input {
+  position: relative;
+}
+
+.input .eyes {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto 2px;
+  height: 30px;
+  font-size: 22px;
+  cursor: pointer;
+}*/
+
+.pwd_show {
+	 width:20px;height:20px; 
+	position:absolute; right:15px; top:10px; 
+	
+}
+
+.btm { 
+	display: flex; flex-flow: row nowrap;
+	padding: 15px 0; justify-content: space-between;
+	
+}
+.btm p { }
+
+.btm label { display:flex; align-items:center;}  
+/*display:flex 수직정렬로 이쁘게 맞춰줌*/
+/*flex 작성시 아래 자식에 display:inline을 생략해도 됨 <label이 여기서는 span의 부모이기때문>*/
+
+
+
+.find_pwd {
+	color :blue; 
+}
+.find_pwd::after {/*after: 가상 자식 선택자.. 뒤쪽으로*/  /*여기 왜안될까...*/
+	content :'' ; display: inline-block;
+	width: 8px; height: 15px;
+	background-image: url(../images/icon.svg) ; 
+	background-position: -104px -21px; /*한이미지에 여러이미지가 묶여있기에 위치(X,Y)를 알아야함*/
+	margin-left: 5px;
+   }
+   
+#btn { 
+	background: #0074e9;
+	width:100%; color: #fff; padding:20px 0;
+	box-shadow: 0 2px 0 #00478f;/*x축 y축 선명도 */	 
+}
+.join_link {
+	border:1px solid #ccc; color:#0074e9;
+	display:block; text-align:center; background:#fff; 
+	 padding:20px 0; width:100%; 
+	 box-shadow: 0 2px 0 #eee;
+	 }
+	 
+footer {color:#333; text-align:center; font-size:0.85rem; margin-top:20px}
+ 
