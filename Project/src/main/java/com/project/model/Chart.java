@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Chart {
-	private String date;
+	private String dateTxt;
 	private String nickname;
 	private String category;
 	private int count;

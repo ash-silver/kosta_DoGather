@@ -1,5 +1,12 @@
-
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 922405067379-5iagotgo3626ni8in41dcthlc63d1t14.apps.googleusercontent.com
+            client-secret : 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
+            scope: profile,email
   mvc:
     hiddenmethod:
       filter:
@@ -30,6 +37,11 @@ spring:
       username: root # mysql ID
       password: 1111 # 각자 MYSQL 비밀번호 입력
       connection-test-query: SELECT NOW() FROM dual
+  mail:
+   host: smtp.gmail.com
+   port : 587
+   username : kdogather@gmail.com
+   password : krvcxhvihruhnofw
 
 mybatis:
   configuration:  

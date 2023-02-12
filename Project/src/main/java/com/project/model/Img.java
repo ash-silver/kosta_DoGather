@@ -16,6 +16,7 @@ public class Img {
 	private String img_keyword;
 	private String img_name;
 	private int img_pid_p_fk;
+	private int img_rid_r_fk;
 	private int img_id;
 
 }

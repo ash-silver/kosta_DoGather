@@ -24,43 +24,46 @@ public class SchedulerService {
 	public void run() {
 		List<Product> product_end = sMapper.FindProduct(); // 공고가 종료된 제품들의 리스트
 		List<Product> Product_end_price = new ArrayList<>();
-		for (Product pro : product_end) {
-			Product seller_return = new Product();
-			Product product_one = new Product();
-			seller_return.setP_id(pro.getP_id());
-			seller_return.setP_nickname_m_fk(pro.getP_nickname_m_fk());
-			product_one.setP_endprice(pro.getP_price());
-			product_one.setP_id(pro.getP_id());
-			product_one.setP_price(pro.getP_price());
-			for (Discount dis : pro.getDiscount()) {
-				if (pro.getP_sell() >= dis.getDis_quantity()) { // 판매량이 할인율기준 갯수보다 높거나 같다면 그 할인율을 적용, 할인율최저치보다 낮다면 원금을
-																// 그대로 반환,
-					int p_endprice_txt = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
-					seller_return.setP_endprice(p_endprice_txt);
-					seller_return.setP_price((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell());
-					seller_return.setP_sell(pro.getP_sell());
-					product_one.setP_endprice(pro.getP_price() - p_endprice_txt);
-				} else {
-					product_one.setP_sell(0);
+		if (product_end.size() != 0) {
+			for (Product pro : product_end) {
+				Product seller_return = new Product();
+				Product product_one = new Product();
+				seller_return.setP_id(pro.getP_id());
+				seller_return.setP_nickname_m_fk(pro.getP_nickname_m_fk());
+				product_one.setP_endprice(pro.getP_price());
+				product_one.setP_id(pro.getP_id());
+				product_one.setP_price(pro.getP_price());
+				for (Discount dis : pro.getDiscount()) {
+					if (pro.getP_sell() >= dis.getDis_quantity()) { // 판매량이 할인율기준 갯수보다 높거나 같다면 그 할인율을 적용, 할인율최저치보다 낮다면
+																	// 원금을
+																	// 그대로 반환,
+						int p_endprice_txt = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
+						seller_return.setP_endprice(p_endprice_txt);
+						seller_return.setP_price((p_endprice_txt - (p_endprice_txt / 100 * 5)) * pro.getP_sell());
+						seller_return.setP_sell(pro.getP_sell());
+						product_one.setP_endprice(pro.getP_price() - p_endprice_txt);
+					} else {
+						product_one.setP_sell(0);
+					}
+				}
+				if (seller_return.getP_endprice() != 0) {
+					product_one.setP_sell(1);
+				}
+				sMapper.EndPriceSeller(seller_return);
+				Product_end_price.add(product_one);
+			}
+			for (Product pro1 : Product_end_price) {
+				List<Order> buyer = sMapper.getOrder(pro1.getP_id());
+				if (buyer.size() != 0) {
+					for (Order buy : buyer) { // 제품번호에 해당하는 제품을 주문한 모든 주문자에게 적립금으로 반환,
+						sMapper.EndPriceMember(pro1.getP_endprice(), pro1.getP_id(), buy.getO_member_m_fk(),
+								pro1.getP_sell(), pro1.getP_price());
+					}
+					buyer.clear();
 				}
 			}
-			System.out.println(seller_return);
-			if (seller_return.getP_endprice() != 0) {
-				product_one.setP_sell(1);
-			}
-			sMapper.EndPriceSeller(seller_return);
-			Product_end_price.add(product_one);
 		}
-		for (Product pro1 : Product_end_price) {
-			List<Order> buyer = sMapper.getOrder(pro1.getP_id());
-			if (buyer.size() != 0) {
-				for (Order buy : buyer) { // 제품번호에 해당하는 제품을 주문한 모든 주문자에게 적립금으로 반환,
-					sMapper.EndPriceMember(pro1.getP_endprice(), pro1.getP_id(), buy.getO_member_m_fk(),
-							pro1.getP_sell(), pro1.getP_price());
-				}
-				buyer.clear();
-			}
-		}
+
 	}
 
 }

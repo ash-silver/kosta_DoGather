@@ -27,7 +27,7 @@
 		<result property="o_member_m_fk" column="o_member_m_fk" />
 	</resultMap>
 
-	<select id="FindProduct" parameterType="int" resultMap="ProductScheDule">
+	<select id="FindProduct" resultMap="ProductScheDule">
 		SELECT * FROM product WHERE p_chk='end'
 	</select>
 	<select id="getDiscount" resultMap="DiscountScheDule" parameterType="int">
@@ -45,7 +45,7 @@
 			,p.p_chk='failed'
 		</if>
 		WHERE
-		m.m_nickname=#{p_nickname_m_fk} AND p.p_id=#{p_id}
+		m.m_email=#{p_nickname_m_fk} AND p.p_id=#{p_id}
 
 	</update>
 

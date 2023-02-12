@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
 import com.project.service.ChartService;
+import com.project.service.IndexService;
 import com.project.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,7 @@ public class ProductController {
 
 	private final ProductService pService;
 	private final ChartService cService;
+	private final IndexService iService;
 	@Value("${chart.OneWeek}")
 	private String OneWeek;
 
@@ -75,11 +78,10 @@ public class ProductController {
 		model.addAttribute("promap", promap);
 		return "productupdate";
 	}
-
 	@PutMapping("/{p_id}/info")
-	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro,int dis_length) throws Exception {
-		
-		pService.UpdateProduct(pro,dis_length);
+	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro, int dis_length) throws Exception {
+
+		pService.UpdateProduct(pro, dis_length);
 		return "redirect:/products/options/" + p_id + "/info";
 	}
 
@@ -89,11 +91,19 @@ public class ProductController {
 		return "redirect:/products/add/lists";
 
 	}
-
-	@GetMapping("/{p_id}/detail")
-	public String ProductDetail(@PathVariable int p_id, Model model) {
+	
+	@GetMapping("/{p_id}")
+	public String ProductDetail(@PathVariable int p_id, Model model,String r_pnickname_m_fk) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
+		int reviewct = iService.reviewct(r_pnickname_m_fk);
+		double reviewstar = iService.reviewStar(r_pnickname_m_fk);
+		reviewstar = Math.round(((reviewstar/reviewct)*10)/10.0);
+		
+
 		model.addAttribute("promap", promap);
+		model.addAttribute("p_id", p_id);
+		model.addAttribute("reviewct", reviewct);
+		model.addAttribute("reviewstar", reviewstar);
 		return "productdetail";
 	}
 
@@ -119,7 +129,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/options/{opt_id}/info")
-	public String OneOptionRemove(@PathVariable int opt_id,int opt_pid_p_fk) {
+	public String OneOptionRemove(@PathVariable int opt_id, int opt_pid_p_fk) {
 		pService.OneOptionRemove(opt_id);
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
@@ -180,7 +190,6 @@ public class ProductController {
 		PagingResponse<Order> order = pService.BuyProduct(id, params);
 
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("order", order);
 		return "buymember";

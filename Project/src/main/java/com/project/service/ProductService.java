@@ -193,6 +193,7 @@ public class ProductService {
 		map.put("p_recruitdate", p_recruitdate);
 		map.put("p_duedate", p_duedate);
 		map.put("pro", pro);
+		
 		return map;
 	}
 

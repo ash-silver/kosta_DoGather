@@ -8,7 +8,7 @@ function drawList(list, product, img) {
     
     	<div class="mypage_list_tag">
 			<div class="mypage_list_tag_img">
-			<a href="/products/${product[index].p_id}/detail">
+			<a href="/products/${product[index].p_id}">
 			<img src="/projectimg/${img[index].img_name}">
 				</a>
 			</div>

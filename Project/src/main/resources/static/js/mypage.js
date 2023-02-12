@@ -1,66 +1,71 @@
 function WeekList(Week) {
-	let WeekRange = [];
-	for (let i = 7; i >= 1; i--) {
-		WeekRange.push(moment().subtract(i, 'day').format("MM-DD"));
-	}
-	let DayValue = [];
 	let DaysList = [];
+	let WeekDay = [];
+	let DayValue = [];
 	let arrayIndex = 0;
-	for (let i = 0; i < WeekRange.length; i++) {
-		let tempD = moment(WeekRange[0]).add(i, 'day').format('MM-DD');
-		if (Week[arrayIndex].date != null && Week[arrayIndex].date == tempD) {
-			DaysList.push(tempD);
-			DayValue.push(Week[arrayIndex].count);
-			arrayIndex++;
-		} else {
-			DayValue.push(0);
-			DaysList.push(tempD);
-		}
+	for (let i = 7; i >= 1; i--) {
+		DaysList.push(moment().subtract(i, 'day').format("MM-DD"));
 	}
-	let context = document
-		.getElementById('myChart')
-		.getContext('2d');
-	let myChart = new Chart(context, {
-		type: 'bar', // 차트의 형태
-		data: { // 차트에 들어갈 데이터
-			labels: DaysList,//x축
-			datasets: [
-				{ //데이터
-					label: "최근 7일간 제품 판매완료 수량", //차트 제목
-					fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-					data: DayValue,
-					backgroundColor: [
-						'rgba(255, 99, 132, 0.6)',
-						'rgba(54, 162, 235, 0.6)',
-						'rgba(255, 206, 86, 0.6)',
-						'rgba(75, 192, 192, 0.6)',
-						'rgba(153, 102, 255, 0.6)',
-						'rgba(255, 159, 64, 0.6)',
-						'rgba(255, 159, 64, 0.6)'
-					],
-					borderColor: [
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1
-				}]
-		},
-		options: {
-			responsive: false,
-			scales: {
-				yAxes: [{
-					ticks: {
-						beginAtZero: true
-					}
-				}]
-			},
+	if (Week[0] != null) {
+		for (let d = 0; d < Week.length; d++) {
+			WeekDay.push(Week[d].dateTxt);
 		}
-	});
+		for (let i = 0; i < DaysList.length; i++) {
+			if (WeekDay[arrayIndex] == DaysList[i]) {
+				DayValue.push(Week[arrayIndex].count);
+				arrayIndex++;
+			} else {
+				DayValue.push(0);
+			}
+		}
+		let context = document
+			.getElementById('myChart')
+			.getContext('2d');
+		let myChart = new Chart(context, {
+			type: 'bar', // 차트의 형태
+			data: { // 차트에 들어갈 데이터
+				labels: DaysList,//x축
+				datasets: [
+					{ //데이터
+						label: "최근 7일간 제품 판매완료 수량", //차트 제목
+						fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+						data: DayValue,
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.6)',
+							'rgba(54, 162, 235, 0.6)',
+							'rgba(255, 206, 86, 0.6)',
+							'rgba(75, 192, 192, 0.6)',
+							'rgba(153, 102, 255, 0.6)',
+							'rgba(255, 159, 64, 0.6)',
+							'rgba(255, 159, 64, 0.6)'
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1
+					}]
+			},
+			options: {
+				responsive: false,
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				},
+			}
+		});
+	} else {
+		$("#chart1").css("display", "none");
+
+	}
 }
 
 /*<![CDATA[*/
@@ -72,7 +77,7 @@ function drawList(list, img, keyword) {
     
     	<div class="mypage_list_tag">
 			<div class="mypage_list_tag_img">
-				<a href="/products/${row.p_id}/detail">
+				<a href="/products/${row.p_id}">
 					<img src="/projectimg/${img[index].img_name}">
 				</a>
 			</div>

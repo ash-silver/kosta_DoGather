@@ -73,7 +73,6 @@ $(function() {
 		let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
 		let opt_option1 = [];
 		let opt_quantity = [];
-		let opt_list_count=$("input[name=opt_list_count]").val();
 		const blank_chk = /^\s+|\s+$/g;
 		$("input[name=opt_option1_one]").each(function(index, item) {
 			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
@@ -112,7 +111,6 @@ $(function() {
 					$(".opt_null").css("display", "flex");
 				};
 				$("input[name=chk]").val("chk");
-				location.reload();
 			},
 			error: function(e) {
 				alert('에러');

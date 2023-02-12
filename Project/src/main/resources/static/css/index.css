@@ -36,36 +36,32 @@
 }
 
 .main_contentbox {
-	font-family: Georgia, serif;
 	display: flex;
-	flex-direction: row;
 	justify-content: space-around;
-	align-items: center;
-	width: 100%;
+	align-items: flex-start;
+	width:1200px;
 	height: 400px;
-	max-width: 1200px;
-	min-width: 600px;
 	font-size: 14px;
 }
 
 .main_imgbox {
+	margin-top:50px;
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
-	width: 150px;
-	height: 250px;
-	border: 1px solid #e2e2e2;
+	width: 200px;
 }
 
 .main_imgbox .img_url {
 	width: 100%;
-	height: 150px;
+	height: 300px;
+	
 }
 
 .main_imgbox a img {
 	width: 100%;
-	height: 150px;
+	height: 200px;
+	border-radius: 10px;
 }
 
 .name_url {
