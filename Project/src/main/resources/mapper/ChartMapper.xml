@@ -48,7 +48,7 @@
 	</select>
 
 	<select id="NowAllProduct" resultType="HashMap" parameterType="String">
-		SELECT p_id,p_name,DATE_FORMAT(p_duedate,"%Y년%m월%d일 %H시 %i분")AS p_duedate,p_sell,case when p_chk = 'failed' then "최소량 미달"
+		SELECT p_id,p_name,DATE_FORMAT(p_duedate,"%Y년%m월%d일 %H시 %i분")AS p_duedate,p_sell,case when p_chk = 'failed' then "판매량 미달"
 		when p_chk = 'start' then "판매중" when p_chk = 'add' then "공고시작전" when p_chk ='endprice' then "정산완료" end AS p_chk FROM product WHERE
 		DATE(p_duedate)=DATE_FORMAT(NOW(),"%Y-%m-%d") AND p_nickname_m_fk=#{p_nickname_m_fk} GROUP BY
 		p_id,p_name,p_duedate,p_sell,p_category

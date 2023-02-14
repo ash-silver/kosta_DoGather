@@ -192,7 +192,6 @@ public class IndexController {
 		result.put("img", img_name);
 		result.put("m_nickname", m_nickname);
 		
-		
 		return result;
 	}
 	

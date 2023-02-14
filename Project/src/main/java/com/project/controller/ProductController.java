@@ -44,6 +44,7 @@ public class ProductController {
 	@Value("${chart.OneWeek}")
 	private String OneWeek;
 
+	
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
@@ -80,7 +81,7 @@ public class ProductController {
 	@PutMapping("/{p_id}/info")
 	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro, int dis_length) throws Exception {
 
-		pService.UpdateProduct(pro, dis_length);
+		pService.UpdateProduct(pro);
 		return "redirect:/products/options/" + p_id + "/info";
 	}
 

@@ -58,6 +58,7 @@
 							<li><a href="/products/start/lists">판매중</a>
 							<li><a href="/products/endprice/lists">판매완료</a>
 							<li><a href="/products/add/lists">판매예정</a>
+							<li><a href="/products/endprice/lists">판매종료</a>
 						</ul>
 						<ul class="bar_list1">
 							<li><span>-판매관리-</span>
@@ -122,11 +123,10 @@
 						</div>
 
 						<form th:action="|/products/${keyword}/lists/buy|" th:method="get" class="select_form">
-							<select name="tag" class="tag_select"  th:if="${tag}!=null" >
+							<select name="tag" class="tag_select" th:if="${tag}!=null">
 								<option th:selected="${tag}==1" value="1">주문 날짜 오래된순</option>
 								<option th:selected="${tag}==2" value="2">주문 날짜 최근순</option>
-							</select>
-								<select name="tag" class="tag_select"  th:if="${tag}==null" >
+							</select> <select name="tag" class="tag_select" th:if="${tag}==null">
 								<option value="1">주문 날짜 오래된순</option>
 								<option value="2">주문 날짜 최근순</option>
 							</select>

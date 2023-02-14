@@ -244,7 +244,7 @@
 
 .mypage_list_tag {
 	width: 750px;
-	height: 150px;
+	height: 200px;
 	border: 1px solid #e2e2e2;
 	margin-top: 20px;
 	display: flex;
@@ -254,12 +254,13 @@
 }
 
 .mypage_list_tag_img {
-	width: 200px;
-	height: 100px;
+	width: 250px;
+	height: 150px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	box-shadow: 0px 0px 5px black;
+	border-radius: 5px;
 }
 
 .mypage_list_tag_img a {

@@ -49,6 +49,8 @@ public class OrderController {
 	public String findCart(Model model, Principal principal) {
 		String m_nickname = principal.getName();
 		ArrayList<Order> order = oService.findCart(m_nickname);
+		for (Order ord : order) {
+		}
 		model.addAttribute("order", order);
 		return "cart";
 	}
@@ -80,7 +82,6 @@ public class OrderController {
 			img.add(ord.getImg());
 		}
 		model.addAttribute("img", img);
-		System.out.println(ordlist.getList());
 		model.addAttribute("product", product);
 		model.addAttribute("params", params);
 		model.addAttribute("ordlist", ordlist);
@@ -88,13 +89,16 @@ public class OrderController {
 		return "buylist";
 	}
 
+	// 배송조회 페이지로 전환 하는 메소드
+	@GetMapping("/delivery")
+	public String delivery() {
+		return "delivery";
+	}
+
 	@ResponseBody
 	@PostMapping("/{o_id}/posts")
 	public String PostCodeAdd(Order o) {
-		System.out.println(o);
-		System.out.println("sdsdsds");
 		oService.PostCodeAdd(o);
 		return "추가완료";
 	}
-
 }

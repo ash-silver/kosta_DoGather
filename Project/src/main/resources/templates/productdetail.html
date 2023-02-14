@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head>
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf.token}" />
@@ -28,9 +28,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 	<div id="container">
 		<header th:replace="header :: header"> </header>
 		<main id="prodetail_main_con">
-				
+
 			<div class="prodetail_box">
 				<div class="prodetail_img_box">
+					<div class="pro_categorybox" th:text="|카테고리 ( ${promap['pro'].getP_category} )|"></div>
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
 							<img th:src="|/projectimg/${i.img_name}|" class="mini_img" th:each="i : ${promap['pro'].getImg}"
@@ -97,7 +98,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 					<div class="prodetail_text text2">
 						<input type="hidden" th:value="${promap['pro'].getP_id}" id="p_id">
 						<select name="opt_option1" class="option1">
-							<option th:value="${opt1}" th:each="opt1 : ${promap['opt_option1']}" th:if=" ${promap['opt_option1']}!=null" th:text="${opt1}"></option>
+							<option th:value="${opt1.opt_option1}" th:each="opt1 : ${promap['pro']['option']}" th:if=" ${promap['pro']['option']}!=null" th:text="${opt1.opt_option1}"></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2" id="option2">
@@ -109,23 +110,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 					</div>
 
 
-					<form class="prodetail_btn_box"  th:method="get" th:action="|/ordersheet|">
-					<input type="hidden"  th:value="${#authentication.name}" class="login_chk">
+					<form class="prodetail_btn_box" th:method="get" th:action="|/ordersheet|">
+						<input type="hidden" th:value="${#authentication.name}" class="login_chk">
 						<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
 						<input type="hidden" name="o_option1">
 						<input type="hidden" name="o_option2">
-							<select name="o_quantity">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-							</select>
-							<button type="button" id="addCart">장바구니 추가</button>
-							<button type="submit" id="purchase">구매하기</button>
-							<input type="hidden" th:value="${promap['pro'].getP_recruitdate}"
-								id="p_recruitdate" readonly>
-							<input type="hidden" th:value="${promap['pro'].getP_duedate}"
-								id="p_duedate" readonly>
+						<select name="o_quantity">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+						</select>
+						<button type="button" id="addCart">장바구니 추가</button>
+						<button type="submit" id="purchase">구매하기</button>
+						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}" id="p_recruitdate" readonly>
+						<input type="hidden" th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>
 					</form>
 					<div class="time_box">
 						<h1 id="time"></h1>

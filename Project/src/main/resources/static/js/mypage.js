@@ -85,7 +85,13 @@ function drawList(list, img, keyword) {
 				<div class="myapge_text">
 					<span>제품명: ${row.p_name}</span>
 					<span>현재 판매된 수량: ${row.p_sell}개</span>
-					<span>총 판매액: ${row.p_endprice * row.p_sell}원</span>
+					`;
+		if (row.p_endprice == 0) {
+			html += `<span>총 판매액: ${row.p_price * row.p_sell}원 (판매 종료 후 합산)</span>`;
+		} else {
+			html += `<span>총 판매액: ${row.p_endprice * row.p_sell}원</span>`;
+		}
+		html += `
 					<span>제품 카테고리: ${row.p_category}</span>
 					<span>공고 상태 확인: ${row.p_chk}</span>
 				</div>

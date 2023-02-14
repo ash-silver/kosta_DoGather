@@ -70,51 +70,46 @@
 
 			</div>
 			<div class="header_mymenu">
-				<div class="header_mymenu_drop">
-					<span class="material-symbols-outlined mymenu_img"> person </span>
-					<span class="mymenu_text"> MY </span>
-					<ul class="mymenu_drop_menu1">
-					
-						<li sec:authorize="isAnonymous()"><a th:href="@{/member/join}">회원가입</a></li>
-						<li sec:authorize="isAnonymous()"><a th:href="@{/member/login}">로그인</a></li>
-
-						<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/member/update}">내 정보수정</a></li>
-						<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/orders/buylists}">구매내역</a></li>
-						<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/member/logout}">로그아웃</a></li>
-
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/products/all/lists}">제품 관리</a></li>
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/products}">제품등록</a></li>
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/orders/buylists}">구매내역</a></li>
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/member/update}">내 정보수정</a></li>
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/member/logout}">로그아웃</a></li>
-							
-						<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">내 정보수정</a></li>
-						<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/member/logout}">로그아웃</a></li>
-						
-
-
-					</ul>
+				<div class="hedaer_idname" sec:authorize="isAuthenticated()">
+					<p th:text="|${#authentication.name}님 로그인 상태|"></p>
 				</div>
+				<div class="header_icon">
+					<div class="header_mymenu_drop">
+						<span class="material-symbols-outlined mymenu_img"> person </span>
+						<span class="mymenu_text"> MY </span>
+						<ul class="mymenu_drop_menu1">
 
-				<div class="header_mymenu_drop2">
-					<span class="material-symbols-outlined mymenu_img"> shopping_cart </span>
-					<span class="mymenu_text"> 장바구니 </span>
-					<ul class="mymenu_drop_menu2">
+							<li sec:authorize="isAnonymous()"><a th:href="@{/member/join}">회원가입</a></li>
+							<li sec:authorize="isAnonymous()"><a th:href="@{/member/login}">로그인</a></li>
 
-						<!-- 로그인 전 -->
-						<li sec:authorize="isAnonymous()"><a th:href="@{/member/login}">로그인이 필요</a></li>
+							<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/member/update}">내 정보수정</a></li>
+							<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/orders/buylists}">구매내역</a></li>
+							<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/member/logout}">로그아웃</a></li>
+
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/products/all/lists}">제품 관리</a></li>
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/products}">제품등록</a></li>
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/orders/buylists}">구매내역</a></li>
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/member/update}">내 정보수정</a></li>
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/member/logout}">로그아웃</a></li>
+
+							<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin}">내 정보수정</a></li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/member/logout}">로그아웃</a></li>
 
 
-						<!-- 일반회원 로그인시 ★장바구니 찜목록 임시주소- -->
-						<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/orders/carts}">장바구니</a></li>
 
-						<!-- 판매자회원 로그인시 ★판매관리 임시주소-->
+						</ul>
+					</div>
 
-						<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/orders/carts}">장바구니</a></li>
-						<!-- 판매자가 구매가 불가시 장바구니랑 판매관리 빼고 여기에 제품관리,제품등록,판매관리 하고 메뉴1은 내정보수정,로그아웃? -->
-					</ul>
+					<div class="header_mymenu_drop2">
+						<span class="material-symbols-outlined mymenu_img"> shopping_cart </span>
+						<span class="mymenu_text"> 장바구니 </span>
+						<ul class="mymenu_drop_menu2">
+							<li sec:authorize="isAnonymous()"><a th:href="@{/member/login}">로그인이 필요</a></li>
+							<li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/orders/carts}">장바구니</a></li>
+							<li sec:authorize="hasRole('ROLE_SELLER')"><a th:href="@{/orders/carts}">장바구니</a></li>
+						</ul>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</header>

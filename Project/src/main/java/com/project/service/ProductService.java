@@ -26,6 +26,7 @@ import com.project.model.Pagination;
 import com.project.model.PagingResponse;
 import com.project.model.Product;
 import com.project.model.SearchDto;
+import com.project.model.SetEnum;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,52 +36,43 @@ public class ProductService {
 
 	private final ProductMapper pMapper;
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
 	@Value("${file.Upimg}")
 	private String path;
 
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
 	public void AddProduct(Product pro) throws Exception {
 		pMapper.AddProduct(pro);
-		AddDiscount(pro);
-		AddImg(pro.getP_img(), pro.getP_id(), "p_img");
-		AddImg(pro.getP_contentimg(), pro.getP_id(), "p_contentimg");
-		CreateNewEvent(pro, "ADD");
+		SetDiscount(pro, SetEnum.ADD.name());
+		AddImg(pro.getP_img(), pro.getP_id(), SetEnum.p_img.name());
+		AddImg(pro.getP_contentimg(), pro.getP_id(), SetEnum.p_contentimg.name());
+		CreateNewEvent(pro, SetEnum.ADD.name());
 	}
 
 	@Transactional
-	public void UpdateProduct(Product pro, int discount_length) throws Exception {
+	public void UpdateProduct(Product pro) throws Exception {
 		pMapper.UpdateProduct(pro);
-		EditDiscount(pro, discount_length);
-		CreateNewEvent(pro, "UPDATE");
-		EditImg(pro.getP_img(), pro.getP_id(), "p_img");
-		EditImg(pro.getP_contentimg(), pro.getP_id(), "p_contentimg");
+		SetDiscount(pro, SetEnum.UPDATE.name());
+		CreateNewEvent(pro, SetEnum.UPDATE.name());
+		EditImg(pro.getP_img(), pro.getP_id(), SetEnum.p_img.name());
+		EditImg(pro.getP_contentimg(), pro.getP_id(), SetEnum.p_contentimg.name());
 	}
 
 	@Transactional // 할인율 생성 ,수정
-	public void AddDiscount(Product pro) {
+	public void SetDiscount(Product pro, String Type) {
+		if (Type.equals(SetEnum.UPDATE.name())) {
+			pMapper.DeleteDiscount(pro.getP_id());
+		}
 		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
 			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
 					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
 			pMapper.AddDiscount(dis);
 		}
-	}
-
-	@Transactional
-	public void EditDiscount(Product pro, int discount_length) {
-		pMapper.DeleteDiscount(pro.getP_id());
-		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
-			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
-					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
-			pMapper.AddDiscount(dis);
-		}
-
 	}
 
 	@Transactional // 이미지 생성 , 수정
 	public void EditImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
-		Img img_txt = Img.builder().img_keyword(keyword).img_pid_p_fk(p_id).build();
-		List<Img> img_length = pMapper.img_length(img_txt);
+		Img Img_TextParam = Img.builder().img_keyword(keyword).img_pid_p_fk(p_id).build();
+		List<Img> img_length = pMapper.img_length(Img_TextParam);
 		for (int j = 0; j < file.size(); j++) {
 			if (!file.get(j).isEmpty()) {
 				String origName = file.get(j).getOriginalFilename(); // 입력한 원본 파일의 이름
@@ -134,7 +126,7 @@ public class ProductService {
 
 	public void CreateNewEvent(Product pro, String type) {
 		String value = "";
-		if (type.equals("UPDATE")) {
+		if (type.equals(SetEnum.UPDATE.name())) {
 			value = "DROP EVENT " + pro.getP_id() + "_start";
 			pMapper.CreateNewEvent(value);
 			value = "DROP EVENT " + pro.getP_id() + "_end";
@@ -161,11 +153,6 @@ public class ProductService {
 		int Now_Discount = 0;
 		int Next_Discount_sell = pro.getDiscount().get(0).getDis_quantity();
 		int discount_price = pro.getP_price(); // 할인이 적용된 가격을 넣으려고 만든거,
-		List<String> overlap_chk = new ArrayList<>();
-		for (Option opt : pro.getOption()) {
-			overlap_chk.add(opt.getOpt_option1());
-		}
-		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
 		int index = 0;
 		for (Discount dis : pro.getDiscount()) {
 			if (dis.getDis_quantity() <= pro.getP_sell()) {
@@ -181,19 +168,17 @@ public class ProductService {
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
-		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),
-				pro.getP_category());
+		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),pro.getP_category());
 		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
 		map.put("CategoryBest", CategoryBest);
 		map.put("SellerBest", SellerBest);
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
-		map.put("opt_option1", opt_option1);
 		map.put("p_recruitdate", p_recruitdate);
 		map.put("p_duedate", p_duedate);
 		map.put("pro", pro);
-		
+
 		return map;
 	}
 
@@ -228,6 +213,7 @@ public class ProductService {
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		if (params.getSearching() != null) {
+
 			list = pMapper.SearchSeller(map);
 		} else {
 			list = pMapper.WriterProductlist(map);
@@ -235,11 +221,11 @@ public class ProductService {
 		return new PagingResponse<>(list, pagination);
 	}
 
-	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params,String keyword) {
+	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params, String keyword) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 
-		count = pMapper.BuyProductCount(p_nickname_m_fk,keyword);
+		count = pMapper.BuyProductCount(p_nickname_m_fk, keyword);
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
@@ -249,7 +235,7 @@ public class ProductService {
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		map.put("tag", params.getTag());
-		map.put("keyword",keyword);
+		map.put("keyword", keyword);
 		List<Order> list = pMapper.BuyProduct(map);
 		return new PagingResponse<>(list, pagination);
 	}
