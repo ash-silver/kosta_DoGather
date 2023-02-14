@@ -23,8 +23,9 @@ public class orderSheetService {
 		orderSheetMapper.AddOrder(order);
 	}
 	
-	public void Refund(int o_id, String o_reason) {
-		Order ord = Order.builder().o_id(o_id).o_reason(o_reason).build();
+	public void Refund(int o_id, String o_state, String o_reason) {
+		Order ord = Order.builder().o_id(o_id).o_state(o_state).o_reason(o_reason).build();
 		orderSheetMapper.Refund(ord);
+		
 	}
 }

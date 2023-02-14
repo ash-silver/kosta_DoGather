@@ -53,6 +53,7 @@ $(document).on("click","#request_btn",function() {
 	$("#buyList_Modal").attr("action", "/ordersheet/refund/"+o_id);
 	document.getElementById("set_o_id").value = "o_id";
 	//$("#buyList_Modal").attr("value", o_id);
+
 	
 });
 // 페이지 HTML draw  하단의 버튼에 해당하는 스크립트로 페이징의 핵심

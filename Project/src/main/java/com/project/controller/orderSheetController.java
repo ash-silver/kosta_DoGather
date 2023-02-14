@@ -46,9 +46,9 @@ public class orderSheetController {
 
 	
 	@PostMapping("/refund/{o_id}")
-	public String refundProduct(@PathVariable int o_id, String o_reason) {
+	public String refundProduct(@PathVariable int o_id, String o_state, String o_reason) {
 		
-		orderSheetService.Refund(o_id, o_reason);
+		orderSheetService.Refund(o_id, o_state, o_reason);
 		return "redirect:/orders/buylists";
 	}
 }

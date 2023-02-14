@@ -95,10 +95,9 @@
 	
 	<update id="Refund" parameterType="com.project.model.Order">
 		UPDATE ord
-		SET o_state="환불/교환 요청"
+		SET o_state=#{o_state}
 		, o_reason=#{o_reason}
 		WHERE o_id=#{o_id}		
- 
 	</update>
 
 
