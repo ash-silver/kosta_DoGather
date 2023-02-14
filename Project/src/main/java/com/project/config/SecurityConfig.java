@@ -33,7 +33,7 @@ public class SecurityConfig {
 				,"/reviews/**"
 				,"/comment"
 				).permitAll()
-				.requestMatchers("/order/**","/order","/ordersheet").hasAnyRole("SELLER","USER")
+				.requestMatchers("/orders/**","/orders","/ordersheet","/qnaboard/**").hasAnyRole("SELLER","USER")
 				.requestMatchers("/products/**","/products/options/**","/products/charts/**","/products/charts**").hasRole("SELLER")
 				.requestMatchers("/**").hasRole("ADMIN")
 				.anyRequest().authenticated(); // 위 접근권한에 대해서 인증된 사람만 접근 가능하게 설정,

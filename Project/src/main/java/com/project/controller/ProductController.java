@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,9 +64,9 @@ public class ProductController {
 		Option pro_opt_chk = pService.option_chk(opt_pid_p_fk);
 		if (pro_opt_chk == null) {
 			pService.OptionRemoveProduct(opt_pid_p_fk);
-			return "옵션이 지정되지 않아 제품이 삭제처리 되었습니다.";
+			return "옵션이 존재하지 않아 해당 제품은 삭제 처리되었습니다.";
 		} else {
-			return "옵션 저장 완료";
+			return "옵션 저장 및 제품 추가 완료";
 		}
 	}
 
@@ -98,8 +97,6 @@ public class ProductController {
 		int reviewct = iService.reviewct(r_pnickname_m_fk);
 		double reviewstar = iService.reviewStar(r_pnickname_m_fk);
 		reviewstar = Math.round(((reviewstar/reviewct)*10)/10.0);
-		
-
 		model.addAttribute("promap", promap);
 		model.addAttribute("p_id", p_id);
 		model.addAttribute("reviewct", reviewct);
@@ -184,14 +181,15 @@ public class ProductController {
 	}
 
 	@GetMapping("/{keyword}/lists/buy")
-	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
+	public String BuyerList(Principal principal, Model model,@ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword) {
 		String id = principal.getName();
-		PagingResponse<Order> order = pService.BuyProduct(id, params);
-
+		PagingResponse<Order> order = pService.BuyProduct(id, params,keyword);
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("order", order);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("tag",params.getTag());
 		return "buymember";
 	}
 

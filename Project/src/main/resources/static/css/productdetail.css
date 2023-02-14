@@ -336,7 +336,7 @@ progress {
 	align-items: flex-start;
 	justify-content: center;
 	border-radius: 7px;
-	box-shadow: 0 0 20px 1px #e2e2e2 inset; 	
+	box-shadow: 10px 10px 10px 10px #e2e2e2 ; 	
 	width: 1200px;
 }
 

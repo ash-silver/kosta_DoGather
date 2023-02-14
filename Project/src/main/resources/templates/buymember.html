@@ -59,7 +59,7 @@
 							<li><a href="/products/endprice/lists">판매완료</a>
 							<li><a href="/products/add/lists">판매예정</a>
 						</ul>
-					<ul class="bar_list1">
+						<ul class="bar_list1">
 							<li><span>-판매관리-</span>
 							<li><a href="/products/charts/-7 DAY/-1 MONTH">판매 통계</a>
 							<li><a href="/products/all/lists/buy">판매정보</a>
@@ -95,21 +95,6 @@
 					</div>
 
 
-					<form class="mypage_search" action="/products/lists" method="GET">
-						<div class="mypage_text">
-							<span>페이지별 제품 검색</span>
-						</div>
-						<div class="mypage_saerchbox">
-							<input type="search" name="searching" placeholder="검색할 제품 입력">
-
-							<button type="submit" >검색</button>
-
-						</div>
-					</form>
-
-					<div id="chart1">
-						<canvas id="myChart" width="500" height="200"></canvas>
-					</div>
 
 
 					<div class="mypage_list">
@@ -125,16 +110,27 @@
 								</a>
 							</label>
 							<label class="tagbar_menu">
-								<a href="/products/cancel/lists/buy">
-									<span>운송장등록</span>
+								<a href="/products/no/lists/buy">
+									<span>운송장 추가</span>
 								</a>
 							</label>
 							<label class="tagbar_menu">
 								<a href="/products/all/lists/buy">
-									<span>구매자목록</span>
+									<span>모든 구매자</span>
 								</a>
 							</label>
 						</div>
+
+						<form th:action="|/products/${keyword}/lists/buy|" th:method="get" class="select_form">
+							<select name="tag" class="tag_select"  th:if="${tag}!=null" >
+								<option th:selected="${tag}==1" value="1">주문 날짜 오래된순</option>
+								<option th:selected="${tag}==2" value="2">주문 날짜 최근순</option>
+							</select>
+								<select name="tag" class="tag_select"  th:if="${tag}==null" >
+								<option value="1">주문 날짜 오래된순</option>
+								<option value="2">주문 날짜 최근순</option>
+							</select>
+						</form>
 
 						<div class="buymember_list_cont">
 							<div class="buymember_list_box"></div>
@@ -149,9 +145,7 @@
 
 			</div>
 
-			<form id="PostCodeModal" name="PostCodeModal" method="post">
-				
-			</form>
+			<form id="PostCodeModal" name="PostCodeModal" method="post"></form>
 
 		</main>
 

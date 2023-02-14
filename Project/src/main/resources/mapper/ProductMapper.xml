@@ -47,7 +47,7 @@
 		<result property="o_option2" column="o_option2" />
 		<result property="o_date_md" column="o_date" />
 		<result property="o_postCode" column="o_postCode" />
-		<result property="m_nickname" column="m_nickname" jdbcType="VARCHAR" javaType="String" />
+		<result property="m_email" column="m_email" jdbcType="VARCHAR" javaType="String" />
 		<result property="p_name" column="p_name" jdbcType="VARCHAR" javaType="String" />
 		<result property="p_endprice" column="p_endprice" jdbcType="INTEGER" javaType="int" />
 	</resultMap>
@@ -89,18 +89,27 @@
 	</select>
 
 	<select id="CategoryBestProduct" resultType="hashMap" parameterType="String">
-		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p
+
+
+		SELECT p.p_name,p.p_price,p.p_sell,a.img_name,p.p_id FROM product AS p
 		left join
-		img AS i ON p.p_id=i.img_pid_p_fk WHERE p.p_category=#{p_category} group by
-		p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id order by p_sell
+		( SELECT i.img_name,i.img_pid_p_fk FROM img AS i LEFT JOIN Product AS p on
+		i.img_pid_p_fk=p.p_id WHERE i.img_pid_p_fk=p.p_id AND img_keyword='p_img'
+		GROUP BY p.p_id)AS a on p.p_id=a.img_pid_p_fk WHERE
+		p.p_category=#{p_category} group by
+		p.p_name,p.p_price,p.p_sell,a.img_name,p.p_id order by p_sell
 		desc LIMIT 0,9 ;
 	</select>
 
 	<select id="SellerBestProduct" resultType="HashMap" parameterType="String">
-		SELECT p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id FROM product AS p left
-		join
-		img AS i ON p.p_id=i.img_pid_p_fk WHERE
-		p_nickname_m_fk=#{p_nickname_m_fk} group by p.p_name,p.p_price,p.p_sell,i.img_name,p.p_id order by p_sell
+		SELECT p.p_name,p.p_price,p.p_sell,a.img_name,p.p_id FROM product AS p
+		left join
+		( SELECT i.img_name,i.img_pid_p_fk FROM img AS i LEFT JOIN Product AS p on i.img_pid_p_fk=p.p_id WHERE i.img_pid_p_fk=p.p_id AND
+		img_keyword='p_img'
+		GROUP BY p.p_id)AS a on
+		p.p_id=a.img_pid_p_fk WHERE
+		p_nickname_m_fk=#{p_nickname_m_fk} group by
+		p.p_name,p.p_price,p.p_sell,a.img_name,p.p_id order by p_sell
 		desc LIMIT 0,9;
 	</select>
 
@@ -160,7 +169,7 @@
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
-	
+
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
 		<if test="keyword=='all'">
 			p_chk!='remove' AND
@@ -172,15 +181,37 @@
 
 
 	<select id="BuyProduct" parameterType="hashMap" resultMap="OrderMap">
-		SELECT m.m_nickname,o.o_id,o.o_dstate,o.o_postCode,
-		o.o_option1,o.o_option2,DATE_FORMAT(DATE(o.o_date), '%m-%d') AS o_date, p.p_endprice , p.p_name ,o.o_quantity FROM ord AS o LEFT JOIN product AS p
+		SELECT m.m_email,o.o_id,o.o_dstate,o.o_postCode,
+		o.o_option1,o.o_option2,DATE_FORMAT(o.o_date, '%m월%d일 %H시%i분') AS o_date, p.p_endprice , p.p_name
+		,o.o_quantity FROM ord AS o LEFT JOIN product AS p
 		ON p.p_id=o_product_p_fk
-		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk} LIMIT
+		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice'
+		AND p.p_nickname_m_fk=#{p_nickname_m_fk}
+		<choose>
+			<when test="keyword=='no'">
+				AND o.o_postCode is null
+			</when>
+		</choose>
+		<if test="tag==1">
+			ORDER BY o_date asc
+		</if>
+		<if test="tag==2">
+			ORDER BY o_date desc
+		</if>
+		LIMIT
 		#{limitstart},#{recordsize}
+
+
 	</select>
 	<select id="BuyProductCount" parameterType="String" resultType="int">
 		SELECT count(*) FROM ord AS o LEFT JOIN product AS p ON p.p_id=o_product_p_fk
-		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk}
+		LEFT JOIN member AS m ON m.m_id=o.o_member_m_fk WHERE
+		p.p_chk='endprice' AND p.p_nickname_m_fk=#{p_nickname_m_fk}
+		<choose>
+			<when test="keyword=='no'">
+				AND o.o_postCode is null
+			</when>
+		</choose>
 	</select>
 
 
@@ -266,10 +297,10 @@
 	<update id="UpdateImg" parameterType="com.project.model.Img">
 		UPDATE img SET img_name=#{img_name},img_origname=#{img_origname} WHERE img_id=#{img_id}
 	</update>
-	
-	
-	
-	
+
+
+
+
 	<!-- ===================================제품 수정======================================== -->
 
 	<!-- ===================================제품 삭제======================================== -->

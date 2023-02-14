@@ -21,7 +21,7 @@ function drawList(list) {
 										</div>
 										<div class="buy_botbox">
 											<div class="buy_tag2 tag">
-												<span>구매자:${row.m_nickname}</span>
+												<span>구매자:${row.m_email}</span>
 											</div>
 
 											<div class="buy_tag1 tag">
@@ -38,7 +38,7 @@ function drawList(list) {
 								</div>
 									<div class="PostBtn">
 										`;
-		if (row.o_postCode ==null) {
+		if (row.o_postCode == null) {
 			html += `<button type="button" class="PostCoad_txtBtn" value="${row.o_id}">운송장</button>`;
 		} else {
 			html += `<button type="button" class="PostCoad_EndBtn" value="${row.o_id}" disabled="disabled">등록O</button>`;
@@ -172,6 +172,10 @@ $(function() {
 
 	});
 
+	$(".tag_select").change(function() {
+		
+		$(".select_form").submit();
+	});
 });
 
 /*]]>*/

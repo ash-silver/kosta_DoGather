@@ -235,11 +235,11 @@ public class ProductService {
 		return new PagingResponse<>(list, pagination);
 	}
 
-	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params) {
+	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params,String keyword) {
 		int count = 0;
 		Map<String, Object> map = new HashMap<>();
 
-		count = pMapper.BuyProductCount(p_nickname_m_fk);
+		count = pMapper.BuyProductCount(p_nickname_m_fk,keyword);
 		if (count < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
@@ -248,6 +248,8 @@ public class ProductService {
 		map.put("p_nickname_m_fk", p_nickname_m_fk);
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
+		map.put("tag", params.getTag());
+		map.put("keyword",keyword);
 		List<Order> list = pMapper.BuyProduct(map);
 		return new PagingResponse<>(list, pagination);
 	}

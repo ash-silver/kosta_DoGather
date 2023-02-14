@@ -4,6 +4,7 @@ function drawList(list, product, img) {
 	let index = 0;
 	let html = '';
 	list.forEach(row => { // list 의 갯수만큼 반복진행 row 라는 변수명으로 list명을 대체함 화살표함수
+		console.log(row.o_postCode);
 		html += `
     
     	<div class="mypage_list_tag">
@@ -19,12 +20,12 @@ function drawList(list, product, img) {
 					<span>가갹:${product[index].p_price}원</span>
 					<span>옵션1:${row.o_option1}원</span>
 					`;
-		if (row.o_postCode !=null) {
+		if (row.o_postCode != null) {
 			html += `<input type="hidden" name="o_postCode" class="o_postCode" id="${index}" value="${row.o_postCode}">
 					<input type="hidden" name="o_postCompanyKey" class="o_postCompanyKey" value="${row.o_postCompanyKey}">
 					<span class="${index}"></span>`;
-		}else{
-			html+=`<span>상품 준비중</span>`;
+		} else {
+			html += `<span>상품 준비중</span>`;
 		}
 
 		html += `
@@ -94,7 +95,7 @@ function address() {
 	let myKey = "iH5hwc1qRUyfHb3NTdchiw"; // sweet tracker에서 발급받은 자신의 키 넣는다.
 	let t_code = [];
 	let t_invoice = [];
-	let t_id=[];
+	let t_id = [];
 	$('.o_postCompanyKey').each(function(index, item) {
 		if ($(item).val() != 0) {
 			t_invoice.push($(item).val());
@@ -110,8 +111,7 @@ function address() {
 			t_id.push($(this).attr("id"));
 		}
 	});
-	
-	
+
 	$(t_code).each(function(index, item) {
 		$.ajax({
 			type: "GET",
@@ -119,16 +119,22 @@ function address() {
 			url: "http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key=" + myKey + "&t_code=" + item + "&t_invoice=" + t_invoice[index],
 			success: function(data) {
 				let trackingDetails = data.trackingDetails;
-				let length = trackingDetails.length;
-				let myTracking = "";
-				$.each(trackingDetails, function(index, item) {
-					if (index == length - 1)
-					myTracking = item.kind;
-				});
-				if(myTracking==null || myTracking==""){
-					$("."+t_id[index]).text("배송 준비중");
+				if (trackingDetails != null && trackingDetails != "") {
+
+
+					let length = trackingDetails.length;
+					let myTracking = "";
+					$.each(trackingDetails, function(index, item) {
+						if (index == length - 1)
+							myTracking = item.kind;
+					});
+					if (myTracking == null || myTracking == "") {
+						$("." + t_id[index]).text("배송 준비중");
+					} else {
+						$("." + t_id[index]).text(myTracking);
+					}
 				}else{
-					$("."+t_id[index]).text(myTracking);
+					$("." + t_id[index]).text("배송이 종료된 상품입니다.");
 				}
 			}
 		});

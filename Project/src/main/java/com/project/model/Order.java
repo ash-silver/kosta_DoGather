@@ -30,7 +30,7 @@ public class Order {
 	private String o_postCode;
 	private String o_date_md;
 	private String p_name;
-	private String m_nickname;
+	private String m_email;
 	private Timestamp o_date;
 	private Product product;
 	private Img img;

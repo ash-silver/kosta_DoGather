@@ -27,6 +27,8 @@
       <result property="o_option1" column="o_option1" />
       <result property="o_option2" column="o_option2" />
       <result property="o_date" column="o_date" />
+      <result property="o_postCompanyKey" column="o_postCompanyKey" />
+      <result property="o_postCode" column="o_postCode" />
       <collection property="img" column="o_product_p_fk"
          javaType="java.lang.String" ofType="com.project.model.Img"
          select="getImg" />
@@ -74,8 +76,7 @@
 
 
    <select id="buyList" resultMap="Order" parameterType="hashMap">
-      SELECT *
-      FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
+      SELECT * FROM ord WHERE o_member_m_fk=#{o_member_m_fk} AND o_state='구매완료'
       LIMIT
       #{limitstart},#{recordsize}
    </select>

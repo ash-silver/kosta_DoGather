@@ -69,5 +69,5 @@ public interface ProductMapper {
 	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search,
 			@Param("keyword") String keyword);
 
-	int BuyProductCount(String p_nickname_m_fk);
+	int BuyProductCount(@Param("p_nickname_m_fk") String p_nickname_m_fk,@Param("keyword")String keyword);
 }
