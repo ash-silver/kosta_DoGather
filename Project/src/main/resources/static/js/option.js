@@ -1,7 +1,20 @@
+
+window.onload = function() {
+	check();
+}
+function check() {
+	let length = $(".delopt").length;
+	if (length == 1) {
+		$("#Updateoption_btn").attr("disabled", true);
+	}
+};
 $(function() {
 	let token = $("meta[name='_csrf']").attr("content");
 	let header = $("meta[name='_csrf_header']").attr("content");
 	let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
+
+
+
 
 	let num_check = function(value, cla) {
 		const num_chk = /[^0-9]/g;
@@ -24,6 +37,7 @@ $(function() {
 		let opt_option1 = $("input[name=opt_option1]").val();
 		let opt_option2 = [];
 		let opt_quantity = [];
+		let addPageCheck=$(this).attr("class");
 		const blank_chk = /^\s+|\s+$/g;
 		$("input[name=opt_option2]").each(function(index, item) {
 			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
@@ -59,10 +73,15 @@ $(function() {
 				$("input[name=opt_option2]").val("");
 				$("input[name=opt_quantity]").val("");
 				$(".type_btn_box").css("display", "none");
+
 				if (result == "OneOptionAdd") {
 					$(".option_form").css("display", "none");
 					$(".opt_null_up").css("display", "flex");
 				};
+				if(addPageCheck!='add'){
+					location.reload();
+				}
+				
 			},
 			error: function(e) {
 				alert('에러');
@@ -73,6 +92,7 @@ $(function() {
 		let opt_pid_p_fk = $("input[name=opt_pid_p_fk]").val();
 		let opt_option1 = [];
 		let opt_quantity = [];
+		let addPageCheck=$(this).attr("id");
 		const blank_chk = /^\s+|\s+$/g;
 		$("input[name=opt_option1_one]").each(function(index, item) {
 			if (!$(item).val().replace(blank_chk, '') == '' || !$(item).val() == null) {
@@ -90,7 +110,7 @@ $(function() {
 			alert("옵션간 입력 갯수가 일치하지 않습니다.");
 			return false;
 		}
-	
+
 		$.ajax({
 			type: "POST",
 			url: "/products/options",
@@ -111,6 +131,9 @@ $(function() {
 					$(".opt_null").css("display", "flex");
 				};
 				$("input[name=chk]").val("chk");
+				if(addPageCheck!='add'){
+					location.reload();
+				}
 			},
 			error: function(e) {
 				alert('에러');

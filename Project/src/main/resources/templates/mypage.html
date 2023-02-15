@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Insert title here</title>
 <link th:href="@{/css/header.css}" rel="stylesheet" />
 <link th:href="@{/css/footer.css}" rel="stylesheet" />
@@ -26,9 +28,7 @@ const chart=/*[[${chart}]]*/"";
 		WeekList(chart);
 	}
 	  function findAllPost(){
-		 
 			  const list =/*[[${sellerProductList.list}]]*/"";// PagingResponse의 멤버인 List<T> 타입의 list를 의미
-			  console.log(list);
 		  if ( !list.length ) { //리스트가 비어있는 경우, "검색 결과가 없다"는 메시지를 행에 출력
 			  $(".mypage_list_cont").html('<td colspan="6"><div className="no_data_msg">검색된 결과가 없습니다.</div></td>');
 			  drawPage(); 
@@ -151,6 +151,26 @@ const chart=/*[[${chart}]]*/"";
 
 			</div>
 
+
+			<div class="Modal_Option">
+				<form class="modal_option_form">
+					<div class="modal_text">
+						<p>해당 상품 재고 현황</p>
+						
+						<span>본 페이지는 재고 수정만 가능합니다. 옵션에 대한 수정은 수정 페이지를 이용하세요</span>
+					</div>
+					<div class="modal_header">
+						<div class="mo_head_tag1">옵션1</div>
+						<div class="mo_head_tag2">옵션2</div>
+						<div class="mo_head_tag3">남은재고</div>
+					</div>
+					<div class="modal_con_box"></div>
+					<div class="modal_opt_btnbox">
+						<button type="button" id="quantityBtn">재고 수정</button>
+					</div>
+				</form>
+
+			</div>
 		</main>
 
 		<footer th:replace="footer ::footer"></footer>

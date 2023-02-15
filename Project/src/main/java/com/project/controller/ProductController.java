@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.mapper.ProductMapper;
 import com.project.model.Chart;
 import com.project.model.Img;
 import com.project.model.Option;
@@ -69,18 +71,19 @@ public class ProductController {
 	@PutMapping("/{p_id}/info")
 	public String modifyProduct(@PathVariable int p_id, Model model, Product productRequest) throws Exception {
 		productService.modifyProduct(productRequest);
+		
 		return "redirect:/products/options/" + p_id + "/info";
 	}
 
 	@DeleteMapping("/{p_id}/info")
-	public String deleteProduct(@PathVariable int p_id) throws Exception {
+	public String deleteProduct  (@PathVariable int p_id) throws Exception {
 		productService.deleteEvent(p_id);
 		return "redirect:/products/add/lists";
 
 	}
 
 	@GetMapping("/{p_id}")
-	public String findProductDetails(@PathVariable int p_id, Model model, String r_pnickname_m_fk) {
+	public String findProductDetail(@PathVariable int p_id, Model model, String r_pnickname_m_fk) {
 		Map<String, Object> findProductMap = productService.findProduct(p_id);
 		int reviewCount = indexService.reviewct(r_pnickname_m_fk);
 		double reviewStar = indexService.reviewStar(r_pnickname_m_fk);
@@ -115,6 +118,7 @@ public class ProductController {
 	@GetMapping("/options/{p_id}/info")
 	public String loadOptionEditForm(@PathVariable int p_id, Model model) {
 		Map<String, Object> productFindOption = productService.findOptions(p_id);
+		model.addAttribute("p_id",p_id);
 		model.addAttribute("productFindOption", productFindOption);
 		return "optionUpdate";
 	}
@@ -211,5 +215,15 @@ public class ProductController {
 		Option optionCheck = productService.hasOption(opt_pid_p_fk);
 		return optionCheck;
 	}
-
+	@ResponseBody
+	@GetMapping("/options/lists")
+	public List<Option> findOptions(int p_id){
+		return productService.findAllOptions(p_id);
+	}
+	
+	@ResponseBody
+	@PutMapping("/options/lists")
+	public void modifyQuantity(int[] opt_id,int[] opt_quantity) {
+		productService.modifyQuantity(opt_id, opt_quantity);
+	}
 }

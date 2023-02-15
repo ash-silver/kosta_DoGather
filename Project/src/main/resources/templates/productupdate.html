@@ -26,22 +26,22 @@
 		<main id="productadd_main_con">
 
 
-			<form class="productadd_form" id="product_form" th:action="|/products/${findProductMap['pro'].getP_id}/info|" th:method="put" enctype="multipart/form-data">
-				<input type="hidden" th:value="${findProductMap['pro'].getP_id}" name="p_id" readonly>
-				<input type="hidden" th:value="${#lists.size(findProductMap['pro']['discount'])}" name="dis_length" readonly>
+			<form class="productadd_form" id="product_form" th:action="|/products/${findProductMap['findProduct'].getP_id}/info|" th:method="put" enctype="multipart/form-data">
+				<input type="hidden" th:value="${findProductMap['findProduct'].getP_id}" name="p_id" readonly>
+				<input type="hidden" th:value="${#lists.size(findProductMap['findProduct']['discount'])}" name="dis_length" readonly>
 				
 				<h1>제품 정보 수정</h1>
 				<label class="input_tag">
-					<input type="text" name="p_name" placeholder="제품명 입력" th:value="${findProductMap['pro'].getP_name}">
+					<input type="text" name="p_name" placeholder="제품명 입력" th:value="${findProductMap['findProduct'].getP_name}">
 				</label>
 				<label class="input_tag">
 
-					<input type="text" name="p_price" placeholder="기본 가격 입력" th:value="${findProductMap['pro'].getP_price}">
+					<input type="text" name="p_price" placeholder="기본 가격 입력" th:value="${findProductMap['findProduct'].getP_price}">
 				</label>
 
 				<label class="input_tag">
 					<span>상품 카테고리:</span>
-					<select name="p_category" th:value="${findProductMap['pro'].getP_category}">
+					<select name="p_category" th:value="${findProductMap['findProduct'].getP_category}">
 						<option value="패션의류/잡화">패션의류/잡화</option>
 						<option value="뷰티">뷰티</option>
 						<option value="출산/유아동">출산/유아동</option>
@@ -60,7 +60,7 @@
 					</select>
 				</label>
 				<label class="input_tag">
-					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력" th:value="${findProductMap['pro'].getP_nickname_m_fk}" readonly>
+					<input type="text" name="p_nickname_m_fk" placeholder="판매자명 입력" th:value="${findProductMap['findProduct'].getP_nickname_m_fk}" readonly>
 				</label>
 				<div class="img_con">
 					<label class="img_box">
@@ -80,7 +80,7 @@
 						<button type="button" id="discount_btn">+</button>
 						<button type="button" id="discount_revbtn">-</button>
 					</div>
-					<div class="discount_add" th:each="dis : ${findProductMap['pro'].getDiscount}">
+					<div class="discount_add" th:each="dis : ${findProductMap['findProduct'].getDiscount}">
 						<span>설정:</span>
 						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" th:value="${dis.dis_quantity}">
 						<input type="text" name="p_discount_count" placeholder="할인율" th:value="${dis.dis_count}">
@@ -102,7 +102,7 @@
 					<h1>변경할 이미지를 클릭</h1>
 					<div class="modal_box">
 						<div class="modal_img_box">
-							<label class="img_label" th:each="img ,numStat:${findProductMap['pro'].getImg}" th:if="${img.img_keyword}==p_img">
+							<label class="img_label" th:each="img ,numStat:${findProductMap['findProduct'].getImg}" th:if="${img.img_keyword}==p_img">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
 								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" name="p_img"
 									accept="image/gif, image/jpeg, image/png">
@@ -119,7 +119,7 @@
 					<h1>변경할 이미지를 클릭</h1>
 					<div class="modal_box">
 						<div class="modal_img_box">
-							<label class="img_label" th:each="img ,numStat:${findProductMap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
+							<label class="img_label" th:each="img ,numStat:${findProductMap['findProduct'].getImg}" th:if="${img.img_keyword}==p_contentimg">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
 								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg"
 									accept="image/gif, image/jpeg, image/png">
@@ -136,7 +136,7 @@
 
 			</form>
 			
-			<form th:action="|/products/${findProductMap['pro'].getP_id}/info|" th:method="delete" class="proremove_btn">
+			<form th:action="|/products/${findProductMap['findProduct'].getP_id}/info|" th:method="delete" class="proremove_btn">
 				<button type="button" id="addpro_btn">제품 수정완료</button>
 				<button type="submit" id="removePro_btn">삭제하기</button>
 			</form>

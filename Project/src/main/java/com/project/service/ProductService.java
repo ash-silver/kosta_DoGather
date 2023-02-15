@@ -321,4 +321,16 @@ public class ProductService {
 		return null;
 	}
 
+	public List<Option> findAllOptions(int p_id) {
+		return productMapper.Option_List(p_id);
+	}
+
+	public void modifyQuantity(int[] opt_id, int[] opt_quantity) {
+		for (int i = 0; i < opt_id.length; i++) {
+			Option modifyOption = Option.builder().opt_id(opt_id[i]).opt_quantity(opt_quantity[i]).build();
+			productMapper.modifyQuantity(modifyOption);
+		}
+
+	}
+
 }

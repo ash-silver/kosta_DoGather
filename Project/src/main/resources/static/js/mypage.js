@@ -103,15 +103,28 @@ function drawList(list, img, keyword) {
 					</a>
 					</div>
 					`;
+		}else{
+				html += "<div class='modal_btnbox'><button type='button' class='modal_open' value='" + row.p_id + "'>재고 확인</button></div>";
 		}
-
+	
 		html += "	</div> </div>";
 		index++;
 	});
 
 	$(".mypage_list_cont").html(html); // #list에 해당 html을 대체해서 넣어준다.
 }
+$(document).mouseup(function(e) {
+	if ($(".Modal_Option").has(e.target).length === 0) {
+		$(".Modal_Option").hide();
+	}
+});
+$(document).keydown(function(e) {
+	var code = e.keyCode || e.which;
+	if (code == 27) { // 27은 ESC 키번호
+		$('.Modal_Option').hide();
+	}
 
+});
 
 // 페이지 HTML draw  하단의 버튼에 해당하는 스크립트로 페이징의 핵심
 function drawPage(pagination, params) {
@@ -161,4 +174,82 @@ function movePage(page) {
 	}
 	location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
 }
-	/*]]>*/
+
+
+
+$(function() {
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+	const htmltxt = function(list) {
+		let html = "";
+		list.forEach(row => {
+
+			html += `<div class="modal_content">	
+							<div class="mo_tag1">
+							`;
+			if (row.opt_option1 != null) {
+				html += `${row.opt_option1}`;
+			} else {
+				html += "- - -";
+			}
+
+			html += `</div>
+							<div class="mo_tag2">${row.opt_option2}</div>
+							<div class="mo_tag3">
+								<input type="text" class="mo_tag_input" value="${row.opt_quantity}" id=${row.opt_id}>
+							</div>
+						</div>`;
+		});
+		return html;
+	};
+	$("#quantityBtn").click(function() {
+		let opt_id = [];
+		let opt_quantity = [];
+		$(".mo_tag_input").each(function(index, item) {
+			opt_quantity.push($(item).val());
+			opt_id.push($(item).attr("id"));
+		});
+		$.ajax({
+			url: "/products/options/lists",
+			type: "put",
+			data: {
+				opt_id: opt_id,
+				opt_quantity: opt_quantity
+			},
+			traditional : true,
+			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				xhr.setRequestHeader(header, token);
+			},
+			success: function() {
+				alert("재고 수정 완료");
+			},
+			error: function(e) {
+				console.log("ERROR : ", e);
+				alert("fail");
+			}
+		});
+	});
+	$(document).on('click', '.modal_open', function() {
+		let p_id = $(this).val();
+		$.ajax({
+			type: "GET",
+			url: "/products/options/lists",
+			traditional: true,
+			data: {
+				p_id: p_id
+			},
+
+			success: function(result) {
+				let html = htmltxt(result);
+				$(".Modal_Option").css("display", "flex");
+				$(".modal_con_box").html(html);
+			},
+			error: function(e) {
+				alert('에러');
+
+			}
+		});
+	});
+});
+
+/*]]>*/

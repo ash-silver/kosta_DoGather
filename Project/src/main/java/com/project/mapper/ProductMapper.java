@@ -58,6 +58,8 @@ public interface ProductMapper {
 
 	void OptionRemoveProduct(int p_id);
 
+	void modifyQuantity(Option opt);
+
 	List<Product> WriterProductlist(Map<String, Object> map);
 
 	int WriterProductlistCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("keyword") String keyword);
@@ -69,5 +71,5 @@ public interface ProductMapper {
 	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search,
 			@Param("keyword") String keyword);
 
-	int BuyProductCount(@Param("p_nickname_m_fk") String p_nickname_m_fk,@Param("keyword")String keyword);
+	int BuyProductCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("keyword") String keyword);
 }

@@ -234,6 +234,8 @@
 		SELECT p_endprice,p_sell,p_id FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk}
 		AND p_chk='endprice' group by p_endprice,p_sell,p_id;
 	</select>
+	
+
 	<!-- ===================================SELECT 부분======================================== -->
 	<!-- ===================================ADD 부분======================================== -->
 	<insert id="AddProduct" parameterType="com.project.model.Product" useGeneratedKeys="true" keyProperty="p_id">
@@ -311,7 +313,9 @@
 		delete from discount WHERE dis_pid_p_fk=#{dis_pid_p_fk}
 	</delete>
 
-
+	<update id="modifyQuantity" parameterType="com.project.model.Option">
+		UPDATE opt SET opt_quantity=#{opt_quantity} WHERE opt_id=#{opt_id}
+	</update>
 	<update id="removeProduct" parameterType="int">
 		UPDATE product AS p, discount AS d, img AS i ,opt AS o
 		SET

@@ -15,7 +15,14 @@
 	flex-direction: column;
 	padding-top: 170px;
 }
-
+.opt_pbox{
+	width:500px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 10px;
+}
 .form_text {
 	width: 100%;
 	height: 50px;
