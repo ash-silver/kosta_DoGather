@@ -14,10 +14,18 @@
 		<result property="p_chk" column="p_chk" />	
 		<result property="p_sell" column="p_sell" />
 		<collection property="img" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg" />
+		<collection property="discount" column="p_id" javaType="java.util.ArrayList" ofType="com.project.model.discount" select="getDiscount" />
 	</resultMap>
 	
 	<resultMap type="com.project.model.Img" id="ImgMap">
 		<result property="img_name" column="img_name" />
+	</resultMap>
+	
+	<resultMap type="com.project.model.Discount" id="DiscountMap">
+		<id property="dis_id" column="dis_id" />
+		<result property="dis_count" column="dis_count" />
+		<result property="dis_pid_p_fk" column="dis_pid_p_fk" />
+		<result property="dis_quantity" column="dis_quantity" />
 	</resultMap>
 	
 	<!-- img join -->
@@ -27,17 +35,22 @@
 		ORDER BY img_id LIMIT 0,1
 	</select>
 	
+	<select id="getDiscount" resultMap="DiscountMap" parameterType="int">
+		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id} ORDER BY
+		dis_id
+	</select>
+	
 	<!-- 인기상품 불러오기 -->
 	<select id="Productbest" resultMap="ProductMap">
 		SELECT * FROM product 
         order by p_sell
-		DESC LIMIT 0,5
+		DESC LIMIT 0,6
 	</select>
 	<!-- 신상품 불러오기 -->
 	<select id="Productnew" resultMap="ProductMap">
 		SELECT * FROM product 
         order by p_recruitdate 
-		DESC LIMIT 0,5
+		DESC LIMIT 0,6
 	</select>
 	
 	<!-- 전체 게시글 불러오기 -->
@@ -121,7 +134,8 @@
 	<select id="category_count" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM product WHERE p_category=#{p_category}
 	</select>
-	
+    
+
 	<!-- 카테고리 검색 카운팅 -->
 	<select id="SearchCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM product 

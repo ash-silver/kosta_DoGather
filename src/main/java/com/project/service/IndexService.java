@@ -1,4 +1,4 @@
- package com.project.service;
+package com.project.service;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,26 +30,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class IndexService {
-	
+
 	@Autowired
 	private final IndexMapper pMapper;
-	
+
 	@Autowired
 	private final ReviewMapper rMapper;
-	
+
 	@Value("${file.Upimg}")
 	private String path;
-	
-	
-	public ArrayList<Product> Productbest(){
+
+	public List<Product> Productbest() {
 		return pMapper.Productbest();
 	}
-	
-	public ArrayList<Product> Productnew(){
+
+	public List<Product> Productnew() {
 		return pMapper.Productnew();
 	}
-	
-	 public PagingResponse<Product> Category(SearchDto params, String p_category) {
+
+	public PagingResponse<Product> Category(SearchDto params, String p_category) {
         int count = pMapper.category_count(p_category);
    
         if (count < 1) {
@@ -184,109 +183,31 @@ public class IndexService {
 		 return new PagingResponse<>(list, pagination);
 		 
 	 }
-	 
-	 
-	 public PagingResponse<Product> Search(SearchDto params, String keyword, String search){
-		 int count;
-		 if (keyword.equals("total")) {
-			 count = pMapper.SearchTotCount(search);
-		 }else {
-			 count = pMapper.SearchCount(keyword, search);
-		 }
-		 if (count < 1) {
-				return new PagingResponse<>(Collections.emptyList(), null);
-		 }
-		 Pagination pagination = new Pagination(count, params);
-		 params.setPagination(pagination);
-		 Map<String, Object> map = new HashMap<>();
-		 map.put("search", search);
-		 map.put("keyword", keyword);
-		 map.put("limitStart", params.getPagination().getLimitStart());
-		 map.put("recordSize", params.getRecordSize());
-		 List<Product> list = null;
-		 if(keyword.equals("total")) {
-			 list = pMapper.SearchTotal(map);
-		 }else {
-			 list = pMapper.Search(map);
-		 }
-		 return new PagingResponse<>(list, pagination);
-	 }
-	 
-	 @Transactional
-	 public void ReviewAdd(Review r) throws Exception{
-		 rMapper.AddReview(r);
-		 if(r.getImg() != null) {
-		 AddImg(r.getR_img(), r.getR_id(), "r_img");
-		 }
-	 }
-	 
-	 public PagingResponse<Review> AllReview(SearchDto params, int r_pid_p_fk){
-		 int count = rMapper.Review_count(r_pid_p_fk);
-		 if (count < 1) {
-				return new PagingResponse<>(Collections.emptyList(), null);
-			}
-		 Pagination pagination = new Pagination(count, params);
-		 params.setPagination(pagination);
-		 Map<String, Object> map = new HashMap<>();
-		 map.put("r_pid_p_fk", r_pid_p_fk);
-		 map.put("limitStart", params.getPagination().getLimitStart());
-		 map.put("recordSize", params.getRecordSize());
-		 List<Review> list = rMapper.ReviewList(map);
-		 return new PagingResponse<>(list, pagination);
-	 }
-	 
-	 public String findnick(String m_email) {
-		 
-		 return rMapper.findnick(m_email);
-	 }
-	 
-	 public int reviewct(int r_pid_p_fk) {
-		 return rMapper.Review_count(r_pid_p_fk);
-	 }
-	 
-	 public double reviewStar(int r_pid_p_fk) {
-		 return rMapper.ReviewStar(r_pid_p_fk);
-	 }
-	
-	 public void ReviewDel(int r_id) {
-		 rMapper.RemoveReview(r_id);
-		 delimg(r_id);
-	 }
-	 
-	 @Transactional // 이미지 생성 , 수정
-	 public void AddImg(List<MultipartFile> file, int r_id, String keyword) throws Exception {
-		if (!CollectionUtils.isEmpty(file)) {
-			for (MultipartFile imgfile : file) {
-				String origName = imgfile.getOriginalFilename(); // 입력한 원본 파일의 이름
-				String uuid = String.valueOf(UUID.randomUUID());// 문자+숫자의 랜덤한 파일명으로 변경
-				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
-				String savedName = uuid + extension; // 랜덤이름 + 확장자
-				File converFile = new File(path, savedName); // path = 상품 이미지 파일의 저장 경로가 들어있는 프로퍼티 설정값
-				if (!converFile.exists()) {
-					converFile.mkdirs();
-				}
-				imgfile.transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
-				Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
-						.img_rid_r_fk(r_id).build();
-				rMapper.AddImg(img);
-			}
+
+	public PagingResponse<Product> Search(SearchDto params, String keyword, String search) {
+		int count;
+		if (keyword.equals("total")) {
+			count = pMapper.SearchTotCount(search);
+		} else {
+			count = pMapper.SearchCount(keyword, search);
 		}
-	 }
-	 public void delimg(int img_rid_r_fk) {
-		 rMapper.RemoveImg(img_rid_r_fk);
-	 }
-	 
-	 public int checkComments(String m_email, int p_id) {
-		 
-		 Map<String, Object> map = new HashMap<>();
-		 
-		 map.put("m_email", m_email);
-		 map.put("p_id", p_id);
-		 
-		 int chk = rMapper.CheckComments(map);
-		 
-		 
-		 
-		 return chk;
-	 }
+		if (count < 1) {
+			return new PagingResponse<>(Collections.emptyList(), null);
+		}
+		Pagination pagination = new Pagination(count, params);
+		params.setPagination(pagination);
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("keyword", keyword);
+		map.put("limitStart", params.getPagination().getLimitStart());
+		map.put("recordSize", params.getRecordSize());
+		List<Product> list = null;
+		if (keyword.equals("total")) {
+			list = pMapper.SearchTotal(map);
+		} else {
+			list = pMapper.Search(map);
+		}
+		return new PagingResponse<>(list, pagination);
+	}
+
 }

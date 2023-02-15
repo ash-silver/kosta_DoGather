@@ -9,7 +9,7 @@
 		<result property="r_date" column="r_date"/>
 		<result property="r_datetxt" column="r_datetxt"/>
 		<result property="r_rating" column="r_rating"/>
-		<result property="r_pid_p_fk" column="r_pid_p_fk"/>
+		<result property="r_pnickname_m_fk" column="r_pnickname_m_fk"/>
 		<collection property="img" column="r_id" javaType="java.util.ArrayList" ofType="com.project.model.Img" select="getImg" />
 	</resultMap>
 	
@@ -45,13 +45,13 @@
 	</select>
 	
 	<insert id="AddReview" parameterType="com.project.model.Review" useGeneratedKeys="true" keyProperty="r_id">
-		INSERT INTO Review(r_nickname_m_fk,r_content,r_date,r_rating,r_pid_p_fk)
+		INSERT INTO Review(r_nickname_m_fk,r_content,r_date,r_rating,r_pnickname_m_fk)
 		VALUES(
 		#{r_nickname_m_fk}
 		,#{r_content}
 		,now()
 		,#{r_rating}
-		,#{r_pid_p_fk})
+		,#{r_pnickname_m_fk})
 	</insert>
 	
 	<insert id="AddImg" parameterType="com.project.model.Img">
@@ -72,27 +72,27 @@
 	
 	
 	<select id="ReviewList" parameterType="hashMap" resultMap="ReviewMap">
-		select r_id,r_nickname_m_fk,date_format(r_date, '%Y-%m-%d %H:%i:%s') AS r_datetxt,r_rating,r_pid_p_fk,r_content
+		select r_id,r_nickname_m_fk,date_format(r_date, '%Y-%m-%d') AS r_datetxt,r_rating,r_pnickname_m_fk,r_content
 		from review
-		where r_pid_p_fk=#{r_pid_p_fk}
+		where r_pnickname_m_fk=#{r_pnickname_m_fk}
 		order by r_id desc
 		LIMIT #{limitStart},#{recordSize}
 	</select>
 	
 	
 	<!-- 리뷰 카운트 -->
-	<select id="Review_count" parameterType="int" resultType="int">
+	<select id="Review_count" parameterType="String" resultType="int">
 		SELECT
-		IFNULL(COUNT(*),0) FROM review WHERE r_pid_p_fk=#{r_pid_p_fk}
+		IFNULL(COUNT(*),0) FROM review WHERE r_pnickname_m_fk=#{r_pnickname_m_fk}
 	</select>
 	
 	<select id="findnick" parameterType="String" resultType="String">
 		select m_nickname from member where m_email=#{m_email}
 	</select>
 	
-	<select id="ReviewStar" parameterType="int" resultType="double">
+	<select id="ReviewStar" parameterType="String" resultType="double">
 		SELECT IFNULL(SUM(r_rating),0)
-  		FROM review WHERE r_pid_p_fk = #{r_pid_p_fk};
+  		FROM review WHERE r_pnickname_m_fk = #{r_pnickname_m_fk};
 	</select>
 	
 	<select id="CheckComments" parameterType="hashMap" resultType="int">

@@ -16,11 +16,15 @@
 <script type="text/javascript" th:src="@{/js/header.js}"></script>
 
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+ <link href="https://fonts.googleapis.com/css?family=Jua:400" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-  
-  <script>
-    $(document).ready(function(){
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+ $(document).ready(function(){
+    	
       $('.bxslider').bxSlider({
     	  mode: 'horizontal',// 가로 방향 수평 슬라이드
     	  speed: 500,        // 이동 속도를 설정
@@ -28,10 +32,59 @@
     	  slideWidth: 1500,   // 슬라이드 너비
     	  autoHover: true,   // 마우스 호버시 정지 여부
     	  controls: false   
-      });
-    });
+      }); 
+      
+      $('.main_slider').bxSlider({
+    	  mode: 'horizontal',// 가로 방향 수평 슬라이드
+    	  speed: 500,        // 이동 속도를 설정
+    	  auto: true,        // 자동 실행 여부
+    	  slideWidth: 300,   // 슬라이드 너비
+    	  autoHover: true,   // 마우스 호버시 정지 여부
+    	  controls: true   
+      }); 
+      
+      const countDownTimer = function(id, date) {
+          let _vDate = new Date(date); // 전달 받은 일자
+          let _second = 1000;
+          let _minute = _second * 60;
+          let _hour = _minute * 60;
+          let _day = _hour * 24;
+          let timer;
+          function showRemaining() {
+             let now = new Date();
+             let distDt = _vDate - now;
+
+             if (distDt < 0) {
+                clearInterval(timer);
+                $(id).text('판매종료 되었습니다!');
+                $(id).css("color","gray");
+                return;
+             }
+
+             let days = Math.floor(distDt / _day);
+             let hours = Math.floor((distDt % _day) / _hour);
+             let minutes = Math.floor((distDt % _hour) / _minute);
+             let seconds = Math.floor((distDt % _minute) / _second);
+
+             let html = days + '일 ' + hours + '시간 ' + minutes + '분 ' + seconds + '초 ';
+
+             $(id).text(html);
+          }
+
+          timer = setInterval(showRemaining, 100);
+       }
+
+       $(".product_remaining").each(function() {
+          countDownTimer($(this), $(this).text());
+       });
+ });
+ 
+ 
     
-  </script>
+    
+  	/*]]>*/
+</script>
+
 </head>
 
 
@@ -45,43 +98,73 @@
 			
 				<div class="slide_box"> 
      			    <ul class="bxslider">
-						<li><a href="#"><img src="/projectimg/배너1.jpg" /></a></li>
-						<li><a href="#"><img src="/projectimg/배너2.jpg" /></a></li>
-						<li><a href="#"><img src="/projectimg/배너3.jpg" /></a></li>
+						<li><a href="#"><img src="/projectimg/메인1.jpg" /></a></li>
 					</ul>
    				</div>
-			
-				<div class="main_text">
-					<h3>인기상품</h3>
-				</div>
-
-				<div class="main_contentbox ">
 				
-					<div class="main_imgbox" th:each="best : ${bestlist}" th:if="${bestlist!=null}">
-						<a th:href="|/products/${best.p_id}/detail|" class="img_url" th:each=" img : ${best['img']}"><img th:src="|/projectimg/${img.img_name}|">
-						<span class="name_url" th:text="|제품명:${best.p_name}|">best</span> 
-						<span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>
-						</a>
+				<div class="best_box">
+				
+					<div class="main_text">
+						<h3>인기상품</h3>
 					</div>
-
-
-				</div>
-
-				<div class="main_text">
-					<h3>신상품</h3>
-				</div>
-
-				<div class="main_contentbox">
-
-
-					<div class="main_imgbox" th:each="nl : ${newlist}" th:if="${newlist!=null}">
-						<a th:href="|/products/${nl.p_id}/detail|" class="img_url" th:each=" img : ${nl['img']}"><img th:src="|/projectimg/${img.img_name}|">
-						<span class="name_url" th:text="|제품명:${nl.p_name}|">new</span>
-						<span th:text="|가격:${nl.p_price}원|">가격 : PRICE</span>
-						</a>
+					
+					<div class="main_slider_box">
+						<ul class="main_slider">
+							<li><a href="#"><img src="/projectimg/슬라이드1.jpg" /></a></li>
+							<li><a href="#"><img src="/projectimg/슬라이드2.jpg" /></a></li>
+							<li><a href="#"><img src="/projectimg/슬라이드3.jpg" /></a></li>
+						</ul>
+					
 					</div>
+		
+					<div class="main_contentbox ">
+						
+						
+						<div class="main_imgbox" th:each="best : ${bestlist}" th:if="${bestlist!=null}">
+							<a th:href="|/products/${best.p_id}/detail|" class="img_url" th:each=" img : ${best['img']}">
+								<img th:src="|/projectimg/${img.img_name}|" class="img-thumbnail" alt="Cinque Terre">
+							</a>
+							<span class="name_url" th:text="|제품명:${best.p_name}|">best</span>					
+							<span th:text="|가격:${best.p_price}원|">가격 : PRICE</span>								
+							<span th:each="discount : ${best['discount']}" th:text="|목표 달성시 할인률:${discount.dis_count}%|">할인률 : DISCOUNT</span>
+							<div class="product_remaining" th:text="${best.p_duedate}"> </div>
+						</div>
+		
+					</div>
+					
+					</div>
+				
+				<div class="new_box">
 
-
+					<div class="main_contentbox">
+	
+	
+						<div class="main_imgbox" th:each="nl : ${newlist}" th:if="${newlist!=null}">
+							<a th:href="|/products/${nl.p_id}/detail|" class="img_url" th:each=" img : ${nl['img']}">
+								<img th:src="|/projectimg/${img.img_name}|" class="img-thumbnail" alt="Cinque Terre">
+							</a>
+							<span class="name_url" th:text="|제품명:${nl.p_name}|">new</span>
+							<span th:text="|가격:${nl.p_price}원|">가격 : PRICE</span>	
+							<span th:each="discount : ${nl['discount']}" th:text="|목표 달성시 할인률:${discount.dis_count}%|">할인률 : DISCOUNT</span>
+							<div class="product_remaining" th:text="${nl.p_duedate}"> </div>
+						</div>
+					</div>
+					
+					<div class="main_slider_box">
+						<ul class="main_slider">
+							<li><a href="#"><img src="/projectimg/슬라이드1.jpg" /></a></li>
+							<li><a href="#"><img src="/projectimg/슬라이드2.jpg" /></a></li>
+							<li><a href="#"><img src="/projectimg/슬라이드3.jpg" /></a></li>
+						</ul>
+					
+					</div>
+					
+									
+					<div class="main_text">
+						<h3>신상품</h3>
+					</div>
+					
+		
 				</div>
 			</div>
 		</main>

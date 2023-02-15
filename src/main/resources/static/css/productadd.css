@@ -1,31 +1,34 @@
 #container {
-	width:100%;
+	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content:center;
+	justify-content: center;
 	flex-direction: column;
 	position: relative;
 }
 
 #productadd_main_con {
 	width: 100%;
-	padding-top:170px;      
+	padding-top: 170px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .productadd_form {
-	border-radius:20px;
+	border-radius: 20px;
 	width: 800px;
 	display: flex;
 	align-items: center;
-	justify-content: center;	
+	justify-content: center;
 	flex-direction: column;
+	box-shadow: 5px 5px 15px 10px #e2e2e2;
 }
-.productadd_form h1{
-	font-size:24px;
-	margin-bottom:50px;
+
+.productadd_form h1 {
+
+	font-size: 24px;
+	margin: 50px;
 }
 
 .input_tag {
@@ -34,43 +37,57 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin:10px;
+	margin: 10px;
 }
 
-.input_tag select{
-	margin-left:20px;
-	width:200px;
-	height:35px;
+.img_con {
+	width: 400px;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.img_box {
+	flex-direction: column;
+	width: 150px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #e2e2e2;
+	border-radius: 10px;
+	margin: 10px;
+	color: gray;
+	cursor: pointer;
+}
+
+.contentimg_box {
+	flex-direction: column; cursor : pointer;
+	margin: 10px;
+	width: 150px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #e2e2e2;
+	border-radius: 10px;
+	color: gray;
+	width: 150px;
+	margin: 10px;
+	cursor: pointer;
+}
+
+.input_tag select {
+	margin-left: 20px;
+	width: 200px;
+	height: 35px;
 	padding-left: 40px;
 	border-radius: 5px;
 	font-size: 16px;
 	font-weight: bold;
-	border:1px solid #e2e2e2;
+	border: 1px solid #e2e2e2;
 }
 
-.img_box{
-	width:400px;
-	height: 100px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border:1px solid #e2e2e2;
-	border-radius:10px;
-	margin-top:20px;
-	color:gray;
-}
-.contentimg_box{
-	border-radius:10px;
-	width:400px;
-	height: 100px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border:1px solid #e2e2e2;
-	
-	margin-top:20px;
-	color:gray;
-}
 .input_tag_discount {
 	width: 800px;
 	height: 200px;
@@ -89,13 +106,25 @@
 }
 
 #discount_btn {
-	width: 75px;
+	width: 25px;
 	height: 25px;
 	background-color: #278ff8;
-	color:white;
-	border-radius:5px;
-	margin-left:15px;
-	
+	color: white;
+	border-radius: 5px;
+	margin-left: 15px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#discount_revbtn {
+	width: 25px;
+	height: 25px;
+	background-color: red;
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+	border-radius: 5px;
+	margin-left: 10px;
 }
 
 .discount_add {
@@ -111,7 +140,7 @@
 	width: 150px;
 	height: 30px;
 	border: 1px solid #e2e2e2;
-	border-radius:5px;
+	border-radius: 5px;
 	padding-left: 10px;
 }
 
@@ -121,9 +150,9 @@
 }
 
 .input_tag input {
-	border-radius:5px;
+	border-radius: 5px;
 	width: 400px;
-	height: 40px;	
+	height: 40px;
 	border: 1px solid #e2e2e2;
 	padding-left: 10px;
 }
@@ -143,21 +172,22 @@
 
 .productadd_time input {
 	margin: 10px;
-	width:250px;
+	width: 250px;
 	height: 30px;
-	border:1px solid #e2e2e2;
-	
+	border: 1px solid #e2e2e2;
 }
 
 #addpro_btn {
-	margin-top:50px;
+	margin: 50px;
 	width: 150px;
 	height: 40px;
 	border: 1px solid #e2e2e2;
 	border-radius: 10px;
+	
 }
-#addpro_btn:hover{
+
+#addpro_btn:hover {
 	opacity: 0.8;
-	background-color:#278ff8;
+	background-color: #278ff8;
 	color: white;
 }

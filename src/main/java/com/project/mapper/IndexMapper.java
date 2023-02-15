@@ -13,9 +13,9 @@ import com.project.model.SearchDto;
 @Mapper
 public interface IndexMapper {
 	
-	ArrayList<Product> Productbest();
+	List<Product> Productbest();
 
-	ArrayList<Product> Productnew();
+	List<Product> Productnew();
 	
 	List<Product> Search(Map<String, Object> map);
 
@@ -40,6 +40,10 @@ public interface IndexMapper {
 	List<Product> bestlist(SearchDto params);
 	
 	List<Product> PagingList(SearchDto params);
+
+
+	
+	
 	
 	int count();
 

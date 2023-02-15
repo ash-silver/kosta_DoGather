@@ -76,7 +76,8 @@
 						<span>설정:</span>
 						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" th:value="${dis.dis_quantity}">
 						<input type="text" name="p_discount_count" placeholder="할인율" th:value="${dis.dis_count}">
-					</div>`
+					</div>
+					`
 				</div>
 				<label class="productadd_time">
 					<span>모집 시작일자:</span>
@@ -109,8 +110,8 @@
 				<div class="modal_form_contentimg">
 					<h1>변경할 이미지를 클릭</h1>
 					<div class="modal_box">
-						<div class="modal_img_box" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
-							<label class="img_label">
+						<div class="modal_img_box">
+							<label class="img_label" th:each="img ,numStat:${promap['pro'].getImg}" th:if="${img.img_keyword}==p_contentimg">
 								<img th:src="|/projectimg/${img.img_name}|" th:class="|pimg${numStat.count} modal_img|">
 								<input type="file" multiple="multiple" th:id="|pimg${numStat.count}|" style="display: none" th:class="${img.img_name}" name="p_contentimg">
 
@@ -119,7 +120,7 @@
 					</div>
 
 					<label class="img_box">
-						<span>상세 이미지 추가 클릭(다중선택 가능)</span>
+						<span>상세 이미지 추가 클릭(다중선택 가능)</span> 
 						<input type="file" multiple="multiple" name="p_contentimg" style="display: none;">
 					</label>
 				</div>

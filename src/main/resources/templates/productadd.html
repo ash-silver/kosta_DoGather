@@ -29,56 +29,59 @@
 				<h1>제품 등록</h1>
 
 				<label class="input_tag">
-
 					<input type="text" name="p_name" placeholder="제품명 입력" data-name="제품명">
 				</label>
 				<label class="input_tag">
-
 					<input type="text" name="p_price" placeholder="기본 가격 입력" data-name="가격">
 				</label>
 
 				<label class="input_tag">
 					<span>상품 카테고리:</span>
 					<select name="p_category">
-						<option value="패션의류_잡화">패션의류/잡화</option>
+						<option value="패션의류-잡화">패션의류-잡화</option>
 						<option value="뷰티">뷰티</option>
-						<option value="출산_유아동">출산/유아동</option>
+						<option value="출산-유아동">출산-유아동</option>
 						<option value="식품">식품</option>
 						<option value="주방용품">주방용품</option>
 						<option value="생활용품">생활용품</option>
 						<option value="홈인테리어">홈인테리어</option>
 						<option value="가전디지털">가전디지털</option>
-						<option value="스포츠_레저">스포츠/레저</option>
+						<option value="스포츠-레저">스포츠-레저</option>
 						<option value="자동차용품">자동차용품</option>
-						<option value="도서_음반_DVD">도서/음반/DVD</option>
-						<option value="완구_취미">완구/취미</option>
-						<option value="문구_오피스">문구/오피스</option>
+						<option value="도서-음반-DVD">도서-음반-DVD</option>
+						<option value="완구-취미">완구-취미</option>
+						<option value="문구-오피스">문구-오피스</option>
 						<option value="반려동물용품">반려동물용품</option>
-						<option value="헬스_건강식품">헬스/건강식품</option>
+						<option value="헬스-건강식품">헬스-건강식품</option>
 					</select>
 				</label>
+
 				<label class="input_tag">
 					<input type="text" name="p_nickname_m_fk" th:value="${name}" data-name="판매자" readonly>
 				</label>
-				<label class="img_box">
-					<span>대표 이미지 등록 클릭(다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_img" style="display: none;" data-name="대표 이미지">
-				</label>
+				<div class="img_con">
+					<label class="img_box">
+						<span>대표 이미지(클릭)</span>
+						<span class="material-symbols-outlined">upload </span>
+						<input type="file" multiple="multiple" name="p_img" style="display: none;" data-name="대표 이미지">
+					</label>
 
-				<label class="contentimg_box">
-					<span>상세 이미지 등록 클릭 (다중선택 가능)</span>
-					<input type="file" multiple="multiple" name="p_contentimg" style="display: none;" data-name="상세 이미지">
-				</label>
-
+					<label class="contentimg_box">
+						<span>상세 이미지(클릭)</span>
+						<span class="material-symbols-outlined">upload </span>
+						<input type="file" multiple="multiple" name="p_contentimg" style="display: none;" data-name="상세 이미지">
+					</label>
+				</div>
 				<div class="input_tag_discount">
 					<div class="discount_text">
 						<span>수량별 할인율 설정</span>
-						<button type="button" id="discount_btn">항목추가</button>
+						<button type="button" id="discount_btn">+</button>
+						<button type="button" id="discount_revbtn">-</button>
 					</div>
 					<div class="discount_add">
 						<span>설정:</span>
-						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" data-name="기준 수량">
-						<input type="text" name="p_discount_count" placeholder="할인율" data-name="할인율">
+						<input type="text" name="p_discount_quan" placeholder="할인 기준 수량" data-name="기준 수량" class="disquan">
+						<input type="text" name="p_discount_count" placeholder="할인율" data-name="할인율" class="discount">
 					</div>
 
 				</div>

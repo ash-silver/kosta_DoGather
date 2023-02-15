@@ -18,11 +18,11 @@ public interface ReviewMapper {
 	
 	List<Review> ReviewList(Map<String, Object> map);
 	
-	int Review_count(int r_pid_p_fk);
+	int Review_count(String r_pnickname_m_fk);
 	
 	String findnick(String m_email);
 	
-	double ReviewStar(int r_pid_p_fk);
+	double ReviewStar(String r_pnickname_m_fk);
 	
 	void AddImg(Img img);
 	
