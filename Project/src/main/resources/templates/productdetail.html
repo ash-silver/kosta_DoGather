@@ -49,7 +49,8 @@
 						<label class="progress_bar">
 							<progress id="progress1" th:value="${findProductMap['findProduct'].getP_sell}" th:max="${findProductMap['nextDiscountSell']}"></progress>
 
-							<span th:text="|${findProductMap['findProduct'].getP_sell}/${findProductMap['nextDiscountSell']}|" th:if="${findProductMap['findProduct'].getP_sell}<${findProductMap['nextDiscountSell']}"></span>
+							<span th:text="|${findProductMap['findProduct'].getP_sell}/${findProductMap['nextDiscountSell']}|"
+								th:if="${findProductMap['findProduct'].getP_sell}<${findProductMap['nextDiscountSell']}"></span>
 							<span th:text="|달성완료|" th:if="${findProductMap['findProduct'].getP_sell}>=${findProductMap['nextDiscountSell']}"></span>
 						</label>
 
@@ -61,7 +62,8 @@
 
 
 						<label class="progress_quantity">
-							<span th:each="quantity, Stat:${findProductMap['findProduct'].getDiscount}" th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차 할인:20개</span>
+							<span th:each="quantity, Stat:${findProductMap['findProduct'].getDiscount}" th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차
+								할인:20개</span>
 						</label>
 						<label class="progress_quantity">
 							<span th:each="count , Stat:${findProductMap['findProduct'].getDiscount}" th:text="|${Stat.count}차 할인율:${count.dis_count}%|">1차 할인:20개</span>
@@ -91,13 +93,14 @@
 						<span th:text="|판매자:${findProductMap['findProduct'].getP_nickname_m_fk}|"></span>
 					</div>
 
-`
+					`
 
 
 					<div class="prodetail_text text2">
 						<input type="hidden" th:value="${findProductMap['findProduct'].getP_id}" id="p_id">
 						<select name="opt_option1" class="option1">
-							<option th:value="${opt1.opt_option1}" th:each="opt1 : ${findProductMap['findProduct']['option']}" th:if=" ${findProductMap['findProduct']['option']}!=null" th:text="${opt1.opt_option1}"></option>
+							<option th:value="${opt1.opt_option1}" th:each="opt1 : ${findProductMap['findProduct']['option']}"
+								th:if=" ${findProductMap['findProduct']['option']}!=null" th:text="${opt1.opt_option1}"></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2" id="option2">
@@ -192,12 +195,12 @@
 
 
 			<div class="review_form" id="revf">
-				<label class="pro_review_tag" th:if="${reviewStar!=null && reviewCount!=null}">
-					<p th:text="|판매자 후기(${reviewCount})개|" id="rvcnt"></p>
-					<p th:text="| 평점(${reviewStar})|" id="rvstar"></p>
+				<label class="pro_review_tag" th:if="${reviewstar!=null && reviewct!=null}">
+					<p th:text="|판매자 후기(${reviewct})개|" id="rvcnt"></p>
+					<p th:text="| 평점(${reviewstar})|" id="rvstar"></p>
 				</label>
 				<form class="addReview" action="/addReview" method="post" id="addReview" enctype="multipart/form-data">
-					<input type="hidden" name="r_pnickname_m_fk" id="r_pnickname_m_fk" th:value="${findProductMap['findProduct'].p_nickname_m_fk}">
+					<input type="hidden" name="r_pnickname_m_fk" id="r_pnickname_m_fk" th:value="${promap.p_nickname_m_fk}">
 					<input type="hidden" name="p_id" id="p_id" th:value="${p_id}">
 
 					<div class="star_box">
@@ -223,6 +226,7 @@
 				<div class="review_box"></div>
 
 				<div class="btn_box"></div>
+
 
 			</div>
 

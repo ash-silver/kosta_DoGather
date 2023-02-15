@@ -319,73 +319,76 @@ function PageList() {
 	});
 }
 
-function drawList(list, img, m_nickname) {
-	let html = "";
-
-	list.forEach(result => {
-
-		html += "<div class='review_form_c '>";
-		html += "<form>"
-		html += "<input type='hidden' name='r_id' id='r_id' value=" + result.r_id + ">";
-		html += "<div class='review_box_a'>";
-		html += "<p class='p1'>" + result.r_nickname_m_fk + "</p>";
-		html += "<span class='review_star1'>평점:" + result.r_rating + "</span>";
-		html += "<p class='p2'>" + result.r_datetxt + "</p>";
+function drawList(list,img,m_nickname) {
+    let html = "";
+    
+    list.forEach(result => {
+    	
+    	html += "<div class='review_form_c '>";
+    	html += "<form>"
+    	html += "<input type='hidden' name='r_id' id='r_id' value="+result.r_id+">";
+    	html += "</form>";
+    	html += "<div class='review_box_a'>";
+		html += "<p class='p1'>"+result.r_nickname_m_fk+"</p>";
+		html += "<span class='review_star1'>평점:"+result.r_rating+"</span>";
+		html += "<p class='p2'>"+result.r_datetxt+"</p>";
 		html += "</div>";//review_box_a
-
-		html += "<div class='review_text'>";
-		html += "<p>" + result.r_content + " </p>";
-		html += "</form>";
-		html += "</div>";
-		for (let i = 0; i < img.length; i++) {
-			if (result.r_id == img[i].img_rid_r_fk) {
+		for(let i =0; i<img.length; i++){
+			if(result.r_id==img[i].img_rid_r_fk){
 				html += "<div class='review_img_box'>";
-				html += "<img src='/projectimg/" + img[i].img_name + "'>";
+				html += "<img src='/projectimg/"+img[i].img_name+"'>";
 				html += "</div>";
 			}
 		}
-		if (m_nickname == result.r_nickname_m_fk) {
+		
+		html += "<div class='review_text'>";
+		html += "<p>" + result.r_content + " </p>";
+		html += "</div>";	
+		
+		if(m_nickname == result.r_nickname_m_fk){
 			html += "<div class='reviewDel_btn'>"
-			html += "<button type=' button' id='reviewDel_btn'>" + '삭제' + "</button>"
+			html += "<button type=' button' id='reviewDel_btn'>"+'삭제'+"</button>"
 			html += "</div>";
 		}
-
+				
 		html += "</div>";
-
-
-	});
-
-
-	$(".review_box").html(html);
-
-	$("#reviewDel_btn").click(function() {
-		const r_id = $("#r_id").val();
-		const token = $("meta[name='_csrf']").attr("content");
-		const header = $("meta[name='_csrf_header']").attr("content");
-		$.ajax({
-			url: "/reviews",
-			type: "DELETE",
-			data: {
-				r_id: r_id
-			},
-			beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				xhr.setRequestHeader(header, token);
-			},
-			success: function(data) {
-				alert("삭제완료");
-				PageList();
-			},
-			error: function(e) {
-				console.log("ERROR : ", e);
-				alert("fail");
-			}
+		
+		
+		
+	
 		});
-
-
-	});
-
-}
-
+    
+		
+		$(".review_box").html(html);
+		
+		$("#reviewDel_btn").click(function(){
+	    	const r_id = $("#r_id").val();
+	    	const token = $("meta[name='_csrf']").attr("content");
+			const header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+				url : "/reviews",
+				type : "DELETE",
+				data : {
+					r_id : r_id
+				},
+				beforeSend: function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(data){
+					alert("삭제완료");
+					PageList();
+				},
+				error : function(e) {
+					console.log("ERROR : ", e);
+					alert("DEL에러");
+				}
+			});
+			
+			
+		});
+		
+ }
+ 
 
 
 
