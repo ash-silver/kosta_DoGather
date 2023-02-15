@@ -31,10 +31,10 @@
 
 			<div class="prodetail_box">
 				<div class="prodetail_img_box">
-					<div class="pro_categorybox" th:text="|카테고리 ( ${promap['pro'].getP_category} )|"></div>
+					<div class="pro_categorybox" th:text="|카테고리 ( ${findProductMap['findProduct'].getP_category} )|"></div>
 					<div class="prodetail_img">
 						<div class="prodetail_img_mini">
-							<img th:src="|/projectimg/${i.img_name}|" class="mini_img" th:each="i : ${promap['pro'].getImg}"
+							<img th:src="|/projectimg/${i.img_name}|" class="mini_img" th:each="i : ${findProductMap['findProduct'].getImg}"
 								th:if="${i.img_keyword}=='p_img' AND ${i.img_keyword}!=null">
 
 
@@ -48,27 +48,27 @@
 							<span>현재 할인 적용</span>
 						</label>
 						<label class="progress_bar">
-							<progress id="progress1" th:value="${promap['pro'].getP_sell}" th:max="${promap['Next_Discount_sell']}"></progress>
+							<progress id="progress1" th:value="${findProductMap['findProduct'].getP_sell}" th:max="${findProductMap['nextDiscountSell']}"></progress>
 
-							<span th:text="|${promap['pro'].getP_sell}/${promap['Next_Discount_sell']}|" th:if="${promap['pro'].getP_sell}<${promap['Next_Discount_sell']}"></span>
-							<span th:text="|달성완료|" th:if="${promap['pro'].getP_sell}>=${promap['Next_Discount_sell']}"></span>
+							<span th:text="|${findProductMap['findProduct'].getP_sell}/${findProductMap['nextDiscountSell']}|" th:if="${findProductMap['findProduct'].getP_sell}<${findProductMap['nextDiscountSell']}"></span>
+							<span th:text="|달성완료|" th:if="${findProductMap['findProduct'].getP_sell}>=${findProductMap['nextDiscountSell']}"></span>
 						</label>
 
 
 						<label class="progress_quantity">
-							<span th:text="|공구 시작일:${promap['pro'].getP_recruitdate}|">시작일: </span>
-							<span th:text="|공구 마감일:${promap['pro'].getP_duedate}|">마감일: </span>
+							<span th:text="|공구 시작일:${findProductMap['findProduct'].getP_recruitdate}|">시작일: </span>
+							<span th:text="|공구 마감일:${findProductMap['findProduct'].getP_duedate}|">마감일: </span>
 						</label>
 
 
 						<label class="progress_quantity">
-							<span th:each="quantity, Stat:${promap['pro'].getDiscount}" th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차 할인:20개</span>
+							<span th:each="quantity, Stat:${findProductMap['findProduct'].getDiscount}" th:text="|${Stat.count}차 할인:${quantity.dis_quantity}개|">1차 할인:20개</span>
 						</label>
 						<label class="progress_quantity">
-							<span th:each="count , Stat:${promap['pro'].getDiscount}" th:text="|${Stat.count}차 할인율:${count.dis_count}%|">1차 할인:20개</span>
+							<span th:each="count , Stat:${findProductMap['findProduct'].getDiscount}" th:text="|${Stat.count}차 할인율:${count.dis_count}%|">1차 할인:20개</span>
 						</label>
 						<label class="progress_sail">
-							<span th:text="|현재 할인 적용:${promap['Now_Discount']}%|">현재 할인 적용: 20%</span>
+							<span th:text="|현재 할인 적용:${findProductMap['nowDiscount']}%|">현재 할인 적용: 20%</span>
 						</label>
 
 					</div>
@@ -80,25 +80,25 @@
 
 				<div class="prodetail_text_box">
 					<div class="prodetail_text text1">
-						<span th:text="|제품명: ${promap['pro'].getP_name}|"></span>
+						<span th:text="|제품명: ${findProductMap['findProduct'].getP_name}|"></span>
 
 
 					</div>
 					<div class="prodetail_text price_text">
-						<span class="price" th:text="|기본 가격:${#numbers.formatInteger(promap['pro']['p_price'], 3, 'COMMA') + '원'}|"></span>
-						<span class="disprice" th:text="|현재 할인 가격:${#numbers.formatInteger(promap['discount_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="price" th:text="|기본 가격:${#numbers.formatInteger(findProductMap['findProduct']['p_price'], 3, 'COMMA') + '원'}|"></span>
+						<span class="disprice" th:text="|현재 할인 가격:${#numbers.formatInteger(findProductMap['discountPrice'], 3, 'COMMA') + '원'}|"></span>
 					</div>
 					<div class="prodetail_text">
-						<span th:text="|판매자:${promap['pro'].getP_nickname_m_fk}|"></span>
+						<span th:text="|판매자:${findProductMap['findProduct'].getP_nickname_m_fk}|"></span>
 					</div>
 
-
+`
 
 
 					<div class="prodetail_text text2">
-						<input type="hidden" th:value="${promap['pro'].getP_id}" id="p_id">
+						<input type="hidden" th:value="${findProductMap['findProduct'].getP_id}" id="p_id">
 						<select name="opt_option1" class="option1">
-							<option th:value="${opt1.opt_option1}" th:each="opt1 : ${promap['pro']['option']}" th:if=" ${promap['pro']['option']}!=null" th:text="${opt1.opt_option1}"></option>
+							<option th:value="${opt1.opt_option1}" th:each="opt1 : ${findProductMap['findProduct']['option']}" th:if=" ${findProductMap['findProduct']['option']}!=null" th:text="${opt1.opt_option1}"></option>
 						</select>
 					</div>
 					<div class="prodetail_text text2" id="option2">
@@ -112,7 +112,7 @@
 
 					<form class="prodetail_btn_box" th:method="get" th:action="|/ordersheet|">
 						<input type="hidden" th:value="${#authentication.name}" class="login_chk">
-						<input type="hidden" th:value="${promap['pro'].getP_id}" name="o_product_p_fk">
+						<input type="hidden" th:value="${findProductMap['findProduct'].getP_id}" name="o_product_p_fk">
 						<input type="hidden" name="o_option1">
 						<input type="hidden" name="o_option2">
 						<select name="o_quantity">
@@ -123,8 +123,8 @@
 						</select>
 						<button type="button" id="addCart">장바구니 추가</button>
 						<button type="submit" id="purchase">구매하기</button>
-						<input type="hidden" th:value="${promap['pro'].getP_recruitdate}" id="p_recruitdate" readonly>
-						<input type="hidden" th:value="${promap['pro'].getP_duedate}" id="p_duedate" readonly>
+						<input type="hidden" th:value="${findProductMap['findProduct'].getP_recruitdate}" id="p_recruitdate" readonly>
+						<input type="hidden" th:value="${findProductMap['findProduct'].getP_duedate}" id="p_duedate" readonly>
 					</form>
 					<div class="time_box">
 						<h1 id="time"></h1>
@@ -145,7 +145,7 @@
 
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide" th:each="best:${promap['CategoryBest']}" th:if="${!#lists.isEmpty(promap['CategoryBest'])}">
+						<div class="swiper-slide" th:each="best:${findProductMap['categoryBest']}" th:if="${!#lists.isEmpty(findProductMap['categoryBest'])}">
 							<a th:href="|/products/${best['p_id']}|">
 								<img th:src="|/projectimg/${best['img_name']}|">
 							</a>
@@ -171,7 +171,7 @@
 					<a href="#revf"> Review() </a>
 				</div>
 				<div class="detail_menu">
-					<a th:href="|/qnaboard/list/${promap['pro'].getP_id}|">Q&A</a>
+					<a th:href="|/qnaboard/list/${findProductMap['findProduct'].getP_id}|">Q&A</a>
 				</div>
 				<div class="detail_menu">
 					<a href="#SellBest">판매자 BEST</a>
@@ -185,7 +185,7 @@
 
 			<div class="detail_content_box">
 				<h2 id="ProductText">제품 상세 정보</h2>
-				<div class="box" th:each="i : ${promap['pro'].getImg}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
+				<div class="box" th:each="i : ${findProductMap['findProduct'].getImg}" th:if="${i.img_keyword}=='p_contentimg' AND ${i.img_keyword}!=null">
 					<img th:src="|/projectimg/${i.img_name}|">
 				</div>
 
@@ -193,12 +193,12 @@
 
 
 			<div class="review_form" id="revf">
-				<label class="pro_review_tag" th:if="${reviewstar!=null && reviewct!=null}">
-					<p th:text="|판매자 후기(${reviewct})개|" id="rvcnt"></p>
-					<p th:text="| 평점(${reviewstar})|" id="rvstar"></p>
+				<label class="pro_review_tag" th:if="${reviewStar!=null && reviewCount!=null}">
+					<p th:text="|판매자 후기(${reviewCount})개|" id="rvcnt"></p>
+					<p th:text="| 평점(${reviewStar})|" id="rvstar"></p>
 				</label>
 				<form class="addReview" action="/addReview" method="post" id="addReview" enctype="multipart/form-data">
-					<input type="hidden" name="r_pnickname_m_fk" id="r_pnickname_m_fk" th:value="${promap['pro'].p_nickname_m_fk}">
+					<input type="hidden" name="r_pnickname_m_fk" id="r_pnickname_m_fk" th:value="${findProductMap['findProduct'].p_nickname_m_fk}">
 					<input type="hidden" name="p_id" id="p_id" th:value="${p_id}">
 
 					<div class="star_box">
@@ -234,7 +234,7 @@
 				</div>
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide" th:each="best:${promap['SellerBest']}" th:if="${!#lists.isEmpty(promap['SellerBest'])}">
+						<div class="swiper-slide" th:each="best:${findProductMap['sellerBest']}" th:if="${!#lists.isEmpty(findProductMap['sellerBest'])}">
 							<a href="#">
 								<img th:src="|/projectimg/${best['img_name']}|">
 							</a>

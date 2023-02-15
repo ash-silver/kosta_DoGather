@@ -16,33 +16,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChartService {
 
-	private final ChartMapper cMapper;
+	private final ChartMapper chartMapper;
 
-	public Map<String, Object> AllChartList(String p_nickname_m_fk, String Day, String Month) {
-		Map<String, Object> ChartMap = new HashMap<>();
-		List<Chart> Week = cMapper.OneWeekChart(p_nickname_m_fk, Day);
-		List<Map<String, Object>> NowAllSell = cMapper.NowAllSell(p_nickname_m_fk);
-		List<Chart> WeekSell = cMapper.OneWeekSellPrice(p_nickname_m_fk, Day);
-		List<Chart> MonthCategory = cMapper.OneMonthCategorySell(p_nickname_m_fk, Month);
-		List<Chart> MonthFailPro = cMapper.OneMonthFailedProduct(p_nickname_m_fk, Month);
-		List<Map<String, Object>> NowAllProduct = cMapper.NowAllProduct(p_nickname_m_fk);
-		List<Map<String, Object>> NowEndSellMoney = cMapper.NowEndSellMoney(p_nickname_m_fk);
-		ChartMap.put("Week", Week);
-		ChartMap.put("NowAllSell", NowAllSell);
-		ChartMap.put("NowEndSellMoney", NowEndSellMoney);
-		ChartMap.put("NowAllProduct", NowAllProduct);
-		ChartMap.put("Day", Day);
-		ChartMap.put("Month", Month);
-		ChartMap.put("WeekSell", WeekSell);
-		ChartMap.put("MonthCategory", MonthCategory);
-		ChartMap.put("MonthFailPro", MonthFailPro);
-		return ChartMap;
+	public Map<String, Object> AllChartList(String memberEmail, String Day, String Month) {
+		Map<String, Object> chartMap= new HashMap<>();
+		List<Chart> Week = chartMapper.OneWeekChart(memberEmail, Day);
+		List<Map<String, Object>> NowAllSell = chartMapper.NowAllSell(memberEmail);
+		List<Chart> WeekSell = chartMapper.OneWeekSellPrice(memberEmail, Day);
+		List<Chart> MonthCategory = chartMapper.OneMonthCategorySell(memberEmail, Month);
+		List<Chart> MonthFailPro = chartMapper.OneMonthFailedProduct(memberEmail, Month);
+		List<Map<String, Object>> NowAllProduct = chartMapper.NowAllProduct(memberEmail);
+		List<Map<String, Object>> NowEndSellMoney = chartMapper.NowEndSellMoney(memberEmail);
+		chartMap.put("Week", Week);
+		chartMap.put("NowAllSell", NowAllSell);
+		chartMap.put("NowEndSellMoney", NowEndSellMoney);
+		chartMap.put("NowAllProduct", NowAllProduct);
+		chartMap.put("Day", Day);
+		chartMap.put("Month", Month);
+		chartMap.put("WeekSell", WeekSell);
+		chartMap.put("MonthCategory", MonthCategory);
+		chartMap.put("MonthFailPro", MonthFailPro);
+		return chartMap;
 	}
 
 	// product service mypage 필요
 	public List<Chart> OneWeekChart(String p_nickname_m_fk, String Day) {
 
-		return cMapper.OneWeekChart(p_nickname_m_fk, Day);
+		return chartMapper.OneWeekChart(p_nickname_m_fk, Day);
 	}
 
 }

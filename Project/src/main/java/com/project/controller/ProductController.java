@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,124 +37,126 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/products")
 public class ProductController {
 
-	private final ProductService pService;
-	private final ChartService cService;
-	private final IndexService iService;
+	private final ProductService productService;
+	private final ChartService chartService;
+	private final IndexService indexService;
 	@Value("${chart.OneWeek}")
-	private String OneWeek;
+	private String oneWeek;
 
-	
 	/* ==================================================================== */
 	@GetMapping("")
-	public String ProductAddForm(Principal prin, Model model) {
-		model.addAttribute("name", prin.getName());
+	public String loadProductAddForm(Principal prin, Model model) {
+		String memberEmail = prin.getName();
+		model.addAttribute("memberEmail", memberEmail);
 		return "productadd";
 	}
 
 	@PostMapping("")
-	public String AddProduct(Product pro, RedirectAttributes re) throws Exception {
-		pService.AddProduct(pro);
-		re.addAttribute("p_id", pro.getP_id());
+	public String createProduct(Product productRequest, RedirectAttributes reDirect) throws Exception {
+		productService.createProduct(productRequest);
+		reDirect.addAttribute("p_id", productRequest.getP_id());
 		return "redirect:/products/options";
 	}
 
+	/* ==================================================================== */
+	@GetMapping("/{p_id}/info")
+	public String loadProductUpdateForm(@PathVariable int p_id, Model model) {
+		Map<String, Object> findProductMap = productService.findProduct(p_id);
+		model.addAttribute("findProductMap", findProductMap);
+		return "productupdate";
+	}
+
+	@PutMapping("/{p_id}/info")
+	public String modifyProduct(@PathVariable int p_id, Model model, Product productRequest) throws Exception {
+		productService.modifyProduct(productRequest);
+		return "redirect:/products/options/" + p_id + "/info";
+	}
+
+	@DeleteMapping("/{p_id}/info")
+	public String deleteProduct(@PathVariable int p_id) throws Exception {
+		productService.deleteEvent(p_id);
+		return "redirect:/products/add/lists";
+
+	}
+
+	@GetMapping("/{p_id}")
+	public String findProductDetails(@PathVariable int p_id, Model model, String r_pnickname_m_fk) {
+		Map<String, Object> findProductMap = productService.findProduct(p_id);
+		int reviewCount = indexService.reviewct(r_pnickname_m_fk);
+		double reviewStar = indexService.reviewStar(r_pnickname_m_fk);
+		reviewStar = Math.round(((reviewStar / reviewCount) * 10) / 10.0);
+		model.addAttribute("findProductMap", findProductMap);
+		model.addAttribute("p_id", p_id);
+		model.addAttribute("reviewCount", reviewCount);
+		model.addAttribute("reviewStar", reviewStar);
+		return "productdetail";
+	}
+
 	@ResponseBody
-	@DeleteMapping("")
-	public String OptionRemoveProduct(int opt_pid_p_fk) {
-		Option pro_opt_chk = pService.option_chk(opt_pid_p_fk);
-		if (pro_opt_chk == null) {
-			pService.OptionRemoveProduct(opt_pid_p_fk);
+	@DeleteMapping("/options")
+	public String deleteProductOptionCheck(int opt_pid_p_fk) {
+		Option productOptionCheck = productService.hasOption(opt_pid_p_fk);
+		if (productOptionCheck == null) {
+			productService.deleteProductOptions(opt_pid_p_fk);
 			return "옵션이 존재하지 않아 해당 제품은 삭제 처리되었습니다.";
 		} else {
 			return "옵션 저장 및 제품 추가 완료";
 		}
 	}
 
-	/* ==================================================================== */
-	@GetMapping("/{p_id}/info")
-	public String ProductUpdateForm(@PathVariable int p_id, Model model) {
-		Map<String, Object> promap = pService.FindProduct(p_id);
-		model.addAttribute("promap", promap);
-		return "productupdate";
-	}
-	@PutMapping("/{p_id}/info")
-	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro, int dis_length) throws Exception {
-
-		pService.UpdateProduct(pro);
-		return "redirect:/products/options/" + p_id + "/info";
-	}
-
-	@DeleteMapping("/{p_id}/info")
-	public String ProductRemove(@PathVariable int p_id) throws Exception {
-		pService.RemoveEvent(p_id);
-		return "redirect:/products/add/lists";
-
-	}
-	
-	@GetMapping("/{p_id}")
-	public String ProductDetail(@PathVariable int p_id, Model model,String r_pnickname_m_fk) {
-		Map<String, Object> promap = pService.FindProduct(p_id);
-		int reviewct = iService.reviewct(r_pnickname_m_fk);
-		double reviewstar = iService.reviewStar(r_pnickname_m_fk);
-		reviewstar = Math.round(((reviewstar/reviewct)*10)/10.0);
-		model.addAttribute("promap", promap);
-		model.addAttribute("p_id", p_id);
-		model.addAttribute("reviewct", reviewct);
-		model.addAttribute("reviewstar", reviewstar);
-		return "productdetail";
-	}
-
 	@GetMapping("/options")
-	public String OptionAddForm(Model model, int p_id) {
-		Option opt = pService.option_chk(p_id);
-		model.addAttribute("opt", opt);
+	public String loadOptionAddForm(Model model, int p_id) {
+		Option productOptionCheck = productService.hasOption(p_id);
+		model.addAttribute("productOptionCheck", productOptionCheck);
 		model.addAttribute("p_id", p_id);
 		return "option";
 	}
 
 	@GetMapping("/options/{p_id}/info")
-	public String OptionEditForm(@PathVariable int p_id, Model model) {
-		Map<String, Object> optmap = pService.Option_List(p_id);
-		model.addAttribute("optmap", optmap);
+	public String loadOptionEditForm(@PathVariable int p_id, Model model) {
+		Map<String, Object> productFindOption = productService.findOptions(p_id);
+		model.addAttribute("productFindOption", productFindOption);
 		return "optionUpdate";
 	}
 
 	@DeleteMapping("/options/{opt_option1}/info/{opt_pid_p_fk}")
-	public String OptionRemove(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
-		pService.OptionRemove(opt_option1, opt_pid_p_fk);
+	public String deleteOption(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
+		productService.deleteOption(opt_option1, opt_pid_p_fk);
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
 
 	@DeleteMapping("/options/{opt_id}/info")
-	public String OneOptionRemove(@PathVariable int opt_id, int opt_pid_p_fk) {
-		pService.OneOptionRemove(opt_id);
+	public String deleteOneOption(@PathVariable int opt_id, int opt_pid_p_fk) {
+		productService.deleteOneOption(opt_id);
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
-	public List<Option> FindOption2(String opt_option1, @PathVariable int p_id) {
-		return pService.FindOption2(opt_option1, p_id);
+	public List<Option> findOptionTwo(String opt_option1, @PathVariable int p_id) {
+		return productService.findOptionTwo(opt_option1, p_id);
 	}
 
 	@ResponseBody
 	@PostMapping("/options")
-	public String AddOption2(Option opt, int opt_pid_p_fk) {
-		if (opt.getOpt_opt1_list() == null) {
-			for (int i = 0; i < opt.getOpt_opt2_list().size(); i++) {
-				if (!opt.getOpt_opt2_list().get(i).isEmpty()) {
-					Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk).opt_option1(opt.getOpt_option1())
-							.opt_option2(opt.getOpt_opt2_list().get(i)).opt_quantity(opt.getOpt_quantity_list().get(i))
-							.build();
-					pService.AddOption(option);
+	public String createOption(Option optionRequest, int opt_pid_p_fk) {
+		if (optionRequest.getOpt_opt1_list() == null) {
+			for (int i = 0; i < optionRequest.getOpt_opt2_list().size(); i++) {
+				if (!optionRequest.getOpt_opt2_list().get(i).isEmpty()) {
+					Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk)
+							.opt_option1(optionRequest.getOpt_option1())
+							.opt_option2(optionRequest.getOpt_opt2_list().get(i))
+							.opt_quantity(optionRequest.getOpt_quantity_list().get(i)).build();
+					productService.createOption(option);
 				}
 			}
 			return "AllOptionAdd";
 		} else {
-			for (int i = 0; i < opt.getOpt_opt1_list().size(); i++) {
-				Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk).opt_option1(opt.getOpt_opt1_list().get(i))
-						.opt_quantity(opt.getOpt_quantity_list().get(i)).build();
-				pService.AddOption(option);
+			for (int i = 0; i < optionRequest.getOpt_opt1_list().size(); i++) {
+				Option option = Option.builder().opt_pid_p_fk(opt_pid_p_fk)
+						.opt_option1(optionRequest.getOpt_opt1_list().get(i))
+						.opt_quantity(optionRequest.getOpt_quantity_list().get(i)).build();
+				productService.createOption(option);
 			}
 		}
 		return "OneOptionAdd";
@@ -163,52 +164,52 @@ public class ProductController {
 
 	@GetMapping("/{keyword}/lists")
 	@ExceptionHandler(NullPointerException.class)
-	public String myform(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
+	public String findSellerProducts(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword) {
-		String id = principal.getName();
-		PagingResponse<Product> pro = pService.WriterProductlist(id, params, keyword);
-		List<Img> img_name = new ArrayList<>();
-		for (Product img : pro.getList()) {
-			img_name.addAll(img.getImg());
+		String memberEmail = principal.getName();
+		PagingResponse<Product> sellerProductList = productService.findSellerProducts(memberEmail, params, keyword);
+		List<Img> imgList = new ArrayList<>();
+		for (Product img : sellerProductList.getList()) {
+			imgList.addAll(img.getImg());
 		}
-		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
-		model.addAttribute("img", img_name);
+		Map<String, Object> sellerTotalCount = productService.findSellPrices(memberEmail);
+		List<Chart> chart = chartService.OneWeekChart(memberEmail, oneWeek);
+		model.addAttribute("img", imgList);
 		model.addAttribute("chart", chart);
-		model.addAttribute("sell_cnt", sell_cnt);
-		model.addAttribute("prolist", pro);
+		model.addAttribute("sellerTotalCount", sellerTotalCount);
+		model.addAttribute("sellerProductList", sellerProductList);
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
 
 	@GetMapping("/{keyword}/lists/buy")
-	public String BuyerList(Principal principal, Model model,@ModelAttribute("params") SearchDto params,
+	public String findSellerProductBuyers(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
 			@PathVariable String keyword) {
-		String id = principal.getName();
-		PagingResponse<Order> order = pService.BuyProduct(id, params,keyword);
-		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
-		model.addAttribute("sell_cnt", sell_cnt);
-		model.addAttribute("order", order);
+		String memberEmail = principal.getName();
+		PagingResponse<Order> sellerBuyerList = productService.findProductBuyers(memberEmail, params, keyword);
+		Map<String, Object> sellerTotalCount = productService.findSellPrices(memberEmail);
+		model.addAttribute("sellerTotalCount", sellerTotalCount);
+		model.addAttribute("sellerBuyerList", sellerBuyerList);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("tag",params.getTag());
+		model.addAttribute("sortSelect", params.getSort());
 		return "buymember";
 	}
 
 	@GetMapping("/charts/{day}/{month}")
-	public String chart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,
+	public String findChart(@PathVariable(required = false) String day, @PathVariable(required = false) String month,
 			Principal principal, Model model) {
-		String id = principal.getName();
-		Map<String, Object> ChartMap = new HashMap<>();
-		ChartMap = cService.AllChartList(id, day, month);
-		model.addAttribute("ChartMap", ChartMap);
+		String memberEmail = principal.getName();
+		
+		Map<String, Object> allChart = chartService.AllChartList(memberEmail, day, month);
+		model.addAttribute("allChart", allChart);
 		return "chart";
 	}
 
 	@ResponseBody
 	@GetMapping("/options/chk")
-	public Option FindOptionAddChk(int opt_pid_p_fk) {
-		Option opt = pService.option_chk(opt_pid_p_fk);
-		return opt;
+	public Option hasOptionAdd(int opt_pid_p_fk) {
+		Option optionCheck = productService.hasOption(opt_pid_p_fk);
+		return optionCheck;
 	}
 
 }

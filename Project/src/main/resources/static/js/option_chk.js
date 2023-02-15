@@ -28,7 +28,7 @@ $(function() {
 	let chk = () => {
 		$.ajax({
 			type: "DELETE",
-			url: "/products",
+			url: "/products/options",
 			traditional: true,
 			data: {
 				opt_pid_p_fk: opt_pid_p_fk,

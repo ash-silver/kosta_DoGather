@@ -37,8 +37,8 @@
 						<h1>모든 옵션 추가</h1>
 					</div>
 					<input type="hidden" name="opt_pid_p_fk" th:value="${p_id}" th:if="${p_id!=null}">
-					<input type="hidden" name=opt_chk th:value="${opt.opt_option1}" th:if="${opt}!=null">
-					<input type="hidden" name="opt_chk2" th:value="${opt.opt_option2}" th:if="${opt}!=null">
+					<input type="hidden" name=opt_chk th:value="${productOptionCheck.opt_option1}" th:if="${productOptionCheck}!=null">
+					<input type="hidden" name="opt_chk2" th:value="${productOptionCheck.opt_option2}" th:if="${productOptionCheck}!=null">
 					<div class="opt_box">
 						<div class="opt_tag tag_option1">
 							<span>대분류</span>

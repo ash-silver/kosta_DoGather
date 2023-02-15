@@ -29,7 +29,7 @@ public class orderSheetController {
 
 	@GetMapping("")
 	public String addProduct(Model model, Order ord) {
-		Map<String, Object> promap = pService.FindProduct(ord.getO_product_p_fk());
+		Map<String, Object> promap = pService.findProduct(ord.getO_product_p_fk());
 		model.addAttribute("promap", promap);
 		model.addAttribute("order", ord);
 		return "ordersheet";

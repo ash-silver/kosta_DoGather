@@ -27,12 +27,12 @@
 		  findAllPost();
 	}
 	  function findAllPost(){
-			  const list =/*[[${order.list}]]*/"";// PagingResponse의 멤버인 List<T> 타입의 list를 의미
+			  const list =/*[[${sellerBuyerList.list}]]*/"";// PagingResponse의 멤버인 List<T> 타입의 list를 의미
 		  if ( !list.length ) { //리스트가 비어있는 경우, "검색 결과가 없다"는 메시지를 행에 출력
 			  $(".buymember_list_box").html('<td colspan="6"><div className="no_data_msg">검색된 결과가 없습니다.</div></td>');
 			  drawPage(); 
 		  }
-		  const pagination = /*[[${order.pagination}]]*/"";//PagingResponse의 멤버인 pagination을 의미
+		  const pagination = /*[[${sellerBuyerList.pagination}]]*/"";//PagingResponse의 멤버인 pagination을 의미
 		 	const params =/*[[${params}]]*/""; // @ModelAttribute로 바로 1ㄷ1 맵핑시킨 값을 받아옴
 		 	drawList(list);
 			drawPage(pagination,params);
@@ -73,19 +73,19 @@
 					<div class="mypage_status_bar">
 						<label class="status_bar">
 							<span> 판매 완료된 공고 수 </span>
-							<span th:text="|${sell_cnt['Sell_Count']}개|"></span>
+							<span th:text="|${sellerTotalCount['sellCount']}개|"></span>
 						</label>
 						<label class="status_bar">
 							<span> 판매된 제품의 총합 </span>
-							<span th:text="|${sell_cnt['Total_Sell']}개|"></span>
+							<span th:text="|${sellerTotalCount['totalSell']}개|"></span>
 						</label>
 
 						<div class="status_bar_2">
 							<div class="status_bar_2_text1">
-								<th:block th:if="${sell_cnt['Sell_Money']}!=0">
-									<span th:text="|총 판매액:${#numbers.formatInteger(sell_cnt['Sell_Money'], 3, 'COMMA') + '원'}|"></span>
+								<th:block th:if="${sellerTotalCount['sellMoney']}!=0">
+									<span th:text="|총 판매액:${#numbers.formatInteger(sellerTotalCount['sellMoney'], 3, 'COMMA') + '원'}|"></span>
 								</th:block>
-								<th:block th:if="${sell_cnt['Sell_Money']}==0">
+								<th:block th:if="${sellerTotalCount['sellMoney']}==0">
 									<span th:text="|총 판매액:|"></span>
 								</th:block>
 							</div>
@@ -123,12 +123,12 @@
 						</div>
 
 						<form th:action="|/products/${keyword}/lists/buy|" th:method="get" class="select_form">
-							<select name="tag" class="tag_select" th:if="${tag}!=null">
-								<option th:selected="${tag}==1" value="1">주문 날짜 오래된순</option>
-								<option th:selected="${tag}==2" value="2">주문 날짜 최근순</option>
-							</select> <select name="tag" class="tag_select" th:if="${tag}==null">
-								<option value="1">주문 날짜 오래된순</option>
-								<option value="2">주문 날짜 최근순</option>
+							<select name="sort" class="tag_select" th:if="${sortSelect}!=null">
+								<option th:selected="${sortSelect}==asc" value="asc">주문 날짜 오래된순</option>
+								<option th:selected="${sortSelect}==desc" value="desc">주문 날짜 최근순</option>
+							</select> <select name="sort" class="tag_select" th:if="${sortSelect}==null">
+								<option value="asc">주문 날짜 오래된순</option>
+								<option value="desc">주문 날짜 최근순</option>
 							</select>
 						</form>
 

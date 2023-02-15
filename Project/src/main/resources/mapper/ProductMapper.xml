@@ -82,7 +82,8 @@
 		SELECT * FROM img WHERE img_pid_p_fk=#{p_id} ORDER BY img_id
 	</select>
 	<select id="getOpt" resultMap="OptionMap" parameterType="int">
-		SELECT opt_option1 FROM opt WHERE opt_pid_p_fk=#{p_id} GROUP BY opt_option1 ORDER BY opt_id
+		SELECT opt_option1 FROM opt WHERE opt_pid_p_fk=#{p_id} GROUP BY opt_option1 ORDER BY
+		opt_id
 	</select>
 	<select id="getDiscount" resultMap="DiscountMap" parameterType="int">
 		SELECT dis_count,dis_quantity FROM discount WHERE dis_pid_p_fk=#{p_id} ORDER BY
@@ -92,7 +93,7 @@
 	<select id="CategoryBestProduct" resultType="hashMap" parameterType="String">
 		SELECT p.p_name,p.p_price,p.p_sell,a.img_name,p.p_id FROM product AS p
 		left join
-		( SELECT i.img_name,i.img_pid_p_fk FROM img AS i LEFT JOIN Product AS p on
+		( SELECT i.img_name,i.img_pid_p_fk,p.p_id FROM img AS i LEFT JOIN Product AS p on
 		i.img_pid_p_fk=p.p_id WHERE i.img_pid_p_fk=p.p_id AND
 		img_keyword='p_img'
 		GROUP BY p.p_id)AS a on p.p_id=a.img_pid_p_fk WHERE
@@ -155,7 +156,8 @@
 
 
 	<select id="SearchSeller" parameterType="hashMap" resultMap="ProductList">
-		SELECT p_id,p_name,p_category,p_price,p_endprice,p_duedate,p_recruitdate,p_nickname_m_fk,case when p_chk = 'failed' then "판매량 미달" when p_chk = 'start' then
+		SELECT p_id,p_name,p_category,p_price,p_endprice,p_duedate,p_recruitdate,p_nickname_m_fk,case when p_chk = 'failed' then "판매량 미달" when p_chk =
+		'start' then
 		"판매중" when p_chk = 'add' then "공고시작전" when p_chk ='endprice' then "정산완료" end AS p_chk,p_sell
 		FROM Product WHERE
 		p_nickname_m_fk=#{p_nickname_m_fk} AND
@@ -168,7 +170,7 @@
 		p_name LIKE
 		CONCAT('%',#{search},'%') LIMIT #{limitstart},#{recordsize}
 	</select>
-	
+
 	<select id="SearchSellerCount" parameterType="String" resultType="int">
 
 		SELECT count(*) FROM product WHERE p_nickname_m_fk=#{p_nickname_m_fk} AND
@@ -195,11 +197,8 @@
 				AND o.o_postCode is null
 			</when>
 		</choose>
-		<if test="tag==1">
-			ORDER BY o_date asc
-		</if>
-		<if test="tag==2">
-			ORDER BY o_date desc
+		<if test="sort!=null">
+		ORDER BY o_date ${sort}
 		</if>
 		LIMIT
 		#{limitstart},#{recordsize}

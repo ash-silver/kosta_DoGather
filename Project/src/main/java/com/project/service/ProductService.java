@@ -34,45 +34,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService {
 
-	private final ProductMapper pMapper;
+	private final ProductMapper productMapper;
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	@Value("${file.Upimg}")
 	private String path;
 
 	@Transactional // 트랜잭션 처리로 하위에 INSERT들이 진행도중 오류가 생긴다면 RollBack이 된다 (에외의 종류에 따라서 안될수도 있음)
-	public void AddProduct(Product pro) throws Exception {
-		pMapper.AddProduct(pro);
-		SetDiscount(pro, SetEnum.ADD.name());
-		AddImg(pro.getP_img(), pro.getP_id(), SetEnum.p_img.name());
-		AddImg(pro.getP_contentimg(), pro.getP_id(), SetEnum.p_contentimg.name());
-		CreateNewEvent(pro, SetEnum.ADD.name());
+	public void createProduct(Product productRequest) throws Exception {
+		productMapper.AddProduct(productRequest);
+		createDiscount(productRequest, SetEnum.ADD.name());
+		createImg(productRequest.getP_img(), productRequest.getP_id(), SetEnum.p_img.name());
+		createImg(productRequest.getP_contentimg(), productRequest.getP_id(), SetEnum.p_contentimg.name());
+		createSqlEvent(productRequest, SetEnum.ADD.name());
 	}
 
 	@Transactional
-	public void UpdateProduct(Product pro) throws Exception {
-		pMapper.UpdateProduct(pro);
-		SetDiscount(pro, SetEnum.UPDATE.name());
-		CreateNewEvent(pro, SetEnum.UPDATE.name());
-		EditImg(pro.getP_img(), pro.getP_id(), SetEnum.p_img.name());
-		EditImg(pro.getP_contentimg(), pro.getP_id(), SetEnum.p_contentimg.name());
+	public void modifyProduct(Product productRequest) throws Exception {
+		productMapper.UpdateProduct(productRequest);
+		createDiscount(productRequest, SetEnum.UPDATE.name());
+		createSqlEvent(productRequest, SetEnum.UPDATE.name());
+		modifyImg(productRequest.getP_img(), productRequest.getP_id(), SetEnum.p_img.name());
+		modifyImg(productRequest.getP_contentimg(), productRequest.getP_id(), SetEnum.p_contentimg.name());
 	}
 
 	@Transactional // 할인율 생성 ,수정
-	public void SetDiscount(Product pro, String Type) {
+	public void createDiscount(Product productRequest, String Type) {
 		if (Type.equals(SetEnum.UPDATE.name())) {
-			pMapper.DeleteDiscount(pro.getP_id());
+			productMapper.DeleteDiscount(productRequest.getP_id());
 		}
-		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
-			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
-					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
-			pMapper.AddDiscount(dis);
+		for (int i = 0; i < productRequest.getP_discount_count().size(); i++) {
+			Discount dis = Discount.builder().dis_count(productRequest.getP_discount_count().get(i))
+					.dis_quantity(productRequest.getP_discount_quan().get(i)).dis_pid_p_fk(productRequest.getP_id())
+					.build();
+			productMapper.AddDiscount(dis);
 		}
 	}
 
 	@Transactional // 이미지 생성 , 수정
-	public void EditImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
-		Img Img_TextParam = Img.builder().img_keyword(keyword).img_pid_p_fk(p_id).build();
-		List<Img> img_length = pMapper.img_length(Img_TextParam);
+	public void modifyImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
+		Img imgParameter = Img.builder().img_keyword(keyword).img_pid_p_fk(p_id).build();
+		List<Img> beforeImgList = productMapper.img_length(imgParameter);
 		for (int j = 0; j < file.size(); j++) {
 			if (!file.get(j).isEmpty()) {
 				String origName = file.get(j).getOriginalFilename(); // 입력한 원본 파일의 이름
@@ -84,25 +85,25 @@ public class ProductService {
 					converFile.mkdirs();
 				}
 				file.get(j).transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
-				if (img_length.size() > j) {
-					delimg(img_length.get(j));
+				if (beforeImgList.size() > j) {
+					deleteImg(beforeImgList.get(j));
 					Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
-							.img_pid_p_fk(p_id).img_id(img_length.get(j).getImg_id()).build();
-					pMapper.UpdateImg(img);
+							.img_pid_p_fk(p_id).img_id(beforeImgList.get(j).getImg_id()).build();
+					productMapper.UpdateImg(img);
 				} else {
 					Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
 							.img_pid_p_fk(p_id).build();
-					pMapper.AddImg(img);
+					productMapper.AddImg(img);
 				}
 			}
 		}
 	}
 
 	@Transactional // 이미지 생성 , 수정
-	public void AddImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
+	public void createImg(List<MultipartFile> file, int p_id, String keyword) throws Exception {
 		if (!CollectionUtils.isEmpty(file)) {
-			for (MultipartFile imgfile : file) {
-				String origName = imgfile.getOriginalFilename(); // 입력한 원본 파일의 이름
+			for (MultipartFile imgFile : file) {
+				String origName = imgFile.getOriginalFilename(); // 입력한 원본 파일의 이름
 				String uuid = String.valueOf(UUID.randomUUID());// 문자+숫자의 랜덤한 파일명으로 변경
 				String extension = origName.substring(origName.lastIndexOf(".")); // 원본파일의 파일확장자
 				String savedName = uuid + extension; // 랜덤이름 + 확장자
@@ -110,80 +111,84 @@ public class ProductService {
 				if (!converFile.exists()) {
 					converFile.mkdirs();
 				}
-				imgfile.transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
+				imgFile.transferTo(converFile); // --- 실제로 저장을 시켜주는 부분 , 해당 경로에 접근할 수 있는 권한이 없으면 에러 발생
 				Img img = Img.builder().img_keyword(keyword).img_name(savedName).img_origname(origName)
 						.img_pid_p_fk(p_id).build();
-				pMapper.AddImg(img);
+				productMapper.AddImg(img);
 			}
 		}
 	}
 
-	public void delimg(Img i) {
-		String delpath = path + i.getImg_name();
-		File file1 = new File(delpath);
-		file1.delete();
+	public void deleteImg(Img i) {
+		String deletePath = path + i.getImg_name();
+		File file = new File(deletePath);
+		file.delete();
 	}
 
-	public void CreateNewEvent(Product pro, String type) {
+	public void createSqlEvent(Product productRequest, String type) {
 		String value = "";
 		if (type.equals(SetEnum.UPDATE.name())) {
-			value = "DROP EVENT " + pro.getP_id() + "_start";
-			pMapper.CreateNewEvent(value);
-			value = "DROP EVENT " + pro.getP_id() + "_end";
-			pMapper.CreateNewEvent(value);
+			value = "DROP EVENT " + productRequest.getP_id() + "_start";
+			productMapper.CreateNewEvent(value);
+			value = "DROP EVENT " + productRequest.getP_id() + "_end";
+			productMapper.CreateNewEvent(value);
 		}
-		value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_start ON SCHEDULE AT '" + pro.getP_recruitdate()
+		value = "CREATE EVENT IF NOT EXISTS " + productRequest.getP_id() + "_start ON SCHEDULE AT '"
+				+ productRequest.getP_recruitdate()
 				+ "' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='start' WHERE p_id="
-				+ pro.getP_id();
-		pMapper.CreateNewEvent(value);
-		value = "CREATE EVENT IF NOT EXISTS " + pro.getP_id() + "_end ON SCHEDULE AT '" + pro.getP_duedate()
+				+ productRequest.getP_id();
+		productMapper.CreateNewEvent(value);
+		value = "CREATE EVENT IF NOT EXISTS " + productRequest.getP_id() + "_end ON SCHEDULE AT '"
+				+ productRequest.getP_duedate()
 				+ "' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'CHECK' DO UPDATE product set p_chk='end' WHERE p_id="
-				+ pro.getP_id();
-		pMapper.CreateNewEvent(value);
+				+ productRequest.getP_id();
+		productMapper.CreateNewEvent(value);
 	}
 
 	@Transactional
-	public void AddOption(Option opt) {
-		pMapper.AddOption(opt);
+	public void createOption(Option optionRequest) {
+		productMapper.AddOption(optionRequest);
 	}
 
-	public Map<String, Object> FindProduct(int p_id) {
+	public Map<String, Object> findProduct(int p_id) {
 		Map<String, Object> map = new HashMap<>();
-		Product pro = pMapper.FindProduct(p_id);
-		int Now_Discount = 0;
-		int Next_Discount_sell = pro.getDiscount().get(0).getDis_quantity();
-		int discount_price = pro.getP_price(); // 할인이 적용된 가격을 넣으려고 만든거,
+		Product findProduct = productMapper.FindProduct(p_id);
+		int nowDiscount = 0;
+		int nextDiscountSell = findProduct.getDiscount().get(0).getDis_quantity();
+		int discountPrice = findProduct.getP_price(); // 할인이 적용된 가격을 넣으려고 만든거,
 		int index = 0;
-		for (Discount dis : pro.getDiscount()) {
-			if (dis.getDis_quantity() <= pro.getP_sell()) {
-				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
-				Now_Discount = dis.getDis_count();
-				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
-				if (index < pro.getDiscount().size() - 1) {
-					Next_Discount_sell = pro.getDiscount().get(index + 1).getDis_quantity();
+		for (Discount discount : findProduct.getDiscount()) {
+			if (discount.getDis_quantity() <= findProduct.getP_sell()) {
+				discountPrice = findProduct.getP_price()
+						- ((findProduct.getP_price() / 100) * (discount.getDis_count()));
+				nowDiscount = discount.getDis_count();
+				nextDiscountSell = findProduct.getDiscount().get(index).getDis_quantity();
+				if (index < findProduct.getDiscount().size() - 1) {
+					nextDiscountSell = findProduct.getDiscount().get(index + 1).getDis_quantity();
 				}
 
 			}
 			index++;
 		}
-		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
-		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
-		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),pro.getP_category());
-		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
-		map.put("CategoryBest", CategoryBest);
-		map.put("SellerBest", SellerBest);
-		map.put("Now_Discount", Now_Discount);
-		map.put("Next_Discount_sell", Next_Discount_sell);
-		map.put("discount_price", discount_price);
+		LocalDateTime p_recruitdate = LocalDateTime.parse(findProduct.getP_recruitdate(), formatter);
+		LocalDateTime p_duedate = LocalDateTime.parse(findProduct.getP_duedate(), formatter);
+		List<Map<String, Object>> categoryBest = productMapper.CategoryBestProduct(findProduct.getP_nickname_m_fk(),
+				findProduct.getP_category());
+		List<Map<String, Object>> sellerBest = productMapper.SellerBestProduct(findProduct.getP_nickname_m_fk());
+		map.put("categoryBest", categoryBest);
+		map.put("sellerBest", sellerBest);
+		map.put("nowDiscount", nowDiscount);
+		map.put("nextDiscountSell", nextDiscountSell);
+		map.put("discountPrice", discountPrice);
 		map.put("p_recruitdate", p_recruitdate);
 		map.put("p_duedate", p_duedate);
-		map.put("pro", pro);
+		map.put("findProduct", findProduct);
 
 		return map;
 	}
 
-	public List<Option> FindOption2(String opt_option1, int p_id) {
-		List<Option> option_list = pMapper.Option_List(p_id);
+	public List<Option> findOptionTwo(String opt_option1, int p_id) {
+		List<Option> option_list = productMapper.Option_List(p_id);
 		List<Option> FindOption = new ArrayList<>();
 		for (Option opt : option_list) {
 			if (opt.getOpt_option1().equals(opt_option1)) {
@@ -193,123 +198,123 @@ public class ProductService {
 		return FindOption;
 	}
 
-	public PagingResponse<Product> WriterProductlist(String p_nickname_m_fk, SearchDto params, String keyword) {
-		int count = 0;
-		Map<String, Object> map = new HashMap<>();
+	public PagingResponse<Product> findSellerProducts(String p_nickname_m_fk, SearchDto params, String keyword) {
+		int elementCount = 0;
+		Map<String, Object> parameterMap = new HashMap<>();
 		List<Product> list = new ArrayList<>();
 		if (params.getSearching() != null) {
-			count = pMapper.SearchSellerCount(p_nickname_m_fk, params.getSearching(), keyword);
-			map.put("search", params.getSearching());
+			elementCount = productMapper.SearchSellerCount(p_nickname_m_fk, params.getSearching(), keyword);
+			parameterMap.put("search", params.getSearching());
 		} else {
-			count = pMapper.WriterProductlistCount(p_nickname_m_fk, keyword);
+			elementCount = productMapper.WriterProductlistCount(p_nickname_m_fk, keyword);
 		}
-		if (count < 1) {
+		if (elementCount < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
-		Pagination pagination = new Pagination(count, params);
-		params.setPagination(pagination);
-		map.put("p_nickname_m_fk", p_nickname_m_fk);
-		map.put("keyword", keyword);
-		map.put("limitstart", params.getPagination().getLimitStart());
-		map.put("recordsize", params.getRecordSize());
-		if (params.getSearching() != null) {
 
-			list = pMapper.SearchSeller(map);
+		Pagination pagination = new Pagination(elementCount, params);
+		params.setPagination(pagination);
+		parameterMap.put("p_nickname_m_fk", p_nickname_m_fk);
+		parameterMap.put("keyword", keyword);
+		parameterMap.put("limitstart", params.getPagination().getLimitStart());
+		parameterMap.put("recordsize", params.getRecordSize());
+		if (params.getSearching() != null) {
+			list = productMapper.SearchSeller(parameterMap);
 		} else {
-			list = pMapper.WriterProductlist(map);
+			list = productMapper.WriterProductlist(parameterMap);
 		}
 		return new PagingResponse<>(list, pagination);
 	}
 
-	public PagingResponse<Order> BuyProduct(String p_nickname_m_fk, SearchDto params, String keyword) {
-		int count = 0;
-		Map<String, Object> map = new HashMap<>();
+	public PagingResponse<Order> findProductBuyers(String p_nickname_m_fk, SearchDto params, String keyword) {
+		int elementCount = 0;
+		Map<String, Object> parameterMap = new HashMap<>();
 
-		count = pMapper.BuyProductCount(p_nickname_m_fk, keyword);
-		if (count < 1) {
+		elementCount = productMapper.BuyProductCount(p_nickname_m_fk, keyword);
+		if (elementCount < 1) {
 			return new PagingResponse<>(Collections.emptyList(), null);
 		}
-		Pagination pagination = new Pagination(count, params);
+		Pagination pagination = new Pagination(elementCount, params);
 		params.setPagination(pagination);
-		map.put("p_nickname_m_fk", p_nickname_m_fk);
-		map.put("limitstart", params.getPagination().getLimitStart());
-		map.put("recordsize", params.getRecordSize());
-		map.put("tag", params.getTag());
-		map.put("keyword", keyword);
-		List<Order> list = pMapper.BuyProduct(map);
+		parameterMap.put("p_nickname_m_fk", p_nickname_m_fk);
+		parameterMap.put("limitstart", params.getPagination().getLimitStart());
+		parameterMap.put("recordsize", params.getRecordSize());
+		parameterMap.put("sort", params.getSort());
+		parameterMap.put("keyword", keyword);
+		List<Order> list = productMapper.BuyProduct(parameterMap);
 		return new PagingResponse<>(list, pagination);
 	}
 
 	@Transactional
-	public void RemoveEvent(int p_id) {
+	public void deleteEvent(int p_id) {
 		String value = "";
-		Product FindCalender = pMapper.FindCalender(p_id);
-		String p_recruitdate_str = FindCalender.getP_recruitdate();
-		String p_duedate_str = FindCalender.getP_recruitdate();
+		Product findCalender = productMapper.FindCalender(p_id);
+		String p_recruitdate_str = findCalender.getP_recruitdate();
+		String p_duedate_str = findCalender.getP_recruitdate();
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime p_recruitdate = LocalDateTime.parse(p_recruitdate_str, formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(p_duedate_str, formatter);
 		if (now.isBefore(p_recruitdate)) {
 			value = "DROP EVENT " + p_id + "_start";
-			pMapper.CreateNewEvent(value);
+			productMapper.CreateNewEvent(value);
 			value = "DROP EVENT " + p_id + "_end";
-			pMapper.CreateNewEvent(value);
+			productMapper.CreateNewEvent(value);
 		} else if (now.isBefore(p_duedate)) {
 			value = "DROP EVENT " + p_id + "_end";
 		}
-		pMapper.removeProduct(p_id);
+		productMapper.removeProduct(p_id);
 
 	}
 
-	public Map<String, Object> Option_List(int p_id) {
-		List<Option> opt = pMapper.Option_List(p_id);
+	public Map<String, Object> findOptions(int p_id) {
+		List<Option> optionList = productMapper.Option_List(p_id);
 		List<String> newList = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
-		if (opt.size() != 0 && opt.get(0).getOpt_option2() != null) {
-			for (Option option1 : opt) {
+		if (optionList.size() != 0 && optionList.get(0).getOpt_option2() != null) {
+			for (Option option1 : optionList) {
 				newList.add(option1.getOpt_option1());
 			}
 			List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
 			map.put("opt1", opt1);
 		}
-		map.put("opt", opt);
+		map.put("optionList", optionList);
 		return map;
 	}
 
-	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계산
-		List<Map<String, Object>> Sell_Map = pMapper.Sell_chart(p_nickname_m_fk);
-		int Sell_Money = 0;
-		int Total_Sell = 0;
-		for (Map<String, Object> map : Sell_Map) {
-			Sell_Money += Integer.parseInt(map.get("p_endprice").toString())
+	public Map<String, Object> findSellPrices(String p_nickname_m_fk) { // 총 판매액 계산
+		List<Map<String, Object>> allSell = productMapper.Sell_chart(p_nickname_m_fk);
+		int sellMoney = 0;
+		int totalSell = 0;
+		for (Map<String, Object> map : allSell) {
+			sellMoney += Integer.parseInt(map.get("p_endprice").toString())
 					* Integer.parseInt(map.get("p_sell").toString());
-			Total_Sell += Integer.parseInt(map.get("p_sell").toString());
+			totalSell += Integer.parseInt(map.get("p_sell").toString());
 		}
 		Map<String, Object> create_map = new HashMap<>();
-		create_map.put("Sell_Count", Sell_Map.size());
-		create_map.put("Total_Sell", Total_Sell);
-		create_map.put("Sell_Money", Sell_Money);
+		create_map.put("sellCount", allSell.size());
+		create_map.put("totalSell", totalSell);
+		create_map.put("sellMoney", sellMoney);
 		return create_map;
 	}
 
 	@Transactional
-	public void OptionRemove(String opt_option1, int opt_pid_p_fk) {
+	public void deleteOption(String opt_option1, int opt_pid_p_fk) {
 		Option opt = Option.builder().opt_option1(opt_option1).opt_pid_p_fk(opt_pid_p_fk).build();
-		pMapper.OptionRemove(opt);
+		productMapper.OptionRemove(opt);
 	}
 
 	@Transactional
-	public void OneOptionRemove(int opt_id) {
-		pMapper.OneOptionRemove(opt_id);
+	public void deleteOneOption(int opt_id) {
+		productMapper.OneOptionRemove(opt_id);
 	}
 
 	@Transactional
-	public void OptionRemoveProduct(int p_id) {
-		pMapper.OptionRemoveProduct(p_id);
+	public void deleteProductOptions(int p_id) {
+		productMapper.OptionRemoveProduct(p_id);
 	}
 
-	public Option option_chk(int opt_pid_p_fk) {
-		List<Option> pid_All_OptionList = pMapper.Option_List(opt_pid_p_fk);
+	public Option hasOption(int opt_pid_p_fk) {
+		List<Option> pid_All_OptionList = productMapper.Option_List(opt_pid_p_fk);
 		if (pid_All_OptionList.size() > 0) {
 			return pid_All_OptionList.get(0);
 		}
