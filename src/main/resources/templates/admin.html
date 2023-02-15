@@ -17,14 +17,12 @@
 </head>
 
 <body>
-
-
 	<div id="container">
 		<header id="admin_hed_con">
 		
 		<div class="header_logo_box">
-                    <a href="http://localhost:8088/">
-                    <img src="/projectimage/logo.png" >
+                   <a href="http://localhost:8088/">
+                    <img img class="main_logo" src="/projectimage/logo.png" >
                     </a>
                 </div>
         
@@ -64,8 +62,8 @@
 					<span class="tag2">상품명</span>
 					<span class="tag1">판매자</span>
 					<span class="tag1">제품번호</span>
-					<span class="tag1">가격</span>
-					<span class="tag1 tag3">카테고리</span>
+					<span class="tag1 ">가격</span>
+					<span class="tag5">카테고리</span>
 				</div>
 			 <div class="content_box">
 				<form th:each="pro:${product}" class="product_cotent">
@@ -73,7 +71,7 @@
 					<span th:text="${pro.p_nickname_m_fk}" class="con_tag1"></span>
 					<span th:text="${pro.p_id}" class="con_tag1"> </span>
 					<span th:text= "${pro.p_price}"class="con_tag1"></span>
-					<span th:text="${pro.p_category}" class="con_tag1"></span>
+					<span th:text="${pro.p_category}" class="con_tag3"></span>
 				</form>
 			</div>
 			</div>
@@ -96,7 +94,7 @@
 				<form th:each="mem,numStat:${member}" class="member_cotent">
 					<span th:text="${mem.m_nickname}" class="con_tag1"></span>
 					<span th:text="${mem.m_email}" class="con_tag2"></span>
-					<span th:text="${mem.m_Tel}" class="con_tag2"></span>
+					<span th:text="${mem.m_tel}" class="con_tag2"></span>
 					<span th:text="${mem.m_cash}" class="con_tag1"></span>
 					<span th:text="${date[numStat.index]}" class="con_tag2"></span>
 					<span th:text="${mem.m_type}" class="con_tag1 tag4"></span>
@@ -104,13 +102,6 @@
 					
 				</div>
 			</div>
-	
-	
-	
-	
-	
-	
-	
 	
 		</div>
 		</main>

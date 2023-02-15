@@ -23,7 +23,7 @@
 		<result property="m_name" column="m_name" />
 		<result property="m_address" column="m_address" />
 		<result property="m_email" column="m_email" />
-		<result property="m_Tel" column="m_Tel" />
+		<result property="m_tel" column="m_tel" />
 		<result property="m_temp" column="m_temp" />
 		<result property="m_cash" column="m_cash" />
 		<result property="m_reg_date" column="m_reg_date" />

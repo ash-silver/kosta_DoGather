@@ -50,7 +50,7 @@
 		<form th:action="|/admin/member/${mem.m_id}|" th:method="delete" th:each="mem,numStat:${memberresult}" class="member_cotent">
 			<span th:text="${mem.m_nickname}" class="tag1"></span>
 			<span th:text="${mem.m_email}" class="tag2"></span>
-			<span th:text="${mem.m_Tel}" class="tag2"></span>
+			<span th:text="${mem.m_tel}" class="tag2"></span>
 			<span th:text="${mem.m_cash}" class="tag1"></span>
 			<span th:text="${date[numStat.index]}" class="tag2"></span>
 			<span th:text="${mem.m_type}" class="tag1"></span>

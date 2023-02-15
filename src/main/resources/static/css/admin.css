@@ -40,7 +40,7 @@
 }
 .header_logo_box img{
     width: 200px;
-    height: 100px;
+    height: 110px;
     
 }
 
@@ -117,8 +117,7 @@
 
 .admin_list_box {
 	width: auto;
-	height:auto;
-	border: 1px solid #040117;
+	
 	display: flex;
 	align-items: baseline;
 	justify-content: center;
@@ -135,15 +134,16 @@
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	
+	background-color: #f7f9fa;
+    border: 1px solid #dae1e6;
+	border-radius: 15px 15px 0px 0px;
 }
 
 .admin_list_member {
 	width: 650px;
-	border:1px solid #040117;
-	border-top:none;
-	border-right:none;
-	border-bottom:none;
+	background-color: #f7f9fa;
+    border: 1px solid #dae1e6;
+	border-radius: 15px 15px 0px 0px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -157,21 +157,22 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius:15px;	
 	color:#7618f1;
-	border: none;
+	background-color: #f7f9fa;
+	background-color: #f7f9fa;
+    border: 1px solid #dae1e6;
+	border-radius: 15px 15px 0px 0px;	
 }
 
 
 .proudct_tag {
 	width: 650px;
 	height: 50px;
-	border: 1px solid #040117;
-	border-right:none;
-	border-left: none;
+	background-color: #f7f9fa;
+    border: 1px solid #dae1e6;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: flex-start;
 	background-color:#7618f1;
 	color:white;
 }
@@ -179,9 +180,9 @@
 .member_tag {
 	width: 650px;
 	height: 50px;
-	border: 1px solid #040117;
-	border-right:none;
-	border-left: none;
+	background-color: #f7f9fa;
+    border: 1px solid #dae1e6;
+	
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -221,6 +222,21 @@
 	align-items: center;
 	justify-content: center;
 }
+.tag3 {
+	padding-right:30px;
+}
+.tag4 {
+	padding-right:7px;
+}
+
+.tag5 {
+	width: 150px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .con_tag1 {
 	width: 100px;
 	height: 50px;
@@ -235,16 +251,23 @@
 	align-items: center;
 	justify-content: center;
 }
-.content_box{	
+.con_tag3 {
+	width: 142px;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+.content_box{	
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 	flex-direction: column;
 	overflow-y:scroll; 
 	width:650px; 
 	height: 500px;
 	border:none;
-	padding-top :25px;
+	
 }
 .content_box::-webkit-scrollbar {
     width: 8px;  /* 스크롤바의 너비 */
@@ -253,19 +276,14 @@
 
 .content_box::-webkit-scrollbar-thumb {
    	
-    background: #4800A6; /* 스크롤바의 색상 */
+    background: #E7E9EB; /* 스크롤바의 색상 */
     border-radius: 15px;
 		
 }
 
 .content_box::-webkit-scrollbar-track {
-    background: white;  /*스크롤바 뒷 배경 색상*/
+    background: none;
+      /*스크롤바 뒷 배경 색상*/
 }
 
-.tag3 {
-	padding-right:30px;
-}
-.tag4 {
-	padding-right:7px;
-}
 

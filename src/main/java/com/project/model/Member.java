@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Member {
-	private String m_name,m_password,m_nickname,m_type,m_Tel,m_address,m_email;
+	private String m_name,m_password,m_nickname,m_type,m_tel,m_address,m_email;
 	
 	
 	
