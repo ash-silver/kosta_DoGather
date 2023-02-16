@@ -93,17 +93,17 @@ function movePage(page) {
 
 function address() {
 	let myKey = "iH5hwc1qRUyfHb3NTdchiw"; // sweet tracker에서 발급받은 자신의 키 넣는다.
-	let t_code = [];
-	let t_invoice = [];
+	let company = [];
+	let postcode = [];
 	let t_id = [];
 	$('.o_postCompanyKey').each(function(index, item) {
 		if ($(item).val() != 0) {
-			t_invoice.push($(item).val());
+			company.push($(item).val());
 		}
 	});
 	$('.o_postCode').each(function(index, item) {
 		if ($(this).val() != 'null') {
-			t_code.push($(this).val());
+			postcode.push($(this).val());
 		}
 	});
 	$('.o_postCode').each(function(index, item) {
@@ -112,13 +112,14 @@ function address() {
 		}
 	});
 
-	$(t_code).each(function(index, item) {
+	$(company).each(function(index, item) {
 		$.ajax({
 			type: "GET",
 			dataType: "json",
-			url: "http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key=" + myKey + "&t_code=" + item + "&t_invoice=" + t_invoice[index],
+			url: "http://info.sweettracker.co.kr/api/v1/trackingInfo?t_key=" + myKey + "&t_code=" + item + "&t_invoice=" + postcode[index],
 			success: function(data) {
 				let trackingDetails = data.trackingDetails;
+				console.log(trackingDetails);
 				if (trackingDetails != null && trackingDetails != "") {
 
 
@@ -133,7 +134,7 @@ function address() {
 					} else {
 						$("." + t_id[index]).text(myTracking);
 					}
-				}else{
+				} else {
 					$("." + t_id[index]).text("배송이 종료된 상품입니다.");
 				}
 			}

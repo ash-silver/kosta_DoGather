@@ -18,7 +18,7 @@ public class Order {
 	private int o_product_p_fk;
 	private int o_member_m_fk;
 	private int p_endprice;
-	private long o_postCompanyKey;	
+	private String o_postCompanyKey;	
 	private String o_address;
 	private String o_phoneNumber;
 	private String o_recipient;

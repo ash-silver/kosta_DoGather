@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
-
 	private final ProductService productService;
 	private final ChartService chartService;
 	private final IndexService indexService;
@@ -93,45 +93,7 @@ public class ProductController {
 		return "productdetail";
 	}
 
-	@ResponseBody
-	@DeleteMapping("/options")
-	public String deleteProductOptionCheck(int opt_pid_p_fk) {
-		Option productOptionCheck = productService.hasOption(opt_pid_p_fk);
-		if (productOptionCheck == null) {
-			productService.deleteProductOptions(opt_pid_p_fk);
-			return "옵션이 존재하지 않아 해당 제품은 삭제 처리되었습니다.";
-		} else {
-			return "옵션 저장 및 제품 추가 완료";
-		}
-	}
 
-	@GetMapping("/options")
-	public String loadOptionAddForm(Model model, int p_id) {
-		Option productOptionCheck = productService.hasOption(p_id);
-		model.addAttribute("productOptionCheck", productOptionCheck);
-		model.addAttribute("p_id", p_id);
-		return "option";
-	}
-
-	@GetMapping("/options/{p_id}/info")
-	public String loadOptionEditForm(@PathVariable int p_id, Model model) {
-		Map<String, Object> productFindOption = productService.findOptions(p_id);
-		model.addAttribute("p_id",p_id);
-		model.addAttribute("productFindOption", productFindOption);
-		return "optionUpdate";
-	}
-
-	@DeleteMapping("/options/{opt_option1}/info/{opt_pid_p_fk}")
-	public String deleteOption(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
-		productService.deleteOption(opt_option1, opt_pid_p_fk);
-		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
-	}
-
-	@DeleteMapping("/options/{opt_id}/info")
-	public String deleteOneOption(@PathVariable int opt_id, int opt_pid_p_fk) {
-		productService.deleteOneOption(opt_id);
-		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
-	}
 
 	@ResponseBody
 	@GetMapping("/options/{p_id}")
@@ -207,6 +169,8 @@ public class ProductController {
 		return "chart";
 	}
 
+	
+	
 	@ResponseBody
 	@GetMapping("/options/chk")
 	public Option hasOptionAdd(int opt_pid_p_fk) {
@@ -223,5 +187,44 @@ public class ProductController {
 	@PutMapping("/options/lists")
 	public void modifyQuantity(int[] opt_id,int[] opt_quantity) {
 		productService.modifyQuantity(opt_id, opt_quantity);
+	}
+	@ResponseBody
+	@DeleteMapping("/options")
+	public String deleteProductOptionCheck(int opt_pid_p_fk) {
+		Option productOptionCheck = productService.hasOption(opt_pid_p_fk);
+		if (productOptionCheck == null) {
+			productService.deleteProductOptions(opt_pid_p_fk);
+			return "옵션이 존재하지 않아 해당 제품은 삭제 처리되었습니다.";
+		} else {
+			return "옵션 저장 및 제품 추가 완료";
+		}
+	}
+
+	@GetMapping("/options")
+	public String loadOptionAddForm(Model model, int p_id) {
+		Option productOptionCheck = productService.hasOption(p_id);
+		model.addAttribute("productOptionCheck", productOptionCheck);
+		model.addAttribute("p_id", p_id);
+		return "option";
+	}
+
+	@GetMapping("/options/{p_id}/info")
+	public String loadOptionEditForm(@PathVariable int p_id, Model model) {
+		Map<String, Object> productFindOption = productService.findOptions(p_id);
+		model.addAttribute("p_id",p_id);
+		model.addAttribute("productFindOption", productFindOption);
+		return "optionUpdate";
+	}
+
+	@DeleteMapping("/options/{opt_option1}/info/{opt_pid_p_fk}")
+	public String deleteOption(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
+		productService.deleteOption(opt_option1, opt_pid_p_fk);
+		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
+	}
+
+	@DeleteMapping("/options/{opt_id}/info")
+	public String deleteOneOption(@PathVariable int opt_id, int opt_pid_p_fk) {
+		productService.deleteOneOption(opt_id);
+		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
 	}
 }

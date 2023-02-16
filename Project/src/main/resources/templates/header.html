@@ -70,9 +70,7 @@
 
 			</div>
 			<div class="header_mymenu">
-				<div class="hedaer_idname" sec:authorize="isAuthenticated()">
-					<p th:text="|${#authentication.name}님 로그인 상태|"></p>
-				</div>
+
 				<div class="header_icon">
 					<div class="header_mymenu_drop">
 						<span class="material-symbols-outlined mymenu_img"> person </span>
@@ -110,6 +108,12 @@
 						</ul>
 					</div>
 				</div>
+			</div>
+			<div class="hedaer_idname" sec:authorize="isAuthenticated()">
+				<p th:text="|${#authentication.name}님 로그인 상태|"></p>
+			</div>
+			<div class="hedaer_idname" sec:authorize="isAnonymous()">
+				<p>비 로그인</p>
 			</div>
 		</div>
 	</header>

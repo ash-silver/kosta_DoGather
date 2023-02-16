@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(ErrorCode.METHOD_NOT_ALLOWED.getStatus().value())
 				.body(new ErrorResponse(ErrorCode.METHOD_NOT_ALLOWED));
 	}
+	
 
 	/*
 	 * HTTP 500 Exception
