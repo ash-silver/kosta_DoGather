@@ -28,7 +28,10 @@
 		)
 	</insert>
 	<insert id="oAuthAdd" parameterType="com.project.model.Member">
-		INSERT INTO member(m_email,m_name,m_type) VALUES(#{m_email},#{m_name},#{m_type})
+		INSERT INTO member(
+		m_email,m_pwd,m_name,m_type,m_reg_date
+		) VALUES(
+		#{m_email},#{m_pwd},#{m_name},#{m_type},now())
 	</insert>
 
 	<select id="FindID" resultMap="MemberMap" parameterType="String">
@@ -52,7 +55,8 @@
 		, m_name=#{m_name}
 
 		, m_address=#{m_address}
-		, m_tel=#{m_tel}
+		,
+		m_tel=#{m_tel}
 		, m_image=#{m_image}
 		,
 		m_update_date=now()

@@ -41,7 +41,7 @@ public class MemberService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String m_email) throws UsernameNotFoundException {
 		Member m = FindID(m_email);
 		if (m != null) {
-			return new UserDetail(m);
+			return new PrincipalDetails(m);
 		}
 		return null;
 

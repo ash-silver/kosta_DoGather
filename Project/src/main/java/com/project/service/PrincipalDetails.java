@@ -2,20 +2,27 @@ package com.project.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.project.model.Member;
 
-public class UserDetail implements UserDetails{
+public class PrincipalDetails implements UserDetails,OAuth2User{
 	//사용자의 정보를 담아주는 인터페이스, 직접 상속받아서 사용한다.
 	//오버라이딩 되는 메소드들만 Spring Security에서 알아서 사용하기 때문에 별도로 클래스를 만들지 않고 멤버변수를 추가해서 같이 사용해도 무방.
 	//해당 멤버변수들은 getter, setter를 만들어서 사용하면 된다.
 	private Member m;
+	private Map<String,Object> attributes;
 	
-	public UserDetail(Member m) {
+	public PrincipalDetails(Member m) {
 	
+		this.m = m;
+	}
+	public PrincipalDetails(Member m,Map<String,Object> attributes) {
+		this.attributes=attributes;
 		this.m = m;
 	}
 
@@ -67,6 +74,17 @@ public class UserDetail implements UserDetails{
 	public boolean isEnabled() { // 계정이 사용가능한 계정인지를 리턴한다, true라면 계정이 사용가능,
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return null;
 	}
 	
 	

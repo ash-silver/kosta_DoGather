@@ -2,12 +2,13 @@ package com.project.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.project.ouath2.PrincipalOauth2UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+	
+	private final PrincipalOauth2UserService principalOauth2UserService;
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -25,11 +28,11 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
 				.requestMatchers("/member/join", "/index", "/list", "/products/{p_id}", "/products/options",
-						"/products/options/{p_id}", "/reviews/**", "/comment", "/member/logout","/search","/category")
-				.permitAll()
-				.requestMatchers("/orders/**", "/orders", "/ordersheet", "/qnaboard/**").hasAnyRole("SELLER", "USER")
-				.requestMatchers("/products/**", "/products/options/**", "/products/charts/**", "/products/charts**").hasRole("SELLER")
-				.requestMatchers("/**").hasRole("ADMIN").anyRequest().authenticated(); // 위 접근권한에 대해서
+						"/products/options/{p_id}", "/reviews/**", "/comment", "/member/logout", "/search", "/category")
+				.permitAll().requestMatchers("/orders/**", "/orders", "/ordersheet", "/qnaboard/**")
+				.hasAnyRole("SELLER", "USER")
+				.requestMatchers("/products/**", "/products/options/**", "/products/charts/**", "/products/charts**")
+				.hasRole("SELLER").requestMatchers("/**").hasRole("ADMIN").anyRequest().authenticated(); // 위 접근권한에 대해서
 																											// 인증된 사람만
 																											// 접근 가능하게
 																											// 설정,
@@ -40,11 +43,14 @@ public class SecurityConfig {
 				.passwordParameter("m_pwd")// default =Password
 				.defaultSuccessUrl("/index", true) // 로그인 성공시 이동하는 페이지
 				.failureUrl("/login") // 로그인 실패시 이동하는 페이지
-				.permitAll().and()
-				.logout() // 로그아웃에 대한 설정
+				.permitAll().and().logout() // 로그아웃에 대한 설정
 				.logoutUrl("/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
 				.logoutSuccessUrl("/index") // 로그아웃 성공 후 이동페이지
-				.permitAll();
+				.permitAll().and().oauth2Login()
+				.loginPage("/member/login")
+				.defaultSuccessUrl("/index", true) // 로그인 성공시 이동하는 페이지
+				.userInfoEndpoint()
+				.userService(principalOauth2UserService);
 		return http.build();
 	}
 
