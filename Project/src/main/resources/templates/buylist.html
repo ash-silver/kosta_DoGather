@@ -134,34 +134,77 @@ function findAllPost() {
 
 			</div>
 			
-				<form th:action="|/ordersheet/refund/|" method="post" id="buyList_Modal">
-					<div>
-						<b style="font-size : 24px;">취소 사유를 선택해주세요</b>
+			<div>
+				<form th:action="|/ordersheet/refund/|" onsubmit="return alertRefund()" method="post" id="buyList_Modal">
+					<div id="closeModal">
+						<button class="closeModal">X</button>
 					</div>
+
+					<div>
+						<b style="font-size : 24px;">취소 사유를 선택해주세요</b> 
+      				</div>
 					
-					<div>
-						<input type="radio" name="o_state" value="교환 신청"> 교환 신청
-						<input type="radio" name="o_state" value="환불 신청"> 환불 신청
+					<div id="refund_modal_content">
+						교환/환불을 선택하시오.
+						<hr>
+						<div>
+							<input id="o_state" type="radio" name="o_state" value="교환 신청"> 교환 신청
+							<input id="o_state" type="radio" name="o_state" value="환불 신청"> 환불 신청
+						</div>
+						<hr>
+						취소 사유를 선택하시오.
+						
+						<br><hr>단순 변심
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품이 마음에 들지 않음">상품이 마음에 들지 않음
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="더 저렴한 상품을 발견함">더 저렴한 상품을 발견함
+						</div>
+						
+						<hr>배송 문제
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="다른 상품이 배송됨">다른 상품이 배송됨
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="배송 예정일 보다 늦게옴">배송 예정일 보다 늦게옴
+						</div>
+						
+						
+						<hr>상품 문제
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품의 구성품/부속품이 들어있지 않음">상품의 구성품/부속품이 들어있지 않음
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품이 설명과 다름">상품이 설명과 다름
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품이 파손되어 배송됨">품이 파손되어 배송됨
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품 결함/기능에 이상이 있음">상품 결함/기능에 이상이 있음
+						</div>
+						
+						
+						<hr>주문 문제
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="다른 상품 추가 후 재주문 예정">다른 상품 추가 후 재주문 예정
+						</div>
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="상품의 옵션 선택을 잘못함">상품의 옵션 선택을 잘못함
+						</div>
+						
+						<hr>기타
+						<div>
+							<input id="o_reason" type="radio" name="o_reason" value="기타">기타
+						</div>
+						
+						<hr>
+	<!-- 					<input type="hidden" value="" name="o_id" id = "set_o_id"> -->
+						<button type="submit" id="refundSubmit">교환/환불 하기</button>
 					</div>
-					
-					<div>
-						<input type="radio" name="o_reason" value="상품이 마음에 들지 않음(단순변심)" checked>상품이 마음에 들지 않음(단순변심)
-					</div>
-					<div>
-						<input type="radio" name="o_reason" value="다른 상품 추가 후 재주문 예정">다른 상품 추가 후 재주문 예정
-					</div>
-					<div>
-						<input type="radio" name="o_reason" value="상품의 옵션 선택을 잘못함">상품의 옵션 선택을 잘못함
-					</div>
-					<div>
-						<input type="radio" name="o_reason" value="다른 사이트의 가격이 더 저렴함">다른 사이트의 가격이 더 저렴함
-					</div>
-					<div>
-						<input type="radio" name="o_reason" value="기타">기타
-					</div>
-<!-- 					<input type="hidden" value="" name="o_id" id = "set_o_id"> -->
-					<button type="submit">교환/환불 하기</button>
 				</form>
+			</div>			
 		</main>
 
 

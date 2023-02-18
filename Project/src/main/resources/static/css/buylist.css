@@ -310,14 +310,30 @@
 #buyList_Modal {
 	border: 1px solid #e2e2e2;
 	z-index: 99;
-	width: 800px;
-	height: 600px;
+	width: 500px;
+	height: 800px;
 	display: none;
 	align-items: center;
 	justify-content: center;
-	position: fixed;
-	top: 200px;
-	left: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 	background-color: grey;
 	flex-direction: column;
+	flex-grow:100%;
+	transform: translate(-50%, -50%);
+}
+#closeModal{
+	display: flex;
+	width: 500px;
+	justify-content: flex-end;
+}
+
+.closeModal{
+/* 	border: 1px solid black; */
+	display:flex;
+	width: 100px;
+	height: 50px;
+	font-size: 24px;
+	
 }

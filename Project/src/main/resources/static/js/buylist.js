@@ -53,9 +53,67 @@ $(document).on("click","#request_btn",function() {
 	$("#buyList_Modal").attr("action", "/ordersheet/refund/"+o_id);
 	document.getElementById("set_o_id").value = "o_id";
 	//$("#buyList_Modal").attr("value", o_id);
-
-	
 });
+
+$(document).mouseup(function(e) {
+	if ($("#buyList_Modal").has(e.target).length === 0) {
+		$("#buyList_Modal").hide();
+	}
+});
+
+$(document).keydown(function(e) {
+      var code = e.keyCode || e.which;
+      if (code == 27) { // 27은 ESC 키번호
+         $('#buyList_Modal').hide();
+   }
+});
+
+$(document).on("click", function() {
+      var code = e.keyCode || e.which;
+      if (code == 27) { // 27은 ESC 키번호
+         $('#buyList_Modal').hide();
+   }
+});
+const close = document.querySelector(".closeModal");
+closeBtn.addEventListener("click", function(){
+    modal.style.display = "none"
+});
+
+
+function alertRefund(){
+	var o_state = $('input[name="o_state"]').is("checked").val();
+	alert(o_state);
+	var o_reason = $('input[name="o_reason"]:checked').val();
+	alert(o_reason);
+	if (o_state == null){
+		alert("교환/환불 정보를 입력하세요.");
+		return false;
+	}	
+	else if(o_reason == null){
+		alert("취소 사유를 선택하시오.");
+		return false;
+	}
+	return true;
+      
+	/*var o_state = document.getElementById("o_state").value;
+	var o_reason = document.getElementById("o_reason").value;
+	alert(o_state);
+	alert(o_reason);
+	if (o_state == null){
+		
+		alert("교환/환불 정보를 입력하세요.");
+		return false;
+	}	
+	else if(o_reason == null){
+		alert("취소 사유를 선택하시오.");
+		return false;
+	}
+	return true;
+	*/
+}
+
+
+
 // 페이지 HTML draw  하단의 버튼에 해당하는 스크립트로 페이징의 핵심
 function drawPage(pagination, params) {
 	//SearchDto의 기본 Default값을 바탕으로 mybatis의 count를 같이 받아와 계산후 저장시켜둔 pagingnation과 SearchDto를 받아옴
