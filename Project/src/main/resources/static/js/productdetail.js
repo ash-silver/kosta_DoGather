@@ -102,7 +102,20 @@ $(function() {
 
 
 
+<<<<<<< HEAD
 	//2/8 OrderController 에서 중복상품 추가 불가 메소드 구현 . -혁주
+=======
+
+
+
+
+
+
+
+
+
+	//2/8 cartController 에서 중복상품 추가 불가 메소드 구형. -혁주
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	$("#addCart").click(function() {
 		// select box Name로 접근하여 선택된 값 읽기
 		const p_id = $("#p_id").val();

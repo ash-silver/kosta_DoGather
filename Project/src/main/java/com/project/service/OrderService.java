@@ -83,8 +83,11 @@ public class OrderService {
 		return oMapper.countCart(map);
 
 	}
+<<<<<<< HEAD
 	public void PostCodeAdd(Order o) {
 		oMapper.PostCodeAdd(o);
 	}
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 
 }

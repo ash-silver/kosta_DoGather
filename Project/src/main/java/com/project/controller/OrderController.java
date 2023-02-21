@@ -94,6 +94,7 @@ public class OrderController {
 	public String delivery() {
 		return "delivery";
 	}
+<<<<<<< HEAD
 
 	@ResponseBody
 	@PostMapping("/{o_id}/posts")
@@ -103,3 +104,6 @@ public class OrderController {
 	}
 
 }
+=======
+}
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48

@@ -146,6 +146,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+<<<<<<< HEAD
 	
 font-family: "Arial Black", Gadget, sans-serif;
 font-size: 17px;
@@ -157,6 +158,8 @@ text-decoration: underline solid rgb(68, 68, 68);
 font-style: italic;
 font-variant: normal;
 text-transform: none;
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 }
 
 .product_count {
@@ -216,7 +219,11 @@ text-transform: none;
 	position: fixed;
 }
 
+<<<<<<< HEAD
 .position {
+=======
+.position{
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -230,12 +237,24 @@ text-transform: none;
 	display: flex;
 	flex-direction: column;
 	top: 900px;
+<<<<<<< HEAD
 }
 
 .modal_content input {
 	margin-bottom: 10px;
 }
 
+=======
+	
+}
+
+.modal_content input{
+	margin-bottom: 10px;
+}
+
+
+
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 /*flex-direction :row -> 왼쪽에서 오른쪽 정렬
  flex-direction : column -> 위에서 아래로 정렬*/
 

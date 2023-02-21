@@ -2,6 +2,7 @@ $(function() {
 	const token = $("meta[name='_csrf']").attr("content");
 	const header = $("meta[name='_csrf_header']").attr("content");
 
+<<<<<<< HEAD
 	const countDownTimer = function(id, date) {
 		let _vDate = new Date(date); // 전달 받은 일자
 		let _second = 1000;
@@ -38,6 +39,8 @@ $(function() {
 	});
 
 
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	$('#remove_btn').click(function() {
 		let length = $("input[type=checkbox]:checked").length - 1;
 		let suc = 0;
@@ -75,6 +78,12 @@ $(function() {
 
 	});
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	$("#moalbutton").click(function() {
 		$(".modal").css("display", "flex");
 	});
@@ -83,6 +92,10 @@ $(function() {
 		if ($(".modal").has(e.target).length === 0) {
 			$(".modal").hide();
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	});
 
 	$(document).keydown(function(e) {
@@ -91,7 +104,13 @@ $(function() {
 
 		if (code == 27) { // 27은 ESC 키번호
 			$('.modal').hide();
+<<<<<<< HEAD
 		}
+=======
+
+		}
+
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	});
 
 	$(document).ready(function() {
@@ -109,4 +128,12 @@ $(function() {
 		});
 	});
 
+<<<<<<< HEAD
 });
+=======
+
+
+
+
+});
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48

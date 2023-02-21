@@ -102,8 +102,13 @@
 		AS p
 		SET
 		o.o_state='구매완료', o.o_dstate='배송준비중',
+<<<<<<< HEAD
 		o.o_quantity=#{o_quantity},
 
+=======
+		o.o_quantity=#{o_quantity},\
+		
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		p.p_sell=p.p_sell+#{o_quantity}
 		WHERE
 		o.o_id=#{o_id} AND
@@ -114,7 +119,11 @@
 	<delete id="delCartItem" parameterType="int">
 		DELETE from ord
 		WHERE
+<<<<<<< HEAD
 		o_id=#{o_id}
+=======
+		 o_id=#{o_id}
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	</delete>
 
 
@@ -122,6 +131,7 @@
 	<select id="countCart" resultType="int">
 		select count(*)
 		FROM ord
+<<<<<<< HEAD
 		WHERE
 		o_member_m_fk=#{o_member_m_fk}
 		AND o_product_p_fk=#{o_product_p_fk}
@@ -147,6 +157,12 @@
 		AND o.o_member_m_fk=#{o_member_m_fk}
 	</select>
 
+=======
+		WHERE o_member_m_fk=#{o_member_m_fk}
+		AND o_product_p_fk=#{o_product_p_fk}
+		AND o_state='장바구니'
+	</select>
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 
 
 

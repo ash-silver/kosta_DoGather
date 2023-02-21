@@ -26,14 +26,22 @@ public class Product {
 	private int p_id;
 	private int p_price;
 	private int p_sell;
+<<<<<<< HEAD
 	private int p_endprice;
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	private ArrayList<Img> img;
 	private ArrayList<Option> option;
 	private ArrayList<Discount> discount;
 
 	private List<MultipartFile> p_img; // request 용
 	private List<MultipartFile> p_contentimg; // request 용
+<<<<<<< HEAD
 	private	List<Integer> p_discount_quan; // request 용
 	private List<Integer> p_discount_count; // request 용
+=======
+	private int[] p_discount_quan; // request 용
+	private int[] p_discount_count; // request 용
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 
 }

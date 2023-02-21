@@ -37,13 +37,21 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService pService;
+<<<<<<< HEAD
 	private final ChartService cService;
 	@Value("${chart.OneWeek}")
 	private String OneWeek;
+=======
+	
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 
 	/* ==================================================================== */
 	@GetMapping("")
 	public String ProductAddForm(Principal prin, Model model) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		model.addAttribute("name", prin.getName());
 		return "productadd";
 	}
@@ -55,7 +63,10 @@ public class ProductController {
 		return "redirect:/products/options";
 	}
 
+<<<<<<< HEAD
 	@ResponseBody
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	@DeleteMapping("")
 	public String OptionRemoveProduct(int opt_pid_p_fk) {
 		Option pro_opt_chk = pService.option_chk(opt_pid_p_fk);
@@ -77,14 +88,21 @@ public class ProductController {
 
 	@PutMapping("/{p_id}/info")
 	public String ProductUpdate(@PathVariable int p_id, Model model, Product pro) throws Exception {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		pService.UpdateProduct(pro);
 		return "redirect:/products/options/" + p_id + "/info";
 	}
 
 	@DeleteMapping("/{p_id}/info")
 	public String ProductRemove(@PathVariable int p_id) throws Exception {
+<<<<<<< HEAD
 		pService.RemoveEvent(p_id);
+=======
+		pService.removeProduct(p_id);
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		return "redirect:/products/add/lists";
 
 	}
@@ -92,6 +110,7 @@ public class ProductController {
 	@GetMapping("/{p_id}/detail")
 	public String ProductDetail(@PathVariable int p_id, Model model) {
 		Map<String, Object> promap = pService.FindProduct(p_id);
+
 		model.addAttribute("promap", promap);
 		return "productdetail";
 	}
@@ -112,6 +131,7 @@ public class ProductController {
 		return "optionUpdate";
 	}
 
+<<<<<<< HEAD
 	@DeleteMapping("/options/{opt_option1}/info/{opt_pid_p_fk}")
 	public String OptionRemove(@PathVariable String opt_option1, @PathVariable int opt_pid_p_fk) {
 		pService.OptionRemove(opt_option1, opt_pid_p_fk);
@@ -122,6 +142,12 @@ public class ProductController {
 	public String OneOptionRemove(@PathVariable int opt_id, int opt_pid_p_fk) {
 		pService.OneOptionRemove(opt_id);
 		return "redirect:/products/options/" + opt_pid_p_fk + "/info";
+=======
+	@DeleteMapping("/options/{opt_name}/info")
+	public String OptionRemove(@PathVariable String opt_name, int opt_pid) {
+		pService.OptionRemove(opt_name);
+		return "redirect:/products/options/" + opt_pid + "/info";
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	}
 
 	@ResponseBody
@@ -163,14 +189,20 @@ public class ProductController {
 			img_name.addAll(img.getImg());
 		}
 		Map<String, Object> sell_cnt = pService.All_SellPrice(id);
+<<<<<<< HEAD
 		List<Chart> chart = cService.OneWeekChart(id, OneWeek);
 		model.addAttribute("img", img_name);
 		model.addAttribute("chart", chart);
+=======
+		System.out.println(sell_cnt);
+		model.addAttribute("img", img_name);
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		model.addAttribute("sell_cnt", sell_cnt);
 		model.addAttribute("prolist", pro);
 		model.addAttribute("keyword", keyword);
 		return "mypage";
 	}
+<<<<<<< HEAD
 
 	@GetMapping("/{keyword}/lists/buy")
 	public String BuyerList(Principal principal, Model model, @ModelAttribute("params") SearchDto params,
@@ -202,4 +234,6 @@ public class ProductController {
 		return opt;
 	}
 
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 }

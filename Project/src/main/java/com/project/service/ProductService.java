@@ -63,11 +63,13 @@ public class ProductService {
 			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
 					.dis_quantity(pro.getP_discount_quan().get(i)).dis_pid_p_fk(pro.getP_id()).build();
 			pMapper.AddDiscount(dis);
+
 		}
 	}
 
 	@Transactional
 	public void EditDiscount(Product pro) {
+<<<<<<< HEAD
 		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
 		for (int i = 0; i < pro.getP_discount_count().size(); i++) {
 			Discount dis = Discount.builder().dis_count(pro.getP_discount_count().get(i))
@@ -75,11 +77,25 @@ public class ProductService {
 			if (dis_length.size() < pro.getP_discount_count().size()) {
 				if (i <= dis_length.size() - 1) {
 					dis.setDis_id(dis_length.get(i).getDis_id());
+=======
+		int index = 0;
+		List<Discount> dis_length = pMapper.Update_find(pro.getP_id());
+		for (int discountlist : pro.getP_discount_count()) {
+			Discount dis = Discount.builder().dis_count(discountlist).dis_quantity(pro.getP_discount_quan()[index])
+					.dis_pid_p_fk(pro.getP_id()).build();
+			if (dis_length.size() < pro.getP_discount_count().length) {
+				if (index <= dis_length.size() - 1) {
+					dis.setDis_id(dis_length.get(index).getDis_id());
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 					pMapper.UpdateDiscount(dis);
 				} else {
 					pMapper.AddDiscount(dis);
 				}
 			}
+<<<<<<< HEAD
+=======
+			index++;
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		}
 
 	}
@@ -133,7 +149,11 @@ public class ProductService {
 		}
 	}
 
+<<<<<<< HEAD
 	public void delimg(Img i) {
+=======
+	public void delimg(Img i) { // 이미지를 전체삭제시 사용하는 공통 메서드
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		String delpath = path + i.getImg_name();
 		File file1 = new File(delpath);
 		file1.delete();
@@ -173,26 +193,36 @@ public class ProductService {
 			overlap_chk.add(opt.getOpt_option1());
 		}
 		List<String> opt_option1 = overlap_chk.stream().distinct().collect(Collectors.toList()); // 중복제거
+<<<<<<< HEAD
 		int index = 0;
+=======
+		int index = 1;
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		for (Discount dis : pro.getDiscount()) {
 			if (dis.getDis_quantity() <= pro.getP_sell()) {
 				discount_price = pro.getP_price() - ((pro.getP_price() / 100) * (dis.getDis_count()));
 				Now_Discount = dis.getDis_count();
 				Next_Discount_sell = pro.getDiscount().get(index).getDis_quantity();
+<<<<<<< HEAD
 				if (index < pro.getDiscount().size() - 1) {
 					Next_Discount_sell = pro.getDiscount().get(index + 1).getDis_quantity();
 				}
 
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 			}
 			index++;
 		}
 		LocalDateTime p_recruitdate = LocalDateTime.parse(pro.getP_recruitdate(), formatter);
 		LocalDateTime p_duedate = LocalDateTime.parse(pro.getP_duedate(), formatter);
+<<<<<<< HEAD
 		List<Map<String, Object>> CategoryBest = pMapper.CategoryBestProduct(pro.getP_nickname_m_fk(),
 				pro.getP_category());
 		List<Map<String, Object>> SellerBest = pMapper.SellerBestProduct(pro.getP_nickname_m_fk());
 		map.put("CategoryBest", CategoryBest);
 		map.put("SellerBest", SellerBest);
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		map.put("Now_Discount", Now_Discount);
 		map.put("Next_Discount_sell", Next_Discount_sell);
 		map.put("discount_price", discount_price);
@@ -238,6 +268,7 @@ public class ProductService {
 		} else {
 			list = pMapper.WriterProductlist(map);
 		}
+<<<<<<< HEAD
 		return new PagingResponse<>(list, pagination);
 	}
 
@@ -255,11 +286,17 @@ public class ProductService {
 		map.put("limitstart", params.getPagination().getLimitStart());
 		map.put("recordsize", params.getRecordSize());
 		List<Order> list = pMapper.BuyProduct(map);
+=======
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		return new PagingResponse<>(list, pagination);
 	}
 
 	@Transactional
+<<<<<<< HEAD
 	public void RemoveEvent(int p_id) {
+=======
+	public void removeProduct(int p_id) {
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		String value = "";
 		Product FindCalender = pMapper.FindCalender(p_id);
 		String p_recruitdate_str = FindCalender.getP_recruitdate();
@@ -282,6 +319,7 @@ public class ProductService {
 	public Map<String, Object> Option_List(int p_id) {
 		List<Option> opt = pMapper.Option_List(p_id);
 		List<String> newList = new ArrayList<>();
+<<<<<<< HEAD
 		Map<String, Object> map = new HashMap<>();
 		if (opt.size() != 0 && opt.get(0).getOpt_option2() != null) {
 			for (Option option1 : opt) {
@@ -290,10 +328,19 @@ public class ProductService {
 			List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
 			map.put("opt1", opt1);
 		}
+=======
+		for (Option option1 : opt) {
+			newList.add(option1.getOpt_option1());
+		}
+		List<String> opt1 = newList.stream().distinct().collect(Collectors.toList());
+		Map<String, Object> map = new HashMap<>();
+		map.put("opt1", opt1);
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 		map.put("opt", opt);
 		return map;
 	}
 
+<<<<<<< HEAD
 	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) { // 총 판매액 계산
 		List<Map<String, Object>> Sell_Map = pMapper.Sell_chart(p_nickname_m_fk);
 		int Sell_Money = 0;
@@ -332,6 +379,25 @@ public class ProductService {
 			return pid_All_OptionList.get(0);
 		}
 		return null;
+=======
+	public Map<String, Object> All_SellPrice(String p_nickname_m_fk) {
+		Map<String, Object> sel_count = pMapper.All_SellCount(p_nickname_m_fk);
+		List<Integer> sel_Price = pMapper.All_SellPrice(p_nickname_m_fk);
+		List<Integer> sel_AllSell = pMapper.All_Sell(p_nickname_m_fk);
+		int sel_point = 0;
+		for (int i = 0; i < sel_Price.size(); i++) {
+			sel_point += sel_Price.get(i) * sel_AllSell.get(i);
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("sel_count", sel_count);
+		map.put("sel_point", sel_point);
+		return map;
+	}
+
+	@Transactional
+	public void OptionRemove(String opt_name) {
+		pMapper.OptionRemove(opt_name);
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 	}
 
 }

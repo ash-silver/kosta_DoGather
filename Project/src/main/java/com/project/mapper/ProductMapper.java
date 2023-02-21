@@ -33,6 +33,7 @@ public interface ProductMapper {
 
 	List<Discount> Update_find(int p_id);
 
+<<<<<<< HEAD
 	List<Map<String, Object>> Sell_chart(String p_nickname_m_fk);
 
 	List<Map<String, Object>> SellerBestProduct(String p_nickname_m_fk);
@@ -68,4 +69,30 @@ public interface ProductMapper {
 			@Param("keyword") String keyword);
 
 	int BuyProductCount(String p_nickname_m_fk);
+=======
+	Product FindProduct(int p_id);
+	Product FindCalender(int p_id);
+	
+	Map<String,Object> All_SellCount(String p_nickname_m_fk);
+	List<Integer> All_SellPrice(String p_nickname_m_fk);
+	List<Integer> All_Sell(String p_nickname_m_fk);
+	
+	
+	List<Option> Option_List(int p_id);
+	List<Option> FindOption(Map<String, Object> map);
+	
+	void CreateNewEvent(String value);
+
+	void removeProduct(int p_id);
+	
+	void OptionRemove(String opt_name);
+
+	List<Product> WriterProductlist(Map<String, Object> map);
+
+	int WriterProductlistCount(String p_nickname_m_fk);
+
+	List<Product> SearchSeller(Map<String, Object> map);
+
+	int SearchSellerCount(@Param("p_nickname_m_fk") String p_nickname_m_fk, @Param("search") String search);
+>>>>>>> 111d5471ee54827a52188822efb9bbb4652cdb48
 }
